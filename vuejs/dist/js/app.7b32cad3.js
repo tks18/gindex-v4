@@ -760,7 +760,7 @@
                     var e = this,
                         t = e.$createElement,
                         a = e._self._c || t;
-                    return a("a", { staticClass: "navbar-item", attrs: { target: "_blank", rel: "noopener", title: "View on github", href: "https://github.com/alx-xlx/goindex" } }, [a("i", { staticClass: "fab fa-github" })]);
+                    return a("a", { staticClass: "navbar-item", attrs: { target: "_blank", rel: "noopener", title: "View on github", href: "https://github.com/tks18/gindex-v4" } }, [a("i", { staticClass: "fab fa-github" })]);
                 },
             ],
             i =

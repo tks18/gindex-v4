@@ -10,7 +10,9 @@
                         e = t._self._c || r;
                     return e("div", { staticClass: "content g2-content" }, [
                         e("div", { staticClass: "video-content" }, [
-                            e("iframe", { attrs: { width: "100%", height: "100%", src: t.apiurl, frameborder: "0", border: "0", marginwidth: "0", marginheight: "0", scrolling: "no", allowtransparency: "true", allowfullscreen: "true" } }),
+                            e("video", { attrs: { width: "100%", height: "100%", playsinline: "true", preload:"metadata", controls:"true" } }[
+                                e("source", {attrs: { src: t.apiurl, type="video/mp4" }})
+                            ]),
                         ]),
                         e("div", { staticClass: "card" }, [
                             e("header", { staticClass: "card-header" }, [
@@ -123,7 +125,7 @@
                     },
                     methods: {
                         render: function () {
-                            (this.videourl = window.location.origin + encodeURI(this.url)), (this.apiurl = "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl);
+                            (this.videourl = window.location.origin + encodeURI(this.url)), (this.apiurl = this.videourl);
                         },
                     },
                     activated: function () {

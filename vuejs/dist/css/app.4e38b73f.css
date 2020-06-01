@@ -316,6 +316,7 @@ h6,
 hr,
 html,
 iframe,
+video,
 legend,
 li,
 ol,
@@ -356,6 +357,7 @@ img,
 video {
     height: auto;
     max-width: 100%;
+    border: 0;
 }
 iframe {
     border: 0;
@@ -10177,7 +10179,7 @@ body {
     background-color: transparent;
 }
 .no-content {
-    background: url(https://s1.hdslb.com/bfs/static/jinkela/search/asserts/no-data.png) no-repeat 50% 50%;
+    background: url(https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/dist/images/wait.png) no-repeat 50% 50%;
     height: 240px;
     line-height: 240px;
     text-align: center;
@@ -10190,7 +10192,7 @@ body {
     padding-bottom: 56.25%;
     height: 0;
 }
-.video-content iframe {
+.video-content iframe, video {
     position: absolute;
     top: 0;
     left: 0;
