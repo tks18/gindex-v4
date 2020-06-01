@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
-  siteName: "GoIndex", // 网站名称
-  version: "dark-mode-0-1", // 程序版本
+  siteName: "Glory to Heaven", 
+  version: "dark-mode-0-1", 
   theme: "acrou",
   // Highly recommend using your own client_id and client_secret
   client_id: "202264815644.apps.googleusercontent.com",
@@ -22,66 +22,25 @@ var authConfig = {
   **/
   roots: [
     {
-      id: "",
-      name: "TeamDrive",
-      pass: "",
-    },
-    {
       id: "root",
       name: "PrivateDrive",
       user: "",
       pass: "",
       protect_file_link: true,
-    },
-    {
-      id: "",
-      name: "folder1",
-      pass: "",
-    },
+    }
   ],
   default_gd: 0,
-  /**
-   * 文件列表页面每页显示的数量。【推荐设置值为 100 到 1000 之间】；
-   * 如果设置大于1000，会导致请求 drive api 时出错；
-   * 如果设置的值过小，会导致文件列表页面滚动条增量加载（分页加载）失效；
-   * 此值的另一个作用是，如果目录内文件数大于此设置值（即需要多页展示的），将会对首次列目录结果进行缓存。
-   */
   files_list_page_size: 50,
-  /**
-   * 搜索结果页面每页显示的数量。【推荐设置值为 50 到 1000 之间】；
-   * 如果设置大于1000，会导致请求 drive api 时出错；
-   * 如果设置的值过小，会导致搜索结果页面滚动条增量加载（分页加载）失效；
-   * 此值的大小影响搜索操作的响应速度。
-   */
   search_result_list_page_size: 50,
-  // 确认有 cors 用途的可以开启
   enable_cors_file_down: false,
-  /**
-   * 上面的 basic auth 已经包含了盘内全局保护的功能。所以默认不再去认证 .password 文件内的密码;
-   * 如果在全局认证的基础上，仍需要给某些目录单独进行 .password 文件内的密码验证的话，将此选项设置为 true;
-   * 【注意】如果开启了 .password 文件密码验证，每次列目录都会额外增加查询目录内 .password 文件是否存在的开销。
-   */
   enable_password_file_verify: false,
 };
 
 var themeOptions = {
-  //可选默认系统语言:en/zh-chs/zh-cht
   languages: "en",
   render: {
-    /**
-     * 是否渲染HEAD.md文件
-     * Render HEAD.md file
-     */
     head_md: false,
-    /**
-     * 是否渲染README.md文件
-     * Render README.md file
-     */
     readme_md: false,
-    /**
-     * 是否渲染文件/文件夹描述
-     * Render file/folder description or not
-     */
     desc: false
   },
 };
@@ -91,9 +50,6 @@ var themeOptions = {
  * global functions
  */
 const FUNCS = {
-  /**
-   * 转换成针对谷歌搜索词法相对安全的搜索关键词
-   */
   formatSearchKeyword: function(keyword) {
     let nothing = "";
     let space = " ";
@@ -132,7 +88,7 @@ function html(current_drive_order = 0, model = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <style>
-    @import url(https://cdn.jsdelivr.net/gh/alx-xlx/goindex@${authConfig.version}/goindex-acrou/dist/style.css);
+    @import url(https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/style.css);
   </style>
   <script>
     window.gdconfig = JSON.parse('${JSON.stringify({
@@ -149,7 +105,7 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/alx-xlx/goindex@${authConfig.version}/goindex-acrou/dist/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/app.js"></script>
 </body>
 </html>
 `;
@@ -170,7 +126,6 @@ async function handleRequest(request) {
       await gd.init();
       gds.push(gd);
     }
-    // 这个操作并行，提高效率
     let tasks = [];
     gds.forEach((gd) => {
       tasks.push(gd.initRootType());
@@ -180,8 +135,6 @@ async function handleRequest(request) {
     }
   }
 
-  // 从 path 中提取 drive order
-  // 并根据 drive order 获取对应的 gd instance
   let gd;
   let url = new URL(request.url);
   let path = url.pathname;
