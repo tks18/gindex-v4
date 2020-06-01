@@ -168,7 +168,7 @@
         (s.o = function (e, t) {
             return Object.prototype.hasOwnProperty.call(e, t);
         }),
-        (s.p = "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/"),
+        (s.p = "https://cdn.jsdelivr.net/gh/alx-xlx/gindex-v4@dark-mode-0-1/vuejs/dist/"),
         (s.oe = function (e) {
             throw (console.error(e), e);
         });
@@ -280,7 +280,7 @@
     },
     "2e32": function (e) {
         e.exports = JSON.parse(
-            '{"_name":"🇨🇳简体中文","languages":"选择语言","index":"首页","folder":"文件夹","notify":{"title":"提示"},"copy":{"success":"复制成功","error":"复制失败"},"list":{"view":{"gridMode":"网格视图","listMode":"列表视图"},"auth":"目录加密，请输入密码","title":{"file":"文件","moditime":"修改时间","size":"大小","operation":"操作"},"loading":"加载中...","opt":{"copy":"复制链接","newTab":"打开新的标签页","download":"下载"},"total":"共","item":"项"},"search":{"placeholder":"搜索..."},"page":{"video":{"play":"播放","download":"下载","link":"下载地址"},"text":{"loading":"加载中..."}},"setting":{"clear":{"text":"清理缓存","success":"缓存清理成功"}},"checkVersion":{"tips":"检测到有新版本，<a href=\'${url}\'>前往GitHub</a>"}}'
+            '{"_name":"🇬🇧English","languages":"Languages","index":"Home","folder":"Folder","notify":{"title":"Notify"},"copy":{"success":"Copy successful","error":"Copy failed"},"list":{"view":{"gridMode":"Grid view","listMode":"List view"},"auth":"Directory encryption, please enter password","title":{"file":"File","moditime":"Modified Time","size":"Size","operation":"Actions"},"loading":"Loading...","opt":{"copy":"Copy link","newTab":"Open a new tab","download":"Download"},"total":"Total","item":"item"},"search":{"placeholder":"Search resources..."},"page":{"video":{"play":"Play","download":"Download","link":"Download link"},"text":{"loading":"Loading..."}},"setting":{"clear":{"text":"Clean cache","success":"Cache cleanup successful"}},"checkVersion":{"tips":"New version detected, <a href=\'${url}\'>Go to GitHub</a>"}}'
         );
     },
     "45d8": function (e, t, a) {
@@ -383,9 +383,9 @@
                     "q+": Math.floor((e.getMonth() + 3) / 3),
                     S: e.getMilliseconds(),
                 },
-                n = { 0: "日", 1: "一", 2: "二", 3: "三", 4: "四", 5: "五", 6: "六" };
+                n = { 0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6" };
             for (var r in (/(Y+)/.test(t) && (t = t.replace(RegExp.$1, (e.getFullYear() + "").substr(4 - RegExp.$1.length))),
-            /(E+)/.test(t) && (t = t.replace(RegExp.$1, (RegExp.$1.length > 1 ? (RegExp.$1.length > 2 ? "星期" : "周") : "") + n[e.getDay() + ""])),
+            /(E+)/.test(t) && (t = t.replace(RegExp.$1, (RegExp.$1.length > 1 ? (RegExp.$1.length > 2 ? "Week" : "Week") : "") + n[e.getDay() + ""])),
             a))
                 new RegExp("(" + r + ")").test(t) && (t = t.replace(RegExp.$1, 1 === RegExp.$1.length ? a[r] : ("00" + a[r]).substr(("" + a[r]).length)));
             return t;
@@ -430,7 +430,7 @@
                 name: "App",
                 components: { Layout: s["default"] },
                 data: function () {
-                    return { github: "https://github.com/Aicirou/goindex-theme-acrou" };
+                    return { github: "https://github.com/tks18/gindex-v4" };
                 },
                 watch: { "$i18n.locale": "i18nHandle" },
                 created: function () {
@@ -481,7 +481,7 @@
         r.a.prototype.$languages = Object.keys(O).map(function (e) {
             return { label: O[e]._name, value: e };
         });
-        var C = new x.a({ locale: c["a"].cookies.get("lang") || window.gdconfig.themeOptions.languages || "zh-chs", fallbackLocale: "en", messages: O }),
+        var C = new x.a({ locale: c["a"].cookies.get("lang") || window.gdconfig.themeOptions.languages || "en", fallbackLocale: "en", messages: O }),
             E = a("5880"),
             _ = a.n(E),
             A = a("a363"),
@@ -500,7 +500,7 @@
             G = a("6944"),
             U = a.n(G);
         function z(e) {
-            var t = "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/";
+            var t = "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@dark-mode-0-1/vuejs/dist/";
             return t + e;
         }
         a("0808"), a("e558");
@@ -1175,7 +1175,7 @@
                             a("div", { staticClass: "field is-grouped is-grouped-multiline" }, [
                                 a("div", { staticClass: "control" }, [
                                     a("div", { staticClass: "tags has-addons" }, [
-                                        a("a", { staticClass: "tag is-dark", attrs: { href: "https://github.com/Aicirou/goindex-theme-acrou" } }, [e._v("Aicirou")]),
+                                        a("a", { staticClass: "tag is-dark", attrs: { href: "https://github.com/tks18/gindex-v4" } }, [e._v("Shan.tk")]),
                                         a("span", { staticClass: "tag is-light" }, [e._v(" MIT "), a("span", { staticClass: "icon" }, [a("i", { staticClass: "fab fa-github" })])]),
                                     ]),
                                 ]),
@@ -1205,21 +1205,21 @@
             i = r.a.create({
                 baseURL: Object({
                     NODE_ENV: "production",
-                    VUE_APP_I18N_LOCALE: "zh-chs",
+                    VUE_APP_I18N_LOCALE: "en",
                     VUE_APP_I18N_FALLBACK_LOCALE: "en",
-                    VUE_APP_CDN_PATH: "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/",
+                    VUE_APP_CDN_PATH: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@dark-mode-0-1/vuejs/dist/",
                     VUE_APP_VERSION: "2.0.0",
                     VUE_APP_G2INDEX_VERSION: "1.1.0",
-                    BASE_URL: "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/",
+                    BASE_URL: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@dark-mode-0-1/vuejs/dist/",
                 }).VUE_APP_API
                     ? Object({
                           NODE_ENV: "production",
-                          VUE_APP_I18N_LOCALE: "zh-chs",
+                          VUE_APP_I18N_LOCALE: "en",
                           VUE_APP_I18N_FALLBACK_LOCALE: "en",
-                          VUE_APP_CDN_PATH: "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/",
+                          VUE_APP_CDN_PATH: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@dark-mode-0-1/vuejs/dist/",
                           VUE_APP_VERSION: "2.0.0",
                           VUE_APP_G2INDEX_VERSION: "1.1.0",
-                          BASE_URL: "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/",
+                          BASE_URL: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@dark-mode-0-1/vuejs/dist/",
                       }).VUE_APP_API
                     : "",
             });
@@ -1285,10 +1285,10 @@
                             NODE_ENV: "production",
                             VUE_APP_I18N_LOCALE: "zh-chs",
                             VUE_APP_I18N_FALLBACK_LOCALE: "en",
-                            VUE_APP_CDN_PATH: "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/",
+                            VUE_APP_CDN_PATH: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@dark-mode-0-1/vuejs/dist/",
                             VUE_APP_VERSION: "2.0.0",
                             VUE_APP_G2INDEX_VERSION: "1.1.0",
-                            BASE_URL: "https://cdn.jsdelivr.net/gh/alx-xlx/goindex@dark-mode-0-1/goindex-acrou/dist/",
+                            BASE_URL: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@dark-mode-0-1/vuejs/dist/",
                         }).VUE_APP_TITLE || "GoIndex";
                     window.document.title = "".concat(t).concat(e ? " | ".concat(e) : "");
                 },
@@ -1418,7 +1418,7 @@
     e558: function (e, t, a) {},
     e862: function (e) {
         e.exports = JSON.parse(
-            '{"_name":"🇨🇳繁体中文","languages":"選擇語言","index":"首頁","folder":"文件夾","notify":{"title":"提示"},"copy":{"success":"復制成功","error":"復制失敗"},"list":{"view":{"gridMode":"網格視圖","listMode":"列表視圖"},"auth":"目錄加密，請輸入密碼","title":{"file":"文件","moditime":"修改時間","size":"大小","operation":"操作"},"loading":"加載中...","opt":{"copy":"復制鏈接","newTab":"打開新的標簽頁","download":"下載"},"total":"共","item":"項"},"search":{"placeholder":"搜索..."},"page":{"video":{"play":"播放","download":"下載","link":"下載地址"},"text":{"loading":"加載中..."}},"setting":{"clear":{"text":"清理緩存","success":"緩存清理成功"}},"checkVersion":{"tips":"檢測到有新版本，<a href=\'${url}\'>前往GitHub</a>"}}'
+            '{"_name":"🇬🇧English","languages":"Languages","index":"Home","folder":"Folder","notify":{"title":"Notify"},"copy":{"success":"Copy successful","error":"Copy failed"},"list":{"view":{"gridMode":"Grid view","listMode":"List view"},"auth":"Directory encryption, please enter password","title":{"file":"File","moditime":"Modified Time","size":"Size","operation":"Actions"},"loading":"Loading...","opt":{"copy":"Copy link","newTab":"Open a new tab","download":"Download"},"total":"Total","item":"item"},"search":{"placeholder":"Search resources..."},"page":{"video":{"play":"Play","download":"Download","link":"Download link"},"text":{"loading":"Loading..."}},"setting":{"clear":{"text":"Clean cache","success":"Cache cleanup successful"}},"checkVersion":{"tips":"New version detected, <a href=\'${url}\'>Go to GitHub</a>"}}'
         );
     },
     edd4: function (e) {
