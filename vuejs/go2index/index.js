@@ -3,23 +3,9 @@ var authConfig = {
   siteName: "Glory to Heaven",
   version: "master",
   theme: "acrou",
-  // Highly recommend using your own client_id and client_secret
   client_id: "client_id",
   client_secret: "client_secret",
-  refresh_token: "refresh_token", //  token
-  /**
-     * Set up multiple Drives to be displayed; add multiples by format
-     * [id]: It can be team disk id, subfolder id, or "root" (representing the root directory of personal disk);
-     * [name]: the displayed name
-     * [user]: Basic Auth username
-     * [pass]: Basic Auth password
-     * [protect_file_link]: Whether Basic Auth is used to protect the file link, the default value (when not set) is false, that is, the file link is not protected (convenient for straight chain download / external playback, etc.)
-     * Basic Auth of each disk can be set separately. Basic Auth protects all folders / subfolders in the disk by default
-     * [Note] By default, the file link is not protected, which can facilitate straight-chain download / external playback;
-     * If you want to protect the file link, you need to set protect_file_link to true. At this time, if you want to perform external playback and other operations, you need to replace host with user: pass @ host
-     * No need for Basic Auth disk, just keep user and pass empty at the same time. (No need to set it directly)
-     * [Note] For the disk whose id is set to the subfolder id, the search function will not be supported (it does not affect other disks).
-  **/
+  refresh_token: "refresh_token",
   roots: [
     {
       id: "id",
