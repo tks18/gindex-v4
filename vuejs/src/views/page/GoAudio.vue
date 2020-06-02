@@ -1,9 +1,9 @@
 <template>
   <div class="content g2-content">
     <div class="video-content">
-      <video id="vid" width="100%" height="100%" plays-inline preload="metadata" controls>
-        <source :src="apiurl" type="video/mp4">
-      </video>
+    <audio autoplay preload controls>
+      <source :src="apiurl" type="audio">
+    </audio>
     </div>
     <div class="card">
       <header class="card-header">
@@ -23,7 +23,7 @@
           <div class="field">
             <label class="label">{{ $t("page.video.link") }}</label>
             <div class="control">
-              <input class="input" type="text" :value="videourl" />
+              <input class="input" type="text" :value="audiourl" />
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">
@@ -49,26 +49,19 @@
 </template>
 
 <script>
-var interval = setInterval(function(){
-  var countforVideo = document.getElementById("vid").readyState;
-  if(countforVideo == 4){
-    document.getElementById("vid").play();
-    clearInterval(interval);
-  }
-}, 2000)
 import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
     return {
       apiurl: "",
-      videourl: "",
+      audiourl: "",
     };
   },
   methods: {
     render() {
       // Easy to debug in development environment
-      this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl;
+      this.audiourl = window.location.origin + encodeURI(this.url);
+      this.apiurl = this.audiourl;
     },
   },
   activated() {
@@ -86,17 +79,17 @@ export default {
         {
           name: "IINA",
           icon: "https://www.iina.io/images/iina-icon-60.png",
-          scheme: "iina://weblink?url=" + this.videourl,
+          scheme: "iina://weblink?url=" + this.audiourl,
         },
         {
           name: "PotPlayer",
           icon: "https://cloud.jsonpop.cn/go2index/player/potplayer.png",
-          scheme: "potplayer://" + this.videourl,
+          scheme: "potplayer://" + this.audiourl,
         },
         {
           name: "VLC",
           icon: "https://cloud.jsonpop.cn/go2index/player/vlc.png",
-          scheme: "vlc://" + this.videourl,
+          scheme: "vlc://" + this.audiourl,
         },
         {
           name: "Thunder",
@@ -106,14 +99,14 @@ export default {
         {
           name: "nPlayer",
           icon: "https://cloud.jsonpop.cn/go2index/player/nplayer.png",
-          scheme: "nplayer-" + this.videourl,
+          scheme: "nplayer-" + this.audiourl,
         },
         {
           name: "MXPlayer(Free)",
           icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
           scheme:
             "intent:" +
-            this.videourl +
+            this.audiourl +
             "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
             this.title +
             ";end",
@@ -123,7 +116,7 @@ export default {
           icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
           scheme:
             "intent:" +
-            this.videourl +
+            this.audiourl +
             "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
             this.title +
             ";end",
@@ -131,7 +124,7 @@ export default {
       ];
     },
     getThunder() {
-      return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
+      return Buffer.from("AA" + this.audiourl + "ZZ").toString("base64");
     },
   },
 };

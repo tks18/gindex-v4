@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 const cookies = {}
 
 /**
- * @description gets the cookie value 
+ * @description gets the cookie value
  * @param {String} name cookie name
  * @param {String} value cookie value
  * @param {Object} setting cookie setting
@@ -32,7 +32,7 @@ cookies.getAll = function () {
 }
 
 /**
-* @description 删除 cookie
+* @description get the cookie value
 * @param {String} name cookie name
 */
 cookies.remove = function (name = 'default') {
