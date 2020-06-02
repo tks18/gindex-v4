@@ -13,6 +13,7 @@ const text_exts = [
   "sh",
   "md",
 ];
+const audio_exts=["mp3","flac","wav","ogg","m4a"];
 const video_exts = ["mp4", "webm", "mkv", "m3u8"];
 const image_exts = ["bmp", "jpg", "jpeg", "png", "gif"];
 const pdf_exts = ["pdf"];
@@ -56,6 +57,12 @@ export const checkView = (path) => {
     });
   }
 
+  if (audio_exts.indexOf(`${ext}`) != -1) {
+    path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
+      return `/${p2}audio/${base64Path}`;
+    });
+  }
+
   if (video_exts.indexOf(`${ext}`) != -1) {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
       return `/${p2}video/${base64Path}`;
@@ -76,7 +83,7 @@ export const checkExtends = (path) => {
     .split(".")
     .pop()
     .toLowerCase();
-  let exts = text_exts.concat(...video_exts,...image_exts,...pdf_exts);
+  let exts = text_exts.concat(...video_exts,...image_exts,...pdf_exts,...audio_exts);
   return exts.indexOf(`${ext}`) != -1;
 };
 
