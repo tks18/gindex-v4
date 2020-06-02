@@ -37,7 +37,7 @@ const frameIn = [{
       ...meta,
       view: 'audio'
     }
-  }
+  },
   {
     path: "/:id(\\d)::cmd(image)/:path",
     component: _import("page/GoImg"),
