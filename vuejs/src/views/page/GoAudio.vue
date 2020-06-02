@@ -1,10 +1,5 @@
 <template>
   <div class="content g2-content">
-    <div class="video-content">
-    <audio autoplay preload controls>
-      <source :src="apiurl" type="audio">
-    </audio>
-    </div>
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
