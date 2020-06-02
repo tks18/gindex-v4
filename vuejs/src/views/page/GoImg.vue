@@ -34,8 +34,8 @@ export default {
   methods: {
     render() {
       let path = this.url;
-      // 便于开发环境调试
-      // path = process.env.NODE_ENV === "development" ? "/api" + path : "";
+// Easy to debug in development environment
+// path = process.env.NODE_ENV === "development"? "/api" + path: "";
       this.imgurl = path;
     },
     loading(event) {

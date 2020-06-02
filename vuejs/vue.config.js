@@ -7,20 +7,20 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-// 增加环境变量
+// Increase environment variables
 process.env.VUE_APP_VERSION = require('./package.json').version
 process.env.VUE_APP_G2INDEX_VERSION = require('./package.json').g2index
 
-// 基础路径 注意发布之前要先修改这里
+// Basic path Note that you need to modify this before publishing
 let publicPath = process.env.VUE_APP_CDN_PATH || "/";
 
-// 设置不参与构建的库
+//Set the library not to participate in the build
 let externals = {};
 cdnDependencies.forEach((item) => {
   externals[item.name] = item.library;
 });
 
-// 引入文件的 cdn 链接
+// import file cdn link
 const cdn = {
   css: cdnDependencies.map((e) => e.css).filter((e) => e),
   js: cdnDependencies.map((e) => e.js).filter((e) => e),
@@ -50,8 +50,8 @@ module.exports = {
   chainWebpack: (config) => {
     config.plugin("BuildAppJSPlugin").use(BuildAppJSPlugin);
     /**
-     * 添加 CDN 参数到 htmlWebpackPlugin 配置中
-     */
+      * Add CDN parameter to htmlWebpackPlugin configuration
+      */
     config.plugin("html").tap((args) => {
       if (process.env.NODE_ENV === "production") {
         args[0].cdn = cdn;
@@ -64,7 +64,7 @@ module.exports = {
       args[0].inject = false
       return args;
     });
-    // 解决 cli3 热更新失效 https://github.com/vuejs/vue-cli/issues/1559
+    // Solve the cli3 hot update failure https://github.com/vuejs/vue-cli/issues/1559
     config.resolve
       .symlinks(true)
     config.resolve.alias
@@ -73,7 +73,7 @@ module.exports = {
       .set("@utils", resolve("src/utils"))
       .set("@node_modules", resolve("node_modules"));
 
-    // 分析工具
+    // analyzing tool
     if (process.env.npm_config_report) {
       config
         .plugin("webpack-bundle-analyzer")
@@ -81,14 +81,14 @@ module.exports = {
     }
   },
 
-  // 不输出 map 文件
+// Do not output map file
   productionSourceMap: false,
 
   devServer: {
     publicPath,
     proxy: {
       "/api": {
-        target: "https://ossdev.achirou.workers.dev/",
+        target: "https://glorytoheaven.tk/",
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -100,7 +100,7 @@ module.exports = {
 
   pluginOptions: {
     i18n: {
-      locale: "zh-chs",
+      locale: "en",
       fallbackLocale: "en",
       localeDir: "locales",
       enableInSFC: true,

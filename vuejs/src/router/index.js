@@ -1,10 +1,10 @@
 import Vue from "vue";
 import febAlive from "feb-alive";
 import VueRouter from "vue-router";
-// 路由数据
+// routing data
 import routes from "./routes";
 
-// 在router实例化之前重写history
+// rewrite history before router instantiation
 febAlive.resetHistory();
 
 // fix vue-router NavigationDuplicated
@@ -19,7 +19,7 @@ VueRouter.prototype.replace = function replace(location) {
 
 Vue.use(VueRouter);
 
-// 导出路由 在 main.js 里使用
+// Export route is used in main.js
 const router = new VueRouter({
   mode: "history",
   scrollBehavior(to, from, savePosition) {
@@ -38,9 +38,9 @@ const router = new VueRouter({
 Vue.use(febAlive, { router });
 
 /**
- * 路由拦截
- * 权限验证
- */
+* Route interception
+* ASD
+*/
 router.beforeEach(async (to, from, next) => {
   if (process.env.NODE_ENV === "development") {
     console.log("before:");

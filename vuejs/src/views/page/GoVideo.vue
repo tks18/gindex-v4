@@ -1,18 +1,9 @@
 <template>
   <div class="content g2-content">
     <div class="video-content">
-      <iframe
-        width="100%"
-        height="100%"
-        :src="apiurl"
-        frameborder="0"
-        border="0"
-        marginwidth="0"
-        marginheight="0"
-        scrolling="no"
-        allowtransparency="true"
-        allowfullscreen="true"
-      ></iframe>
+      <video id="vid" width="100%" height="100%" class="mdui-video-fluid mdui-center" plays-inline preload="metadata" controls>
+        <source :src="apiurl" type="video/mp4">
+      </video>
     </div>
     <div class="card">
       <header class="card-header">
@@ -58,6 +49,13 @@
 </template>
 
 <script>
+var interval = setInterval(function(){
+  var countforVideo = document.getElementById("vid").readyState;
+  if(countforVideo == 4){
+    document.getElementById("vid").play();
+    clearInterval(interval);
+  }
+}, 2000)
 import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
@@ -68,10 +66,9 @@ export default {
   },
   methods: {
     render() {
-      // 便于开发环境调试
+      // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl =
-        "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
+      this.apiurl = this.videourl;
     },
   },
   activated() {
@@ -105,11 +102,6 @@ export default {
           name: "Thunder",
           icon: "https://cloud.jsonpop.cn/go2index/player/thunder.png",
           scheme: "thunder://" + this.getThunder,
-        },
-        {
-          name: "Aria2",
-          icon: "https://cloud.jsonpop.cn/go2index/player/aria2.png",
-          scheme: 'javascript:alert("暂未实现")',
         },
         {
           name: "nPlayer",
