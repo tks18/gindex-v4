@@ -1,6 +1,6 @@
 const cdnDependencies = require("./dependencies-cdn");
 
-// 引入文件的 cdn 链接
+// import file cdn link
 const cdn = {
   css: cdnDependencies.map((e) => e.css).filter((e) => e),
   js: cdnDependencies.map((e) => e.js).filter((e) => e),
@@ -8,14 +8,14 @@ const cdn = {
 
 class BuildAppJSPlugin {
   apply(compiler) {
-    // emit 是异步 hook，使用 tapAsync 触及它，还可以使用 tapPromise/tap(同步)
+    // emit is an asynchronous hook, use tapAsync to touch it, you can also use tapPromise/tap (synchronous)
     compiler.hooks.emit.tapAsync(
       "BuildAppJSPlugin",
       (compilation, callback) => {
         let cssarr = [];
         let jsarr = [];
-        // 遍历所有编译过的资源文件，
-        // 对于每个文件名称，都添加一行内容。
+        // Traverse all compiled resource files,
+        // For each file name, add a line.
         for (let filename in compilation.assets) {
           if (filename.match(".*\\.js$")) {
             if (process.env.NODE_ENV === "production") {
@@ -55,7 +55,7 @@ class BuildAppJSPlugin {
         cssarr.forEach(item=>{
           cssContent += `@import url(${item});\n`
         })
-        // 将这个列表作为一个新的文件资源，插入到 webpack 构建中：
+        // Insert this list as a new file resource into the webpack build:
         compilation.assets["app.js"] = {
           source: function() {
             return content;

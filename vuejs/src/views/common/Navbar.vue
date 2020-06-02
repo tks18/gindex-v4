@@ -66,7 +66,7 @@
             target="_blank"
             rel="noopener"
             title="View on github"
-            href="https://github.com/Aicirou/goindex-theme-acrou"
+            href="https://github.com/tks18/gindex-v4"
           >
             <i class="fab fa-github"></i>
           </a>
@@ -148,7 +148,7 @@ export default {
       return this.gds.filter((item) => item.name !== this.currgd.name);
     },
     showSearch() {
-      // 文件夹不支持搜索
+// Folder does not support searching
       return window.MODEL ? window.MODEL.root_type < 2 : true
     },
   },

@@ -1,56 +1,56 @@
 {
-  "_name": "🇨🇳繁体中文",
-  "languages": "選擇語言",
-  "index": "首頁",
-  "folder": "文件夾",
+  "_name": "🇬🇧English",
+  "languages": "Languages",
+  "index": "Home",
+  "folder": "Folder",
   "notify": {
-    "title": "提示"
+    "title": "Notify"
   },
   "copy": {
-    "success": "復制成功",
-    "error": "復制失敗"
+    "success": "Copy successful",
+    "error": "Copy failed"
   },
   "list": {
     "view": {
-      "gridMode": "網格視圖",
-      "listMode": "列表視圖"
+      "gridMode": "Grid view",
+      "listMode": "List view"
     },
-    "auth": "目錄加密，請輸入密碼",
+    "auth": "Directory encryption, please enter password",
     "title": {
-      "file": "文件",
-      "moditime": "修改時間",
-      "size": "大小",
-      "operation": "操作"
+      "file": "File",
+      "moditime": "Modified Time",
+      "size": "Size",
+      "operation": "Actions"
     },
-    "loading": "加載中...",
+    "loading": "Loading...",
     "opt": {
-      "copy": "復制鏈接",
-      "newTab": "打開新的標簽頁",
-      "download": "下載"
+      "copy": "Copy link",
+      "newTab": "Open a new tab",
+      "download": "Download"
     },
-    "total": "共",
-    "item": "項"
+    "total": "Total",
+    "item": "item"
   },
   "search": {
-    "placeholder": "搜索..."
+    "placeholder": "Search resources..."
   },
   "page": {
     "video": {
-      "play": "播放",
-      "download": "下載",
-      "link": "下載地址"
+        "play": "Play",
+        "download": "Download",
+        "link": "Download link"
     },
     "text": {
-      "loading": "加載中..."
+      "loading": "Loading..."
     }
   },
   "setting": {
     "clear": {
-      "text": "清理緩存",
-      "success": "緩存清理成功"
+      "text": "Clean cache",
+      "success": "Cache cleanup successful"
     }
   },
   "checkVersion": {
-    "tips": "檢測到有新版本，<a href='${url}'>前往GitHub</a>"
+    "tips": "New version detected, <a href='${url}'>Go to GitHub</a>"
   }
 }

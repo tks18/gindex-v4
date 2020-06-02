@@ -1,18 +1,18 @@
 export default {
   namespaced: true,
   state: {
-    // 视图模式
+    // View mode
     mode: "list",
   },
   actions: {
-    /**
-     * @description 从持久化数据读取视图模式设置
-     * @param {Object} context
-     */
+/**
+*@description read view mode settings from persistent data
+*@param {Object} context
+*/
     load({ state, dispatch, commit }) {
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async (resolve) => {
-        // store 赋值
+        // store assignment
         state.mode = await dispatch(
           "acrou/db/get",
           {
@@ -23,22 +23,22 @@ export default {
           },
           { root: true }
         );
-        // 应用
+        // application
         commit("set", state.mode);
         // end
         resolve();
       });
     },
-    /**
-     * @description 切换视图模式
-     * @param {Object} context
-     */
+/**
+*@description switch view mode
+*@param {Object} context
+*/
     toggle({ state, dispatch, commit }, mode) {
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async (resolve) => {
-        // store 赋值
+        // store assignment
         state.mode = mode || "list";
-        // 持久化
+        // endurance
         await dispatch(
           "acrou/db/set",
           {
@@ -49,7 +49,7 @@ export default {
           },
           { root: true }
         );
-        // 应用
+        // application
         commit("set", state.mode);
         // end
         resolve();
@@ -57,11 +57,11 @@ export default {
     },
   },
   mutations: {
-    /**
-     * @description 设置 store 里的视图模式
-     * @param {Object} state state
-     * @param {Boolean} mode mode
-     */
+/**
+*@description sets the view mode in the store
+*@param {Object} state state
+*@param {Boolean} mode mode
+*/
     set(state, mode) {
       state.mode = mode;
     },

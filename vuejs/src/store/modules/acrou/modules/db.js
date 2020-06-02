@@ -5,15 +5,15 @@ import { database as getDatabase, dbGet, dbSet } from '@/libs/util.db'
 export default {
   namespaced: true,
   actions: {
-    /**
-     * @description 将数据存储到指定位置 | 路径不存在会自动初始化
-     * @description 效果类似于取值 dbName.path = value
-     * @param {Object} context
-     * @param {Object} payload dbName {String} 数据库名称
-     * @param {Object} payload path {String} 存储路径
-     * @param {Object} payload value {*} 需要存储的值
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+/**
+*@description Store data to the specified location | The path does not exist will be automatically initialized
+*@description is similar to the value dbName.path = value
+*@param {Object} context
+*@param {Object} payload dbName {String} database name
+*@param {Object} payload path {String} storage path
+*@param {Object} payload value {*} The value to be stored
+*@param {Object} payload user {Boolean} whether to distinguish users
+*/
     set (context, {
       dbName = 'database',
       path = '',
@@ -23,14 +23,14 @@ export default {
       dbSet({ dbName, path, value, user })
     },
     /**
-     * @description 获取数据
-     * @description 效果类似于取值 dbName.path || defaultValue
-     * @param {Object} context
-     * @param {Object} payload dbName {String} 数据库名称
-     * @param {Object} payload path {String} 存储路径
-     * @param {Object} payload defaultValue {*} 取值失败的默认值
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description get data
+    *@description is similar to the value dbName.path || defaultValue
+    *@param {Object} context
+    *@param {Object} payload dbName {String} database name
+    *@param {Object} payload path {String} storage path
+    *@param {Object} payload defaultValue {*} The default value of failed value
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     get (context, {
       dbName = 'database',
       path = '',
@@ -40,10 +40,10 @@ export default {
       return dbGet({ dbName, path, defaultValue, user })
     },
     /**
-     * @description 获取存储数据库对象
-     * @param {Object} context
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description Get storage database object
+    *@param {Object} context
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     database (context, {
       user = false
     } = {}) {
@@ -53,10 +53,10 @@ export default {
       })
     },
     /**
-     * @description 清空存储数据库对象
-     * @param {Object} context
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description Clear storage database objects
+    *@param {Object} context
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     databaseClear (context, {
       user = false
     } = {}) {
@@ -67,11 +67,11 @@ export default {
       })
     },
     /**
-     * @description 获取存储数据库对象 [ 区分页面 ]
-     * @param {Object} context
-     * @param {Object} payload basis {String} 页面区分依据 [ name | path | fullPath ]
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description Get storage database object [different page]
+    *@param {Object} context
+    *@param {Object} payload basis {String} page distinction basis [name | path | fullPath]
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     databasePage (context, {
       basis = 'fullPath',
       user = false
@@ -83,11 +83,11 @@ export default {
       })
     },
     /**
-     * @description 清空存储数据库对象 [ 区分页面 ]
-     * @param {Object} context
-     * @param {Object} payload basis {String} 页面区分依据 [ name | path | fullPath ]
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description clear storage database object [different page]
+    *@param {Object} context
+    *@param {Object} payload basis {String} page distinction basis [name | path | fullPath]
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     databasePageClear (context, {
       basis = 'fullPath',
       user = false
@@ -100,12 +100,12 @@ export default {
       })
     },
     /**
-     * @description 快速将页面当前的数据 ( $data ) 持久化
-     * @param {Object} context
-     * @param {Object} payload instance {Object} vue 实例
-     * @param {Object} payload basis {String} 页面区分依据 [ name | path | fullPath ]
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description quickly persist the current data of the page ($data)
+    *@param {Object} context
+    *@param {Object} payload instance {Object} vue instance
+    *@param {Object} payload basis {String} page distinction basis [name | path | fullPath]
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     pageSet (context, {
       instance,
       basis = 'fullPath',
@@ -119,12 +119,12 @@ export default {
       })
     },
     /**
-     * @description 快速获取页面快速持久化的数据
-     * @param {Object} context
-     * @param {Object} payload instance {Object} vue 实例
-     * @param {Object} payload basis {String} 页面区分依据 [ name | path | fullPath ]
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description quickly get the data of the page fast and persistent
+    *@param {Object} context
+    *@param {Object} payload instance {Object} vue instance
+    *@param {Object} payload basis {String} page distinction basis [name | path | fullPath]
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     pageGet (context, {
       instance,
       basis = 'fullPath',
@@ -137,11 +137,11 @@ export default {
       })
     },
     /**
-     * @description 清空页面快照
-     * @param {Object} context
-     * @param {Object} payload basis {String} 页面区分依据 [ name | path | fullPath ]
-     * @param {Object} payload user {Boolean} 是否区分用户
-     */
+    *@description Clear page snapshot
+    *@param {Object} context
+    *@param {Object} payload basis {String} page distinction basis [name | path | fullPath]
+    *@param {Object} payload user {Boolean} whether to distinguish users
+    */
     pageClear (context, {
       basis = 'fullPath',
       user = false

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 const cookies = {}
 
 /**
- * @description 存储 cookie 值
+ * @description gets the cookie value 
  * @param {String} name cookie name
  * @param {String} value cookie value
  * @param {Object} setting cookie setting
@@ -17,24 +17,24 @@ cookies.set = function (name = 'default', value = '', cookieSetting = {}) {
 }
 
 /**
- * @description 拿到 cookie 值
- * @param {String} name cookie name
- */
+* @description gets the cookie value
+* @param {String} name cookie name
+*/
 cookies.get = function (name = 'default') {
   return Cookies.get(`go2index-${process.env.VUE_APP_VERSION}-${name}`)
 }
 
 /**
- * @description 拿到 cookie 全部的值
- */
+* @description gets the entire value of the cookie
+*/
 cookies.getAll = function () {
   return Cookies.get()
 }
 
 /**
- * @description 删除 cookie
- * @param {String} name cookie name
- */
+* @description 删除 cookie
+* @param {String} name cookie name
+*/
 cookies.remove = function (name = 'default') {
   return Cookies.remove(`go2index-${process.env.VUE_APP_VERSION}-${name}`)
 }

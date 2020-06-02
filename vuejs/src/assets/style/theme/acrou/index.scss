@@ -83,7 +83,7 @@ body {
 }
 
 .no-content {
-  background: url(https://s1.hdslb.com/bfs/static/jinkela/search/asserts/no-data.png) no-repeat 50% 50%;
+  background: url(https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/dist/images/wait.png) no-repeat 50% 50%;
   height: 240px;
   line-height: 240px;
   text-align: center;
@@ -106,7 +106,7 @@ body {
   }
 }
 
-// 搜索框
+//search bar
 .search-input,
 .search-input::-webkit-input-placeholder {
   color: whitesmoke;

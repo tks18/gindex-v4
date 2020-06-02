@@ -65,7 +65,7 @@ export default {
     render() {
       this.index = this.$route.params.id;
       let cmd = this.$route.params.cmd;
-      // 如果是搜索不进行渲染
+// Do not render if searching
       if (cmd === "search") {
         this.navs = [];
         return;
@@ -117,12 +117,14 @@ export default {
 }
 .level-right {
   .level-item {
-    // border-radius: 50%;
-    // height: 40px;
-    // width: 40px;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    background: black;
+    color: white;
     &:hover {
       // border: 1px dotted transparent;
-      // background: rgba(0, 0, 0, 0.12);
+      background: rgba(0, 0, 0, 0.15);
       // text-decoration: none;
       cursor: pointer;
     }
