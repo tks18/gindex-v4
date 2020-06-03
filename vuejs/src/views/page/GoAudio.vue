@@ -59,7 +59,7 @@ export default {
     render() {
       // Easy to debug in development environment
       this.audiourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = "https://glorytoheaven.tk/0:/Vectors,%20SFX,%20VFX/SFX/Soniss%20Full%20Bundle/Articulated%20Sounds%20-%20Fun%20Monsters/FUN%20MONSTER%20Cheeky%20sneaky%20find%20object%2004.wav";
+      this.apiurl = this.audiourl;
     },
   },
   activated() {
