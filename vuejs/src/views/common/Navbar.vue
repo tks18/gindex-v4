@@ -7,7 +7,8 @@
         </a>
         <a
           role="button"
-          :class="'navbar-burger burger ' + (isActive ? 'is-active' : '')"
+          style="color: #ff9595"
+          :class="'navbar-burger burger ' + (isActive ? 'navbar-active' : '')"
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
@@ -21,13 +22,14 @@
       <div
         id="navbarBasicExample"
         :class="'navbar-menu ' + (isActive ? 'is-active' : '')"
+        style="background-color: #342b38;"
       >
         <div class="navbar-start">
           <div
             class="navbar-item has-dropdown is-hoverable"
             v-if="gds.length > 0 && getCurrGD.length > 0"
           >
-            <a class="navbar-link">{{ this.currgd.name }}</a>
+            <a class="navbar-link" style="background-color: #342b38;">{{ this.currgd.name }}</a>
             <div class="navbar-dropdown is-boxed">
               <a
                 class="navbar-item"

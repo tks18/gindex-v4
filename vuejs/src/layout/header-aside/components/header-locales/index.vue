@@ -5,7 +5,8 @@
     </a>
     <div class="navbar-dropdown is-left">
       <a
-        :class="'navbar-item'+(currLanguage===language.value?' is-active':'')"
+        style="background-color: #342b38;"
+        :class="'navbar-item'+(currLanguage===language.value?' navbar-active':'')"
         v-for="language in $languages"
         :key="language.value"
         @click="onChangeLocale(language.value)"

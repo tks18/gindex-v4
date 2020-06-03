@@ -41,14 +41,18 @@
     <div class="columns is-mobile is-centered">
       <div class="field is-grouped is-grouped-multiline">
         <span class="footer-disclaimer">
-          <span class="disclaimer-head">Disclaimer:</span> Our resources are only for learning and communication, not for any commercial use. Please abide by the laws and regulations of your country, and any illegal behavior shall be borne by the user himself.
+          <center>
+            <span class="disclaimer-head">Disclaimer:</span> &nbsp; Our resources are only for learning and communication, not for any commercial use. Please abide by the laws and regulations of your country, and any illegal behavior shall be borne by the user himself.
+          </center>
         </span>
       </div>
     </div>
     <div class="columns is-mobile is-centered">
       <div class="field is-grouped is-grouped-multiline">
         <span class="footer-policy">
-          Please Read our <a href="https://raw.githubusercontent.com/tks18/dope-t-rope/master/LICENSE" target="_blank">Privacy Policy </a>before Continuing.
+          <center>
+            Please Read our <a href="https://raw.githubusercontent.com/tks18/dope-t-rope/master/LICENSE" target="_blank">Privacy Policy </a>before Continuing.
+          </center>
         </span>
       </div>
     </div>

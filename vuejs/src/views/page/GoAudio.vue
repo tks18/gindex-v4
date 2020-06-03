@@ -2,7 +2,7 @@
   <div class="content g2-content">
     <div class="card">
     <div class="audio-card">
-      <audio controls autoplay preload="auto" :src="apiurl" type="audio/mpeg">Does Not Support</audio>
+      <audio controls autoplay preload="auto" :src="apiurl">Does Not Support</audio>
     </div>
       <header class="card-header">
         <p class="card-header-title">

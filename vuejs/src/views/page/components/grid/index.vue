@@ -106,10 +106,10 @@ export default {
 .g2-grid-view-card {
   //   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.05);
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   .card-image img {
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
   }
   &:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.05);
