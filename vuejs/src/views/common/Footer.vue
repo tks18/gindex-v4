@@ -4,23 +4,56 @@
       <div class="field is-grouped is-grouped-multiline">
         <div class="control">
           <div class="tags has-addons">
-            <a
-              class="tag is-dark"
-              href="https://github.com/tks18/gindex-v4"
-            >Shan.tk</a>
-            <span class="tag is-light">
-              MIT &nbsp;
-              <span class="icon">
-                <i class="fab fa-github"></i>
-              </span>
+            <span class="icon-tag-license">
+              Licensed under <a class="footer-license-link" href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/LICENSE" target="_blank">MIT </a>&nbsp;&nbsp;<i class="fas fa-id-badge"></i>
             </span>
           </div>
         </div>
       </div>
     </div>
+    <div class="columns is-mobile is-centered">
+      <div class="field is-grouped is-grouped-multiline">
+        <div class="control">
+          <div class="tags has-addons">
+          <a
+            class="icon-tag"
+            href="https://github.com/tks18/gindex-v4"
+          >Shan.tk  &nbsp;</a>
+          <a
+            class="icon-tag"
+            href="https://github.com/tks18/gindex-v4"
+          ><i class="fab fa-2x fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-mobile is-centered">
+      <div class="field is-grouped is-grouped-multiline">
+        <div class="control">
+          <div class="tags has-addons">
+          <span class="footer-copyright">
+            Copyright&nbsp;<i class="fas fa-copyright"></i> 2020 | &nbsp;Glory to Heaven
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-mobile is-centered">
+      <div class="field is-grouped is-grouped-multiline">
+        <span class="footer-disclaimer">
+          <span class="disclaimer-head">Disclaimer:</span> Our resources are only for learning and communication, not for any commercial use. Please abide by the laws and regulations of your country, and any illegal behavior shall be borne by the user himself.
+        </span>
+      </div>
+    </div>
+    <div class="columns is-mobile is-centered">
+      <div class="field is-grouped is-grouped-multiline">
+        <span class="footer-policy">
+          Please Read our <a href="https://raw.githubusercontent.com/tks18/dope-t-rope/master/LICENSE" target="_blank">Privacy Policy </a>before Continuing.
+        </span>
+      </div>
+    </div>
   </footer>
 </template>
-
 <script>
 export default {
   props: {},

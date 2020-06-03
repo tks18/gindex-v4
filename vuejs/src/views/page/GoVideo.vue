@@ -23,7 +23,7 @@
           <div class="field">
             <label class="label">{{ $t("page.video.link") }}</label>
             <div class="control">
-              <input class="input" type="text" :value="videourl" />
+              <input class="input download-link" type="text" :value="videourl" />
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">

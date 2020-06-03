@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item" :href="currgd.id">
@@ -51,7 +51,6 @@
                   v-model="param"
                   type="search"
                   :placeholder="$t('search.placeholder')"
-                  style="background-color: rgb(68, 66, 66);border-color: #272727;"
                 />
                 <span class="icon is-small is-left" style="padding:0 5px;">
                   <!-- <i class="fas fa-search"></i> -->

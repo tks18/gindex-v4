@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
+    <headmd :option="headmd" class="mkdown-text" v-if="renderHeadMD && headmd.display"></headmd>
     <div
       class="golist"
       v-loading="loading"
@@ -99,6 +99,9 @@ export default {
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
+        "audio/mpeg": "icon-mp",
+        "audio/ogg": "icon-mp",
+        "audio/vnd.wav": "icon-mp",
         "video/x-matroska": "icon-mkv",
         "video/x-msvideo": "icon-avi",
         "video/webm": "icon-webm",
