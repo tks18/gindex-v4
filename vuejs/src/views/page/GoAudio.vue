@@ -6,11 +6,11 @@
     </div>
       <header class="card-header">
         <p class="card-header-title">
-          <span class="icon">
+          <span class="icon" style="color: #ff9595">
             <i class="fa fa-play-circle" aria-hidden="true"></i>
           </span>
           {{ $t("page.video.play") }} /
-          <span class="icon">
+          <span class="icon" style="color: #ff9595">
             <i class="fa fa-download" aria-hidden="true"></i>
           </span>
           {{ $t("page.video.download") }}
@@ -21,7 +21,7 @@
           <div class="field">
             <label class="label">{{ $t("page.video.link") }}</label>
             <div class="control">
-              <input class="input" type="text" :value="audiourl" />
+              <input class="input download-link" type="text" :value="audiourl" />
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">

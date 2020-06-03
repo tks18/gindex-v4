@@ -119,6 +119,7 @@ export default {
     border-radius: 50%;
     height: 40px;
     width: 40px;
+    color: #ff9595;
     &:hover {
       // border: 1px dotted transparent;
       // background: rgba(0, 0, 0, 0.15);

@@ -1,7 +1,7 @@
 <template>
   <table class="table is-hoverable">
     <thead>
-      <tr>
+      <tr style="border-bottom: 1px solid white">
         <th
           v-for="(column, index) in columns"
           v-bind:key="index"
@@ -17,8 +17,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(file, index) in data" v-bind:key="index">
+      <tr class="tr-item" v-for="(file, index) in data" v-bind:key="index">
         <td
+          class="td-item"
           @click.self="
             go(
               file,
@@ -33,24 +34,25 @@
           </svg>
           {{ file.name }}
           <span
-            class="has-text-grey g2-file-desc"
+            class="g2-file-desc"
             v-if="isShowDesc"
             v-html="file.description"
+            style="color: #bbf1c8;"
           ></span>
         </td>
-        <td class="is-hidden-mobile is-hidden-touch">
+        <td style="color: white;" class="is-hidden-mobile is-hidden-touch">
           {{ file.modifiedTime }}
         </td>
-        <td class="is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
+        <td style="color: white;" class="is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
         <td class="is-hidden-mobile is-hidden-touch">
-          <span class="icon" @click.stop="copy(file.path)">
+          <span style="color: #ff9595;" class="icon" @click.stop="copy(file.path)">
             <i
               class="fa fa-copy faa-shake animated-hover"
               :title="$t('list.opt.copy')"
               aria-hidden="true"
             ></i>
           </span>
-          <span class="icon" @click.stop="go(file, '_blank')">
+          <span style="color: #ff9595;" class="icon" @click.stop="go(file, '_blank')">
             <i
               class="fa fa-external-link faa-shake animated-hover"
               :title="$t('list.opt.newTab')"
@@ -58,6 +60,7 @@
             ></i>
           </span>
           <span
+            style="color: #ff9595;"
             class="icon"
             @click.stop="go(file, 'down')"
             v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
@@ -93,20 +96,20 @@ export default {
   computed: {
     columns() {
       return [
-        { name: this.$t("list.title.file"), style: "" },
+        { name: this.$t("list.title.file"), style: "color: white;" },
         {
           name: this.$t("list.title.moditime"),
-          style: "width:20%",
+          style: "width:20%;color: white;",
           class: "is-hidden-mobile is-hidden-touch",
         },
         {
           name: this.$t("list.title.size"),
-          style: "width:10.5%",
+          style: "width:10.5%;color: white;",
           class: "is-hidden-mobile is-hidden-touch",
         },
         {
           name: this.$t("list.title.operation"),
-          style: "width:13.5%",
+          style: "width:13.5%;color: white;",
           class: "is-hidden-mobile is-hidden-touch",
         },
       ];
