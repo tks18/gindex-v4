@@ -8,7 +8,7 @@
         <div class="level-item">
           <ul>
             <li>
-              <a
+              <a style="color: #ff9595;"
                 v-show="navs && navs.length > 0"
                 @click="go('/' + index + ':/')"
                 >{{ $t("index") }}</a
@@ -19,10 +19,10 @@
               :class="index + 1 == navs.length ? 'is-active' : ''"
               v-bind:key="index"
             >
-              <a v-if="index + 1 == navs.length" aria-current="page" href="#">{{
+              <a style="color: #80bdab;" class="breadcrumb-text" v-if="index + 1 == navs.length" aria-current="page" href="#">{{
                 item.title
               }}</a>
-              <a v-else @click="go(item.path)">{{ item.title }}</a>
+              <a style="color: #ff9595;" v-else @click="go(item.path)">{{ item.title }}</a>
             </li>
           </ul>
         </div>
@@ -104,9 +104,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .g2-breadcrumb {
-  border-bottom: 2px solid #f5f5f5;
-  // height: 100%;
-  padding: 10px 0.75em;
+  padding: 0px 15px;
+  border-radius: 25px 25px;
 }
 .level-left {
   width: 95%;
@@ -120,10 +119,9 @@ export default {
     border-radius: 50%;
     height: 40px;
     width: 40px;
-    color: black;
     &:hover {
       // border: 1px dotted transparent;
-      background: rgba(0, 0, 0, 0.15);
+      // background: rgba(0, 0, 0, 0.15);
       // text-decoration: none;
       cursor: pointer;
     }

@@ -8,6 +8,28 @@
   url('//at.alicdn.com/t/font_1760192_tl9awsq3di.svg#iconfont') format('svg');
 }
 
+html {
+  background-color: #342b38;
+}
+
+.navbar {
+  background-color: #342b38;
+  border-bottom: 3px solid #ff9595;
+}
+
+.navbar-dropdown{
+  background-color: #342b38;
+}
+
+.navbar-link,.navbar-item {
+  color: #ff9595;
+}
+
+.search-input {
+  background-color: #ff9595;
+  border-color: #272727;
+}
+
 body {
   overflow: hidden;
 }
@@ -104,6 +126,12 @@ body {
     width: 100%;
     height: 100%;
   }
+}
+
+.audio-card {
+  text-align: center;
+  width: 100%;
+  padding: 5%;
 }
 
 //search bar
