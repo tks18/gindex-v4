@@ -1,7 +1,9 @@
 <template>
   <div class="content g2-content">
     <div class="audio-card">
-      <audio controls autoplay preload="auto" :src="apiurl">Does Not Support</audio>
+      <vue-plyr>
+        <audio controls autoplay preload="auto" :src="apiurl">Does Not Support</audio>
+      </vue-plyr>
     </div>
     <div class="card">
       <header class="card-header">
