@@ -8,6 +8,7 @@ import axios from "@utils/axios";
 import VueAxios from "vue-axios";
 import router from "./router";
 import i18n from "./i18n";
+import VuePlyr from "vue-plyr"
 // store
 import store from "@/store/index";
 import VueClipboard from "vue-clipboard2";
@@ -28,6 +29,11 @@ Vue.use(VueAxios, axios);
 Vue.use(cdnpath);
 Vue.use(VueClipboard);
 Vue.use(infiniteScroll);
+Vue.use(VuePlyr, {
+  plyr: {
+    fullscreen: { enabled: true }
+  },
+});
 Vue.use(VueLazyload, {
   loading: cdnpath("/images/airplane.gif"),
 });

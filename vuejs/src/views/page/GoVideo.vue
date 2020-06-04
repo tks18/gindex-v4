@@ -1,9 +1,12 @@
 <template>
   <div class="content g2-content">
     <div class="video-content">
-      <video id="vid" width="100%" height="100%" plays-inline preload="metadata" controls>
-        <source :src="apiurl" type="video/mp4">
+    <vue-plyr>
+      <video :src="apiurl">
+        <source :src="apiurl" type="video/mp4" size="720">
+        <source :src="apiurl" type="video/mp4" size="1080">
       </video>
+    </vue-plyr>
     </div>
     <div class="card">
       <header class="card-header">
