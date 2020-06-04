@@ -40,10 +40,10 @@
             style="color: #bbf1c8;"
           ></span>
         </td>
-        <td style="color: white;" class="is-hidden-mobile is-hidden-touch">
+        <td class="td-item is-hidden-mobile is-hidden-touch">
           {{ file.modifiedTime }}
         </td>
-        <td style="color: white;" class="is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
+        <td class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
         <td class="is-hidden-mobile is-hidden-touch">
           <span style="color: #ff9595;" class="icon" @click.stop="copy(file.path)">
             <i

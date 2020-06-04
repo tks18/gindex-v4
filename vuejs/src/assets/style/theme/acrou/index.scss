@@ -110,8 +110,12 @@ body {
     white-space: nowrap;
     vertical-align: middle;
 
-    &:hover,
-    & .icon {
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+    
+    &.icon {
       cursor: pointer;
     }
   }
@@ -122,10 +126,6 @@ body {
 
   td span {
     vertical-align: middle;
-  }
-
-  .tr-item:hover {
-    color: none;
   }
 
   td .g2-file-desc {
@@ -157,12 +157,13 @@ body {
 
 .video-content {
   width: 100%;
+  border: 1px solid #ff9595;
   background-color: #342b38;
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: 58%;
   height: 0;
 
-  iframe {
+  video {
     position: absolute;
     top: 0;
     left: 0;
@@ -171,11 +172,20 @@ body {
   }
 }
 
+.video-content:hover {
+  border: 1px solid #342b38;
+}
+
 .audio-card {
   text-align: center;
   width: 100%;
   padding: 5%;
   background-color: #342b38;
+  border: 1px solid #ff9595;
+}
+
+.audio-card:hover {
+  border: 1px solid #342b38;
 }
 
 //search bar
@@ -351,4 +361,53 @@ body {
   font-size: 30px;
   font-weight:700;
   width: 40px;
+}
+
+#copy-url {
+  padding: 10px;
+  background-color: #342b38;
+  border: 1px solid #ff9595;
+  margin: 10px;
+  color: #FF9595;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 0.5rem;
+}
+
+#copy-url:hover {
+  border: 1px solid #342b38;
+  color: #ff9595;
+}
+
+.card {
+  border: 1px solid #ff9595;
+  border-radius: 0.2rem;
+}
+
+.card-header {
+  border: 1px solid #ff9595;
+}
+
+.download-button {
+  padding: 10px;
+  background-color: #342b38;
+  border: 1px solid #ff9595;
+  margin: 10px;
+  color: #FF9595;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 0.5rem;
+}
+
+.download-button:hover {
+  border: 1px solid #342b38;
+  color: #ff9595;
+}
+
+.column {
+  padding: 5px;
+}
+
+.column:hover {
+  border: 1px solid #ff9595;
 }
