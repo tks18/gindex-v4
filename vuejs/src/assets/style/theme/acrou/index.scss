@@ -110,8 +110,12 @@ body {
     white-space: nowrap;
     vertical-align: middle;
 
-    &:hover,
-    & .icon {
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+    
+    &.icon {
       cursor: pointer;
     }
   }
@@ -122,10 +126,6 @@ body {
 
   td span {
     vertical-align: middle;
-  }
-
-  .tr-item:hover {
-    color: none;
   }
 
   td .g2-file-desc {
