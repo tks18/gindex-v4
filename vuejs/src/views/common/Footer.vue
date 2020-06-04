@@ -1,5 +1,14 @@
 <template>
   <footer class="footer">
+  <div class="columns is-mobile is-centered">
+    <div class="field is-grouped is-grouped-multiline">
+      <div class="control">
+        <div class="tags has-addons">
+          <img width="300" height="150" style="margin: 2px;padding: 5px;border-radius: 1rem;border: 2px solid #ff9595" class="nav-image" src="https://i.ibb.co/Hx3ZqLm/giphy.gif">
+        </div>
+      </div>
+    </div>
+  </div>
     <div class="columns is-mobile is-centered">
       <div class="field is-grouped is-grouped-multiline">
         <div class="control">

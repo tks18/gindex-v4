@@ -99,9 +99,10 @@ export default {
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
-        "audio/mpeg": "icon-mp",
-        "audio/ogg": "icon-mp",
-        "audio/vnd.wav": "icon-mp",
+        "audio/mpeg": "icon-mkv",
+        "audio/ogg": "icon-mkv",
+        "audio/aac": "icon-mkv",
+        "audio/vnd.wav": "icon-mkv",
         "video/x-matroska": "icon-mkv",
         "video/x-msvideo": "icon-avi",
         "video/webm": "icon-webm",
