@@ -1,9 +1,9 @@
 <template>
   <div class="content g2-content">
-    <div class="card">
     <div class="audio-card">
       <audio controls autoplay preload="auto" :src="apiurl">Does Not Support</audio>
     </div>
+    <div class="card">
       <header class="card-header">
         <p class="card-header-title">
           <span class="icon" style="color: #ff9595">
@@ -21,7 +21,13 @@
           <div class="field">
             <label class="label">{{ $t("page.video.link") }}</label>
             <div class="control">
-              <input class="input download-link" type="text" :value="audiourl" />
+              <div class="link-text copy-download-link">
+                <input class="input download-link" type="text" :value="audiourl" />
+              </div>
+                <center>
+                  <button id="copy-url" type="button" v-clipboard:copy="audiourl">Copy Link <i class="fa fa-copy"></i></button>
+                  <a class="download-button" :href="audiourl" target="_blank">Download <i class="fa fa-download"></i></a>
+                </center>
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">

@@ -23,7 +23,13 @@
           <div class="field">
             <label class="label">{{ $t("page.video.link") }}</label>
             <div class="control">
-              <input class="input download-link" type="text" :value="videourl" />
+              <div class="link-text copy-download-link">
+                <input id="copy-link" class="input download-link" type="text" :value="videourl" />
+              </div>
+              <center>
+                <button id="copy-url" type="button" v-clipboard:copy="videourl">Copy Link <i class="fa fa-copy"></i></button>
+                <a class="download-button" :href="videourl" target="_blank">Download <i class="fa fa-download"></i></a>
+              </center>
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">
