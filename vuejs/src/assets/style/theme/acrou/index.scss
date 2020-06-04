@@ -160,11 +160,16 @@ body {
   border: 1px solid #ff9595;
   background-color: #342b38;
   position: relative;
-  padding-bottom: 52%;
-  height: 0;
-  top: 0;
-  left: 0;
+  padding-bottom: 2%;
+
+  video {
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+  }
 }
+
 
 .video-content:hover {
   border: 1px solid #342b38;

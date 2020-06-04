@@ -77,7 +77,7 @@ export default {
     render() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl;
+      this.apiurl = "https://glorytoheaven.tk/0:/Movies/English/12%20Angry%20Men%20(1957)%20%5BBluRay%5D%20%5B1080p%5D%20%5BYTS.AM%5D/12.Angry.Men.1957.1080p.BluRay.x264-%5BYTS.AM%5D.mp4";
     },
   },
   activated() {
