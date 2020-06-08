@@ -1,4 +1,4 @@
-<template>
+videourl<template>
   <div class="content g2-content">
     <div class="video-content">
     <vue-plyr>
@@ -94,32 +94,37 @@ export default {
       return [
         {
           name: "IINA",
-          icon: "https://www.iina.io/images/iina-icon-60.png",
+          icon: this.$cdnpath("images/player/iina.png"),
           scheme: "iina://weblink?url=" + this.videourl,
         },
         {
           name: "PotPlayer",
-          icon: "https://cloud.jsonpop.cn/go2index/player/potplayer.png",
+          icon: this.$cdnpath("images/player/potplayer.png"),
           scheme: "potplayer://" + this.videourl,
         },
         {
           name: "VLC",
-          icon: "https://cloud.jsonpop.cn/go2index/player/vlc.png",
+          icon: this.$cdnpath("images/player/vlc.png"),
           scheme: "vlc://" + this.videourl,
         },
         {
           name: "Thunder",
-          icon: "https://cloud.jsonpop.cn/go2index/player/thunder.png",
+          icon: this.$cdnpath("images/player/thunder.png"),
           scheme: "thunder://" + this.getThunder,
         },
         {
+          name: "Aria2",
+          icon: this.$cdnpath("images/player/aria2.png"),
+          scheme: 'javascript:alert("Not Yet Supported")',
+        },
+        {
           name: "nPlayer",
-          icon: "https://cloud.jsonpop.cn/go2index/player/nplayer.png",
+          icon: this.$cdnpath("images/player/nplayer.png"),
           scheme: "nplayer-" + this.videourl,
         },
         {
           name: "MXPlayer(Free)",
-          icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
+          icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
             this.videourl +
@@ -129,7 +134,7 @@ export default {
         },
         {
           name: "MXPlayer(Pro)",
-          icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
+          icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
             this.videourl +
