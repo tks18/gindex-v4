@@ -84,45 +84,50 @@ export default {
       return [
         {
           name: "IINA",
-          icon: "https://www.iina.io/images/iina-icon-60.png",
-          scheme: "iina://weblink?url=" + this.audiourl,
+          icon: this.$cdnpath("images/player/iina.png"),
+          scheme: "iina://weblink?url=" + this.videourl,
         },
         {
           name: "PotPlayer",
-          icon: "https://cloud.jsonpop.cn/go2index/player/potplayer.png",
-          scheme: "potplayer://" + this.audiourl,
+          icon: this.$cdnpath("images/player/potplayer.png"),
+          scheme: "potplayer://" + this.videourl,
         },
         {
           name: "VLC",
-          icon: "https://cloud.jsonpop.cn/go2index/player/vlc.png",
-          scheme: "vlc://" + this.audiourl,
+          icon: this.$cdnpath("images/player/vlc.png"),
+          scheme: "vlc://" + this.videourl,
         },
         {
           name: "Thunder",
-          icon: "https://cloud.jsonpop.cn/go2index/player/thunder.png",
+          icon: this.$cdnpath("images/player/thunder.png"),
           scheme: "thunder://" + this.getThunder,
         },
         {
+          name: "Aria2",
+          icon: this.$cdnpath("images/player/aria2.png"),
+          scheme: 'javascript:alert("Not Yet Supported")',
+        },
+        {
           name: "nPlayer",
-          icon: "https://cloud.jsonpop.cn/go2index/player/nplayer.png",
-          scheme: "nplayer-" + this.audiourl,
+          icon: this.$cdnpath("images/player/nplayer.png"),
+          scheme: "nplayer-" + this.videourl,
         },
         {
           name: "MXPlayer(Free)",
-          icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
+          icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.audiourl +
+            this.videourl +
             "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
             this.title +
             ";end",
         },
         {
           name: "MXPlayer(Pro)",
-          icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
+          icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.audiourl +
+            this.videourl +
             "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
             this.title +
             ";end",

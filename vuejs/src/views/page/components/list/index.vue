@@ -21,13 +21,14 @@
         <td
           class="td-item"
           @click.self="
-            go(
+            action(
               file,
               file.mimeType !== 'application/vnd.google-apps.folder'
                 ? 'view'
                 : ''
             )
           "
+          :title="file.name"
         >
           <svg class="iconfont" aria-hidden="true">
             <use :xlink:href="icons(file.mimeType)" />
@@ -45,14 +46,14 @@
         </td>
         <td class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
         <td class="is-hidden-mobile is-hidden-touch">
-          <span style="color: #ff9595;" class="icon" @click.stop="copy(file.path)">
+          <span style="color: #ff9595;" class="icon" @click.stop="action(file,'copy')">
             <i
               class="fa fa-copy faa-shake animated-hover"
               :title="$t('list.opt.copy')"
               aria-hidden="true"
             ></i>
           </span>
-          <span style="color: #ff9595;" class="icon" @click.stop="go(file, '_blank')">
+          <span style="color: #ff9595;" class="icon" @click.stop="action(file, '_blank')">
             <i
               class="fa fa-external-link faa-shake animated-hover"
               :title="$t('list.opt.newTab')"
@@ -62,7 +63,7 @@
           <span
             style="color: #ff9595;"
             class="icon"
-            @click.stop="go(file, 'down')"
+            @click.stop="action(file, 'down')"
             v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
           >
             <i
@@ -86,10 +87,7 @@ export default {
     icons: {
       type: Function,
     },
-    go: {
-      type: Function,
-    },
-    copy: {
+    action: {
       type: Function,
     },
   },

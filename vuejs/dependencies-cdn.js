@@ -18,8 +18,6 @@ module.exports = [
   // { name: 'brace/snippets/javascript', library: 'javascript', js: ' https://cdn.jsdelivr.net/npm/brace@0.11.1/snippets/javascript.js', css: '' },
   // { name: 'vue2-ace-editor', library: 'Vue2ACEEditor', js: 'https://cdn.jsdelivr.net/npm/vue2-ace-editor@0.0.15/index.min.js', css: '' },
   { name: 'markdown-it', library: 'markdownit', js: 'https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js', css: '' },
-  // { name: 'vue-plyr', library: 'vue-plyr', js: 'https://unpkg.com/vue-plyr@6.0.4/dist/vue-plyr.js', css: ''},
-  // { name: 'plyr', library: 'plyr', js: 'https://unpkg.com/plyr@3.6.2/dist/plyr.min.js', css: '' },
   { name: '', library: '', js: 'https://at.alicdn.com/t/font_1760192_axq33n6snd.js', css: '' },
   { name: '', library: '', js: '', css: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' },
   { name: '', library: '', js: '', css: 'https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css' },
