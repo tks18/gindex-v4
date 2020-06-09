@@ -29,7 +29,6 @@
 
 html {
   background-color: #342b38;
-  font-family: 'Berkshire Swash', cursive;
 }
 
 .navbar {
@@ -359,10 +358,15 @@ body {
   margin:1rem 0;
   background-color: #342b38;
   text-align:center;
-  font-family: 'Major Mono Display', monospace;
-  h1,h2,h3,h4,h5,h6 {
+  h1,h2,h3,h4,h5,h6,p {
     color: white;
-    font-family: 'Pacifico', cursive;
+  }
+  a {
+    color: #ff9595;
+  }
+  a:hover {
+    color: white;
+    background-color: transparent;
   }
 }
 
