@@ -156,8 +156,8 @@ export default {
       this.render($state);
     },
     render($state) {
-      this.headmd = { display: false, file: {}, path: "" };
-      this.readmemd = { display: false, file: {}, path: "" };
+      this.headmd = { display: false, file: "", path: "" };
+      this.readmemd = { display: false, file: "", path: "" };
       var path = this.$route.path;
       var password = localStorage.getItem("password" + path);
       let q = this.$route.query.q;
@@ -171,7 +171,7 @@ export default {
         .then((res) => {
           var body = res.data;
           if (body) {
-            // 判断响应状态
+            // Determine the response status
             if (body.error && body.error.code == "401") {
               this.checkPassword(path);
               return;
@@ -188,7 +188,7 @@ export default {
               this.files = this.buildFiles(data.files);
             }
             if (data.files) {
-              this.renderMd(data.files, path);
+              this.renderMd();
             }
           }
           if (body.nextPageToken) {
@@ -304,29 +304,27 @@ export default {
         return;
       }
     },
-    renderMd(files, path) {
+    renderMd() {
       var cmd = this.$route.params.cmd;
+      var version = require("../../../package.json").version;
       if (cmd) {
         return;
       }
-      files.forEach((item) => {
-        // HEAD.md
-        if (item.name === "HEAD.md") {
-          this.headmd = {
-            display: true,
-            file: item,
-            path: path + item.name,
-          };
-        }
-        // REDEME.md
-        if (item.name === "README.md") {
-          this.readmemd = {
-            display: true,
-            file: item,
-            path: path + item.name,
-          };
-        }
-      });
+      if (window.themeOptions.render.head_md) {
+        this.headmd = {
+          display: true,
+          file: "HEAD.md",
+          path: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v"+version+"/vuejs/dist/HEAD.md",
+        };
+      }
+      // README.md
+      if (window.themeOptions.render.readme_md) {
+        this.readmemd = {
+          display: true,
+          file: "README.md",
+          path: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v"+version+"/vuejs/dist/README.md",
+        };
+      }
     },
     goSearchResult(file, target) {
       this.loading = true;
