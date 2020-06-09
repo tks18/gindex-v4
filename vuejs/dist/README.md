@@ -18,10 +18,10 @@
 <br />
 <br />
 
-##### For Official Code of Conduct - [Click Here](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md).
+***For Official Code of Conduct - [Click Here](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md).***
 
-##### For Official Project License(Last updated on 08-06-2019) - [Click Here](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/LICENSE)
+***For Official Project License(Last updated on 08-06-2019) - [Click Here](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/LICENSE).***
 
-##### For Official Project Contributing Rules - [Click Here](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md).
+***For Official Project Contributing Rules - [Click Here](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md)***
 
 ###### Thank You !! - Shan.tk
