@@ -23,7 +23,7 @@
     <div class="columns is-mobile is-centered">
       <div class="field is-grouped is-grouped-multiline">
         <div class="control">
-          <div class="tags has-addons" style="font-family: 'Monoton', cursive;">
+          <div class="tags has-addons">
           <a
             class="icon-tag"
             href="https://github.com/tks18/gindex-v4"
