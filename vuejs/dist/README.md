@@ -15,6 +15,8 @@
         </a>
     </div>
 </div>
+<br />
+<br />
 
 ##### For Official Code of Conduct - [Click Here](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md).
 
