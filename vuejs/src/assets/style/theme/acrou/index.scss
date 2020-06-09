@@ -7,6 +7,7 @@
   url('//at.alicdn.com/t/font_1760192_tl9awsq3di.ttf') format('truetype'),
   url('//at.alicdn.com/t/font_1760192_tl9awsq3di.svg#iconfont') format('svg');
 }
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Faster+One&family=Fredericka+the+Great&family=Major+Mono+Display&family=Monoton&family=Pacifico&family=Permanent+Marker&display=swap');
 
 /* width */
 ::-webkit-scrollbar {
@@ -28,6 +29,7 @@
 
 html {
   background-color: #342b38;
+  font-family: 'Berkshire Swash', cursive;
 }
 
 .navbar {
@@ -45,6 +47,10 @@ html {
 
 .navbar-active {
   color: #bbf1c8;
+}
+
+.nav-heading {
+  font-family: 'Berkshire Swash', cursive;
 }
 
 .navbar-item:hover {
@@ -305,12 +311,15 @@ body {
   font-size: 18px;
   padding-top: 10px;
   padding-bottom: 10px;
+  letter-spacing: 2px;
+  font-family: 'Monoton', cursive;
 }
 
 .footer-disclaimer {
   color: whitesmoke;
   font-weight: bold;
-  padding: 10px
+  padding: 10px;
+  font-family: 'Major Mono Display', monospace;
 }
 
 .disclaimer-head {
@@ -347,6 +356,14 @@ body {
 
 .mkdown-text {
   color: white;
+  margin:1rem 0;
+  background-color: #342b38;
+  text-align:center;
+  font-family: 'Major Mono Display', monospace;
+  h1,h2,h3,h4,h5,h6 {
+    color: white;
+    font-family: 'Pacifico', cursive;
+  }
 }
 
 .sr-only {

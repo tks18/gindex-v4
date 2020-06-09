@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headmd :option="headmd" class="mkdown-text" style="margin:1rem 0;" v-if="renderHeadMD && headmd.display"></headmd>
+    <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
     <div class="golist" v-loading="loading">
       <bread-crumb ref="breadcrumb"></bread-crumb>
       <list-view

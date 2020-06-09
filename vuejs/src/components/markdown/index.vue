@@ -94,6 +94,11 @@ export default {
     flex-direction: column;
   }
 }
+.markdown-body {
+  .content {
+    color: white;
+  }
+}
 // Baidu cloud
 $baidupanHeight: 30px;
 $baidupanPadding: 10px;
