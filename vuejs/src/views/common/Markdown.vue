@@ -1,5 +1,5 @@
 <template>
-  <div class="content" v-html="content"></div>
+  <div class="content mkdown-text" v-html="content"></div>
 </template>
 
 <script>
