@@ -14,7 +14,7 @@
         <div class="control">
           <div class="tags has-addons">
             <span class="icon-tag-license">
-              Licensed under <a class="footer-license-link" href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/LICENSE" target="_blank">MIT </a>&nbsp;&nbsp;<i class="fas fa-id-badge"></i>
+              Licensed under <a class="footer-license-link" href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/LICENSE" target="_blank">MIT </a>&nbsp;&nbsp;<i class="fas fa-id-badge"></i>
             </span>
           </div>
         </div>
