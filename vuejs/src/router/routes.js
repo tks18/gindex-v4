@@ -11,7 +11,8 @@ const frameIn = [{
     component: _import("page/GoText"),
     meta: {
       ...meta,
-      view: 'text'
+      view: 'text',
+      requiresAuth: true,
     }
   },
   {
@@ -19,7 +20,8 @@ const frameIn = [{
     component: _import("page/GoPdf"),
     meta: {
       ...meta,
-      view: 'pdf'
+      view: 'pdf',
+      requiresAuth: true,
     }
   },
   {
@@ -27,7 +29,8 @@ const frameIn = [{
     component: _import("page/GoVideo"),
     meta: {
       ...meta,
-      view: 'video'
+      view: 'video',
+      requiresAuth: true,
     }
   },
   {
@@ -35,7 +38,8 @@ const frameIn = [{
     component: _import("page/GoAudio"),
     meta: {
       ...meta,
-      view: 'audio'
+      view: 'audio',
+      requiresAuth: true,
     }
   },
   {
@@ -43,7 +47,8 @@ const frameIn = [{
     component: _import("page/GoImg"),
     meta: {
       ...meta,
-      view: 'image'
+      view: 'image',
+      requiresAuth: true,
     }
   },
   {
@@ -51,7 +56,8 @@ const frameIn = [{
     component: _import("page/GoList"),
     meta: {
       ...meta,
-      view: 'list'
+      view: 'list',
+      requiresAuth: true,
     }
   },
   {
@@ -59,9 +65,28 @@ const frameIn = [{
     component: _import("page/GoList"),
     meta: {
       ...meta,
-      view: 'list'
+      view: 'list',
+      requiresAuth: true,
     }
   },
+  {
+      path: '/login',
+      name: 'login',
+      component: _import("page/Login"),
+      meta: {
+          ...meta,
+          guest: true
+      }
+  },
+  {
+      path: '/register',
+      name: 'register',
+      component: _import("page/Register"),
+      meta: {
+          ...meta,
+          guest: true
+      }
+  }
 ];
 
 export default frameIn;

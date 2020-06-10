@@ -43,13 +43,43 @@ Vue.use(febAlive, { router });
  * 路由拦截
  * 权限验证
  */
-router.beforeEach(async (to, from, next) => {
-  if (process.env.NODE_ENV === "development") {
-    console.log("before:");
-    console.log(to, from);
-  }
+router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
-  next();
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+      if (localStorage.getItem('jwt') == null) {
+          console.log("jwt");
+          next({
+              path: '/login',
+              params: { nextUrl: to.fullPath }
+          })
+      } else {
+          let user = JSON.parse(localStorage.getItem('user'))
+          if(to.matched.some(record => record.meta.is_admin)) {
+              if(user.is_admin == 1){
+                console.log("is_admin");
+                  next({path: "/0:/"})
+              }
+              else{
+                console.log("else1");
+                  next({ path: "/0:/", name: 'userboard'})
+              }
+          }else {
+            console.log("else2");
+              next({path: "/0:/"})
+          }
+      }
+  } else if(to.matched.some(record => record.meta.guest)) {
+      if(localStorage.getItem('jwt') == null){
+        console.log("guest1")
+          next({ path: "/login/"})
+      }
+      else{
+        console.log("guest2")
+          next({ path: '/0:/'})
+      }
+  }else {
+      next()
+  }
 });
 
 router.afterEach((to) => {
