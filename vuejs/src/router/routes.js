@@ -70,7 +70,7 @@ const frameIn = [{
     }
   },
   {
-      path: '/login',
+      path: '/0:/login',
       name: 'login',
       component: _import("page/Login"),
       meta: {
@@ -79,7 +79,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/register',
+      path: '/0:/register',
       name: 'register',
       component: _import("page/Register"),
       meta: {

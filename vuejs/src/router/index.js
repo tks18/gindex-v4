@@ -49,7 +49,7 @@ router.beforeEach( (to, from, next) => {
       if (localStorage.getItem('jwt') == null) {
           console.log("jwt");
           next({
-              path: '/login',
+              path: '/0:/login',
               params: { nextUrl: to.fullPath }
           })
       } else {
@@ -71,7 +71,7 @@ router.beforeEach( (to, from, next) => {
   } else if(to.matched.some(record => record.meta.guest)) {
       if(localStorage.getItem('jwt') == null){
         console.log("guest1")
-          next({ path: "/login/"})
+          next({ path: "/0:/login/"})
       }
       else{
         console.log("guest2")
