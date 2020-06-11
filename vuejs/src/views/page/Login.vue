@@ -38,10 +38,9 @@
                         password: this.password
                     })
                     .then(response => {
-                        let is_admin = response.data.user.is_admin
                         localStorage.setItem('user',JSON.stringify(response.data.user))
-                        localStorage.setItem('jwt',response.data.token)
-
+                        localStorage.setItem('jwt', response.data.token)
+                        console.log(response.data.token);
                         if (localStorage.getItem('jwt') != null){
                             this.$emit('loggedIn')
                             if(this.$route.params.nextUrl != null){
