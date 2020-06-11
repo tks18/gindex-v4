@@ -1,22 +1,23 @@
 <template>
-    <div>
+    <div class="content login-page">
         <h4>Login</h4>
         <form>
-            <label for="email" >E-Mail Address</label>
+            <label for="email" > > Your E-Mail Address</label>
             <div>
                 <input id="email" type="email" v-model="email" required autofocus>
             </div>
             <div>
-                <label for="password" >Password</label>
+                <label for="password" > > Your Password</label>
                 <div>
                     <input id="password" type="password" v-model="password" required>
                 </div>
             </div>
             <div>
-                <button type="submit" @click="handleSubmit">
+                <button class="login-button" type="submit" @click="handleSubmit">
                     Login
                 </button>
             </div>
+            <a class="login-register" href="/0:register/">No Account ? Click Here to Register</a>
         </form>
     </div>
 </template>
