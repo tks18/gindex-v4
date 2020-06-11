@@ -74,7 +74,7 @@
                                 this.$router.push(this.$route.params.nextUrl)
                             }
                             else{
-                                this.$router.push('/0:/')
+                                this.$router.push('/0:home/')
                             }
                         }
                     })

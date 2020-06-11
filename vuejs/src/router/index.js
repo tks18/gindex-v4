@@ -1,12 +1,12 @@
 import Vue from "vue";
 import febAlive from "feb-alive";
 import VueRouter from "vue-router";
-// 路由数据
+// Routing data
 
 import routes from "./routes";
 import store from '@/store/index';
 
-// 在router实例化之前重写history
+// Rewrite history before router instantiation
 febAlive.resetHistory();
 
 // fix vue-router NavigationDuplicated
@@ -21,7 +21,7 @@ VueRouter.prototype.replace = function replace(location) {
 
 Vue.use(VueRouter);
 
-// 导出路由 在 main.js 里使用
+// Export route is used in main.js
 const router = new VueRouter({
   mode: "history",
   scrollBehavior(to, from, savePosition) {
@@ -40,42 +40,33 @@ const router = new VueRouter({
 Vue.use(febAlive, { router });
 
 /**
- * 路由拦截
- * 权限验证
+ * Route interception
+ * ASD
  */
 router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
+  if(to.matched.some(record => record.meta.redirect)){
+    next({path: "/0:/"})
+  }
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('jwt') == null) {
-          console.log("jwt");
           next({
-              path: '/0:/login',
+              path: '/0:login/',
               params: { nextUrl: to.fullPath }
           })
       } else {
-          let user = JSON.parse(localStorage.getItem('user'))
-          if(to.matched.some(record => record.meta.is_admin)) {
-              if(user.is_admin == 1){
-                console.log("is_admin");
-                  next({path: "/0:/"})
-              }
-              else{
-                console.log("else1");
-                  next({ path: "/0:/", name: 'userboard'})
-              }
-          }else {
-            console.log("else2");
-              next({path: "/0:/"})
-          }
+        next()
       }
   } else if(to.matched.some(record => record.meta.guest)) {
       if(localStorage.getItem('jwt') == null){
-        console.log("guest1")
-          next({ path: "/0:/login/"})
+          next()
       }
       else{
-        console.log("guest2")
-          next({ path: '/0:/'})
+        if(to.matched.some(record => record.meta.home)){
+          next();
+        } else {
+          next({path: '/0:/'})
+        }
       }
   }else {
       next()

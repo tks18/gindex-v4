@@ -25,6 +25,14 @@ const frameIn = [{
     }
   },
   {
+    path: "/",
+    component: _import("page/GoList"),
+    meta: {
+      ...meta,
+      redirect: true,
+    }
+  },
+  {
     path: "/:id(\\d)::cmd(video)/:path",
     component: _import("page/GoVideo"),
     meta: {
@@ -70,7 +78,7 @@ const frameIn = [{
     }
   },
   {
-      path: '/0:/login',
+      path: '/:id(\\d)::cmd(login)/',
       name: 'login',
       component: _import("page/Login"),
       meta: {
@@ -79,12 +87,22 @@ const frameIn = [{
       }
   },
   {
-      path: '/0:/register',
+      path: '/:id(\\d)::cmd(register)/',
       name: 'register',
       component: _import("page/Register"),
       meta: {
           ...meta,
           guest: true
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(home)/',
+      name: 'home',
+      component: _import("page/Home"),
+      meta: {
+          ...meta,
+          guest: true,
+          home: true
       }
   }
 ];

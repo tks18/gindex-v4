@@ -47,12 +47,7 @@
                                 this.$router.push(this.$route.params.nextUrl)
                             }
                             else {
-                                if(is_admin== 1){
-                                    this.$router.push('0:/')
-                                }
-                                else {
-                                    this.$router.push('0:/')
-                                }
+                                this.$router.push('/0:home/')
                             }
                         }
                     });
