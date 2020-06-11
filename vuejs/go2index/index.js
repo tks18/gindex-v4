@@ -21,7 +21,10 @@ var authConfig = {
   enable_cors_file_down: false,
   enable_password_file_verify: true,
 };
-
+var routes = {
+  loginRoute: 'https://glorytoheaven-db.herokuapp.com/login',
+  registerRoute: 'https://glorytoheaven-db.herokuapp.com/register',
+};
 var themeOptions = {
   languages: "en",
   render: {
@@ -82,6 +85,7 @@ function html(current_drive_order = 0, model = {}) {
       version: authConfig.version,
       themeOptions: themeOptions,
     })}');
+    window.apiRoutes = JSON.parse('${JSON.stringify(routes)}');
     window.themeOptions = JSON.parse('${JSON.stringify(themeOptions)}');
     window.gds = JSON.parse('${JSON.stringify(
       authConfig.roots.map((it) => it.name)

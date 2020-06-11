@@ -32,7 +32,7 @@
             handleSubmit(e){
                 e.preventDefault()
                 if (this.password.length > 0) {
-                    this.$http.post('http://localhost:3000/login', {
+                    this.$http.post(window.apiRoutes.loginRoute, {
                         email: this.email,
                         password: this.password
                     })

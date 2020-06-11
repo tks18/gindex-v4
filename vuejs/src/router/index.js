@@ -46,7 +46,7 @@ Vue.use(febAlive, { router });
 router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
   if(to.matched.some(record => record.meta.redirect)){
-    next({path: "/0:/"})
+    next({path: "/0:home/"})
   }
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('jwt') == null) {
