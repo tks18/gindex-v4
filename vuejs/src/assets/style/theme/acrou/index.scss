@@ -429,3 +429,138 @@ body {
 .column:hover {
   border: 1px solid #ff9595;
 }
+
+.home {
+  color: white;
+  h1,h2,h3,h4,h5,h6 {
+    color: white;
+  }
+  p {
+    color: white;
+    font-family: monospace;
+  }
+  padding: 10px;
+  margin: 20px;
+  border: 2px solid #ff9595;
+  border-radius: 0.4rem;
+  .home-apikey {
+    color: #bbf1c8;
+  }
+  .home-disclaimer {
+    color: grey;
+  }
+  .home-emails {
+    color: #ff9595;
+  }
+  .home-alert {
+    color: #b6eb7a;
+  }
+  .home-buttons {
+    padding: 40px;
+    .logout-button,.content-button,.login-button,.registration-button {
+      padding: 10px;
+      margin: 20px;
+      border-radius: 0.7rem;
+    }
+    .logout-button {
+      background-color: #fb7813;
+      color: white;
+    }
+    .content-button {
+      background-color: #b6eb7a;
+      color: #17706e;
+    }
+    .login-button {
+      background-color: #b6eb7a;
+      color: #17706e;
+    }
+    .registration-button {
+      background-color: #fb7813;
+      color: white;
+    }
+  }
+}
+
+.login-page {
+  text-align: center;
+  border: 2px solid #ff9595;
+  border-radius: 0.5rem;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin: 1px;
+  font-family: monospace;
+  label {
+    color: white;
+  }
+  h4 {
+    color: white;
+  }
+  input {
+    margin: 5px;
+    background-color: #342b38;
+    border: 1px solid #ff9595;
+    color: #ff9595;
+    font-family: monospace;
+    font-size: 18px;
+  }
+  input:hover {
+    background-color: #342b38;
+  }
+  .login-button {
+    background-color: #b6eb7a;
+    color: #17706e;
+    border: none;
+    padding: 5px 10px 5px 10px;
+  }
+  .login-register {
+    color: white;
+    border: none;
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+  }
+  .login-register:hover {
+    color: #ff9595;
+  }
+}
+
+.registration-page {
+  text-align: center;
+  border: 2px solid #ff9595;
+  border-radius: 0.5rem;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin: 1px;
+  font-family: monospace;
+  label {
+    color: white;
+  }
+  h4 {
+    color: white;
+  }
+  input {
+    margin: 5px;
+    background-color: #342b38;
+    border: 1px solid #ff9595;
+    color: #ff9595;
+    font-family: monospace;
+    font-size: 18px;
+  }
+  input:hover {
+    background-color: #342b38;
+  }
+  .registration-button {
+    background-color: #fb7813;
+    color: white;
+    border: none;
+    padding: 5px 10px 5px 10px;
+  }
+  .registration-login {
+    color: white;
+    border: none;
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+  }
+  .registration-login:hover {
+    color: #ff9595;
+  }
+}

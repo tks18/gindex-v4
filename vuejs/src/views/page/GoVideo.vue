@@ -1,4 +1,4 @@
-videourl<template>
+<template>
   <div class="content g2-content">
     <div class="video-content">
     <vue-plyr>
