@@ -46,7 +46,6 @@
             </div>
           </div>
         </div>
-
         <div class="navbar-end">
           <!-- is-hidden-desktop -->
           <div class="navbar-item" v-show="showSearch">
@@ -82,6 +81,15 @@
             @click.stop="$refs.viewMode.toggleMode"
           >
             <view-mode ref="viewMode" />
+          </a>
+          <a
+            class="navbar-item"
+            title="Logout"
+            @click="logout"
+            v-if="logoutButton"
+            href="/0:home/"
+           >
+            <i class="fas fa-sign-out-alt"></i>
           </a>
         </div>
       </div>
@@ -148,6 +156,15 @@ export default {
     burgerClick() {
       this.isActive = !this.isActive;
     },
+    logout() {
+      let user = localStorage.getItem('user');
+      let token = localStorage.getItem('jwt');
+      if(user != null && token != null) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('jwt');
+        this.$router.push('/0:home/')
+      }
+    }
   },
   computed: {
     getCurrGD() {
@@ -157,6 +174,15 @@ export default {
 // Folder does not support searching
       return window.MODEL ? window.MODEL.root_type < 2 : true
     },
+    logoutButton() {
+      let user = localStorage.getItem('user');
+      let token = localStorage.getItem('jwt');
+      if(user != null && token != null) {
+        return true;
+      } else {
+        return false
+      }
+    }
   },
   watch: {
     "$route.params.id": "chooseGD",
