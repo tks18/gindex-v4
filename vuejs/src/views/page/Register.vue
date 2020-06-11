@@ -52,7 +52,6 @@
                         name: this.name,
                         email: this.email,
                         password: this.password,
-                        is_admin: null
                     })
                     .then(response => {
                         localStorage.setItem('user',JSON.stringify(response.data.user))
