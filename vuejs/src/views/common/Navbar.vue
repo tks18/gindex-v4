@@ -27,14 +27,14 @@
       <div
         id="navbarBasicExample"
         :class="'navbar-menu ' + (isActive ? 'is-active' : '')"
-        style="background-color: #342b38;"
+        style="background-color: black;"
       >
         <div class="navbar-start">
           <div
             class="navbar-item has-dropdown is-hoverable"
             v-if="gds.length > 0 && getCurrGD.length > 0"
           >
-            <a class="navbar-link" style="background-color: #342b38;">{{ this.currgd.name }}</a>
+            <a class="navbar-link" style="background-color: black;">{{ this.currgd.name }}</a>
             <div class="navbar-dropdown is-boxed">
               <a
                 class="navbar-item"

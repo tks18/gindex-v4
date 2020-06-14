@@ -12,7 +12,7 @@
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
-  background-color: #342b38;
+  background-color: black;
 }
 
 /* Track */
@@ -28,16 +28,16 @@
 }
 
 html {
-  background-color: #342b38;
+  background-color: black;
 }
 
 .navbar {
-  background-color: #342b38;
+  background-color: black;
   border-bottom: 3px solid #ff9595;
 }
 
 .navbar-dropdown{
-  background-color: #342b38;
+  background-color: black;
 }
 
 .navbar-link,.navbar-item {
@@ -100,7 +100,7 @@ body {
 .table {
   width: 100%;
   table-layout: fixed;
-  background-color: #342b38;
+  background-color: black;
   border-top: 2px solid white;
   border-bottom: 2px solid white;
 
@@ -163,7 +163,7 @@ body {
 .video-content {
   width: 100%;
   border: 1px solid #ff9595;
-  background-color: #342b38;
+  background-color: black;
   position: relative;
   padding-bottom: 2%;
 
@@ -177,25 +177,25 @@ body {
 
 
 .video-content:hover {
-  border: 1px solid #342b38;
+  border: 1px solid black;
 }
 
 .audio-card {
   text-align: center;
   width: 100%;
   padding: 5%;
-  background-color: #342b38;
+  background-color: black;
   border: 1px solid #ff9595;
 }
 
 .audio-card:hover {
-  border: 1px solid #342b38;
+  border: 1px solid black;
 }
 
 //search bar
 .search-input,
 .search-input::-webkit-input-placeholder {
-  color: #342b38;
+  color: black;
 }
 
 .golist {
@@ -276,7 +276,7 @@ body {
 
 .is-divider-vertical[data-content]::after,
 .is-divider[data-content]::after {
-  color: #342b38;
+  color: black;
   background-color: #ff9595;
 }
 
@@ -332,11 +332,11 @@ body {
 
 .card-header-title {
   color: #ff9595;
-  background-color: #342b38;
+  background-color: black;
 }
 
 .card-content {
-  background-color: #342b38;
+  background-color: black;
   color: #ff9595;
   font-weight: bold;
 }
@@ -347,14 +347,14 @@ body {
 
 .download-link {
   border: 1px solid #ff9595;
-  background-color: #342b38;
+  background-color: black;
   color: #ff9595;
 }
 
 .mkdown-text {
   color: white;
   margin:1rem 0;
-  background-color: #342b38;
+  background-color: black;
   text-align:center;
   h1,h2,h3,h4,h5,h6,p,strong,em {
     color: white;
@@ -383,7 +383,7 @@ body {
 
 #copy-url {
   padding: 10px;
-  background-color: #342b38;
+  background-color: black;
   border: 1px solid #ff9595;
   margin: 10px;
   color: #FF9595;
@@ -393,7 +393,7 @@ body {
 }
 
 #copy-url:hover {
-  border: 1px solid #342b38;
+  border: 1px solid black;
   color: #ff9595;
 }
 
@@ -408,7 +408,7 @@ body {
 
 .download-button {
   padding: 10px;
-  background-color: #342b38;
+  background-color: black;
   border: 1px solid #ff9595;
   margin: 10px;
   color: #FF9595;
@@ -418,7 +418,7 @@ body {
 }
 
 .download-button:hover {
-  border: 1px solid #342b38;
+  border: 1px solid black;
   color: #ff9595;
 }
 
@@ -497,14 +497,14 @@ body {
   }
   input {
     margin: 5px;
-    background-color: #342b38;
+    background-color: black;
     border: 1px solid #ff9595;
     color: #ff9595;
     font-family: monospace;
-    font-size: 18px;
+    font-size: 17px;
   }
   input:hover {
-    background-color: #342b38;
+    background-color: black;
   }
   .login-button {
     background-color: #b6eb7a;
@@ -539,14 +539,14 @@ body {
   }
   input {
     margin: 5px;
-    background-color: #342b38;
+    background-color: black;
     border: 1px solid #ff9595;
     color: #ff9595;
     font-family: monospace;
     font-size: 18px;
   }
   input:hover {
-    background-color: #342b38;
+    background-color: black;
   }
   .registration-button {
     background-color: #fb7813;
