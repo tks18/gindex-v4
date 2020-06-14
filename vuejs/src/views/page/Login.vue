@@ -44,10 +44,18 @@
                     .then(response => {
                       console.log(response);
                       if(response.data.auth && response.data.registered){
-                          this.resultmessage = "> Logged in Successfully. You will be Redirected now.";
-                          setTimeout(() => {
-                            this.$router.push('/0:register/')
-                          }, 2000)
+                          localStorage.setItem("tokendata", JSON.stringify({ token: response.data.token ,issuedate: response.data.issuedat, expirydate: response.data.expiryat }));
+                          localStorage.setItem("userdata", JSON.stringify( response.data.tokenuser ));
+                          var token = JSON.parse(localStorage.getItem("tokendata"));
+                          var userData = JSON.parse(localStorage.getItem("userdata"));
+                          console.log(token);
+                          console.log(userData);
+                          if(token){
+                            this.resultmessage = `> Logged in Successfully. Your token will expiry at ${token.expirydate}. You will be Redirected now.`;
+                            setTimeout(() => {
+                              this.$router.push('/0:home/')
+                            }, 2000)
+                          }
                       } else {
                           this.resultmessage = "> "+response.data.message;
                       }
