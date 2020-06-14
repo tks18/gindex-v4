@@ -489,6 +489,9 @@ body {
   padding-bottom: 30px;
   margin: 1px;
   font-family: monospace;
+  p {
+    text-overflow: clip;
+  }
   label {
     color: white;
   }
