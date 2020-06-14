@@ -58,13 +58,6 @@
 </template>
 
 <script>
-var interval = setInterval(function(){
-  var countforVideo = document.getElementById("vid").readyState;
-  if(countforVideo == 4){
-    document.getElementById("vid").play();
-    clearInterval(interval);
-  }
-}, 2000)
 import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
