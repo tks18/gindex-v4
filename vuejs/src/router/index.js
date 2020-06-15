@@ -1,6 +1,7 @@
 import Vue from "vue";
 import febAlive from "feb-alive";
 import VueRouter from "vue-router";
+import axios from "axios";
 // Routing data
 
 import routes from "./routes";
@@ -45,33 +46,52 @@ Vue.use(febAlive, { router });
  */
 router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
-  // if(to.matched.some(record => record.meta.redirect)){
-  //   next({path: "/0:home/"})
-  // }
-  // if(to.matched.some(record => record.meta.requiresAuth)) {
-  //     if (localStorage.getItem('jwt') == null) {
-  //         next({
-  //             path: '/0:login/',
-  //             params: { nextUrl: to.fullPath }
-  //         })
-  //     } else {
-  //       next()
-  //     }
-  // } else if(to.matched.some(record => record.meta.guest)) {
-  //     if(localStorage.getItem('jwt') == null){
-  //         next()
-  //     }
-  //     else{
-  //       if(to.matched.some(record => record.meta.home)){
-  //         next();
-  //       } else {
-  //         next({path: '/0:/'})
-  //       }
-  //     }
-  // }else {
-  //     next()
-  // }
-  next();
+  if(to.matched.some(record => record.meta.redirect)){
+    next({path: "/0:home/"})
+  }
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    var tokenData = JSON.parse(localStorage.getItem("tokendata"));
+    var userData = JSON.parse(localStorage.getItem("userdata"));
+    if(tokenData != null && userData != null){
+      axios.post(window.apiRoutes.verifyRoute, {
+        token: tokenData.token
+      }).then(response => {
+        if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
+          localStorage.removeItem("tokendata");
+          localStorage.removeItem("userdata");
+          next({ name: 'login', params: { nextUrl: to.fullPath, data: "Your Token Got Expired. Login to Generate Another Token. You will be Redirected to Login Page Automatically." } });
+        } else {
+          if(to.matched.some(record => record.meta.admin)){
+            if(userData.admin){
+              next();
+            } else {
+              next({ path: '/0:home/' });
+            }
+          } else {
+
+          }
+        }
+      })
+    } else {
+      localStorage.removeItem("tokendata");
+      localStorage.removeItem("userdata");
+      next({ name: 'results', params: { nextUrl: to.fullPath, data: "You are Not Logged in to View Content. Please Login to Continue", redirectUrl: '/0:login/' } });
+      console.log(to)
+    }
+  } else if(to.matched.some(record => record.meta.guest)) {
+      if(localStorage.getItem('jwt') == null){
+          next()
+      }
+      else{
+        if(to.matched.some(record => record.meta.home)){
+          next();
+        } else {
+          next({path: '/0:/'})
+        }
+      }
+  }else {
+      next()
+  }
 });
 
 router.afterEach((to) => {

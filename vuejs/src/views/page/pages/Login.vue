@@ -1,5 +1,8 @@
 <template>
     <div class="content login-page">
+      <button class="login-top-buttons" type="submit" @click="homeroute">Home</button><span style="color: #ff9595"> | </span>
+      <button class="login-top-buttons" type="submit" @click="adminroute">Request Access</button>
+      <hr>
       <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
         <h4>Login</h4>
@@ -19,7 +22,6 @@
                     Login
                 </button>
             </div>
-            <a class="login-register" href="/0:register/">No Account ? Click Here to Register</a>
         </form>
     </div>
 </template>
@@ -48,12 +50,15 @@
                           localStorage.setItem("userdata", JSON.stringify( response.data.tokenuser ));
                           var token = JSON.parse(localStorage.getItem("tokendata"));
                           var userData = JSON.parse(localStorage.getItem("userdata"));
-                          console.log(token);
-                          console.log(userData);
-                          if(token){
-                            this.resultmessage = `> Logged in Successfully. Your token will expiry at ${token.expirydate}. You will be Redirected now.`;
+                          if(token && userData){
+                            this.resultmessage = `> Logged in Successfully as ${userData.name}. Your token will expire at ${token.expirydate}.`;
                             setTimeout(() => {
-                              this.$router.push('/0:home/')
+                              if(this.$route.params.nextUrl != null){
+                                this.$router.push(this.$route.params.nextUrl)
+                              }
+                              else{
+                                  this.$router.push('/0:home/')
+                              }
                             }, 2000)
                           }
                       } else {
@@ -61,9 +66,21 @@
                       }
                     });
                 }
+            },
+            homeroute() {
+              this.$router.push('/0:home/')
+            },
+            adminroute() {
+              this.$router.push('/0:home/')
+            },
+            contentroute() {
+              this.$router.push('/0:/')
             }
         },
         mounted: function() {
+          if(this.$route.params.summa){
+            this.databasemessage = this.$route.params.data
+          } else {
             this.$http.post(window.apiRoutes.homeRoute).then(response => {
               console.log(response);
               if(response.status == '200'){
@@ -72,6 +89,7 @@
                 this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
               }
             })
+          }
         }
     }
 </script>

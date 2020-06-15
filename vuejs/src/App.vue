@@ -25,7 +25,7 @@ export default {
     this.i18nHandle(this.$i18n.locale);
   },
   mounted() {
-    this.checkVersion();
+    // this.checkVersion();
   },
   methods: {
     i18nHandle(val) {
