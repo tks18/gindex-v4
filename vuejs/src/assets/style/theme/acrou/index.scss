@@ -397,6 +397,10 @@ body {
   color: #ff9595;
 }
 
+.top-buttons {
+  display: inline-block;
+}
+
 .card {
   border: 1px solid #ff9595;
   border-radius: 0.2rem;
@@ -489,6 +493,17 @@ body {
   padding-bottom: 30px;
   margin: 1px;
   font-family: monospace;
+  .login-top-buttons {
+    margin: 5px;
+    background-color: transparent;
+    color: #ff9595;
+    border: 1px solid #ff9595;
+    padding: 5px;
+    border-radius: 0.5rem;
+  }
+  hr {
+    background-color: #ff9595;
+  }
   p {
     text-overflow: clip;
   }
@@ -521,6 +536,17 @@ body {
     margin: 5px;
     padding: 5px 10px 5px 10px;
   }
+  .login-top-buttons {
+    margin: 5px;
+    background-color: transparent;
+    color: #ff9595;
+    border: 1px solid #ff9595;
+    padding: 5px;
+    border-radius: 0.5rem;
+  }
+  hr {
+    background-color: #ff9595;
+  }
   .login-register:hover {
     color: #ff9595;
   }
@@ -540,7 +566,7 @@ body {
   h4 {
     color: white;
   }
-  input {
+  input,textarea {
     margin: 5px;
     background-color: black;
     border: 1px solid #ff9595;
@@ -548,8 +574,20 @@ body {
     font-family: monospace;
     font-size: 18px;
   }
-  input:hover {
+  input:hover,textarea:hover {
     background-color: black;
+  }
+  .guidelines {
+    color: #ff9595;
+  }
+  .guidelines:hover {
+    color: red;
+  }
+  input[checkbox]{
+    background-color: #ff9595;
+  }
+  input[checkbox]:checked {
+    background-color: #ff9595;
   }
   .registration-button {
     background-color: #fb7813;
@@ -562,6 +600,17 @@ body {
     border: none;
     margin: 5px;
     padding: 5px 10px 5px 10px;
+  }
+  .registration-top-buttons {
+    margin: 5px;
+    background-color: #ffe8df;
+    color: black;
+    border: none;
+    padding: 5px;
+    border-radius: 0.5rem;
+  }
+  hr {
+    background-color: #ff9595;
   }
   .registration-login:hover {
     color: #ff9595;

@@ -80,29 +80,57 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(login)/',
       name: 'login',
-      component: _import("page/Login"),
+      component: _import("page/pages/Login"),
       meta: {
           ...meta,
           guest: true
       }
   },
   {
-      path: '/:id(\\d)::cmd(register)/',
+      path: '/:id(\\d)::cmd(register)/user',
       name: 'register',
-      component: _import("page/Register"),
+      component: _import("page/pages/Register-user"),
       meta: {
           ...meta,
-          guest: true
+          requiresAuth: true,
+          admin: true
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(register)/otp',
+      name: 'otp',
+      component: _import("page/pages/OTP-Register"),
+      meta: {
+          ...meta,
+          guest: true,
       }
   },
   {
       path: '/:id(\\d)::cmd(home)/',
       name: 'home',
-      component: _import("page/Home"),
+      component: _import("page/pages/Home"),
       meta: {
           ...meta,
           guest: true,
           home: true
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(result)/',
+      name: 'results',
+      component: _import("page/pages/ResultPage"),
+      meta: {
+          ...meta,
+          guest: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(register)/request',
+      name: 'request',
+      component: _import("page/pages/Request"),
+      meta: {
+          ...meta,
+          guest: true,
       }
   }
 ];
