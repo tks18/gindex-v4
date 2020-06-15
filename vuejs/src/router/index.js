@@ -68,7 +68,7 @@ router.beforeEach( (to, from, next) => {
               next({ path: '/0:home/' });
             }
           } else {
-
+            next();
           }
         }
       })
