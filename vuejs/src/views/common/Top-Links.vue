@@ -76,7 +76,7 @@
                 this.admin = true;
                 this.superadmin = true
               } else {
-                this.logged = false
+                this.logged = true
               }
             }
           })
