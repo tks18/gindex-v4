@@ -3,6 +3,7 @@
     <div class="navigation-buttons">
       <li class="buttons" @click="homeRoute">Home</li>
       <li class="buttons" v-if="logged" @click="settingsRoute">My Settings</li>
+      <li class="buttons" v-if="!logged" @click="otpRegisterRoute">OTP Registration</li>
       <li class="buttons" v-if="logged && admin && !superadmin" @click="adminRoute">Admin Panel</li>
       <li class="buttons" v-if="logged && admin && superadmin" @click="superAdminRoute">Admin Panel</li>
       <li class="buttons" v-if="logged" @click="contentRoute">View Content</li>
@@ -48,10 +49,13 @@
           }
         },
         requestRoute() {
-          this.$router.push("/0:register/request")
+          this.$router.push("/0:register/request/user")
         },
         loginRoute() {
           this.$router.push("/0:login/")
+        },
+        otpRegisterRoute() {
+          this.$router.push("/0:register/otp")
         }
       },
       created() {
