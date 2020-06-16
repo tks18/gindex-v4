@@ -616,3 +616,119 @@ body {
     color: #ff9595;
   }
 }
+
+.content-top {
+  margin: 1px;
+  font-family: monospace;
+  text-align:center;
+  .top-buttons {
+    margin: 5px;
+    background-color: #ffe8df;
+    color: black;
+    border: none;
+    padding: 5px;
+    border-radius: 0.5rem;
+  }
+  .top-buttons:hover {
+    background-color: black;
+    color:white;
+    border: 1px solid #ff9595;
+  }
+}
+
+.adminarea {
+  align-items: center;
+  text-align: center;
+  border: 2px solid #ff9595;
+  border-radius: 0.5rem;
+  padding: 5px;
+  margin: 5px;
+  font-family: monospace;
+  .userdetails {
+    h3 {
+      text-decoration: underline;
+    }
+    .settings-button {
+      list-style: none;
+      display: inline-block;
+      background-color: #ff9595;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 0.5rem;
+      a {
+        color: white;
+      }
+      a:hover {
+        color: black;
+      }
+    }
+    h3,p {
+      color: white;
+      .details {
+        color: #ff9595
+      }
+    }
+  }
+  .title {
+    font-weight: bold;
+    color: #ff9595;
+    padding: 5px;
+    margin: 3px;
+    vertical-align: center;
+  }
+  hr {
+    border: 1px solid #ff9595;
+  }
+  .scopes {
+    h3 {
+      color: white;
+      text-decoration: underline;
+    }
+    color: white;
+    .scope-list {
+      list-style: none;
+      display: inline-block;
+      background-color: #ff9595;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 0.5rem;
+      a {
+        color: white;
+      }
+      a:hover {
+        color: black;
+      }
+    }
+    .scope-list:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+}
+
+.navigation-buttons {
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  margin: 5px;
+  font-family: monospace;
+  .buttons {
+    list-style: none;
+    color: white;
+    display: inline-block;
+    background-color: #ff9595;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 0.5rem;
+    a {
+      color: white;
+    }
+    a:hover {
+      color: black;
+    }
+  }
+  .buttons:hover {
+    background-color: black;
+    color: white;
+  }
+}

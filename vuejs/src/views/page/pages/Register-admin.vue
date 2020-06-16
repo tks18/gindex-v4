@@ -1,7 +1,7 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
-        <h4>Register</h4>
+        <h4>Register a Admin User</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
         <form @submit.prevent="handleSubmit">
@@ -57,7 +57,7 @@ export default {
                 if (this.password && this.password.length > 0)
                 {
                   if(this.checked){
-                    let url = window.apiRoutes.registerRoute
+                    let url = window.apiRoutes.adminRegisterRoute
                     this.$http.post(url, {
                           name: this.name,
                           email: this.email,
@@ -102,7 +102,7 @@ export default {
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
-              this.databasemessage = `🟢 Database is Live. You can Login. Ping - ${response.data.ping}ms`
+              this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
             } else {
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }

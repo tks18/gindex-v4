@@ -97,6 +97,28 @@ const frameIn = [{
       }
   },
   {
+      path: '/:id(\\d)::cmd(register)/admin',
+      name: 'register-admin',
+      component: _import("page/pages/Register-admin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          superadmin: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(register)/superadmin',
+      name: 'register-superadmin',
+      component: _import("page/pages/Register-superadmin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          superadmin: true,
+      }
+  },
+  {
       path: '/:id(\\d)::cmd(register)/otp',
       name: 'otp',
       component: _import("page/pages/OTP-Register"),
@@ -125,12 +147,50 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(register)/request',
+      path: '/:id(\\d)::cmd(register)/request/user',
       name: 'request',
       component: _import("page/pages/Request"),
       meta: {
           ...meta,
           guest: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(settings)/changepassword',
+      name: 'changepassword',
+      component: _import("page/pages/ChangePassword"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(admin)/',
+      name: 'admin',
+      component: _import("page/pages/AdminArea"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(superadmin)/',
+      name: 'superadmin',
+      component: _import("page/pages/SuperAdminArea"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(settings)/',
+      name: 'settings',
+      component: _import("page/pages/Settings"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
       }
   }
 ];
