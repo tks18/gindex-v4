@@ -65,7 +65,16 @@ router.beforeEach( (to, from, next) => {
             if(userData.admin){
               next();
             } else {
-              next({ path: '/0:home/' });
+              next({ name: 'results', params: { data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
+            }
+          } else {
+            next();
+          }
+          if(to.matched.some(record => record.meta.superadmin)){
+            if(userData.superadmin && userData.admin){
+              next();
+            } else {
+              next({ name: 'results', params: { data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
             }
           } else {
             next();

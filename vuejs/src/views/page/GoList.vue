@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
+    <TopLinks />
     <div class="golist" v-loading="loading">
       <bread-crumb ref="breadcrumb"></bread-crumb>
       <list-view
@@ -38,6 +38,7 @@
         $t('list.total') + ' ' + files.length + ' ' + $t('list.item')
       "
     ></div>
+    <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
     <readmemd :option="readmemd" v-if="renderReadMeMD && readmemd.display"></readmemd>
 
     <viewer
@@ -71,6 +72,7 @@ import {
 import { mapState } from "vuex";
 import BreadCrumb from "../common/BreadCrumb";
 import ListView from "./components/list";
+import TopLinks from "../common/Top-Links";
 import GridView from "./components/grid";
 import Markdown from "../common/Markdown";
 import InfiniteLoading from "vue-infinite-loading";
@@ -80,6 +82,7 @@ export default {
     BreadCrumb,
     ListView,
     GridView,
+    TopLinks,
     Headmd: Markdown,
     Readmemd: Markdown,
     InfiniteLoading,

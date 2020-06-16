@@ -1,8 +1,6 @@
 <template>
     <div class="content login-page">
-      <button class="login-top-buttons" type="submit" @click="homeroute">Home</button><span style="color: #ff9595"> | </span>
-      <button class="login-top-buttons" type="submit" @click="adminroute">Request Access</button>
-      <hr>
+      <TopLinks />
       <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
         <h4>Login</h4>
@@ -26,7 +24,11 @@
     </div>
 </template>
 <script>
+import TopLinks from "../../common/Top-Links";
     export default {
+        components: {
+          TopLinks,
+        },
         data(){
             return {
                 email : "",
@@ -54,10 +56,10 @@
                             this.resultmessage = `> Logged in Successfully as ${userData.name}. Your token will expire at ${token.expirydate}.`;
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
-                                this.$router.push(this.$route.params.nextUrl)
+                                this.$router.push({name: "results", params: { data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
                               }
                               else{
-                                  this.$router.push('/0:home/')
+                                  this.$router.push({name: "results", params: { data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/0:home/' }})
                               }
                             }, 2000)
                           }
@@ -67,15 +69,6 @@
                     });
                 }
             },
-            homeroute() {
-              this.$router.push('/0:home/')
-            },
-            adminroute() {
-              this.$router.push('/0:home/')
-            },
-            contentroute() {
-              this.$router.push('/0:/')
-            }
         },
         mounted: function() {
           if(this.$route.params.summa){

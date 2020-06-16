@@ -1,5 +1,6 @@
 <template>
   <div class="content g2-content">
+    <TopLinks />
     <div class="video-content">
     <vue-plyr>
       <video :src="apiurl">
@@ -58,8 +59,12 @@
 </template>
 
 <script>
+import TopLinks from "../common/Top-Links";
 import { decode64 } from "@utils/AcrouUtil";
 export default {
+  components: {
+    TopLinks,
+  },
   data: function() {
     return {
       apiurl: "",

@@ -1,11 +1,9 @@
 <template>
     <div class="content login-page">
-      <button class="login-top-buttons" type="submit" @click="homeroute">Home</button><span style="color: #ff9595"> | </span>
-      <button class="login-top-buttons" type="submit" @click="requestroute">Request Access</button>
-      <hr>
+      <TopLinks />
       <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
-        <h4>Login</h4>
+        <h4>Verify Your Account</h4>
         <form @submit.prevent="handleSubmit">
             <label for="email" > > Your E-Mail Address</label>
             <div>
@@ -39,7 +37,11 @@
     </div>
 </template>
 <script>
+import TopLinks from "../../common/Top-Links";
     export default {
+      components: {
+        TopLinks,
+      },
         data(){
             return {
                 email : "",
@@ -73,12 +75,6 @@
                   this.confirmpassword = "";
                 }
             },
-            homeroute() {
-              this.$router.push('/0:home/')
-            },
-            requestroute() {
-              this.$router.push('/0:register/request/')
-            }
         },
         mounted: function() {
           if(this.$route.params.summa){

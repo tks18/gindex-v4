@@ -1,11 +1,7 @@
 <template>
     <div class="content registration-page">
-      <div class="top-buttons">
-        <button class="registration-top-buttons" type="submit" @click="homeroute">Home</button>
-        <button class="registration-top-buttons" type="submit" @click="loginroute">Login</button>
-      </div>
-      <hr>
-        <h4>Register</h4>
+      <TopLinks />
+        <h4>Request Access</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
         <form @submit.prevent="handleSubmit">
@@ -37,7 +33,11 @@
     </div>
 </template>
 <script>
+import TopLinks from "../../common/Top-Links";
     export default {
+      components: {
+        TopLinks,
+      },
         props : ["nextUrl"],
         data(){
             return {
