@@ -285,6 +285,7 @@ body {
   margin-left: 2px;
   margin-right: 2px;
   font-weight: bold;
+  font-size: 10px;
   padding-bottom: 10px;
 }
 
@@ -297,7 +298,7 @@ body {
 }
 
 .icon-tag-license,.footer-license-link {
-  color: #bbf1c8;
+  color: grey;
 }
 
 .footer-license-link:hover {
@@ -305,29 +306,30 @@ body {
 }
 
 .footer-copyright {
-  color: #ff9595;
+  color: white;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 13px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .footer-disclaimer {
-  color: whitesmoke;
-  font-weight: bold;
+  color: grey;
   padding: 10px;
-  font-family: 'Major Mono Display', monospace;
+  font-size: 10px;
 }
 
 .disclaimer-head {
   font-weight: bolder;
-  color: #ff9595;
+  color: white;
+  font-size: 10px;
 }
 
 .footer-policy {
-  color: #bbf1c8;
+  color: grey;
   font-weight: bold;
   padding: 10px;
+  font-size: 10px;
 }
 
 .card-header-title {
