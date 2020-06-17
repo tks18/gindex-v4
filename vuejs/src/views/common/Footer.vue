@@ -4,7 +4,7 @@
     <div class="field is-grouped is-grouped-multiline">
       <div class="control">
         <div class="tags has-addons">
-          <img width="300" height="150" style="margin: 2px;padding: 5px;border-radius: 1rem;border: 2px solid #ff9595" class="nav-image" src="https://i.ibb.co/Hx3ZqLm/giphy.gif">
+          <img width="150" height="75" style="margin: 2px;padding: 5px;border-radius: 1rem;border: 2px solid #ff9595" class="nav-image" src="https://i.ibb.co/Hx3ZqLm/giphy.gif">
         </div>
       </div>
     </div>
@@ -60,7 +60,25 @@
       <div class="field is-grouped is-grouped-multiline">
         <span class="footer-policy">
           <center>
-            Please Read our <a href="https://raw.githubusercontent.com/tks18/dope-t-rope/master/LICENSE" target="_blank">Privacy Policy </a>before Continuing.
+            <a href="https://raw.githubusercontent.com/tks18/dope-t-rope/master/LICENSE" target="_blank">Project License</a>
+          </center>
+        </span>
+      </div>
+    </div>
+    <div class="columns is-mobile is-centered">
+      <div class="field is-grouped is-grouped-multiline">
+        <span class="footer-policy">
+          <center>
+            Please Read our <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Code of Conduct. </a>.
+          </center>
+        </span>
+      </div>
+    </div>
+    <div class="columns is-mobile is-centered">
+      <div class="field is-grouped is-grouped-multiline">
+        <span class="footer-policy">
+          <center>
+            Please Read our <a href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md" target="_blank">Guidelines. </a>.
           </center>
         </span>
       </div>
