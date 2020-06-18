@@ -17,7 +17,7 @@
         Backend - Licensed Under <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/LICENSE" target="_blank"> MIT </a> Open Source License
       </div>
       <div class="footpad footer-policy">
-        FrontEnd - Licensed Under <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/LICENSE" target="_blank"> MIT </a> Open Source License
+        FrontEnd - Licensed Under <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/LICENSE" target="_blank"> GPL 3.0 </a> Open Source License
       </div>
       <div class="footpad footer-code">
         Please Read our <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Code of Conduct. </a>.

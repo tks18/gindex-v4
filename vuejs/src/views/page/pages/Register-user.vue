@@ -28,7 +28,36 @@
                     Register
                 </button>
             </div>
+            <p style="color: #bac964;">Note: Only Pending User Requests can be Added and Not Anybody.</p>
         </form>
+        <hr>
+        <div class="pendingusers">
+          <button class="getuserbutton" type="submit" @click="getPendingUsers">Reload Request List</button>
+          <p style="color: #bac964;">{{ pendingMessage }}</p>
+          <h2 class="pendinghead">Pending User List</h2>
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column-head column is-one-quarter">
+              <p>Name</p>
+            </div>
+            <div class="column-head column is-one-quarter">
+              <p>Email</p>
+            </div>
+            <div class="column-head column is-one-quarter">
+              <p>Message From Requester</p>
+            </div>
+          </div>
+          <div v-for="user in pendingUserList" v-bind:key="user.name" class="columns is-mobile is-multiline is-centered">
+            <div class="col-data column is-one-quarter">
+              <p>{{ user.name }}</p>
+            </div>
+            <div class="col-data column is-one-quarter">
+              <p>{{ user.email }}</p>
+            </div>
+            <div class="col-data column is-one-quarter">
+              <p>{{ user.message }}</p>
+            </div>
+          </div>
+        </div>
     </div>
 </template>
 <script>
@@ -49,6 +78,8 @@ export default {
                 userData: JSON.parse(localStorage.getItem("userdata")),
                 userToken: JSON.parse(localStorage.getItem("tokendata")),
                 checked: "",
+                pendingUserList: [],
+                pendingMessage: "",
             }
         },
         methods : {
@@ -96,6 +127,20 @@ export default {
             },
             settingsroute() {
               window.alert("Currently under Development")
+            },
+            getPendingUsers() {
+              let url = window.apiRoutes.getPendingUsers
+              this.$http.post(url, {
+                    adminuseremail: this.userData.email,
+              }).then(response => {
+                if(response){
+                  if(response.data.auth && response.data.registered){
+                    this.pendingUserList = response.data.users;
+                  } else {
+                    this.pendingMessage = response.data.message;
+                  }
+                }
+              })
             }
         },
         mounted: function(){
@@ -105,6 +150,18 @@ export default {
               this.databasemessage = `🟢 Database is Live. You can Login. Ping - ${response.data.ping}ms`
             } else {
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
+            }
+          })
+          let url = window.apiRoutes.getPendingUsers
+          this.$http.post(url, {
+                adminuseremail: this.userData.email,
+          }).then(response => {
+            if(response){
+              if(response.data.auth && response.data.registered){
+                this.pendingUserList = response.data.users;
+              } else {
+                this.pendingMessage = response.data.message;
+              }
             }
           })
           var userData = JSON.parse(localStorage.getItem("userdata"));

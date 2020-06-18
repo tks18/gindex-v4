@@ -718,3 +718,35 @@ body {
     color: white;
   }
 }
+
+.pendingusers {
+  .getuserbutton {
+    color: #ff9595;
+    background-color: black;
+    padding: 5px;
+    border-radius: 0.5rem;
+    border: 2px solid #ff9595;
+  }
+  .getuserbutton:hover {
+    background-color: #ff9595;
+    color: white;
+  }
+  p {
+    padding: 2px;
+    margin: 2px;
+  }
+  .pendinghead {
+    color: #ff9595;
+    margin: 5px;
+  }
+  .column-head {
+    font-weight: bold;
+    text-decoration: underline;
+    color: white;
+    margin: 10px;
+    padding: 4px;
+  }
+  .col-data {
+    color: #ff9595
+  }
+}
