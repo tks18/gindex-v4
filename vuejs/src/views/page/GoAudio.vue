@@ -35,7 +35,7 @@
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">
             <div
-              class="column"
+              class="column audiocolumn"
               v-for="(item, index) in players"
               v-bind:key="index"
             >
