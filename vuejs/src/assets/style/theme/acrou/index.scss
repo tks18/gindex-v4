@@ -149,7 +149,43 @@ body {
 }
 
 .footer {
+  color: grey;
+  font-size: 12px;
   background-color: transparent;
+  text-align: center;
+  a {
+    color: #ff9595;
+  }
+  a:hover {
+    color: white;
+  }
+  .footpad {
+    margin: 1px;
+    padding: 1px;
+  }
+  .footimage{
+    .gloryimage {
+      margin: 2px;
+      padding: 5px;
+      border-radius: 1rem;
+      border: 2px solid #ff9595;
+    }
+  }
+  .footer-license-link:hover {
+    color: #bbf1c8;
+  }
+  .footer-copyright {
+    color: white;
+    font-weight: bold;
+  }
+  .footer-disclaimer {
+    margin-bottom: 5px;
+  }
+  .disclaimer-head {
+    font-weight: bold;
+    font-size: 13px;
+    color: #ff9595;
+  }
 }
 
 .no-content {
@@ -280,58 +316,6 @@ body {
   background-color: #ff9595;
 }
 
-.icon-tag,.icon-tag-license {
-  padding: 5px;
-  margin-left: 2px;
-  margin-right: 2px;
-  font-weight: bold;
-  font-size: 10px;
-  padding-bottom: 10px;
-}
-
-.icon-tag, {
-  color: #ff9595;
-}
-
-.icon-tag:hover {
-  color: #ff9595;
-}
-
-.icon-tag-license,.footer-license-link {
-  color: grey;
-}
-
-.footer-license-link:hover {
-  color: #bbf1c8;
-}
-
-.footer-copyright {
-  color: white;
-  font-weight: bold;
-  font-size: 13px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.footer-disclaimer {
-  color: grey;
-  padding: 10px;
-  font-size: 10px;
-}
-
-.disclaimer-head {
-  font-weight: bolder;
-  color: white;
-  font-size: 10px;
-}
-
-.footer-policy {
-  color: grey;
-  font-weight: bold;
-  padding: 10px;
-  font-size: 10px;
-}
-
 .card-header-title {
   color: #ff9595;
   background-color: black;
@@ -428,11 +412,11 @@ body {
   color: #ff9595;
 }
 
-.column {
+.videocolumn,.audiocolumn {
   padding: 5px;
 }
 
-.column:hover {
+.videocolumn:hover,.audiocolumn:hover {
   border: 1px solid #ff9595;
 }
 
