@@ -8,13 +8,16 @@
         <img width="150" height="75" class="gloryimage" src="https://i.ibb.co/Hx3ZqLm/giphy.gif">
       </div>
       <div class="footpad footicons">
-        Github - <a class="icon-tag" href="https://github.com/tks18/gindex-v4">Shan.tk</a> | Support Me! 
+        Github - <a class="icon-tag" href="https://github.com/tks18/gindex-v4">Shan.tk</a> | Support Me!
       </div>
       <div class="footpad footer-copyright">
         Copyright&nbsp;<i class="fas fa-copyright"></i> 2020 | &nbsp;Glory to Heaven
       </div>
       <div class="footpad footer-policy">
-        <a href="https://raw.githubusercontent.com/tks18/dope-t-rope/master/LICENSE" target="_blank">Project Licensed</a> Under MIT Open Source License
+        Backend - Licensed Under <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/LICENSE" target="_blank"> MIT </a> Open Source License
+      </div>
+      <div class="footpad footer-policy">
+        FrontEnd - Licensed Under <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/LICENSE" target="_blank"> MIT </a> Open Source License
       </div>
       <div class="footpad footer-code">
         Please Read our <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Code of Conduct. </a>.
