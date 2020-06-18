@@ -51,7 +51,7 @@ import TopLinks from "../../common/Top-Links";
                     this.adminuser = true;
                     this.userinfo = userData;
                     this.tokeninfo = tokenData;
-                    var adminScopes = [{id: 0,name: "Add a User", url: "/0:register/user/"}, {id: 1,name: "Accept a Request from User", url: "/0:register/user/"}, {id: 2,name: "Delete a User", url: "/0:delete/user/"}, {id: 3,name: "Add a User to Spam List", url:"/0:register/spam"},{id: 4,name: "Upgrade a User to Admin", url:"/0:request/admin"},{id: 5,name: "Upgrade a User to  Super Admin", url:"/0:request/superadmin"},{id: 6,name: "Delete A Admin User", url:"/0:delete/admin"},{id: 7,name: "Add a Admin User", url:"/0:register/admin"},{id: 8,name: "Add a Super Admin User", url:"/0:register/superadmin"}];
+                    var adminScopes = [{id: 0,name: "Add a User", url: "/0:register/user/"}, {id: 1,name: "Accept a Request from User", url: "/0:register/user/"}, {id: 2,name: "Delete a User", url: "/0:delete/user/"}, {id: 3,name: "Add a User to Spam List", url:"/0:register/spam"},{id: 4,name: "Upgrade a User to Admin", url:"/0:request/admin"},{id: 5,name: "Upgrade a User to  Super Admin", url:"/0:request/superadmin"},{id: 6,name: "Delete A Admin User", url:"/0:delete/admin"}];
                     this.scopes = adminScopes;
                   }
                 } else {

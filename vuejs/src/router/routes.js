@@ -97,28 +97,6 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(register)/admin',
-      name: 'register-admin',
-      component: _import("page/pages/Register-admin"),
-      meta: {
-          ...meta,
-          requiresAuth: true,
-          admin: true,
-          superadmin: true,
-      }
-  },
-  {
-      path: '/:id(\\d)::cmd(register)/superadmin',
-      name: 'register-superadmin',
-      component: _import("page/pages/Register-superadmin"),
-      meta: {
-          ...meta,
-          requiresAuth: true,
-          admin: true,
-          superadmin: true,
-      }
-  },
-  {
       path: '/:id(\\d)::cmd(register)/otp',
       name: 'otp',
       component: _import("page/pages/OTP-Register"),
@@ -153,6 +131,25 @@ const frameIn = [{
       meta: {
           ...meta,
           guest: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(register)/request/admin',
+      name: 'requestadmin',
+      component: _import("page/pages/Request-admin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(register)/request/superadmin',
+      name: 'requestsuperadmin',
+      component: _import("page/pages/Request-Superadmin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true
       }
   },
   {
