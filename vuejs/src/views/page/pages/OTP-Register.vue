@@ -1,6 +1,9 @@
 <template>
     <div class="content login-page">
       <TopLinks />
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+      </div>
       <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
         <h4>Verify Your Account</h4>
@@ -38,9 +41,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
       components: {
         TopLinks,
+        Loading
       },
         data(){
             return {
@@ -50,10 +56,12 @@ import TopLinks from "../../common/Top-Links";
                 confirmpassword: "",
                 resultmessage: "",
                 databasemessage: "",
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e){
+              this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.password && this.password.length > 0) {
                     this.$http.post(window.apiRoutes.otpRegister, {
@@ -64,12 +72,15 @@ import TopLinks from "../../common/Top-Links";
                     .then(response => {
                       console.log(response);
                       if(response.data.auth && response.data.registered && response.data.changed){
+                        this.loading = false;
                             this.$router.push({ name: '/0:result/', params: { redirectUrl: '/0:login/', data: response.data.message } })
                           } else {
+                            this.loading = false;
                           this.resultmessage = "> "+response.data.message;
                       }
                     });
                 } else {
+                  this.loading = false;
                   this.resultmessage = "> Passwords Do Not Match"
                   this.password = "";
                   this.confirmpassword = "";
@@ -77,14 +88,17 @@ import TopLinks from "../../common/Top-Links";
             },
         },
         mounted: function() {
+          this.loading = true;
           if(this.$route.params.summa){
             this.databasemessage = this.$route.params.data
           } else {
             this.$http.post(window.apiRoutes.homeRoute).then(response => {
               console.log(response);
               if(response.status == '200'){
+                this.loading = false;
                 this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
               } else {
+                this.loading = false;
                 this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
               }
             })

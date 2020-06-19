@@ -4,6 +4,9 @@
     <div class="columns is-mobile is-centered">
       <div class="field is-grouped-multiline">
         <div class="control">
+          <div class="loading">
+            <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+          </div>
           <div v-if="logged" class="tags-has-addons home">
               <p class="home-welcome"> > Welcome <span class="home-name">{{ user.name }}</span></p>
               <p class="home-welcome"> > Your Scopes/Permissions -  <span class="home-name">{{ user.role }}</span></p>
@@ -26,9 +29,12 @@
 
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         components: {
           TopLinks,
+          Loading,
         },
         data () {
             return {
@@ -36,11 +42,7 @@ import TopLinks from "../../common/Top-Links";
                 tokendata: {},
                 truncatedApi: "",
                 logged: false,
-            }
-        },
-        methods: {
-          logout() {
-            window.alert("Currently Not Supported. Sorry for Inconvenience")
+                loading: true,
             }
         },
         created() {
@@ -51,18 +53,22 @@ import TopLinks from "../../common/Top-Links";
               token: tokenData.token
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
+                this.loading = false;
                 this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
-
                 var token = JSON.parse(localStorage.getItem('tokendata')).token
                 this.user = userData;
                 this.tokendata = tokenData;
                 this.truncatedApi = token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
                 this.logged = true
+                setTimeout(() => {
+                  this.loading = false;
+                }, 1000)
               }
             })
           } else {
             this.logged = false
+            this.loading = false;
           }
         }
     }

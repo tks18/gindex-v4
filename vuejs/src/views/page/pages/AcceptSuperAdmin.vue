@@ -1,6 +1,9 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
+        <div class="loading">
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        </div>
         <h4>Upgrade Admin to SuperAdmin</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
@@ -59,9 +62,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
     components: {
       TopLinks,
+      Loading,
     },
         props : ["nextUrl"],
         data(){
@@ -76,10 +82,12 @@ export default {
                 pendingUserList: [],
                 pendingMessage: "",
                 columnVisibility: false,
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e) {
+                this.loading = true;
                 e.preventDefault()
                 if (this.password && this.password.length > 0)
                 {
@@ -93,8 +101,10 @@ export default {
                     .then(response => {
                         if(response){
                           if(response.data.auth && response.data.registered && response.auth.changed){
+                            this.loading = false;
                             this.resultmessage = response.data.message
                           } else {
+                            this.loading = false;
                             this.resultmessage = response.data.message
                           }
                         }
@@ -103,27 +113,18 @@ export default {
                         console.error(error);
                     });
                   } else {
+                    this.loading = false;
                     this.resultmessage = "> You Need to Accept Community Guidelines."
                     this.checked = false;
                   }
                 } else {
+                    this.loading = false;
                     this.resultmessage = "> Passwords Do Not Match"
                     this.password = "";
                 }
             },
-            homeroute() {
-              this.$router.push('/0:home/')
-            },
-            adminroute() {
-              window.alert("Currently under Development")
-            },
-            contentroute() {
-              this.$router.push('/0:/')
-            },
-            settingsroute() {
-              window.alert("Currently under Development")
-            },
             getPendingUsers() {
+              this.loading = true;
               let url = window.apiRoutes.getPendingSuperAdmins
               this.$http.post(url, {
                     adminuseremail: this.userData.email,
@@ -131,9 +132,11 @@ export default {
                 if(response){
                   if(response.data.auth && response.data.registered){
                     this.columnVisibility = true;
+                    this.loading = false;
                     this.pendingUserList = response.data.users;
                   } else {
                     this.columnVisibility = false;
+                    this.loading = false;
                     this.pendingMessage = response.data.message;
                   }
                 }
@@ -141,6 +144,7 @@ export default {
             }
         },
         mounted: function(){
+          this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
@@ -156,9 +160,11 @@ export default {
             if(response){
               if(response.data.auth && response.data.registered){
                 this.columnVisibility = true;
+                this.loading = false;
                 this.pendingUserList = response.data.users;
               } else {
                 this.columnVisibility = false;
+                this.loading = false;
                 this.pendingMessage = response.data.message;
               }
             }

@@ -2,6 +2,9 @@
     <div class="content registration-page">
       <TopLinks />
         <h4>Request Access</h4>
+        <div class="loading">
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        </div>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
         <form @submit.prevent="handleSubmit">
@@ -23,9 +26,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
       components: {
         TopLinks,
+        Loading
       },
         props : ["nextUrl"],
         data(){
@@ -34,10 +40,12 @@ import TopLinks from "../../common/Top-Links";
                 resultmessage: "",
                 databasemessage: "",
                 checked: "",
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e) {
+              this.loading = true;
                 e.preventDefault()
                 if(this.checked){
                   let url = window.apiRoutes.requestadminroute
@@ -49,8 +57,10 @@ import TopLinks from "../../common/Top-Links";
                   .then(response => {
                       if(response){
                         if(response.data.auth && response.data.registered){
+                          this.loading = false;
                           this.resultmessage = response.data.message
                         } else {
+                          this.loading = false;
                           this.resultmessage = response.data.message
                         }
                       }
@@ -59,18 +69,14 @@ import TopLinks from "../../common/Top-Links";
                       console.error(error);
                   });
                 } else {
+                  this.loading = false;
                   this.resultmessage = "> You Need to Accept Community Guidelines."
                   this.checked = false;
                 }
             },
-            homeroute() {
-              this.$router.push('/0:home/')
-            },
-            loginroute() {
-              this.$router.push('/0:login/')
-            },
         },
         mounted: function(){
+          this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
@@ -86,16 +92,20 @@ import TopLinks from "../../common/Top-Links";
               token: tokenData.token
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
+                this.loading = false;
                 this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(userData.admin && !userData.superadmin){
+                  this.loading = false;
                   this.userinfo = userData;
                 } else {
+                  this.loading = false;
                   this.$router.push({ name: 'results', params: { data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
                 }
               }
             })
           } else {
+            this.loading = false;
             this.logged = false
           }
         }

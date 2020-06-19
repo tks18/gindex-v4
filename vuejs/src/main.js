@@ -9,6 +9,8 @@ import VueAxios from "vue-axios";
 import router from "./router";
 import i18n from "./i18n";
 import VuePlyr from "vue-plyr"
+import Loading from "vue-loading-overlay";
+import 'vue-loading-overlay/dist/vue-loading.css';
 // store
 import store from "@/store/index";
 import VueClipboard from "vue-clipboard2";
@@ -36,6 +38,9 @@ Vue.use(VuePlyr, {
 Vue.use(VueLazyload, {
   loading: cdnpath("images/airplane.gif"),
 });
+Vue.use(Loading, {
+  color: 'pink'
+})
 Vue.use(Viewer);
 
 new Vue({

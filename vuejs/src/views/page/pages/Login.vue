@@ -1,6 +1,9 @@
 <template>
     <div class="content login-page">
       <TopLinks />
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+      </div>
       <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
         <h4>Login</h4>
@@ -25,9 +28,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         components: {
           TopLinks,
+          Loading
         },
         data(){
             return {
@@ -35,10 +41,12 @@ import TopLinks from "../../common/Top-Links";
                 password : "",
                 resultmessage: "",
                 databasemessage: "",
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e){
+              this.loading = true;
                 e.preventDefault();
                 if (this.password.length > 0) {
                     this.$http.post(window.apiRoutes.loginRoute, {
@@ -53,6 +61,7 @@ import TopLinks from "../../common/Top-Links";
                           var token = JSON.parse(localStorage.getItem("tokendata"));
                           var userData = JSON.parse(localStorage.getItem("userdata"));
                           if(token && userData){
+                            this.loading = false;
                             this.resultmessage = `> Logged in Successfully as ${userData.name}. Your token will expire at ${token.expirydate}.`;
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
@@ -61,9 +70,10 @@ import TopLinks from "../../common/Top-Links";
                               else{
                                   this.$router.push({name: "results", params: { data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/0:home/' }})
                               }
-                            }, 2000)
+                            }, 500)
                           }
                       } else {
+                        this.loading = false;
                           this.resultmessage = "> "+response.data.message;
                       }
                     });
@@ -71,6 +81,7 @@ import TopLinks from "../../common/Top-Links";
             },
         },
         mounted: function() {
+          this.loading = true;
           if(this.$route.params.summa){
             this.databasemessage = this.$route.params.data
           } else {
@@ -78,8 +89,10 @@ import TopLinks from "../../common/Top-Links";
               console.log(response);
               if(response.status == '200'){
                 this.databasemessage = `🟢 Database is Live. You can Login. Ping - ${response.data.ping}ms`
+                this.loading = false;
               } else {
                 this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
+                this.loading = false;
               }
             })
           }

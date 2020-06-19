@@ -1,6 +1,9 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+      </div>
         <h4>Invite - Admin</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
@@ -28,9 +31,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
       components: {
         TopLinks,
+        Loading
       },
         props : ["nextUrl"],
         data(){
@@ -40,10 +46,12 @@ import TopLinks from "../../common/Top-Links";
                 message: "",
                 resultmessage: "",
                 databasemessage: "",
+                loading: true
             }
         },
         methods : {
             handleSubmit(e) {
+              this.loading = true;
                 e.preventDefault()
                 if(this.checked){
                   let url = window.apiRoutes.inviteAdmin
@@ -56,8 +64,10 @@ import TopLinks from "../../common/Top-Links";
                       if(response){
                         if(response.data.auth && response.data.registered){
                           this.resultmessage = response.data.message
+                          this.loading = false;
                         } else {
                           this.resultmessage = response.data.message
+                          this.loading = false;
                         }
                       }
                   })
@@ -65,18 +75,14 @@ import TopLinks from "../../common/Top-Links";
                       this.resultmessage = error;
                   });
                 } else {
+                  this.loading = false;
                   this.resultmessage = "> You Need to Accept Community Guidelines."
                   this.checked = false;
                 }
             },
-            homeroute() {
-              this.$router.push('/0:home/')
-            },
-            loginroute() {
-              this.$router.push('/0:login/')
-            },
         },
         mounted: function(){
+          this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
@@ -91,17 +97,22 @@ import TopLinks from "../../common/Top-Links";
                 if(userData.admin){
                   if(userData.superadmin){
                     this.userinfo = userData;
+                    this.loading = false;
                     this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
                   } else {
+                    this.loading = false;
                     this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                   }
                 } else {
+                  this.loading = false;
                   this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                 }
               } else {
+                this.loading = false;
                 this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
               }
             } else {
+              this.loading = false;
               this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:login/" } })
             }
           })

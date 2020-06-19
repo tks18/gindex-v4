@@ -1,6 +1,9 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+      </div>
         <h4>Request Access</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
@@ -34,9 +37,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
       components: {
         TopLinks,
+        Loading,
       },
         props : ["nextUrl"],
         data(){
@@ -47,10 +53,12 @@ import TopLinks from "../../common/Top-Links";
                 resultmessage: "",
                 databasemessage: "",
                 checked: "",
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e) {
+              this.loading = true;
                 e.preventDefault()
                 if(this.checked){
                   let url = window.apiRoutes.requestRoute
@@ -62,8 +70,10 @@ import TopLinks from "../../common/Top-Links";
                   .then(response => {
                       if(response){
                         if(response.data.auth && response.data.registered){
+                          this.loading = false;
                           this.resultmessage = response.data.message
                         } else {
+                          this.loading = false;
                           this.resultmessage = response.data.message
                         }
                       }
@@ -72,23 +82,21 @@ import TopLinks from "../../common/Top-Links";
                       console.error(error);
                   });
                 } else {
+                  this.loading = false;
                   this.resultmessage = "> You Need to Accept Community Guidelines."
                   this.checked = false;
                 }
             },
-            homeroute() {
-              this.$router.push('/0:home/')
-            },
-            loginroute() {
-              this.$router.push('/0:login/')
-            },
         },
         mounted: function(){
+          this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
+              this.loading = false;
               this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
             } else {
+              this.loading = false;
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
           })
