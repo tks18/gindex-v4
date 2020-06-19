@@ -4,6 +4,9 @@
       <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
         <h4>Change Your Password</h4>
+        <div class="loading">
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        </div>
         <form @submit.prevent="handleSubmit">
             <p style="color:white">Your Email - <span style="color: #ff9595">"{{ userinfo.email }}"</span></p>
             <div>
@@ -34,9 +37,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
       components: {
         TopLinks,
+        Loading,
       },
         data(){
             return {
@@ -46,10 +52,12 @@ import TopLinks from "../../common/Top-Links";
                 confirmpassword: "",
                 resultmessage: "",
                 databasemessage: "",
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e){
+                this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.newpassword && this.newpassword.length > 0) {
                     var tokenData = JSON.parse(localStorage.getItem("tokendata"))
@@ -65,13 +73,16 @@ import TopLinks from "../../common/Top-Links";
                           if (userData != null && tokenData != null) {
                             localStorage.removeItem("tokendata");
                             localStorage.removeItem("userdata");
+                            this.loading = false;
                             this.$router.push({ name: 'results', params: { redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
                             }
                           } else {
+                            this.loading = false;
                           this.resultmessage = "> "+response.data.message;
                       }
                     });
                 } else {
+                  this.loading = false;
                   this.resultmessage = "> Passwords Do Not Match"
                   this.newpassword = "";
                   this.confirmpassword = "";
@@ -79,11 +90,14 @@ import TopLinks from "../../common/Top-Links";
             },
         },
         mounted: function() {
+          this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
+              this.loading = false;
               this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
             } else {
+              this.loading = false;
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
           })

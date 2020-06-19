@@ -1,6 +1,9 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
+        <div class="loading">
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        </div>
         <h4>Delete Your Account</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
@@ -19,9 +22,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
     components: {
       TopLinks,
+      Loading
     },
         props : ["nextUrl"],
         data(){
@@ -31,10 +37,12 @@ export default {
                 databasemessage: "",
                 userData: JSON.parse(localStorage.getItem("userdata")),
                 userToken: JSON.parse(localStorage.getItem("tokendata")),
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e) {
+              this.loading = true;
                 e.preventDefault()
                 if (this.password && this.password.length > 0)
                 {
@@ -50,9 +58,11 @@ export default {
                             localStorage.removeItem('userdata');
                             localStorage.removeItem('tokendata');
                             setTimeout(() => {
+                              this.loading = false;
                               this.$router.push({ name: 'results', params: { data: "You Account is Being Deleted. Please Wait", redirectUrl: "/0:home/" } })
                             }, 1500)
                           } else {
+                            this.loading = false;
                             this.resultmessage = response.data.message
                           }
                         }
@@ -61,12 +71,14 @@ export default {
                         console.error(error);
                     });
                 } else {
+                  this.loading = false;
                     this.resultmessage = "> Fill in Your Password"
                     this.password = "";
                 }
             },
         },
         mounted: function(){
+          this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
@@ -79,11 +91,14 @@ export default {
           var token = JSON.parse(localStorage.getItem("tokendata"));
           if(userData && token){
             if(userData.verified){
+              this.loading = false;
               this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
             } else {
+              this.loading = false;
               this.resultmessage = userData.admin
             }
           } else {
+            this.loading = false;
             this.resultmessage = userData.admin
           }
         }

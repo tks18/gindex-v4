@@ -1,6 +1,9 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
+        <div class="loading">
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        </div>
         <h4>Delete Admin</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
@@ -25,9 +28,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
     components: {
       TopLinks,
+      Loading,
     },
         props : ["nextUrl"],
         data(){
@@ -38,10 +44,12 @@ export default {
                 databasemessage: "",
                 userData: JSON.parse(localStorage.getItem("userdata")),
                 userToken: JSON.parse(localStorage.getItem("tokendata")),
+                loading: true,
             }
         },
         methods : {
             handleSubmit(e) {
+              this.loading = true;
                 e.preventDefault()
                 if (this.password && this.password.length > 0)
                 {
@@ -55,8 +63,10 @@ export default {
                         if(response){
                           if(response.data.auth && response.data.registered && response.data.deleted){
                             this.resultmessage = response.data.message
+                            this.loading = false;
                           } else {
                             this.resultmessage = response.data.message
+                            this.loading = false;
                           }
                         }
                     })
@@ -66,22 +76,12 @@ export default {
                 } else {
                     this.resultmessage = "> Passwords Do Not Match"
                     this.password = "";
+                    this.loading = false;
                 }
             },
-            homeroute() {
-              this.$router.push('/0:home/')
-            },
-            adminroute() {
-              window.alert("Currently under Development")
-            },
-            contentroute() {
-              this.$router.push('/0:/')
-            },
-            settingsroute() {
-              window.alert("Currently under Development")
-            }
         },
         mounted: function(){
+          this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
             console.log(response);
             if(response.status == '200'){
@@ -96,17 +96,22 @@ export default {
             if(userData.verified){
               if(userData.admin){
                 if(userData.superadmin){
+                  this.loading = false;
                     this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
                 } else {
+                  this.loading = false;
                   this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                 }
               } else {
+                this.loading = false;
                 this.resultmessage = userData.admin
               }
             } else {
+              this.loading = false;
               this.resultmessage = userData.admin
             }
           } else {
+            this.loading = false;
             this.resultmessage = userData.admin
           }
         }

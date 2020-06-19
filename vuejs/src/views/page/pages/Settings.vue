@@ -2,6 +2,9 @@
   <div>
     <TopLinks />
     <div v-if="logged" class="content adminarea">
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+      </div>
       <h2 class="title"> Settings </h2>
       <hr>
       <div class="userdetails">
@@ -23,9 +26,12 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         components: {
           TopLinks,
+          Loading,
         },
         data() {
           return {
@@ -34,6 +40,7 @@ import TopLinks from "../../common/Top-Links";
             logged: false,
             admin: false,
             superadmin: false,
+            loading: true,
           }
         },
         methods: {
@@ -50,6 +57,7 @@ import TopLinks from "../../common/Top-Links";
           }
         },
         mounted() {
+          this.loading = true;
           var tokenData = JSON.parse(localStorage.getItem("tokendata"))
           var userData = JSON.parse(localStorage.getItem("userdata"));
           if (userData != null && tokenData != null){
@@ -57,6 +65,7 @@ import TopLinks from "../../common/Top-Links";
               token: tokenData.token
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
+                this.loading = false;
                 this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(userData.admin && userData.superadmin){
@@ -64,21 +73,25 @@ import TopLinks from "../../common/Top-Links";
                   this.tokeninfo = tokenData;
                   this.logged = true;
                   this.admin = true;
+                  this.loading = false;
                   this.superadmin = true;
                 } else if(userData.admin && !userData.superadmin){
                   this.userinfo = userData;
                   this.tokeninfo = tokenData;
+                  this.loading = false;
                   this.logged = true;
                   this.admin = true;
                 } else {
                   this.userinfo = userData;
                   this.tokeninfo = tokenData;
                   this.logged = true;
+                  this.loading = false;
                 }
               }
             })
           } else {
             this.logged = false
+            this.loading = false;
           }
         }
       }

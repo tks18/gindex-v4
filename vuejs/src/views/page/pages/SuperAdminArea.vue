@@ -3,6 +3,9 @@
     <TopLinks />
     <div v-if="adminuser" class="content adminarea">
       <h2 class="title"> Super Admin Area </h2>
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+      </div>
       <hr>
       <div class="userdetails">
         <h3>User Details</h3>
@@ -17,16 +20,19 @@
       <div class="scopes">
         <h3>Permissions</h3>
         <p>You Have Given Following Scopes of Permission in this Website: </p>
-        <li class="scope-list" v-for="scope in scopes" v-bind:key="scope.id" ><a :href="scope.url">{{ scope.name }}</a></li>
+        <li class="scope-list" v-for="scope in scopes" v-bind:key="scope.name" ><a :href="scope.url">{{ scope.name }}</a></li>
       </div>
     </div>
   </div>
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         components: {
           TopLinks,
+          Loading,
         },
         data() {
           return {
@@ -34,9 +40,11 @@ import TopLinks from "../../common/Top-Links";
             userinfo: {},
             tokeninfo: {},
             adminuser: false,
+            loading: true,
           }
         },
         created() {
+          this.loading = true;
           var tokenData = JSON.parse(localStorage.getItem("tokendata"))
           var userData = JSON.parse(localStorage.getItem("userdata"));
           if (userData != null && tokenData != null){
@@ -44,6 +52,7 @@ import TopLinks from "../../common/Top-Links";
               token: tokenData.token
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
+                this.loading = false;
                 this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(userData.admin){
@@ -51,10 +60,12 @@ import TopLinks from "../../common/Top-Links";
                     this.adminuser = true;
                     this.userinfo = userData;
                     this.tokeninfo = tokenData;
-                    var adminScopes = [{id: 0,name: "Add a User", url: "/0:register/user/"}, {id: 1,name: "Accept a Request from User", url: "/0:register/user/"}, {id: 2,name: "Delete a User", url: "/0:delete/user/"}, {id: 3,name: "Add a User to Spam List", url:"/0:register/spam"},{id: 4,name: "Upgrade a User to Admin", url:"/0:request/admin"},{id: 5,name: "Upgrade a User to  Super Admin", url:"/0:request/superadmin"},{id: 6,name: "Delete A Admin User", url:"/0:delete/admin"}];
+                    var adminScopes = [{name: "Add a User", url: "/0:register/user/"}, {name: "Accept a Request from User", url: "/0:register/user/"}, {name: "Invite a User", url: "/0:invite/user/"}, {name: "Invite a Admin", url: "/0:invite/admin/"}, {name: "Invite a Super Admin", url: "/0:invite/superadmin/"}, {name: "Delete a User", url: "/0:delete/user/"}, {name: "Upgrade a User to Admin", url:"/0:register/admin"},{name: "Upgrade a User to  Super Admin", url:"/0:request/superadmin"},{name: "Delete A Admin User", url:"/0:delete/admin"}];
                     this.scopes = adminScopes;
+                    this.loading = false;
                   }
                 } else {
+                  this.loading = false;
                   this.$router.push({ name: 'results', params: { data: "You Have Not Given Super Admin Permissions.", redirectUrl: "/0:home/" } })
                 }
               }
