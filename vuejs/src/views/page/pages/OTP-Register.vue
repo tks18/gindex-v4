@@ -73,7 +73,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                       console.log(response);
                       if(response.data.auth && response.data.registered && response.data.changed){
                         this.loading = false;
-                            this.$router.push({ name: '/0:result/', params: { redirectUrl: '/0:login/', data: response.data.message } })
+                            this.$router.push({ name: 'results', params: { redirectUrl: '/0:login/', data: response.data.message } })
                           } else {
                             this.loading = false;
                           this.resultmessage = "> "+response.data.message;
