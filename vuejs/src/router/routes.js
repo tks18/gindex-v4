@@ -87,6 +87,38 @@ const frameIn = [{
       }
   },
   {
+      path: '/:id(\\d)::cmd(invite)/user',
+      name: 'inviteuser',
+      component: _import("page/pages/InviteUser"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(invite)/admin',
+      name: 'inviteadmin',
+      component: _import("page/pages/InviteAdmin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          superadmin: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(invite)/superadmin',
+      name: 'invitesuperadmin',
+      component: _import("page/pages/InviteSuperAdmin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          superadmin: true,
+      }
+  },
+  {
       path: '/:id(\\d)::cmd(register)/user',
       name: 'register',
       component: _import("page/pages/Register-user"),
@@ -94,6 +126,28 @@ const frameIn = [{
           ...meta,
           requiresAuth: true,
           admin: true
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(register)/admin',
+      name: 'upgradeadmin',
+      component: _import("page/pages/AcceptAdmin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          superadmin: true
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(register)/superadmin',
+      name: 'upgradesuperadmin',
+      component: _import("page/pages/AcceptSuperAdmin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          superadmin: true,
       }
   },
   {
@@ -189,7 +243,37 @@ const frameIn = [{
           ...meta,
           requiresAuth: true,
       }
-  }
+  },
+  {
+      path: '/:id(\\d)::cmd(delete)/user',
+      name: 'deleteuser',
+      component: _import("page/pages/DeleteUser"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(delete)/admin',
+      name: 'deleteadmin',
+      component: _import("page/pages/DeleteAdmin"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          superadmin: true,
+      }
+  },
+  {
+      path: '/:id(\\d)::cmd(delete)/me',
+      name: 'deleteme',
+      component: _import("page/pages/DeleteMe"),
+      meta: {
+          ...meta,
+          requiresAuth: true
+      }
+  },
 ];
 
 export default frameIn;

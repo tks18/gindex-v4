@@ -13,7 +13,6 @@
         <p>Your Last Token Expiry Date - <span class="details">{{ tokeninfo.expirydate }}</span></p>
         <div class="scopes">
           <li class="scope-list" @click="changePasswordRoute">Change Your Password</li>
-          <li class="scope-list" @click="changeEmailRoute">Change Your Email</li>
           <li class="scope-list" v-if="!admin && !superadmin" @click="requestAdmin">Request Admin Access</li>
           <li class="scope-list" v-if="admin && !superadmin" @click="requestAdmin">Request SuperAdmin Access</li>
           <li class="scope-list" @click="deleteAccountRoute">Delete Your Account</li>
@@ -41,17 +40,13 @@ import TopLinks from "../../common/Top-Links";
           changePasswordRoute() {
             this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:settings/changepassword" } })
           },
-          changeEmailRoute() {
-            window.alert("Currently Under Development");
-            // this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:settings/changeemail" } })
-          },
           requestAdmin() {
-            window.alert("Currently Under Development");
-            // this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/admin" } })
+            // window.alert("Currently Under Development");
+            this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/admin" } })
           },
           deleteAccountRoute() {
-            window.alert("Currently Under Development");
-            // this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:settings/delete" } })
+            // window.alert("Currently Under Development");
+            this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:delete/me" } })
           }
         },
         mounted() {

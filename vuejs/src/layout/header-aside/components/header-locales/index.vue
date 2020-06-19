@@ -5,7 +5,7 @@
     </a>
     <div class="navbar-dropdown is-left">
       <a
-        style="background-color: #342b38;"
+        style="background-color: black;"
         :class="'navbar-item'+(currLanguage===language.value?' navbar-active':'')"
         v-for="language in $languages"
         :key="language.value"
