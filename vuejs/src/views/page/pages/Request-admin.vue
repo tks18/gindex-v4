@@ -3,7 +3,7 @@
       <TopLinks />
         <h4>Request Access</h4>
         <div class="loading">
-          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
@@ -41,6 +41,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 databasemessage: "",
                 checked: "",
                 loading: true,
+                fullpage: true,
+                message: "",
             }
         },
         methods : {
@@ -87,20 +89,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
           })
-          let url = window.apiRoutes.getPendingAdmins
-          this.$http.post(url, {
-                adminuseremail: this.userData.email,
-          }).then(response => {
-            if(response){
-              if(response.data.auth && response.data.registered){
-                this.loading = false;
-                this.pendingUserList = response.data.users;
-              } else {
-                this.loading = false;
-                this.pendingMessage = response.data.message;
-              }
-            }
-          })
           var tokenData = JSON.parse(localStorage.getItem("tokendata"))
           var userData = JSON.parse(localStorage.getItem("userdata"));
           if (userData != null && tokenData != null){
@@ -114,6 +102,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 if(!userData.admin && !userData.superadmin){
                   this.loading = false;
                   this.userinfo = userData;
+                  console.log(userData);
                 } else {
                   this.loading = false;
                   this.$router.push({ name: 'results', params: { data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })

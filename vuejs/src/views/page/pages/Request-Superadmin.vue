@@ -41,6 +41,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 databasemessage: "",
                 checked: "",
                 loading: true,
+                message: "",
             }
         },
         methods : {
@@ -48,7 +49,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
                 e.preventDefault()
                 if(this.checked){
-                  let url = window.apiRoutes.requestadminroute
+                  let url = window.apiRoutes.requestsuperadminroute
                   this.$http.post(url, {
                         name: this.userinfo.name,
                         email: this.userinfo.email,
