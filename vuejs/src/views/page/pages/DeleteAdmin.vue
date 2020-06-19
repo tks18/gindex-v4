@@ -45,6 +45,7 @@ export default {
                 userData: JSON.parse(localStorage.getItem("userdata")),
                 userToken: JSON.parse(localStorage.getItem("tokendata")),
                 loading: true,
+                fullpage: true,
             }
         },
         methods : {

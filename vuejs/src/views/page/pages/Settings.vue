@@ -17,7 +17,7 @@
         <div class="scopes">
           <li class="scope-list" @click="changePasswordRoute">Change Your Password</li>
           <li class="scope-list" v-if="!admin && !superadmin" @click="requestAdmin">Request Admin Access</li>
-          <li class="scope-list" v-if="admin && !superadmin" @click="requestAdmin">Request SuperAdmin Access</li>
+          <li class="scope-list" v-if="admin && !superadmin" @click="requestSuperAdmin">Request SuperAdmin Access</li>
           <li class="scope-list" @click="deleteAccountRoute">Delete Your Account</li>
         </div>
       </div>
@@ -41,6 +41,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             admin: false,
             superadmin: false,
             loading: true,
+            fullpage: true,
           }
         },
         methods: {
@@ -50,6 +51,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           requestAdmin() {
             // window.alert("Currently Under Development");
             this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/admin" } })
+          },
+          requestSuperAdmin() {
+            this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/superadmin" } })
           },
           deleteAccountRoute() {
             // window.alert("Currently Under Development");

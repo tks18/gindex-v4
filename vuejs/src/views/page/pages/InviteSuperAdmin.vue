@@ -48,6 +48,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 resultmessage: "",
                 databasemessage: "",
                 loading: true,
+                fullpage: true,
             }
         },
         methods : {

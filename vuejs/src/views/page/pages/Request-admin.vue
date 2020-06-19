@@ -43,6 +43,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 loading: true,
                 fullpage: true,
                 message: "",
+                fullpage: true,
             }
         },
         methods : {

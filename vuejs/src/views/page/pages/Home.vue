@@ -43,6 +43,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 truncatedApi: "",
                 logged: false,
                 loading: true,
+                fullpage: true,
             }
         },
         created() {
