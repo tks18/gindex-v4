@@ -41,6 +41,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             tokeninfo: {},
             adminuser: false,
             loading: true,
+            fullpage: true,
           }
         },
         created() {

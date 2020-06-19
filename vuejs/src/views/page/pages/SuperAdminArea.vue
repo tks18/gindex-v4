@@ -41,6 +41,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             tokeninfo: {},
             adminuser: false,
             loading: true,
+            fullpage: true,
           }
         },
         created() {
@@ -60,7 +61,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     this.adminuser = true;
                     this.userinfo = userData;
                     this.tokeninfo = tokenData;
-                    var adminScopes = [{name: "Add a User", url: "/0:register/user/"}, {name: "Accept a Request from User", url: "/0:register/user/"}, {name: "Invite a User", url: "/0:invite/user/"}, {name: "Invite a Admin", url: "/0:invite/admin/"}, {name: "Invite a Super Admin", url: "/0:invite/superadmin/"}, {name: "Delete a User", url: "/0:delete/user/"}, {name: "Upgrade a User to Admin", url:"/0:register/admin"},{name: "Upgrade a User to  Super Admin", url:"/0:request/superadmin"},{name: "Delete A Admin User", url:"/0:delete/admin"}];
+                    var adminScopes = [{name: "Accept a Request from User", url: "/0:register/user/"}, {name: "Invite a User", url: "/0:invite/user/"}, {name: "Invite a Admin", url: "/0:invite/admin/"}, {name: "Invite a Super Admin", url: "/0:invite/superadmin/"}, {name: "Delete a User", url: "/0:delete/user/"}, {name: "Upgrade a User to Admin", url:"/0:register/admin"},{name: "Upgrade a User to  Super Admin", url:"/0:register/superadmin"},{name: "Delete A Admin User", url:"/0:delete/admin"}];
                     this.scopes = adminScopes;
                     this.loading = false;
                   }

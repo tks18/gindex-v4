@@ -54,6 +54,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 databasemessage: "",
                 checked: "",
                 loading: true,
+                fullpage: true,
             }
         },
         methods : {

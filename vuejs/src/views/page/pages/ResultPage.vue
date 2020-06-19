@@ -21,6 +21,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             return {
               data: "",
               loading: true,
+              fullpage: true,
             }
         },
         components: {

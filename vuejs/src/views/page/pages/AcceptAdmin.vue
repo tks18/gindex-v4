@@ -83,6 +83,7 @@ export default {
                 pendingMessage: "",
                 columnVisibility: false,
                 loading: true,
+                fullpage: true
             }
         },
         methods : {
