@@ -1,21 +1,26 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
-        <h4>Request Access</h4>
+        <h4>Invite - Admin</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
         <form @submit.prevent="handleSubmit">
-            <label for="message"> > Why You Need Super Admin Previlage ? </label>
+            <label for="email" > > User's E-Mail Address</label>
             <div>
+                <input id="email" type="email" v-model="email" required>
+            </div>
+            <label for="message"> > Message to Him </label>
+            <div> v
                 <textarea id="message" v-model="message" required></textarea>
             </div>
+            <label style="color: grey; font-size: 14px"> (Why he Needs Admin Status Heaven?) </label>
             <div>
               <input type="checkbox" id="terms" name="terms" v-model="checked">
               <label for="terms"> I Accept and Read the <a class="guidelines" href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Community Guidelines</a></label><br>
             </div>
             <div>
                 <button class="registration-button" type="submit">
-                    Request Admin Access
+                    Invite User
                 </button>
             </div>
         </form>
@@ -31,20 +36,21 @@ import TopLinks from "../../common/Top-Links";
         data(){
             return {
                 userinfo: {},
+                email : "",
+                message: "",
                 resultmessage: "",
                 databasemessage: "",
-                checked: "",
             }
         },
         methods : {
             handleSubmit(e) {
                 e.preventDefault()
                 if(this.checked){
-                  let url = window.apiRoutes.requestadminroute
+                  let url = window.apiRoutes.inviteAdmin
                   this.$http.post(url, {
-                        name: this.userinfo.name,
-                        email: this.userinfo.email,
+                        email: this.email,
                         message: this.message,
+                        adminuseremail: this.userinfo.email,
                   })
                   .then(response => {
                       if(response){
@@ -56,7 +62,7 @@ import TopLinks from "../../common/Top-Links";
                       }
                   })
                   .catch(error => {
-                      console.error(error);
+                      this.resultmessage = error;
                   });
                 } else {
                   this.resultmessage = "> You Need to Accept Community Guidelines."
@@ -78,26 +84,27 @@ import TopLinks from "../../common/Top-Links";
             } else {
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
-          })
-          var tokenData = JSON.parse(localStorage.getItem("tokendata"))
-          var userData = JSON.parse(localStorage.getItem("userdata"));
-          if (userData != null && tokenData != null){
-            this.axios.post(window.apiRoutes.verifyRoute, {
-              token: tokenData.token
-            }).then(response => {
-              if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
-                this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
-              } else {
-                if(userData.admin && !userData.superadmin){
-                  this.userinfo = userData;
+            var userData = JSON.parse(localStorage.getItem("userdata"));
+            var token = JSON.parse(localStorage.getItem("tokendata"));
+            if(userData && token){
+              if(userData.verified){
+                if(userData.admin){
+                  if(userData.superadmin){
+                    this.userinfo = userData;
+                    this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
+                  } else {
+                    this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+                  }
                 } else {
-                  this.$router.push({ name: 'results', params: { data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
+                  this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                 }
+              } else {
+                this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
               }
-            })
-          } else {
-            this.logged = false
-          }
+            } else {
+              this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:login/" } })
+            }
+          })
         }
     }
 </script>

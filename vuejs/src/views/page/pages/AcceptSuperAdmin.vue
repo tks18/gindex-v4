@@ -1,16 +1,11 @@
 <template>
     <div class="content registration-page">
       <TopLinks />
-        <h4>Register</h4>
+        <h4>Upgrade Admin to SuperAdmin</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
         <form @submit.prevent="handleSubmit">
-            <label for="name"> > Recipient Name</label>
-            <div>
-                <input id="name" type="text" v-model="name" required autofocus>
-            </div>
-
-            <label for="email" > > Recipient E-Mail Address</label>
+            <label for="email" > > User's E-Mail Address</label>
             <div>
                 <input id="email" type="email" v-model="email" required>
             </div>
@@ -25,10 +20,10 @@
             </div>
             <div>
                 <button class="registration-button" type="submit">
-                    Register
+                    Upgrade User
                 </button>
             </div>
-            <p style="color: #bac964;">Note: Only Pending User Requests can be Added and Not Anybody.</p>
+            <p style="color: #bac964;">Note: Only Pending Super Admin Requests can be Acceted and Not Anybody.</p>
         </form>
         <hr>
         <div class="pendingusers">
@@ -71,7 +66,6 @@ export default {
         props : ["nextUrl"],
         data(){
             return {
-                name : "",
                 email : "",
                 password : "",
                 resultmessage: "",
@@ -90,16 +84,15 @@ export default {
                 if (this.password && this.password.length > 0)
                 {
                   if(this.checked){
-                    let url = window.apiRoutes.registerRoute
+                    let url = window.apiRoutes.upgradeSuperAdmin
                     this.$http.post(url, {
-                          name: this.name,
                           email: this.email,
                           adminpass: this.password,
                           adminuseremail: this.userData.email,
                     })
                     .then(response => {
                         if(response){
-                          if(response.data.auth && response.data.registered){
+                          if(response.data.auth && response.data.registered && response.auth.changed){
                             this.resultmessage = response.data.message
                           } else {
                             this.resultmessage = response.data.message
@@ -131,7 +124,7 @@ export default {
               window.alert("Currently under Development")
             },
             getPendingUsers() {
-              let url = window.apiRoutes.getPendingUsers
+              let url = window.apiRoutes.getPendingSuperAdmins
               this.$http.post(url, {
                     adminuseremail: this.userData.email,
               }).then(response => {
@@ -156,7 +149,7 @@ export default {
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
           })
-          let url = window.apiRoutes.getPendingUsers
+          let url = window.apiRoutes.getPendingSuperAdmins
           this.$http.post(url, {
                 adminuseremail: this.userData.email,
           }).then(response => {
@@ -175,7 +168,11 @@ export default {
           if(userData && token){
             if(userData.verified){
               if(userData.admin){
-                this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
+                if(userData.superadmin){
+                    this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
+                } else {
+                  this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+                }
               } else {
                 this.resultmessage = userData.admin
               }
