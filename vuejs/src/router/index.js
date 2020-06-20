@@ -88,15 +88,13 @@ router.beforeEach( (to, from, next) => {
       console.log(to)
     }
   } else if(to.matched.some(record => record.meta.guest)) {
-      if(localStorage.getItem('jwt') == null){
+      var tokenData = JSON.parse(localStorage.getItem("tokendata"));
+      var userData = JSON.parse(localStorage.getItem("userdata"));
+      if(tokenData == null && userData == null){
           next()
       }
       else{
-        if(to.matched.some(record => record.meta.home)){
-          next();
-        } else {
-          next({path: '/0:/'})
-        }
+        next({path: '/0:home/'})
       }
   }else {
       next()
