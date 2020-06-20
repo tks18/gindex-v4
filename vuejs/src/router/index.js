@@ -46,12 +46,12 @@ Vue.use(febAlive, { router });
  */
 router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
+  var tokenData = JSON.parse(localStorage.getItem("tokendata"));
+  var userData = JSON.parse(localStorage.getItem("userdata"));
   if(to.matched.some(record => record.meta.redirect)){
     next({path: "/0:home/"})
   }
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    var tokenData = JSON.parse(localStorage.getItem("tokendata"));
-    var userData = JSON.parse(localStorage.getItem("userdata"));
     if(tokenData != null && userData != null){
       axios.post(window.apiRoutes.verifyRoute, {
         token: tokenData.token
@@ -88,13 +88,15 @@ router.beforeEach( (to, from, next) => {
       console.log(to)
     }
   } else if(to.matched.some(record => record.meta.guest)) {
-      var tokenData = JSON.parse(localStorage.getItem("tokendata"));
-      var userData = JSON.parse(localStorage.getItem("userdata"));
       if(tokenData == null && userData == null){
-          next()
+          next();
       }
       else{
-        next({path: '/0:home/'})
+        if(to.matched.some(record => record.meta.home)){
+            next();
+        } else {
+            next({path: '/0:home/'});
+        }
       }
   }else {
       next()
