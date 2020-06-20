@@ -63,7 +63,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.adminuser = true;
                   this.userinfo = userData;
                   this.tokeninfo = tokenData;
-                  var adminScopes = [{name: "Add a User", url: "/0:register/user/"}, {name: "Invite a User", url: "/0:invite/user/"}, {name: "Accept a Request from User", url: "/0:register/user/"}, {name: "Delete a User", url: "/0:delete/user/"}];
+                  var adminScopes = [{name: "Add a User", url: "/0:register/user/"}, {name: "Invite a User", url: "/0:invite/user/"}, {name: "Delete a User", url: "/0:delete/user/"}];
                   this.scopes = adminScopes;
                   this.loading = false;
                 } else {
