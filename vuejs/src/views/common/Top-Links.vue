@@ -1,17 +1,16 @@
 <template>
   <div>
     <div class="navigation-buttons">
-      <li class="buttons" @click="homeRoute">Home</li>
-      <li class="buttons" v-if="logged" @click="settingsRoute">My Settings</li>
+      <li class="buttons" @click="homeRoute"><i class="fas fa-house-damage"></i></li>
+      <li class="buttons" v-if="logged" @click="settingsRoute"><i class="fas fa-user-cog"></i></li>
       <li class="buttons" v-if="!logged" @click="otpRegisterRoute">OTP Registration</li>
       <li class="buttons" v-if="logged && admin && !superadmin" @click="adminRoute">Admin Panel</li>
       <li class="buttons" v-if="logged && admin && superadmin" @click="superAdminRoute">Admin Panel</li>
       <li class="buttons" v-if="logged" @click="contentRoute">View Content</li>
-      <li class="buttons" v-if="logged" @click="logoutRoute">Logout</li>
+      <li class="buttons" v-if="logged" @click="logoutRoute"><i class="fas fa-sign-out-alt"></i></li>
       <li class="buttons" v-if="!logged" @click="requestRoute">Request Access</li>
       <li class="buttons" v-if="!logged" @click="loginRoute">Login</li>
     </div>
-    <hr>
   </div>
 </template>
 <script>
@@ -28,16 +27,16 @@
           this.$router.push("/0:home/")
         },
         settingsRoute() {
-          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel. Please Wait!!", redirectUrl: '/0:settings/' } })
+          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: '/0:settings/' } })
         },
         adminRoute() {
-          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel. Please Wait!!", redirectUrl: '/0:admin/' } })
+          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: '/0:admin/' } })
         },
         superAdminRoute() {
-          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel. Please Wait!!", redirectUrl: '/0:superadmin/' } })
+          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: '/0:superadmin/' } })
         },
         contentRoute() {
-          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel. Please Wait!!", redirectUrl: '/0:/' } })
+          this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: '/0:/' } })
         },
         logoutRoute() {
           var token = localStorage.getItem("tokendata")

@@ -2,11 +2,6 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
-        <div>
-          <a :href="currgd.id">
-            <img class="navbar-item-image" src="https://i.ibb.co/XSCmzvc/G-1.png">
-          </a>
-        </div>
         <a class="navbar-item nav-heading" :href="currgd.id">
           <h3 class="title is-3 has-text-white">{{ siteName }}</h3>
         </a>

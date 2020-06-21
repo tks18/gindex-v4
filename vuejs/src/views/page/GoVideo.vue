@@ -1,6 +1,7 @@
 <template>
   <div class="content g2-content">
     <TopLinks />
+    <bread-crumb ref="breadcrumb"></bread-crumb>
     <div class="video-content">
     <vue-plyr>
       <video :src="apiurl">
@@ -32,7 +33,7 @@
               </div>
               <center>
                 <button id="copy-url" type="button" v-clipboard:copy="videourl">Copy Link <i class="fa fa-copy"></i></button>
-                <a class="download-button" :href="videourl" target="_blank">Download <i class="fa fa-download"></i></a>
+                <button id="copy-url" type="button" @click="downloadButton">Download <i class="fa fa-download"></i></button>
               </center>
             </div>
           </div>
@@ -61,9 +62,11 @@
 <script>
 import TopLinks from "../common/Top-Links";
 import { decode64 } from "@utils/AcrouUtil";
+import BreadCrumb from "../common/BreadCrumb";
 export default {
   components: {
     TopLinks,
+    BreadCrumb,
   },
   data: function() {
     return {
@@ -77,6 +80,9 @@ export default {
       this.videourl = window.location.origin + encodeURI(this.url);
       this.apiurl = this.videourl;
     },
+    downloadButton() {
+      window.open(this.videourl);
+    }
   },
   activated() {
     this.render();

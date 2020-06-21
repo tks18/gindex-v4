@@ -20,7 +20,7 @@
       <div class="scopes">
         <h3>Permissions</h3>
         <p>You Have Given Following Scopes of Permission in this Website: </p>
-        <li class="scope-list" v-for="scope in scopes" v-bind:key="scope.id" ><a :href="scope.url">{{ scope.name }}</a></li>
+        <li class="scope-list" v-for="scope in scopes" v-bind:key="scope.id" @click="gotoScope(scope.url)">{{ scope.name }}</li>
       </div>
     </div>
   </div>
@@ -42,6 +42,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             adminuser: false,
             loading: true,
             fullpage: true,
+          }
+        },
+        methods: {
+          gotoScope: function(url){
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
           }
         },
         created() {
