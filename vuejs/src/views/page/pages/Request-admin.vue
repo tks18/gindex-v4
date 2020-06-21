@@ -80,7 +80,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         mounted: function(){
           this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            console.log(response);
             if(response.status == '200'){
               this.loading = false;
               this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
@@ -89,23 +88,24 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
           })
-          var tokenData = JSON.parse(localStorage.getItem("tokendata"))
-          var userData = JSON.parse(localStorage.getItem("userdata"));
-          if (userData != null && tokenData != null){
+          var token = localStorage.getItem("tokendata");
+          var user = localStorage.getItem("userdata");
+          if (user != null && token != null){
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
             this.axios.post(window.apiRoutes.verifyRoute, {
               token: tokenData.token
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
+                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(!userData.admin && !userData.superadmin){
                   this.loading = false;
                   this.userinfo = userData;
-                  console.log(userData);
                 } else {
                   this.loading = false;
-                  this.$router.push({ name: 'results', params: { data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
+                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
                 }
               }
             })

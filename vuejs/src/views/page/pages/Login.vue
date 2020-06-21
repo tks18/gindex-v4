@@ -57,19 +57,21 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     .then(response => {
                       console.log(response);
                       if(response.data.auth && response.data.registered){
-                          localStorage.setItem("tokendata", JSON.stringify({ token: response.data.token ,issuedate: response.data.issuedat, expirydate: response.data.expiryat }));
-                          localStorage.setItem("userdata", JSON.stringify( response.data.tokenuser ));
-                          var token = JSON.parse(localStorage.getItem("tokendata"));
-                          var userData = JSON.parse(localStorage.getItem("userdata"));
-                          if(token && userData){
+                          localStorage.setItem("tokendata", this.$hash.AES.encrypt(JSON.stringify({ token: response.data.token ,issuedate: response.data.issuedat, expirydate: response.data.expiryat }), this.$pass).toString());
+                          localStorage.setItem("userdata", this.$hash.AES.encrypt(JSON.stringify( response.data.tokenuser ), this.$pass).toString());
+                          var token = localStorage.getItem("tokendata");
+                          var user = localStorage.getItem("userdata");
+                          if(token != null && user != null){
+                            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8))
+                            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
                             this.loading = false;
-                            this.resultmessage = `> Logged in Successfully as ${userData.name}. Your token will expire at ${token.expirydate}.`;
+                            this.resultmessage = `> Logged in Successfully as ${userData.name}. Your token will expire at ${tokenData.expirydate}.`;
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
-                                this.$router.push({name: "results", params: { data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
+                                this.$router.push({name: "results", params: { id: 0, cmd: "result", data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
                               }
                               else{
-                                  this.$router.push({name: "results", params: { data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/0:home/' }})
+                                  this.$router.push({name: "results", params: { id: 0, cmd: "result", data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/0:home/' }})
                               }
                             }, 500)
                           }

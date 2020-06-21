@@ -46,7 +46,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
         data(){
             return {
-                userinfo: JSON.parse(localStorage.getItem("userdata")),
+                userinfo: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
                 oldpassword: "",
                 newpassword : "",
                 confirmpassword: "",
@@ -61,8 +61,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.newpassword && this.newpassword.length > 0) {
-                    var tokenData = JSON.parse(localStorage.getItem("tokendata"))
-                    var userData = JSON.parse(localStorage.getItem("userdata"));
+                    var tokenData = JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8));
+                    var userData = JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8));
                     this.$http.post(window.apiRoutes.changePasswordRoute, {
                         email: userData.email,
                         oldpassword: this.oldpassword,
@@ -75,7 +75,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             localStorage.removeItem("tokendata");
                             localStorage.removeItem("userdata");
                             this.loading = false;
-                            this.$router.push({ name: 'results', params: { redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
+                            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
                             }
                           } else {
                             this.loading = false;

@@ -7,6 +7,8 @@ import "element-ui/lib/theme-chalk/loading.css";
 import axios from "@/plugin/axios";
 import VueAxios from "vue-axios";
 import router from "./router";
+import Crypto from "crypto-js";
+import secret from "../secret";
 import i18n from "./i18n";
 import VuePlyr from "vue-plyr"
 import Loading from "vue-loading-overlay";
@@ -25,6 +27,8 @@ document.write(
   `<script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?6be1011f95a1bfcdb2179fe2ae6e58fe";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s)})();</script>`
 );
 
+Vue.prototype.$hash = Crypto;
+Vue.prototype.$pass = secret.pass;
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.use(ElementUI);

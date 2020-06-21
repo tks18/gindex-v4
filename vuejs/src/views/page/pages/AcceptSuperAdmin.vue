@@ -76,8 +76,8 @@ export default {
                 password : "",
                 resultmessage: "",
                 databasemessage: "",
-                userData: JSON.parse(localStorage.getItem("userdata")),
-                userToken: JSON.parse(localStorage.getItem("tokendata")),
+                userData: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
+                userToken: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8)),
                 checked: "",
                 pendingUserList: [],
                 pendingMessage: "",
@@ -147,7 +147,6 @@ export default {
         mounted: function(){
           this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            console.log(response);
             if(response.status == '200'){
               this.databasemessage = `🟢 Database is Live. You can Login. Ping - ${response.data.ping}ms`
             } else {
@@ -170,15 +169,16 @@ export default {
               }
             }
           })
-          var userData = JSON.parse(localStorage.getItem("userdata"));
-          var token = JSON.parse(localStorage.getItem("tokendata"));
-          if(userData && token){
+          var user = localStorage.getItem("userdata");
+          var token = localStorage.getItem("tokendata");
+          if(user && token){
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
             if(userData.verified){
               if(userData.admin){
                 if(userData.superadmin){
                     this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
                 } else {
-                  this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                 }
               } else {
                 this.resultmessage = userData.admin
@@ -187,7 +187,7 @@ export default {
               this.resultmessage = userData.admin
             }
           } else {
-            this.resultmessage = userData.admin
+            this.resultmessage = "Unauthorized";
           }
         }
     }
