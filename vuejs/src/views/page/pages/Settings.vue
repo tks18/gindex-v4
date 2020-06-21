@@ -3,7 +3,7 @@
     <TopLinks />
     <div v-if="logged" class="content adminarea">
       <div class="loading">
-        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <h2 class="title"> Settings </h2>
       <hr>
@@ -46,31 +46,33 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         methods: {
           changePasswordRoute() {
-            this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:settings/changepassword" } })
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:settings/changepassword" } })
           },
           requestAdmin() {
             // window.alert("Currently Under Development");
-            this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/admin" } })
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/admin" } })
           },
           requestSuperAdmin() {
-            this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/superadmin" } })
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/superadmin" } })
           },
           deleteAccountRoute() {
             // window.alert("Currently Under Development");
-            this.$router.push({ name: 'results', params: { data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:delete/me" } })
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:delete/me" } })
           }
         },
         mounted() {
           this.loading = true;
-          var tokenData = JSON.parse(localStorage.getItem("tokendata"))
-          var userData = JSON.parse(localStorage.getItem("userdata"));
-          if (userData != null && tokenData != null){
+          var token = localStorage.getItem("tokendata");
+          var user = localStorage.getItem("userdata");
+          if (user != null && token != null){
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
             this.axios.post(window.apiRoutes.verifyRoute, {
               token: tokenData.token
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
+                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(userData.admin && userData.superadmin){
                   this.userinfo = userData;

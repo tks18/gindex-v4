@@ -2,7 +2,7 @@
     <div class="content registration-page">
       <TopLinks />
       <div class="loading">
-        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
         <h4>Invite User</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
@@ -93,15 +93,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         mounted: function(){
           this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            console.log(response);
             if(response.status == '200'){
               this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
             } else {
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
-            var userData = JSON.parse(localStorage.getItem("userdata"));
-            var token = JSON.parse(localStorage.getItem("tokendata"));
-            if(userData && token){
+            var user = localStorage.getItem("userdata");
+            var token = localStorage.getItem("tokendata");
+            if(user && token){
+              var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
               if(userData.verified){
                 if(userData.admin){
                   this.loading = false;
@@ -109,15 +109,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
                 } else {
                   this.loading = false;
-                  this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                 }
               } else {
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Unauthorized", redirectUrl: "/0:home/" } })
               }
             } else {
               this.loading = false;
-              this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Unauthorized", redirectUrl: "/0:home/" } })
             }
           })
         }

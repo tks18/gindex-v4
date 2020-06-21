@@ -5,7 +5,7 @@
       <div class="field is-grouped-multiline">
         <div class="control">
           <div class="loading">
-            <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+            <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
           </div>
           <div v-if="logged" class="tags-has-addons home">
               <p class="home-welcome"> > Welcome <span class="home-name">{{ user.name }}</span></p>
@@ -47,20 +47,21 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             }
         },
         created() {
-          var tokenData = JSON.parse(localStorage.getItem("tokendata"))
-          var userData = JSON.parse(localStorage.getItem("userdata"));
-          if (userData != null && tokenData != null){
+          var token = localStorage.getItem("tokendata");
+          var user = localStorage.getItem("userdata");
+          if (user != null && token != null){
+            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
             this.axios.post(window.apiRoutes.verifyRoute, {
               token: tokenData.token
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
+                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
-                var token = JSON.parse(localStorage.getItem('tokendata')).token
                 this.user = userData;
                 this.tokendata = tokenData;
-                this.truncatedApi = token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
+                this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
                 this.logged = true
                 setTimeout(() => {
                   this.loading = false;

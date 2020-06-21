@@ -2,7 +2,7 @@
     <div class="content registration-page">
       <TopLinks />
         <div class="loading">
-          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
         <h4>Delete Admin</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
@@ -42,8 +42,8 @@ export default {
                 password : "",
                 resultmessage: "",
                 databasemessage: "",
-                userData: JSON.parse(localStorage.getItem("userdata")),
-                userToken: JSON.parse(localStorage.getItem("tokendata")),
+                userData: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
+                userToken: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8)),
                 loading: true,
                 fullpage: true,
             }
@@ -91,9 +91,10 @@ export default {
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
           })
-          var userData = JSON.parse(localStorage.getItem("userdata"));
-          var token = JSON.parse(localStorage.getItem("tokendata"));
-          if(userData && token){
+          var user = localStorage.getItem("userdata");
+          var token = localStorage.getItem("tokendata");
+          if(user && token){
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
             if(userData.verified){
               if(userData.admin){
                 if(userData.superadmin){
@@ -101,7 +102,7 @@ export default {
                     this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
                 } else {
                   this.loading = false;
-                  this.$router.push({ name: 'results', params: { data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                 }
               } else {
                 this.loading = false;
@@ -113,7 +114,7 @@ export default {
             }
           } else {
             this.loading = false;
-            this.resultmessage = userData.admin
+            this.resultmessage = "Unauthorized";
           }
         }
     }

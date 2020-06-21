@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.1.2",
-  "g2index": "7.1.2",
+  "version": "7.2.0",
+  "g2index": "7.2.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -14,6 +14,7 @@
     "bulma": "^0.8.2",
     "bulma-divider": "^0.2.0",
     "core-js": "^3.6.4",
+    "crypto-js": "^4.0.0",
     "element-ui": "^2.13.1",
     "feb-alive": "^1.0.9",
     "js-base64": "^2.5.2",

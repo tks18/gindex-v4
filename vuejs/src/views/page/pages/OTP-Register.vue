@@ -2,7 +2,7 @@
     <div class="content login-page">
       <TopLinks />
       <div class="loading">
-        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
@@ -74,7 +74,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                       console.log(response);
                       if(response.data.auth && response.data.registered && response.data.changed){
                         this.loading = false;
-                            this.$router.push({ name: 'results', params: { redirectUrl: '/0:login/', data: response.data.message } })
+                            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", redirectUrl: '/0:login/', data: response.data.message } })
                           } else {
                             this.loading = false;
                           this.resultmessage = "> "+response.data.message;

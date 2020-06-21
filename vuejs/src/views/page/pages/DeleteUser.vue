@@ -2,7 +2,7 @@
     <div class="content registration-page">
       <TopLinks />
       <div class="loading">
-        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
         <h4>Delete User</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>
@@ -42,8 +42,8 @@ export default {
                 password : "",
                 resultmessage: "",
                 databasemessage: "",
-                userData: JSON.parse(localStorage.getItem("userdata")),
-                userToken: JSON.parse(localStorage.getItem("tokendata")),
+                userData: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
+                userToken: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8)),
                 loading: true,
                 fullpage: true,
             }
@@ -84,16 +84,16 @@ export default {
         mounted: function(){
           this.loading = true;
           this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            console.log(response);
             if(response.status == '200'){
               this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
             } else {
               this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
             }
           })
-          var userData = JSON.parse(localStorage.getItem("userdata"));
-          var token = JSON.parse(localStorage.getItem("tokendata"));
-          if(userData && token){
+          var user = localStorage.getItem("userdata");
+          var token = localStorage.getItem("tokendata");
+          if(user && token){
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
             if(userData.verified){
               if(userData.admin){
                 this.loading = false;
