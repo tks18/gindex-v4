@@ -9,6 +9,22 @@
 }
 @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Faster+One&family=Fredericka+the+Great&family=Major+Mono+Display&family=Monoton&family=Pacifico&family=Permanent+Marker&display=swap');
 
+* {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.pendingusers, input {
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -o-user-select: text;
+    user-select: text;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -682,7 +698,7 @@ body {
         color: white;
       }
       a:hover {
-        color: black;
+        color: white;
       }
     }
     .scope-list:hover {
@@ -693,7 +709,6 @@ body {
 }
 
 .navigation-buttons {
-  align-items: center;
   text-align: center;
   padding: 5px;
   margin: 5px;
@@ -701,20 +716,22 @@ body {
   .buttons {
     list-style: none;
     color: white;
+    font-size: 17px;
     display: inline-block;
-    background-color: #ff9595;
+    background-color: black;
     padding: 5px;
     margin: 5px;
+    border: 2px solid #ff9595;
     border-radius: 0.5rem;
     a {
-      color: white;
+      color: #ff9595;
     }
     a:hover {
-      color: black;
+      color: white;
     }
   }
   .buttons:hover {
-    background-color: black;
+    background-color: #ff9595;
     color: white;
   }
 }
