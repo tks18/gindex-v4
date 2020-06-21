@@ -4,7 +4,7 @@
     <div v-if="adminuser" class="content adminarea">
       <h2 class="title"> Super Admin Area </h2>
       <div class="loading">
-        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <hr>
       <div class="userdetails">

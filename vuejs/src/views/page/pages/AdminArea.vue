@@ -5,7 +5,7 @@
       <h2 class="title"> Super Admin Area </h2>
       <hr>
       <div class="loading">
-        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <div class="userdetails">
         <h3>User Details</h3>

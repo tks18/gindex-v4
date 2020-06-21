@@ -2,7 +2,7 @@
     <div class="content registration-page">
       <TopLinks />
         <div class="loading">
-          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
         <h4>Delete Admin</h4>
         <p style="color: #bac964;">{{ databasemessage }}</p>

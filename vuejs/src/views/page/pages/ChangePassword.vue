@@ -5,7 +5,7 @@
       <p style="color: #f6f578">{{ resultmessage }}</p>
         <h4>Change Your Password</h4>
         <div class="loading">
-          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
         <form @submit.prevent="handleSubmit">
             <p style="color:white">Your Email - <span style="color: #ff9595">"{{ userinfo.email }}"</span></p>

@@ -5,7 +5,7 @@
       <div class="field is-grouped-multiline">
         <div class="control">
           <div class="loading">
-            <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+            <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
           </div>
           <div v-if="logged" class="tags-has-addons home">
               <p class="home-welcome"> > Welcome <span class="home-name">{{ user.name }}</span></p>

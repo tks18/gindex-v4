@@ -3,7 +3,7 @@
     <TopLinks />
     <div v-if="logged" class="content adminarea">
       <div class="loading">
-        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullPage"></loading>
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <h2 class="title"> Settings </h2>
       <hr>
