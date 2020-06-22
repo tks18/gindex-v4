@@ -3,7 +3,7 @@
     <a class="navbar-link is-arrowless">
       <i class="fa fa-language"></i>
     </a>
-    <div class="navbar-dropdown is-left">
+    <div class="navbar-dropdown is-right">
       <a
         style="background-color: black;"
         :class="'navbar-item'+(currLanguage===language.value?' navbar-active':'')"

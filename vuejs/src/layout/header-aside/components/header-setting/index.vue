@@ -1,9 +1,12 @@
 <template>
   <div class="navbar-item has-dropdown is-hoverable">
     <a class="navbar-link is-arrowless" title="Setting">
-      <i class="fa fa-cog" aria-hidden="true"></i>
+      <span class="icon">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+      </span>
+      <span class="is-hidden-desktop">Settings</span>
     </a>
-    <div class="navbar-dropdown is-left">
+    <div class="navbar-dropdown is-right">
       <a class="navbar-item" @click="cleanCache">
         <span class="icon">
           <i class="fa fa-trash" aria-hidden="true"></i>

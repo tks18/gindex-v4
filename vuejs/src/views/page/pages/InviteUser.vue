@@ -24,8 +24,9 @@
             </div>
             <label style="color: grey; font-size: 14px"> (why he Need to get Glory to Heaven?) </label>
             <div>
-              <input type="checkbox" id="terms" name="terms" v-model="checked">
-              <label for="terms"> I Accept and Read the <a class="guidelines" href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Community Guidelines</a></label><br>
+              <Checkbox color="#ff9595" id="terms" name="terms" v-model="checked">
+                I Accept and Read the <a class="guidelines" href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Community Guidelines</a>
+              </Checkbox>
             </div>
             <div>
                 <button class="registration-button" type="submit">
@@ -37,11 +38,13 @@
 </template>
 <script>
 import TopLinks from "../../common/Top-Links";
+import Checkbox from "vue-material-checkbox";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
       components: {
         TopLinks,
+        Checkbox,
         Loading
       },
         props : ["nextUrl"],
@@ -55,6 +58,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 databasemessage: "",
                 loading: true,
                 fullpage: true,
+                checked: "",
             }
         },
         methods : {

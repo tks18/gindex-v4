@@ -50,6 +50,23 @@ html {
 .navbar {
   background-color: black;
   border-bottom: 3px solid #ff9595;
+  .container {
+    max-width: 90%;
+  }
+  @media only screen and (max-width: 700px){
+    .navbar-item {
+      &.has-dropdown {
+      .navbar-dropdown {
+        display: none;
+      }
+      &.is-active {
+        .navbar-dropdown {
+          display: block;
+        }
+       }
+     }
+    }
+  }
 }
 
 .navbar-dropdown{
@@ -86,7 +103,7 @@ body {
 }
 
 .container {
-  max-width: 980px;
+  max-width: 1080px;
 }
 
 .iconfont {
@@ -562,6 +579,9 @@ body {
   padding-bottom: 30px;
   margin: 1px;
   font-family: monospace;
+  .checkbox {
+    text-align: center;
+  }
   label {
     color: white;
   }
@@ -584,12 +604,6 @@ body {
   }
   .guidelines:hover {
     color: red;
-  }
-  input[checkbox]{
-    background-color: #ff9595;
-  }
-  input[checkbox]:checked {
-    background-color: #ff9595;
   }
   .registration-button {
     background-color: #fb7813;
@@ -713,26 +727,8 @@ body {
   padding: 5px;
   margin: 5px;
   font-family: monospace;
-  .buttons {
-    list-style: none;
-    color: white;
-    font-size: 17px;
-    display: inline-block;
-    background-color: black;
-    padding: 5px;
-    margin: 5px;
-    border: 2px solid #ff9595;
-    border-radius: 0.5rem;
-    a {
-      color: #ff9595;
-    }
-    a:hover {
-      color: white;
-    }
-  }
-  .buttons:hover {
-    background-color: #ff9595;
-    color: white;
+  .but-pad {
+    margin: 3px;
   }
 }
 
