@@ -258,6 +258,7 @@ export default {
     },
     query() {
       if (this.param) {
+        this.isActive = !this.isActive;
         this.$router.push({
           path: this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param,
         });
@@ -270,9 +271,11 @@ export default {
       this.active = !this.active
     },
     gotoPage(url) {
+      this.isActive = !this.isActive;
       this.$router.push(url);
     },
     logout() {
+      this.isActive = !this.isActive;
       var token = localStorage.getItem("tokendata")
       var user = localStorage.getItem("userdata");
       if (user != null && token != null){

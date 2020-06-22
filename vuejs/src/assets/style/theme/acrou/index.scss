@@ -454,53 +454,8 @@ body {
 }
 
 .home {
-  color: white;
-  h1,h2,h3,h4,h5,h6 {
-    color: white;
-  }
-  p {
-    color: white;
-    font-family: monospace;
-  }
-  padding: 10px;
-  margin: 20px;
-  border: 2px solid #ff9595;
-  border-radius: 0.4rem;
-  .home-apikey {
-    color: #bbf1c8;
-  }
-  .home-disclaimer {
-    color: grey;
-  }
-  .home-emails {
-    color: #ff9595;
-  }
-  .home-alert {
-    color: #b6eb7a;
-  }
-  .home-buttons {
-    padding: 40px;
-    .logout-button,.content-button,.login-button,.registration-button {
-      padding: 10px;
-      margin: 20px;
-      border-radius: 0.7rem;
-    }
-    .logout-button {
-      background-color: #fb7813;
-      color: white;
-    }
-    .content-button {
-      background-color: #b6eb7a;
-      color: #17706e;
-    }
-    .login-button {
-      background-color: #b6eb7a;
-      color: #17706e;
-    }
-    .registration-button {
-      background-color: #fb7813;
-      color: white;
-    }
+  .has-border {
+    border: 2px solid #ff9595;
   }
 }
 
@@ -572,6 +527,7 @@ body {
 }
 
 .registration-page {
+  align-content: center;
   text-align: center;
   border: 2px solid #ff9595;
   border-radius: 0.5rem;

@@ -95,7 +95,7 @@ router.beforeEach( (to, from, next) => {
           next();
       }
       else{
-        if(to.matched.some(record => record.meta.home)){
+        if(to.matched.some(record => record.meta.allow)){
             next();
         } else {
             next({path: '/0:home/'});

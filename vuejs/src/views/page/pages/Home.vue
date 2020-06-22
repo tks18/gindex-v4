@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section class="section">
     <TopLinks />
     <div class="columns is-mobile is-centered">
       <div class="field is-grouped-multiline">
@@ -7,15 +7,54 @@
           <div class="loading">
             <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
           </div>
-          <div v-if="logged" class="tags-has-addons home">
-              <p class="home-welcome"> > Welcome <span class="home-name">{{ user.name }}</span></p>
-              <p class="home-welcome"> > Your Scopes/Permissions -  <span class="home-name">{{ user.role }}</span></p>
-              <p class="home-email"> > Your email is <span class="home-emails">"{{ user.email }}"</span></p>
-              <p class="home-welcome"> > Valid from - <span class="home-emails">"{{ tokendata.issuedate }}"</span></p>
-              <p class="home-welcome"> > Valid through - <span class="home-emails">"{{ tokendata.expirydate }}"</span></p>
-              <p class="home-key"> > Your API key is <span class="home-apikey">"{{ truncatedApi }}"</span></p>
-              <p class="home-alert">You Have been Successfully Logged In !!. Now You Can View Content</p>
-              <p class="home-disclaimer">Above Key is Valid for 1 Week, after that You have to Login Another time</p>
+          <div v-if="logged" class="tags-has-addons home mt-3">
+             <div class="container has-text-white is-fluid">
+               <h1 class="title has-text-white has-text-centered">Hey There, Whaat up? <p class="has-text-info">{{ user.name }}</p></h1>
+               <article class="message is-danger">
+                <div class="message-header">
+                  <p>Token Details</p>
+                </div>
+                <div class="message-body">
+                  Remember!! Your Token will Expire on <strong><em>{{ tokendata.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</em></strong></div>
+              </article>
+              <!-- <div class="tile is-ancestor">
+                <div class="tile is-vertical is-8">
+                  <div class="tile">
+                    <div class="tile is-parent is-vertical">
+                      <article class="tile is-child box">
+                        <p class="title">Vertical...</p>
+                        <p class="subtitle">Top tile</p>
+                      </article>
+                      <article class="tile is-child box">
+
+                      </article>
+                    </div>
+                    <div class="tile is-parent">
+                      <article class="tile is-child box">
+
+                      </article>
+                    </div>
+                  </div>
+                  <div class="tile is-parent">
+                    <article class="tile is-child box">
+
+                    </article>
+                  </div>
+                </div>
+                <div class="tile is-parent">
+                  <article class="tile is-child box">
+                  </article>
+                </div>
+                </div> -->
+                <p class="subtitle has-text-white">This Page is Undergoing Some Changes Please Use Navigation Bar to Navigate.</p>
+               <p class="subtitle has-text-white"> Your Scopes/Permissions -  {{ user.role }}<span class="home-name"></span></p>
+               <p class="home-email"> > Your email is <span class="home-emails">"{{ user.email }}"</span></p>
+               <p class="home-welcome"> > Valid from - <span class="home-emails">"{{ tokendata.issuedate }}"</span></p>
+               <p class="home-welcome"> > Valid through - <span class="home-emails">"{{ tokendata.expirydate }}"</span></p>
+               <p class="home-key"> > Your API key is <span class="home-apikey">"{{ truncatedApi }}"</span></p>
+               <p class="home-alert">You Have been Successfully Logged In !!. Now You Can View Content</p>
+               <p class="home-disclaimer">Above Key is Valid for 1 Week, after that You have to Login Another time</p>
+             </div>
           </div>
           <div v-else class="tags-has-addons home">
               <p class="home-welcome"> > Welcome to Glory to Heaven - You Anonymous 😜</p>
@@ -24,7 +63,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

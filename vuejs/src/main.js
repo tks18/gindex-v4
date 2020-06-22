@@ -35,6 +35,7 @@ Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$bus = EventBus;
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+Vue.use(require('vue-moment'));
 Vue.use(VueClipboard);
 Vue.use(VuePlyr, {
   plyr: {
