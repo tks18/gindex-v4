@@ -32,6 +32,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.data = this.$route.params.data;
               setTimeout(() => {
                   this.$router.push({ path: this.$route.params.redirectUrl })
+                  window.location.reload(true);
               }, 1000)
           } else {
             this.data = "Nothing Here!...You will be Redirected"

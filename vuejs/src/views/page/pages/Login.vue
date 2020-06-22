@@ -66,6 +66,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
                             this.loading = false;
                             this.resultmessage = `> Logged in Successfully as ${userData.name}. Your token will expire at ${tokenData.expirydate}.`;
+                            this.$bus.$emit('logged', 'User Logged')
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
                                 this.$router.push({name: "results", params: { id: 0, cmd: "result", data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});

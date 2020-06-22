@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
-        <a class="navbar-item nav-heading" :href="currgd.id">
+        <a class="navbar-item nav-heading" @click="gotoPage('/0:home/')">
           <h3 class="title is-3 has-text-white">{{ siteName }}</h3>
         </a>
         <a
@@ -43,7 +43,7 @@
         </div>
         <div class="navbar-end">
           <!-- is-hidden-desktop -->
-          <div class="navbar-item" v-show="showSearch">
+          <div v-if="logged" class="navbar-item" v-show="showSearch">
             <div class="field is-grouped">
               <p class="control has-icons-left is-dark" style="width:100%;">
                 <input
@@ -60,31 +60,109 @@
               </p>
             </div>
           </div>
-          <header-locales />
           <a
             class="navbar-item"
-            target="_blank"
-            rel="noopener"
-            title="View on github"
-            href="https://github.com/tks18/gindex-v4"
-          >
-            <i class="fab fa-github"></i>
+            title="Home"
+            @click="gotoPage('/0:home/')"
+           >
+           <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+          <span>Home</span>
           </a>
-          <header-setting />
           <a
-            class="navbar-item is-hidden-desktop"
-            @click.stop="$refs.viewMode.toggleMode"
-          >
-            <view-mode ref="viewMode" />
+            class="navbar-item"
+            title="OTP Registration"
+            v-if="!logged"
+            @click="gotoPage('/0:register/otp')"
+           >
+           <span class="icon">
+            <i class="fas fa-user-check"></i>
+          </span>
+          <span>Register</span>
+          </a>
+          <a
+            class="navbar-item"
+            title="Request Access"
+            v-if="!logged"
+            @click="gotoPage('/0:register/request/user')"
+           >
+           <span class="icon">
+            <i class="fas fa-user-plus"></i>
+          </span>
+          <span>Request Access</span>
+          </a>
+          <a
+            class="navbar-item"
+            title="Login"
+            v-if="!logged"
+            @click="gotoPage('/0:login/')"
+           >
+           <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span class="is-hidden-desktop">Login</span>
+          </a>
+          <a
+            class="navbar-item"
+            title="Movies"
+            v-if="logged"
+            @click="gotoPage('/0:/')"
+           >
+           <span class="icon">
+            <i class="fas fa-file-video"></i>
+          </span>
+          <span>Movies</span>
+          </a>
+          <a
+            class="navbar-item"
+            title="Admin Panel"
+            v-if="logged && admin && !superadmin"
+            @click="gotoPage('/0:admin/')"
+           >
+           <span class="icon">
+            <i class="fas fa-user-shield"></i>
+          </span>
+          <span  class="is-hidden-desktop">Admin Zone</span>
+          </a>
+          <a
+            class="navbar-item"
+            title="Admin Panel"
+            v-if="logged && admin && superadmin"
+            @click="gotoPage('/0:superadmin/')"
+           >
+           <span class="icon">
+            <i class="fas fa-user-shield"></i>
+          </span>
+          <span  class="is-hidden-desktop">Admin Zone</span>
+          </a>
+          <a
+            class="navbar-item"
+            title="Settings"
+            v-if="logged"
+            @click="gotoPage('/0:settings/')"
+           >
+           <span class="icon">
+            <i class="fas fa-user-cog"></i>
+          </span>
+          <span class="is-hidden-desktop"> My Settings</span>
           </a>
           <a
             class="navbar-item"
             title="Logout"
             @click="logout"
-            v-if="logoutButton"
-            href="/0:home/"
+            v-if="logged"
            >
+           <span class="icon">
             <i class="fas fa-sign-out-alt"></i>
+          </span>
+          <span class="is-hidden-desktop">Logout</span>
+          </a>
+          <a
+            :class="ismobile ? 'navbar-item' : 'navbar-item is-hidden'"
+            @click.stop="$refs.viewMode.toggleMode"
+          >
+            <viewMode ref="viewMode" />
           </a>
         </div>
       </div>
@@ -93,16 +171,49 @@
 </template>
 
 <script>
-import headerLocales from "@/layout/header-aside/components/header-locales";
-import headerSetting from "@/layout/header-aside/components/header-setting";
 import ViewMode from "@/layout/viewmode";
 export default {
   components: {
-    headerLocales,
-    headerSetting,
     ViewMode,
   },
   created() {
+    this.$bus.$on('logged', () => {
+      var token = localStorage.getItem("tokendata");
+      var user = localStorage.getItem("userdata");
+      if (user != null && token != null){
+        var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+        if(userData.admin && !userData.superadmin){
+            this.logged = true;
+            this.admin = true;
+        } else if(userData.admin && userData.superadmin){
+          this.logged = true;
+          this.admin = true;
+          this.superadmin = true
+        } else {
+          this.logged = true
+        }
+      } else {
+        this.logged = false
+      }
+    })
+    var token = localStorage.getItem("tokendata");
+    var user = localStorage.getItem("userdata");
+    if (user != null && token != null){
+      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+      if(userData.admin && !userData.superadmin){
+          this.logged = true;
+          this.admin = true;
+      } else if(userData.admin && userData.superadmin){
+        this.logged = true;
+        this.admin = true;
+        this.superadmin = true
+      } else {
+        this.logged = true
+      }
+    } else {
+      this.logged = false
+    }
+    this.active = false;
     this.siteName = document.getElementsByTagName("title")[0].innerText;
     if (window.gds && window.gds.length > 0) {
       this.gds = window.gds.map((item, index) => {
@@ -120,8 +231,12 @@ export default {
   data: function() {
     return {
       siteName: "",
+      active: false,
       param: "",
       currgd: {},
+      logged: false,
+      admin: false,
+      superadmin: false,
       gds: [],
       isActive: false,
       eyes:
@@ -151,13 +266,19 @@ export default {
     burgerClick() {
       this.isActive = !this.isActive;
     },
+    hoverclick() {
+      this.active = !this.active
+    },
+    gotoPage(url) {
+      this.$router.push(url);
+    },
     logout() {
-      let user = localStorage.getItem('user');
-      let token = localStorage.getItem('jwt');
-      if(user != null && token != null) {
-        localStorage.removeItem('user');
-        localStorage.removeItem('jwt');
-        this.$router.push('/0:home/')
+      var token = localStorage.getItem("tokendata")
+      var user = localStorage.getItem("userdata");
+      if (user != null && token != null){
+        localStorage.removeItem("tokendata");
+        localStorage.removeItem("userdata");
+        this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "You are Being Logged Out. Please Wait", redirectUrl: '/0:home/' } })
       }
     }
   },
@@ -169,13 +290,12 @@ export default {
 // Folder does not support searching
       return window.MODEL ? window.MODEL.root_type < 2 : true
     },
-    logoutButton() {
-      let user = localStorage.getItem('user');
-      let token = localStorage.getItem('jwt');
-      if(user != null && token != null) {
-        return true;
-      } else {
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if(width > 966){
         return false
+      } else {
+        return true
       }
     }
   },
