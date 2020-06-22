@@ -1,14 +1,10 @@
 <template>
-  <div class="columns is-mobile is-centered">
-    <div class="field is-grouped-multiline">
-      <div class="control">
-        <div class="loading">
-          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
-        </div>
-        <div class="tags-has-addons home">
-            <p class="home-welcome"> > {{ data }} </p>
-        </div>
-      </div>
+  <div class="container has-text-white has-text-centered" style="border-radius: 0.5rem;border: 2px solid #ff9595; margin: 5px; padding: 5px;">
+    <div class="loading">
+      <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
+    </div>
+    <div class="tags-has-addons">
+        <p class="home-welcome has-text-white"> > {{ data }} </p>
     </div>
   </div>
 </template>
@@ -32,9 +28,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.data = this.$route.params.data;
               setTimeout(() => {
                   this.$router.push({ path: this.$route.params.redirectUrl })
-                  window.location.reload(true);
               }, 1000)
-          } else {
+          }
+          else {
             this.data = "Nothing Here!...You will be Redirected"
             setTimeout(() => {
               this.$router.push({ path: '/0:home/' })

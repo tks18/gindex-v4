@@ -166,7 +166,7 @@ const frameIn = [{
       meta: {
           ...meta,
           guest: true,
-          home: true
+          allow: true
       }
   },
   {
@@ -176,6 +176,7 @@ const frameIn = [{
       meta: {
           ...meta,
           guest: true,
+          allow: true,
       }
   },
   {
