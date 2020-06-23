@@ -1,42 +1,113 @@
 <template>
-    <div class="content login-page">
+    <div class="content">
       <TopLinks />
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
-      <p style="color: #bac964">{{ databasemessage }}</p>
-      <p style="color: #f6f578">{{ resultmessage }}</p>
-        <h4>Verify Your Account</h4>
-        <form @submit.prevent="handleSubmit">
-            <label for="email" > > Your E-Mail Address</label>
-            <div>
-                <input id="email" type="email" v-model="email" required autofocus>
-            </div>
-            <div>
-                <label for="otp" > > OTP</label>
-                <div>
-                    <input id="otp" type="password" v-model="otp" required>
+      <div class="columns is-vcentered is-centered is-multiline">
+        <div class="column is-half">
+          <section class="hero is-black is-medium">
+            <div class="hero-body">
+              <div class="container">
+                <div class="tile is-ancestor">
+                  <div class="tile is-parent">
+                    <article class="tile has-text-centered is-child notification is-success">
+                      <p class="title has-text-dark">
+                        <span class="icon">
+                          <i class="fab fa-superpowers"></i>
+                        </span>
+                        <span> Final Steps... </span>
+                      </p>
+                      <p class="subtitle">Email Verification</p>
+                      <div class="content">
+                          <p class="has-text-dark has-text-weight-semibold">After Receiving Confirmation Mail, You Have to Verify your Account with OTP.</p>
+                          <p class="has-text-dark">Please Enter your OTP to Verify and Register your Account.</p>
+                          <p class="has-text-dark">After Successfully Verifying. Press the Below button to Login.</p>
+                      </div>
+                    </article>
+                  </div>
                 </div>
-                <label style="color: grey; font-size: 14px;"> OTP is Case Sensitive</label>
-            </div>
-            <div>
-                <label for="password" > > Password</label>
-                <div>
-                    <input id="password" type="password" v-model="password" required>
+                <div class="buttons is-centered">
+                  <button class="button is-rounded is-medium is-danger" @click="gotoPage('/0:login/')">
+                    <span class="icon is-medium">
+                      <i class="fas fa-shipping-fast"></i>
+                    </span>
+                    <span>Login</span>
+                  </button>
                 </div>
+              </div>
             </div>
-            <div>
-                <label for="confirm-password" > > Confirm Password</label>
-                <div>
-                    <input id="confirm-password" type="password" v-model="confirmpassword" required>
-                </div>
+          </section>
+        </div>
+        <div class="column is centered has-text-centered has-text-white is-two-fifths">
+          <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
+            <div class="message-header">
+              <p>Error verifying in!!</p>
+              <button class="delete" @click="errormessageVisibility = false" aria-label="delete"></button>
             </div>
-            <div>
-                <button class="login-button" type="submit" >
-                    Login
-                </button>
+            <div class="message-body">
+              {{ resultmessage }}
             </div>
-        </form>
+          </article>
+          <article :class=" successmessageVisibility ? 'message is-success' : 'message is-hidden is-success'">
+            <div class="message-header">
+              <p>Success !</p>
+              <button class="delete" @click="successmessageVisibility = false" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+              {{ resultmessage }}
+            </div>
+          </article>
+          <h2 class="title has-text-weight-bold has-text-white">Verify Your Account</h2>
+            <form @submit.prevent="handleSubmit">
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input class="input is-rounded" placeholder="Email" id="email" type="email" v-model="email" required autofocus>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input class="input is-rounded" placeholder="Enter Your OTP" id="otp" type="text" v-model="otp" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-key"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+                <p class="help is-danger">OTP is Case Sensitive</p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input is-rounded" id="password" type="password" placeholder="Password" v-model="password" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input is-rounded" id="confirm-password" type="password" placeholder="Confirm Password" v-model="confirmpassword" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <button :class=" loading ? 'button is-rounded is-loading is-success is-medium' : 'button is-rounded is-success is-medium' " :disabled="disabled">
+                <span class="icon is-medium">
+                  <i class="fas fa-user-check"></i>
+                </span>
+                <span>Verify</span>
+              </button>
+            </form>
+        </div>
+      </div>
     </div>
 </template>
 <script>
@@ -55,9 +126,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 password : "",
                 confirmpassword: "",
                 resultmessage: "",
+                disabled: true,
                 databasemessage: "",
-                loading: true,
+                loading: false,
                 fullpage: true,
+                errormessageVisibility: false,
+                successmessageVisibility: false,
             }
         },
         methods : {
@@ -73,36 +147,38 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     .then(response => {
                       console.log(response);
                       if(response.data.auth && response.data.registered && response.data.changed){
-                        this.loading = false;
-                            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", redirectUrl: '/0:login/', data: response.data.message } })
-                          } else {
-                            this.loading = false;
-                          this.resultmessage = "> "+response.data.message;
+                          this.errormessageVisibility = false;
+                          this.successmessageVisibility = true;
+                          this.loading = false;
+                          this.resultmessage = response.data.message + "Now You can Login with Your Email and Password";
+                        } else {
+                          this.errormessageVisibility = true;
+                          this.successmessageVisibility = false;
+                          this.loading = false;
+                          this.resultmessage = response.data.message;
                       }
                     });
                 } else {
+                  this.errormessageVisibility = true;
+                  this.successmessageVisibility = false;
                   this.loading = false;
                   this.resultmessage = "> Passwords Do Not Match"
                   this.password = "";
                   this.confirmpassword = "";
                 }
             },
+            gotoPage(url) {
+              this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
+            }
         },
-        mounted: function() {
-          this.loading = true;
-          if(this.$route.params.summa){
-            this.databasemessage = this.$route.params.data
-          } else {
-            this.$http.post(window.apiRoutes.homeRoute).then(response => {
-              console.log(response);
-              if(response.status == '200'){
-                this.loading = false;
-                this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
-              } else {
-                this.loading = false;
-                this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
-              }
-            })
+        watch: {
+          confirmpassword: function() {
+            const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
+            if(emailRegex.test(this.email) && this.otp.length > 0 && this.password.length > 0 && this.password == this.confirmpassword){
+              this.disabled = false;
+            } else {
+              this.disabled = true;
+            }
           }
         }
     }

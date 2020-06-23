@@ -42,7 +42,7 @@
             </article>
             <article :class=" successmessageVisibility ? 'message is-success' : 'message is-hidden is-success'">
               <div class="message-header">
-                <p>Error Logging in!!</p>
+                <p>Success !</p>
                 <button class="delete" @click="successmessageVisibility = false" aria-label="delete"></button>
               </div>
               <div class="message-body">
@@ -70,7 +70,7 @@
                   </span>
                 </p>
               </div>
-              <button :class=" loading ? 'button is-loading is-danger is-medium' : 'button is-medium is-danger'" :disabled="disabled">
+              <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'" :disabled="disabled">
                 <span class="icon is-medium">
                   <i class="fas fa-shipping-fast"></i>
                 </span>
@@ -149,12 +149,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         watch: {
           password: function() {
             const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
-            if(emailRegex.test(this.email)){
-              if(this.password.length > 0){
-                this.disabled = false;
-              } else {
-                this.disabled = true;
-              }
+            if(emailRegex.test(this.email) && this.password.length > 0){
+              this.disabled = false;
             } else {
               this.disabled = true;
             }
