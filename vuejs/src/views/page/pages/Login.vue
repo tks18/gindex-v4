@@ -42,7 +42,7 @@
             </article>
             <article :class=" successmessageVisibility ? 'message is-success' : 'message is-hidden is-success'">
               <div class="message-header">
-                <p>Error Logging in!!</p>
+                <p>Success !</p>
                 <button class="delete" @click="successmessageVisibility = false" aria-label="delete"></button>
               </div>
               <div class="message-body">
