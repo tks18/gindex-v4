@@ -454,9 +454,18 @@ body {
 }
 
 .home {
-  .has-border {
-    border: 2px solid #ff9595;
+  color: white;
+  h1,h2,h3,h4,h5,h6 {
+    color: white;
   }
+  p {
+    color: white;
+    font-family: monospace;
+  }
+  padding: 10px;
+  margin: 20px;
+  border: 2px solid #ff9595;
+  border-radius: 0.4rem;
 }
 
 .login-page {
