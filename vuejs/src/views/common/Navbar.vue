@@ -2,7 +2,7 @@
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
-        <a class="navbar-item nav-heading" @click="gotoPage('/0:home/')">
+        <a class="navbar-item nav-heading" @click="homeRoute">
           <h3 class="title is-3 has-text-white">{{ siteName }}</h3>
         </a>
         <a
@@ -178,41 +178,12 @@ export default {
   },
   created() {
     this.$bus.$on('logged', () => {
-      var token = localStorage.getItem("tokendata");
-      var user = localStorage.getItem("userdata");
-      if (user != null && token != null){
-        var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-        if(userData.admin && !userData.superadmin){
-            this.logged = true;
-            this.admin = true;
-        } else if(userData.admin && userData.superadmin){
-          this.logged = true;
-          this.admin = true;
-          this.superadmin = true
-        } else {
-          this.logged = true
-        }
-      } else {
-        this.logged = false
-      }
+      this.loginorout();
     })
-    var token = localStorage.getItem("tokendata");
-    var user = localStorage.getItem("userdata");
-    if (user != null && token != null){
-      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-      if(userData.admin && !userData.superadmin){
-          this.logged = true;
-          this.admin = true;
-      } else if(userData.admin && userData.superadmin){
-        this.logged = true;
-        this.admin = true;
-        this.superadmin = true
-      } else {
-        this.logged = true
-      }
-    } else {
-      this.logged = false
-    }
+    this.$bus.$on('logout', () => {
+      this.loginorout();
+    })
+    this.loginorout();
     this.active = false;
     this.siteName = document.getElementsByTagName("title")[0].innerText;
     if (window.gds && window.gds.length > 0) {
@@ -270,6 +241,28 @@ export default {
     hoverclick() {
       this.active = !this.active
     },
+    homeRoute() {
+      this.$router.push("/0:home/");
+    },
+    loginorout() {
+      var token = localStorage.getItem("tokendata");
+      var user = localStorage.getItem("userdata");
+      if (user != null && token != null){
+        var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+        if(userData.admin && !userData.superadmin){
+            this.logged = true;
+            this.admin = true;
+        } else if(userData.admin && userData.superadmin){
+          this.logged = true;
+          this.admin = true;
+          this.superadmin = true
+        } else {
+          this.logged = true
+        }
+      } else {
+        this.logged = false
+      }
+    },
     gotoPage(url) {
       this.isActive = !this.isActive;
       this.$router.push(url);
@@ -281,6 +274,7 @@ export default {
       if (user != null && token != null){
         localStorage.removeItem("tokendata");
         localStorage.removeItem("userdata");
+        this.$bus.$emit("logout", "User Logged Out");
         this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "You are Being Logged Out. Please Wait", redirectUrl: '/0:home/' } })
       }
     }
