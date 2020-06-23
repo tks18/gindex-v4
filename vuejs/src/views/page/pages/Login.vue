@@ -1,29 +1,84 @@
 <template>
-    <div class="content login-page">
+    <div class="content">
       <TopLinks />
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
-      <p style="color: #bac964">{{ databasemessage }}</p>
-      <p style="color: #f6f578">{{ resultmessage }}</p>
-        <h4>Login</h4>
-        <form @submit.prevent="handleSubmit">
-            <label for="email" > > Your E-Mail Address</label>
-            <div>
-                <input id="email" type="email" v-model="email" required autofocus>
-            </div>
-            <div>
-                <label for="password" > > Your Password</label>
-                <div>
-                    <input id="password" type="password" v-model="password" required>
+        <div class="columns is-vcentered is-centered is-multiline">
+          <div class="column is-half">
+            <section class="hero is-black is-medium">
+              <div class="hero-body">
+                <div class="container">
+                  <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                      <article class="tile has-text-centered is-child notification is-primary">
+                        <p class="title has-text-dark">
+                          <span class="icon">
+                            <i class="fab fa-superpowers"></i>
+                          </span>
+                          <span> Ahh!! Perfect !</span>
+                        </p>
+                        <p class="subtitle">Login</p>
+                        <div class="content">
+                            <p class="has-text-dark has-text-weight-semibold">Login to this Website to Continue.</p>
+                            <p class="has-text-dark">You are Just a Page from Experiencing the Glory.</p>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
                 </div>
-            </div>
-            <div>
-                <button class="login-button" type="submit" >
-                    Login
-                </button>
-            </div>
-        </form>
+              </div>
+            </section>
+          </div>
+          <div class="column is centered has-text-centered has-text-white is-two-fifths">
+            <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
+              <div class="message-header">
+                <p>Error Logging in!!</p>
+                <button class="delete" @click="errormessageVisibility = false" aria-label="delete"></button>
+              </div>
+              <div class="message-body">
+                {{ resultmessage }}
+              </div>
+            </article>
+            <article :class=" successmessageVisibility ? 'message is-success' : 'message is-hidden is-success'">
+              <div class="message-header">
+                <p>Error Logging in!!</p>
+                <button class="delete" @click="successmessageVisibility = false" aria-label="delete"></button>
+              </div>
+              <div class="message-body">
+                {{ resultmessage }}
+              </div>
+            </article>
+            <h2 class="title has-text-weight-bold has-text-white">Login</h2>
+            <form @submit.prevent="handleSubmit">
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input class="input is-rounded" placeholder="Email" id="email" type="email" v-model="email" required autofocus>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input is-rounded" id="password" type="password" placeholder="Password" v-model="password" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <button :class=" loading ? 'button is-loading is-danger is-medium' : 'button is-medium is-danger'" :disabled="disabled">
+                <span class="icon is-medium">
+                  <i class="fas fa-shipping-fast"></i>
+                </span>
+                <span>Login</span>
+              </button>
+            </form>
+          </div>
+        </div>
     </div>
 </template>
 <script>
@@ -39,10 +94,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             return {
                 email : "",
                 password : "",
+                disabled: true,
                 resultmessage: "",
                 databasemessage: "",
-                loading: true,
+                loading: false,
                 fullpage: true,
+                errormessageVisibility: false,
+                successmessageVisibility: false,
             }
         },
         methods : {
@@ -65,7 +123,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8))
                             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
                             this.loading = false;
-                            this.resultmessage = `> Logged in Successfully as ${userData.name}. Your token will expire at ${tokenData.expirydate}.`;
+                            this.errormessageVisibility = false;
+                            this.successmessageVisibility = true;
+                            this.resultmessage = `Logged in Successfully as ${userData.name}. Your token will expire at ${ this.$moment(tokenData.expirydate).format("dddd, MMMM Do YYYY [at] hh:mm A")}.`;
                             this.$bus.$emit('logged', 'User Logged')
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
@@ -77,28 +137,22 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             }, 500)
                           }
                       } else {
+                        this.errormessageVisibility = true;
+                        this.successmessageVisibility = false;
                         this.loading = false;
-                          this.resultmessage = "> "+response.data.message;
+                        this.resultmessage = response.data.message;
                       }
                     });
                 }
             },
         },
-        mounted: function() {
-          this.loading = true;
-          if(this.$route.params.summa){
-            this.databasemessage = this.$route.params.data
-          } else {
-            this.$http.post(window.apiRoutes.homeRoute).then(response => {
-              console.log(response);
-              if(response.status == '200'){
-                this.databasemessage = `🟢 Database is Live. You can Login. Ping - ${response.data.ping}ms`
-                this.loading = false;
-              } else {
-                this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
-                this.loading = false;
-              }
-            })
+        watch: {
+          password: function() {
+            if(this.email.length && this.password.length > 0){
+              this.disabled = false;
+            } else {
+              this.disabled = true;
+            }
           }
         }
     }
