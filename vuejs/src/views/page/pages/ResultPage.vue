@@ -1,12 +1,19 @@
 <template>
-  <div class="columns is-mobile is-centered">
+  <div class="columns is-mobile is-centered mt-5">
     <div class="field is-grouped-multiline">
       <div class="control">
         <div class="loading">
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
-        <div class="tags-has-addons home">
-            <p class="home-welcome"> > {{ data }} </p>
+        <div class="tags-has-addons">
+          <div v-if="!success" class="notification has-text-centered is-danger">
+            <h2 class="title has-text-white has-text-weight-bold">Error</h2>
+            <p class="subtitle has-text-weight-bold">{{ data }}</p>
+          </div>
+          <div v-if="success" class="notification has-text-centered is-success">
+            <h2 class="title has-text-white has-text-weight-bold">Success</h2>
+            <p class="subtitle has-text-weight-bold">{{ data }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -21,6 +28,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             return {
               data: "",
               loading: true,
+              success: false,
               fullpage: true,
             }
         },
@@ -30,14 +38,16 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         mounted: function() {
           if(this.$route.params.data && this.$route.params.redirectUrl){
               this.data = this.$route.params.data;
+              this.success = this.$route.params.success;
               setTimeout(() => {
-                  this.$router.push({ path: this.$route.params.redirectUrl })
+                  this.$router.replace({ path: this.$route.params.redirectUrl })
               }, 1000)
           }
           else {
+            this.success = false;
             this.data = "Nothing Here!...You will be Redirected"
             setTimeout(() => {
-              this.$router.push({ path: '/0:home/' })
+              this.$router.replace({ path: '/0:home/' })
             }, 1000)
           }
         }

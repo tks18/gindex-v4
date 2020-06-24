@@ -178,7 +178,7 @@ export default {
                 if(userData.superadmin){
                     this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
                 } else {
-                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Unauthorized", redirectUrl: "/0:home/" } })
                 }
               } else {
                 this.resultmessage = userData.admin

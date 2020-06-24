@@ -99,14 +99,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
+                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(userData.admin && !userData.superadmin){
                   this.loading = false;
                   this.userinfo = userData;
                 } else {
                   this.loading = false;
-                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
+                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
                 }
               }
             })

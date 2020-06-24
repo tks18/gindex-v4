@@ -227,16 +227,6 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(superadmin)/',
-      name: 'superadmin',
-      component: _import("page/pages/SuperAdminArea"),
-      meta: {
-          ...meta,
-          requiresAuth: true,
-          admin: true,
-      }
-  },
-  {
       path: '/:id(\\d)::cmd(settings)/',
       name: 'settings',
       component: _import("page/pages/Settings"),

@@ -44,7 +44,7 @@
                 <div class="tile is-parent is-vertical">
                   <div class="tile is-child notification is-success box">
                     <p class="title">Quick Access</p>
-                    <div class="columns is-multiline">
+                    <div class="columns is-multiline is-vcentered is-centered">
                       <div v-if="logged" class="column is-half">
                         <button class="button is-success is-light" @click="gotoPage('/0:/Anime/')">
                           <span class="icon is-small">
@@ -74,7 +74,7 @@
                           <span class="icon is-small">
                             <i class="fas fa-glasses"></i>
                           </span>
-                          <span>Variety of Courses</span>
+                          <span>Courses</span>
                         </button>
                       </div>
                       <div v-if="logged" class="column is-half">
@@ -82,7 +82,7 @@
                           <span class="icon is-small">
                             <i class="fas fa-play"></i>
                           </span>
-                          <span>Mind Soothing Music</span>
+                          <span>Music</span>
                         </button>
                       </div>
                       <div v-if="logged" class="column is-half">
@@ -93,6 +93,11 @@
                           <span>View Full List</span>
                         </button>
                       </div>
+                    </div>
+                  </div>
+                  <div class="tile is-child notification is-danger box">
+                    <p class="title">Personal</p>
+                    <div class="columns is-multiline is-vcentered is-centered">
                       <div v-if="logged" class="column is-half">
                         <button class="button is-danger is-light" @click="gotoPage('/0:settings/')">
                           <span class="icon is-small">
@@ -200,7 +205,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         methods: {
           gotoPage(url) {
-            this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
+            this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", success: true, data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
           }
         },
         created() {
@@ -214,7 +219,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
+                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(userData.admin && userData.superadmin){
                   this.superadmin = true;

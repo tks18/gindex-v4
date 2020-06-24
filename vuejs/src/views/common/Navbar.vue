@@ -117,19 +117,8 @@
           <a
             class="navbar-item"
             title="Admin Panel"
-            v-if="logged && admin && !superadmin"
+            v-if="logged && admin"
             @click="gotoPage('/0:admin/')"
-           >
-           <span class="icon">
-            <i class="fas fa-user-shield"></i>
-          </span>
-          <span  class="is-hidden-desktop">Admin Zone</span>
-          </a>
-          <a
-            class="navbar-item"
-            title="Admin Panel"
-            v-if="logged && admin && superadmin"
-            @click="gotoPage('/0:superadmin/')"
            >
            <span class="icon">
             <i class="fas fa-user-shield"></i>

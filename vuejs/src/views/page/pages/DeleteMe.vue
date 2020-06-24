@@ -60,7 +60,7 @@ export default {
                             localStorage.removeItem('tokendata');
                             setTimeout(() => {
                               this.loading = false;
-                              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You Account is Being Deleted. Please Wait", redirectUrl: "/0:home/" } })
+                              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "You Account is Being Deleted. Please Wait", redirectUrl: "/0:home/" } })
                             }, 1500)
                           } else {
                             this.loading = false;
