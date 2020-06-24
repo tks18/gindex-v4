@@ -23,10 +23,10 @@
                 <h2 class="title has-text-centered has-text-weight-bold">Related to New Users</h2>
                 <div class="columns is-vcentered is-centered is-multiline is-mobile">
                   <div class="column is-two-thirds">
-                    <p class="subtitle">Add a User(only Request Basis)</p>
+                    <p class="subtitle">Add a User</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-light" @click="gotoPage('/0:register/user')">
+                    <button class="button is-rounded is-light" @click="gotoPage('/0:register/')">
                       <span class="icon is-small">
                         <i class="fas fa-user-plus"></i>
                       </span>
@@ -117,7 +117,7 @@
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
                       </span>
-                      <span>Request Superadmin</span>
+                      <span>Request</span>
                     </button>
                   </div>
                   <div v-if="adminuser && superadmin" class="column has-text-centered is-full">

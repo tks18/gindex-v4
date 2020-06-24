@@ -119,35 +119,13 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(register)/user',
+      path: '/:id(\\d)::cmd(register)/',
       name: 'register',
       component: _import("page/pages/Register-user"),
       meta: {
           ...meta,
           requiresAuth: true,
           admin: true
-      }
-  },
-  {
-      path: '/:id(\\d)::cmd(register)/admin',
-      name: 'upgradeadmin',
-      component: _import("page/pages/AcceptAdmin"),
-      meta: {
-          ...meta,
-          requiresAuth: true,
-          admin: true,
-          superadmin: true
-      }
-  },
-  {
-      path: '/:id(\\d)::cmd(register)/superadmin',
-      name: 'upgradesuperadmin',
-      component: _import("page/pages/AcceptSuperAdmin"),
-      meta: {
-          ...meta,
-          requiresAuth: true,
-          admin: true,
-          superadmin: true,
       }
   },
   {
