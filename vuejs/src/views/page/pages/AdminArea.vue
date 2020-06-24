@@ -1,26 +1,164 @@
 <template>
   <div>
     <TopLinks />
-    <div v-if="adminuser" class="content adminarea">
-      <h2 class="title"> Super Admin Area </h2>
-      <hr>
+    <div v-if="adminuser" class="content mt-5">
+      <h1 class="title has-text-centered has-text-weight-bold has-text-white">Your Admin Zone</h1>
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
-      <div class="userdetails">
-        <h3>User Details</h3>
-        <p>Your Name - <span class="details">{{ userinfo.name }}</span></p>
-        <p>Your Email - <span class="details">{{ userinfo.email }}</span></p>
-        <p>Your Role - <span class="details">{{ userinfo.role }}</span></p>
-        <p>Your Last Token Issue Date - <span class="details">{{ tokeninfo.issuedate }}</span></p>
-        <p>Your Last Token Expiry Date - <span class="details">{{ tokeninfo.expirydate }}</span></p>
-        <li class="settings-button" ><a href="/0:settings/">My Settings</a></li>
-        <hr>
-      </div>
-      <div class="scopes">
-        <h3>Permissions</h3>
-        <p>You Have Given Following Scopes of Permission in this Website: </p>
-        <li class="scope-list" v-for="scope in scopes" v-bind:key="scope.id" @click="gotoScope(scope.url)">{{ scope.name }}</li>
+      <div class="columns has-text-white is-centered is-multiline">
+        <div :class=" notify ? 'column is-full' : 'column is-hidden is-full' ">
+          <div class="notification has-text-centered is-danger">
+            <button class="delete" @click="notify = false"></button>
+            <h2 class="title has-text-white has-text-weight-bold">Disclaimer !!</h2>
+            <p class="subtitle has-text-weight-bold">Use your Admin Powers Wisely !!.</p>
+          </div>
+        </div>
+        <div class="column is-two-fifths">
+          <h2 class="title has-text-primary has-text-centered has-text-weight-bold">Permissions</h2>
+          <p class="subtitle has-text-primary-dark has-text-centered has-text-weight-medium">You Have Given Following Scopes of Permission in this Website</p>
+          <div class="columns is-multiline is-desktop is-centered">
+            <div class="column is-full">
+              <div class="box has-background-warning">
+                <h2 class="title has-text-centered has-text-weight-bold">Related to New Users</h2>
+                <div class="columns is-vcentered is-centered is-multiline is-mobile">
+                  <div class="column is-two-thirds">
+                    <p class="subtitle">Add a User(only Request Basis)</p>
+                  </div>
+                  <div class="column is-one-third">
+                    <button class="button is-rounded is-light" @click="gotoPage('/0:register/user')">
+                      <span class="icon is-small">
+                        <i class="fas fa-user-plus"></i>
+                      </span>
+                      <span>Add</span>
+                    </button>
+                  </div>
+                  <div class="column is-two-thirds">
+                    <p class="subtitle">Invite Users</p>
+                  </div>
+                  <div class="column is-one-third">
+                    <button class="button is-rounded is-light" @click="gotoPage('/0:invite/user')">
+                      <span class="icon is-small">
+                        <i class="fas fa-user-plus"></i>
+                      </span>
+                      <span>Invite</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="adminuser && superadmin" class="column is-full">
+              <div class="box has-background-primary">
+                <h2 class="title has-text-centered has-text-weight-bold">Permission to Users</h2>
+                <div class="columns is-vcentered is-centered is-multiline is-mobile">
+                  <div class="column is-two-thirds">
+                    <p class="subtitle">Change Permission of Users</p>
+                  </div>
+                  <div class="column is-one-third">
+                    <button class="button is-rounded is-black" @click="gotoPage('/0:register/admin')">
+                      <span class="icon is-small">
+                        <i class="fas fa-user-shield"></i>
+                      </span>
+                      <span>Promote</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-full">
+              <div class="box has-background-danger">
+                <h2 class="title has-text-centered has-text-white has-text-weight-bold">Related to Existing Users</h2>
+                <div class="columns is-vcentered is-centered is-multiline is-mobile">
+                  <div class="column is-two-thirds">
+                    <p class="subtitle has-text-white">Delete Users</p>
+                  </div>
+                  <div class="column is-one-third">
+                    <button class="button is-rounded is-warning" @click="gotoPage('/0:delete/user')">
+                      <span class="icon is-small">
+                        <i class="fas fa-user-times"></i>
+                      </span>
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-three-fifths">
+          <div class="columns is-multiline is-desktop is-centered">
+            <div class="column is-full">
+              <div class="box has-background-light">
+                <h3 class="title has-text-centered has-text-weight-bold has-text-info-dark">Admin Details</h3>
+                <div class="columns is-vcentered is-multiline is-mobile">
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Name</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <p class="subtitle has-text-weight-bold">{{ userinfo.name }}</p>
+                  </div>
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Email</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <p class="subtitle has-text-weight-bold">{{ userinfo.email }}</p>
+                  </div>
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Current Role</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <p class="subtitle has-text-weight-bold">{{ userinfo.role }}</p>
+                  </div>
+                  <div v-if="adminuser && !superadmin" class="column is-three-fifths">
+                    <p class="subtitle">Request Superadmin Status for More Powers</p>
+                  </div>
+                  <div v-if="adminuser && !superadmin" class="column is-two-fifths">
+                    <button class="button is-success" @click="gotoPage('/0:register/request/superadmin')">
+                      <span class="icon is-small">
+                        <i class="fas fa-user-shield"></i>
+                      </span>
+                      <span>Request Superadmin</span>
+                    </button>
+                  </div>
+                  <div v-if="adminuser && superadmin" class="column has-text-centered is-full">
+                    <p class="subtitle has-text-warning-dark has-text-weight-bold">You Have Maximum Access to this Website</p>
+                  </div>
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Last Token Issue Date</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <p class="subtitle has-text-weight-bold">{{ tokeninfo.issuedate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+                  </div>
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Last Token Expiry Date</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <p class="subtitle has-text-weight-bold">{{ tokeninfo.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-full">
+              <div class="box has-background-info">
+                <h3 class="title has-text-centered has-text-weight-bold has-text-white">Personal</h3>
+                <p class="subtitle has-text-light has-text-centered has-text-weight-medium">Change Your Preferences</p>
+                <div class="columns is-vcentered is-centered is-multiline is-mobile">
+                  <div class="column is-9">
+                    <p class="subtitle has-text-light">Go to My Settings</p>
+                  </div>
+                  <div class="column is-3">
+                    <button class="button is-rounded is-light" @click="gotoPage('/0:settings/')">
+                      <span class="icon is-small">
+                        <i class="fas fa-user-cog"></i>
+                      </span>
+                      <span class="is-hidden-mobile">Settings</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -36,17 +174,18 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         data() {
           return {
-            scopes: [],
+            notify: true,
             userinfo: {},
             tokeninfo: {},
             adminuser: false,
+            superadmin: false,
             loading: true,
             fullpage: true,
           }
         },
         methods: {
-          gotoScope: function(url){
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
+          gotoPage: function(url){
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
           }
         },
         created() {
@@ -61,17 +200,19 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             }).then(response => {
               if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
+                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
               } else {
                 if(userData.admin && userData.superadmin){
-                  this.loading = false;
-                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "Redirecting you to a Powerful Admin Page..", redirectUrl: "/0:superadmin/" } })
-                } else if(userData.admin && !userData.superadmin) {
                   this.adminuser = true;
+                  this.superadmin = true;
                   this.userinfo = userData;
                   this.tokeninfo = tokenData;
-                  var adminScopes = [{name: "Add a User", url: "/0:register/user/"}, {name: "Invite a User", url: "/0:invite/user/"}, {name: "Delete a User", url: "/0:delete/user/"}];
-                  this.scopes = adminScopes;
+                  this.loading = false;
+                } else if(userData.admin && !userData.superadmin) {
+                  this.adminuser = true;
+                  this.superadmin = false;
+                  this.userinfo = userData;
+                  this.tokeninfo = tokenData;
                   this.loading = false;
                 } else {
                   this.loading = false;
@@ -80,6 +221,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               }
             })
           } else {
+            this.superadmin = false;
             this.loading = false;
             this.adminuser = false
           }

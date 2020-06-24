@@ -69,7 +69,7 @@ router.beforeEach( (to, from, next) => {
             if(userData.admin){
               next();
             } else {
-              next({ name: 'results', params: { id: 0, cmd: "results", data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
+              next({ name: 'results', params: { id: 0, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
             }
           } else {
             next();
@@ -78,7 +78,7 @@ router.beforeEach( (to, from, next) => {
             if(userData.superadmin && userData.admin){
               next();
             } else {
-              next({ name: 'results', params: { id: 0, cmd: "results", data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
+              next({ name: 'results', params: { id: 0, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
             }
           } else {
             next();
@@ -88,7 +88,7 @@ router.beforeEach( (to, from, next) => {
     } else {
       localStorage.removeItem("tokendata");
       localStorage.removeItem("userdata");
-      next({ name: 'results', params: { id: 0, cmd: "results", nextUrl: to.fullPath, data: "You are Not Logged in to View Content. Please Login to Continue", redirectUrl: '/0:login/' } });
+      next({ name: 'results', params: { id: 0, cmd: "results", success: false, nextUrl: to.fullPath, data: "You are Not Logged in to View Content. Please Login to Continue", redirectUrl: '/0:login/' } });
     }
   } else if(to.matched.some(record => record.meta.guest)) {
       if(token == null && user == null){

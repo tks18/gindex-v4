@@ -168,7 +168,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 }
             },
             gotoPage(url) {
-              this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
+              this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", success: true, data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
             }
         },
         watch: {

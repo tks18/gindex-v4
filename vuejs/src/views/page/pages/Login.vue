@@ -129,10 +129,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             this.$bus.$emit('logged', 'User Logged')
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
-                                this.$router.push({name: "results", params: { id: 0, cmd: "result", data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
+                                this.$router.push({name: "results", params: { id: 0, cmd: "result", success: true, data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
                               }
                               else{
-                                  this.$router.push({name: "results", params: { id: 0, cmd: "result", data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/0:home/' }})
+                                  this.$router.push({name: "results", params: { id: 0, cmd: "result", success: true, data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/0:home/' }})
                               }
                             }, 500)
                           }

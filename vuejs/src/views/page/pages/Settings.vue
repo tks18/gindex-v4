@@ -1,24 +1,135 @@
 <template>
   <div>
     <TopLinks />
-    <div v-if="logged" class="content adminarea">
+    <div v-if="logged" class="content mt-5">
+      <h1 class="title has-text-centered has-text-weight-bold has-text-white">Settings</h1>
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
-      <h2 class="title"> Settings </h2>
-      <hr>
-      <div class="userdetails">
-        <h3>User Details</h3>
-        <p>Your Name - <span class="details">{{ userinfo.name }}</span></p>
-        <p>Your Email - <span class="details">{{ userinfo.email }}</span></p>
-        <p>Your Role - <span class="details">{{ userinfo.role }}</span></p>
-        <p>Your Last Token Issue Date - <span class="details">{{ tokeninfo.issuedate }}</span></p>
-        <p>Your Last Token Expiry Date - <span class="details">{{ tokeninfo.expirydate }}</span></p>
-        <div class="scopes">
-          <li class="scope-list" @click="changePasswordRoute">Change Your Password</li>
-          <li class="scope-list" v-if="!admin && !superadmin" @click="requestAdmin">Request Admin Access</li>
-          <li class="scope-list" v-if="admin && !superadmin" @click="requestSuperAdmin">Request SuperAdmin Access</li>
-          <li class="scope-list" @click="deleteAccountRoute">Delete Your Account</li>
+      <div class="columns has-text-white is-centered is-multiline">
+        <div class="column is-two-thirds">
+          <div class="box has-background-light">
+            <h3 class="title has-text-centered has-text-weight-bold has-text-info-dark">Your Details</h3>
+            <div class="columns is-vcentered is-multiline is-mobile">
+              <div class="column is-three-fifths">
+                <p class="subtitle">Name</p>
+              </div>
+              <div class="column is-two-fifths">
+                <p class="subtitle has-text-weight-bold">{{ userinfo.name }}</p>
+              </div>
+              <div class="column is-three-fifths">
+                <p class="subtitle">Email</p>
+              </div>
+              <div class="column is-two-fifths">
+                <p class="subtitle has-text-weight-bold">{{ userinfo.email }}</p>
+              </div>
+              <div class="column is-three-fifths">
+                <p class="subtitle">Current Role</p>
+              </div>
+              <div class="column is-two-fifths">
+                <p class="subtitle has-text-weight-bold">{{ userinfo.role }}</p>
+              </div>
+              <div v-if="!admin && !superadmin" class="column is-three-fifths">
+                <p class="subtitle">Request Admin Status</p>
+              </div>
+              <div v-if="!admin && !superadmin" class="column is-two-fifths">
+                <button class="button is-success" @click="gotoPage('/0:register/request/admin')">
+                  <span class="icon is-small">
+                    <i class="fas fa-user-shield"></i>
+                  </span>
+                  <span>Request Admin</span>
+                </button>
+              </div>
+              <div v-if="admin && !superadmin" class="column is-three-fifths">
+                <p class="subtitle">Request Superadmin Status</p>
+              </div>
+              <div v-if="admin && !superadmin" class="column is-two-fifths">
+                <button class="button is-success" @click="gotoPage('/0:register/request/superadmin')">
+                  <span class="icon is-small">
+                    <i class="fas fa-user-shield"></i>
+                  </span>
+                  <span>Request Superadmin</span>
+                </button>
+              </div>
+              <div v-if="admin && superadmin" class="column has-text-centered is-full">
+                <p class="subtitle has-text-warning-dark has-text-weight-bold">You Have Maximum Access to this Website</p>
+              </div>
+              <div class="column is-three-fifths">
+                <p class="subtitle">Last Token Issue Date</p>
+              </div>
+              <div class="column is-two-fifths">
+                <p class="subtitle has-text-weight-bold">{{ tokeninfo.issuedate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+              </div>
+              <div class="column is-three-fifths">
+                <p class="subtitle">Last Token Expiry Date</p>
+              </div>
+              <div class="column is-two-fifths">
+                <p class="subtitle has-text-weight-bold">{{ tokeninfo.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-vcentered is-one-third">
+          <div class="columns is-multiline is-desktop is-centered">
+            <div class="column is-full">
+              <div class="box has-background-warning">
+                <h3 class="title has-text-centered has-text-weight-bold">Your Preferences</h3>
+                <div class="columns is-vcentered is-centered is-multiline is-mobile">
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Change Your Avatar</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <button class="button is-rounded is-primary" @click="alerts('Under Development')">
+                      <span class="icon is-small">
+                        <i class="far fa-user-circle"></i>
+                      </span>
+                      <span>Change</span>
+                    </button>
+                  </div>
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Change Your Password</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <button class="button is-rounded is-primary" @click="gotoPage('/0:settings/changepassword')">
+                      <span class="icon is-small">
+                        <i class="fas fa-lock"></i>
+                      </span>
+                      <span>Change</span>
+                    </button>
+                  </div>
+                  <div class="column is-three-fifths">
+                    <p class="subtitle">Change Your Email</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <button class="button is-rounded is-primary" @click="alerts('Under Development')">
+                      <span class="icon is-small">
+                        <i class="fas fa-envelope"></i>
+                      </span>
+                      <span>Change</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-full">
+              <div class="box has-background-danger">
+                <h3 class="title has-text-centered has-text-white has-text-weight-bold">Danger Zone</h3>
+                <div class="columns is-vcentered is-centered is-multiline is-mobile">
+                  <div class="column is-three-fifths">
+                    <p class="subtitle has-text-white">Delete Your Account</p>
+                  </div>
+                  <div class="column is-two-fifths">
+                    <button class="button is-rounded is-warning" @click="gotoPage('/0:delete/me')">
+                      <span class="icon is-small">
+                        <i class="fas fa-user-times"></i>
+                      </span>
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -45,19 +156,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         methods: {
-          changePasswordRoute() {
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:settings/changepassword" } })
+          alerts(text) {
+            window.alert(text);
           },
-          requestAdmin() {
-            // window.alert("Currently Under Development");
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/admin" } })
-          },
-          requestSuperAdmin() {
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:register/request/superadmin" } })
-          },
-          deleteAccountRoute() {
-            // window.alert("Currently Under Development");
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You are Redirected Through a Secure Channel", redirectUrl: "/0:delete/me" } })
+          gotoPage(url) {
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "You are Redirected Through a Secure Channel", redirectUrl: url } })
           }
         },
         mounted() {

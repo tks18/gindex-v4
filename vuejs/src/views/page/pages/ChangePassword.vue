@@ -75,7 +75,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             localStorage.removeItem("tokendata");
                             localStorage.removeItem("userdata");
                             this.loading = false;
-                            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
+                            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
                             }
                           } else {
                             this.loading = false;
