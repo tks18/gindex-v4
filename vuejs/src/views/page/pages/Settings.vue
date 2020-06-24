@@ -37,7 +37,7 @@
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
                   </span>
-                  <span>Request Admin</span>
+                  <span>Request</span>
                 </button>
               </div>
               <div v-if="admin && !superadmin" class="column is-three-fifths">
@@ -48,7 +48,7 @@
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
                   </span>
-                  <span>Request Superadmin</span>
+                  <span>Request</span>
                 </button>
               </div>
               <div v-if="admin && superadmin" class="column has-text-centered is-full">

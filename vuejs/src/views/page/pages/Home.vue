@@ -106,15 +106,7 @@
                           <span>Go to my Settings</span>
                         </button>
                       </div>
-                      <div v-if="logged && admin && superadmin" class="column is-half">
-                        <button class="button is-danger is-light" @click="gotoPage('/0:superadmin/')">
-                          <span class="icon is-small">
-                            <i class="fas fa-users-cog"></i>
-                          </span>
-                          <span>Your Admin Panel</span>
-                        </button>
-                      </div>
-                      <div v-if="logged && admin && !superadmin" class="column is-half">
+                      <div v-if="logged && admin" class="column is-half">
                         <button class="button is-danger is-light" @click="gotoPage('/0:admin/')">
                           <span class="icon is-small">
                             <i class="fas fa-users-cog"></i>

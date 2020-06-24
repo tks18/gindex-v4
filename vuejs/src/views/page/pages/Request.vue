@@ -54,14 +54,26 @@
                 <p class="help is-success">How did You Know about this and Why do You need?</p>
               </div>
             </div>
-            <label class="checkbox mb-3">
-              <input class="has-text-success" type="checkbox" id="terms" name="terms" v-model="checked">
-                <span class="content has-text-white">  I Accept and Read the <a class="has-text-success" href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md" target="_blank">Community Guidelines</a></span>
-            </label>
-            <label class="checkbox mb-3">
-              <input class="has-text-success" type="checkbox" id="code" name="terms" v-model="codechecked">
-                <span class="content has-text-white">  I Accept and Read the <a class="has-text-success" href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Code of Conduct</a></span>
-            </label>
+            <div class="field">
+              <div class="control">
+                <div class="b-checkbox is-success is-circular is-inline">
+                  <input class="styled has-text-success" type="checkbox" id="terms" name="terms" v-model="checked">
+                  <label for="terms">
+                    <span class="content has-text-white">  I Accept and Read the <a class="has-text-success" href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md" target="_blank">Community Guidelines</a></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <div class="b-checkbox is-success is-circular is-inline">
+                  <input class="styled has-text-success" type="checkbox" id="code" name="terms" v-model="codechecked">
+                  <label for="code">
+                    <span class="content has-text-white">  I Accept and Read the <a class="has-text-success" href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md" target="_blank">Code of Conduct</a></span>
+                  </label>
+                </div>
+              </div>
+            </div>
             <button :class=" loading ? 'button is-loading is-rounded is-warning is-medium' : 'button is-warning is-rounded is-medium' " type="submit" :disabled="disabled" >
               <span class="icon">
                 <i class="fas fa-user-plus"></i>
