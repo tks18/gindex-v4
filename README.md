@@ -1,7 +1,7 @@
 
 ##  A Vue js Based GD Index
 ##### by _[Shan.tk](https://github.com/tks18)_
-
+![Settings Page](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/settings.jpg)
 _Site - [Click Here](https://glorytoheaven.tk)_
 
 #### Complete Site Inspiration from [Aicirou](https://github.com/Aicirou)
@@ -31,3 +31,31 @@ _Site - [Click Here](https://glorytoheaven.tk)_
 	- Superadmins - Can Accept Admin Requests.
 13. Uses MongoDB for User Database.
 14. Full Access Control of Backend from Frontend Based on User's Role.
+
+#### Site Shots:
+**1. Home - Logged In**
+![HomeLog](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/homelogout.jpg)
+
+**2. Home - Logged Out**
+![homeout](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/homelogged.jpeg)
+
+**3. Settings**
+![settings](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/settings.jpg)
+
+**4. Admin Page**
+![admin](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/adminpage.jpg)
+
+**5. Admin - User Registration Page**
+![register](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/newuserregister.jpg)
+
+**6. Pending Requests - Modal**
+![pending](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/pendinguser.jpeg)
+
+**7. User Request Page**
+![request](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/request.jpeg)
+
+**8. User Verify Page**
+![verify](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/verify.jpeg)
+
+
+#### Thanks - Support Me
