@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "master",
+  version: "v7.3.1",
   theme: "acrou",
   client_id: "client_id",
   client_secret: "client_secret",
