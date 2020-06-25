@@ -22,9 +22,34 @@ var authConfig = {
   enable_password_file_verify: true,
 };
 var routes = {
-  loginRoute: 'https://glorytoheaven-db.herokuapp.com/login',
-  registerRoute: 'https://glorytoheaven-db.herokuapp.com/register',
-};
+  loginRoute: 'http://localhost:3000/login',
+  registerRoute: 'http://localhost:3000/register-newuser',
+  homeRoute: 'http://localhost:3000/',
+  otpRegister: 'http://localhost:3000/change-otp',
+  requestRoute: 'http://localhost:3000/request',
+  verifyRoute: 'http://localhost:3000/verify',
+  changePasswordRoute: 'http://localhost:3000/change-password',
+  requestadminroute: 'http://localhost:3000/requestadmin',
+  requestsuperadminroute: 'http://localhost:3000/requestsuperadmin',
+  getPendingUsers: 'http://localhost:3000/getpendingusers',
+  getPendingAdmins: 'http://localhost:3000/getpendingadmins',
+  getPendingSuperAdmins: 'http://localhost:3000/getpendingsuperadmins',
+  upgradeAdmin: 'http://localhost:3000/adminperms',
+  upgradeSuperAdmin: 'http://localhost:3000/superadminperms',
+  inviteUser: 'http://localhost:3000/inviteusers',
+  inviteAdmin: 'http://localhost:3000/inviteadmin',
+  inviteSuperAdmin: 'http://localhost:3000/invitesuperadmin',
+  addSpamUser: 'http://localhost:3000/spamuser',
+  addSpamAdmin: 'http://localhost:3000/spamadmin',
+  getSpamUsers: 'http://localhost:3000/getspamusers',
+  deleteUser: 'http://localhost:3000/deleteuser',
+  deleteMe: 'http://localhost:3000/deleteme',
+  deleteAdmin: 'http://localhost:3000/deleteadmin',
+  getUsers: 'http://localhost:3000/getusers',
+  getAll: 'http://localhost:3000/getall',
+  getAdmins: 'http://localhost:3000/getadmins',
+  getSuperAdmins: 'http://localhost:3000/getsuperadmins'
+}
 var themeOptions = {
   languages: "en",
   render: {
