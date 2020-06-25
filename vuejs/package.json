@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.2.9",
-  "g2index": "7.2.9",
+  "version": "7.3.0",
+  "g2index": "7.3.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "bulma": "^0.9.0",
     "bulma-divider": "^0.2.0",
+    "bulma-extensions": "^6.2.7",
     "cool-checkboxes-for-bulma.io": "^1.1.0",
     "core-js": "^3.6.4",
     "crypto-js": "^4.0.0",
