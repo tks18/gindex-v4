@@ -5,7 +5,6 @@
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
         <h4>Invite User</h4>
-        <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
         <form @submit.prevent="handleSubmit">
             <label for="name"> > User's Name</label>
@@ -17,7 +16,14 @@
             <div>
                 <input id="email" type="email" v-model="email" required>
             </div>
-
+            <div class="control mb-3">
+                <input class="is-checkradio is-small is-warning" id="userradio" type="radio" name="role" checked value="user" :disabled="disabled" v-model="role">
+                <label for="userradio">User</label>
+                <input class="is-checkradio is-small is-warning" id="adminradio" type="radio" name="role" value="admin" :disabled="disabled" v-model="role">
+                <label for="adminradio"> Admin</label>
+                <input class="is-checkradio is-small is-warning" id="superadminradio" type="radio" name="role" value="superadmin" :disabled="disabled" v-model="role">
+                <label for="superadminradio">Superadmin</label>
+            </div>
             <label for="message"> > Message to Him </label>
             <div>
                 <textarea id="message" v-model="message" required></textarea>
@@ -54,8 +60,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 name : "",
                 email : "",
                 message: "",
+                disabled: true,
+                role: "",
+                apiurl: "",
                 resultmessage: "",
-                databasemessage: "",
                 loading: true,
                 fullpage: true,
                 checked: "",
@@ -66,8 +74,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
                 e.preventDefault()
                 if(this.checked){
-                  let url = window.apiRoutes.inviteUser
-                  this.$http.post(url, {
+                  this.$http.post(this.apiurl, {
                         name: this.name,
                         email: this.email,
                         message: this.message,
@@ -95,21 +102,21 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             },
         },
         mounted: function(){
-          this.loading = true;
-          this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            if(response.status == '200'){
-              this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
-            } else {
-              this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
-            }
             var user = localStorage.getItem("userdata");
             var token = localStorage.getItem("tokendata");
             if(user && token){
               var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
               if(userData.verified){
-                if(userData.admin){
+                if(userData.admin && userData.superadmin){
                   this.loading = false;
                   this.userinfo = userData;
+                  this.disabled = false;
+                  this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
+                } else if(userData.admin && !userData.superadmin) {
+                  this.loading = false;
+                  this.userinfo = userData;
+                  this.apiurl = window.apiRoutes.inviteUser;
+                  this.disabled = true;
                   this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
                 } else {
                   this.loading = false;
@@ -123,7 +130,17 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = false;
               this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Unauthorized", redirectUrl: "/0:home/" } })
             }
-          })
+        },
+        watch: {
+          role: function() {
+            if(this.role == "user"){
+              this.apiurl = window.apiRoutes.inviteUser;
+            } else if(this.role == "admin"){
+              this.apiurl = window.apiRoutes.inviteAdmin;
+            } else if(this.role == "superadmin"){
+              this.apiurl = window.apiRoutes.inviteSuperAdmin;
+            }
+          }
         }
     }
 </script>
