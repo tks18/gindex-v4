@@ -10,10 +10,11 @@ _Site - [Click Here](https://glorytoheaven.tk)_
 
 **Important** - _This Site Requires My GIndex Live Backend Server to be Running Otherwise the Site will Never Open._
 
-#### Site Features
+**Important** - _For Setting up of Backend. Visit my GIndex Backend [Repo](https://github.com/tks18/gindex-backend) for Steps to Setup._
+
+#### Site Features Other than Aicirou's:
 
 1. This Site is Not Like Basic GIndex which Depends on Basic Auth  Headers to Authenticate the Users. Rather this has its Own Backend Through Which Users will be Validated.
-
 2. Uses Custom Video Player - Plyr to Stream Videos.
 3. Uses Custom Audio Player - Plyr
 4. Complete Dark theme.
