@@ -240,7 +240,7 @@
               </span>
               <span>Add User</span>
             </button>
-            <a class="ml-3 button is-rounded is-white" @click="name = ''; email = ''; message = ''; role = ''; checked = false; codechecked = false;">
+            <a class="ml-3 button is-rounded is-white" @click="name = ''; email = ''; password = ''; message = ''; role = ''; checked = false; codechecked = false;">
               <span class="icon">
                 <i class="fas fa-sync"></i>
               </span>

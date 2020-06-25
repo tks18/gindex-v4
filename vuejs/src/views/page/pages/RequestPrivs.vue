@@ -5,10 +5,15 @@
         <div class="loading">
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
-        <p style="color: #bac964;">{{ databasemessage }}</p>
         <p style="color: #f6f578;">{{ resultmessage }}</p>
         <form @submit.prevent="handleSubmit">
-            <label for="message"> > Why You Need Super Admin Previlage ? </label>
+          <div class="control mb-3">
+              <input class="is-checkradio is-small is-warning" id="adminradio" type="radio" name="role" value="admin" disabled v-model="role">
+              <label for="adminradio"> Admin</label>
+              <input class="is-checkradio is-small is-warning" id="superadminradio" type="radio" name="role" value="superadmin" disabled v-model="role">
+              <label for="superadminradio">Superadmin</label>
+          </div>
+            <label for="message"> > Why You Need Admin Previlage ? </label>
             <div>
                 <textarea id="message" v-model="message" required></textarea>
             </div>
@@ -19,7 +24,7 @@
             </div>
             <div>
                 <button class="registration-button" type="submit">
-                    Request Admin Access
+                    Request Access
                 </button>
             </div>
         </form>
@@ -41,11 +46,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             return {
                 userinfo: {},
                 resultmessage: "",
-                databasemessage: "",
                 checked: "",
+                role: "",
+                apiurl: "",
                 loading: true,
-                message: "",
                 fullpage: true,
+                message: "",
             }
         },
         methods : {
@@ -53,8 +59,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
                 e.preventDefault()
                 if(this.checked){
-                  let url = window.apiRoutes.requestsuperadminroute
-                  this.$http.post(url, {
+                  this.$http.post(this.apiurl, {
                         name: this.userinfo.name,
                         email: this.userinfo.email,
                         message: this.message,
@@ -81,35 +86,30 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             },
         },
         mounted: function(){
-          this.loading = true;
-          this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            if(response.status == '200'){
-              this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
-            } else {
-              this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
-            }
-          })
           var token = localStorage.getItem("tokendata");
           var user = localStorage.getItem("userdata");
           if (user != null && token != null){
-            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            this.axios.post(window.apiRoutes.verifyRoute, {
-              token: tokenData.token
-            }).then(response => {
-              if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
-                this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
-              } else {
-                if(userData.admin && !userData.superadmin){
-                  this.loading = false;
-                  this.userinfo = userData;
-                } else {
-                  this.loading = false;
+            if(!userData.admin && !userData.superadmin){
+              this.loading = false;
+              this.role = "admin";
+              this.apiurl = window.apiRoutes.requestadminroute;
+              console.log(this.apiurl)
+              this.userinfo = userData;
+            } else if(userData.admin && !userData.superadmin) {
+              this.loading = false;
+              this.role = "superadmin"
+              this.apiurl = window.apiRoutes.requestsuperadminroute;
+              console.log(this.apiurl)
+              this.userinfo = userData;
+            } else {
+              this.loading = false;
+              this.resultmessage = "You are Already a Superadmin. You will be Redirected Now"
+              this.role = "superadmin"
+              setTimeout(() => {
                   this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
-                }
-              }
-            })
+              }, 1000)
+            }
           } else {
             this.loading = false;
             this.logged = false
