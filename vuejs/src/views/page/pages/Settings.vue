@@ -33,7 +33,7 @@
                 <p class="subtitle">Request Admin Status</p>
               </div>
               <div v-if="!admin && !superadmin" class="column is-two-fifths">
-                <button class="button is-success" @click="gotoPage('/0:register/request/admin')">
+                <button class="button is-success" @click="gotoPage('/0:settings/request')">
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
                   </span>
@@ -44,7 +44,7 @@
                 <p class="subtitle">Request Superadmin Status</p>
               </div>
               <div v-if="admin && !superadmin" class="column is-two-fifths">
-                <button class="button is-success" @click="gotoPage('/0:register/request/superadmin')">
+                <button class="button is-success" @click="gotoPage('/0:register/request')">
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
                   </span>

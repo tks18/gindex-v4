@@ -1,23 +1,42 @@
 <template>
-    <div class="content registration-page">
+    <div class="content mt-4">
       <TopLinks />
         <div class="loading">
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
-        <h4>Delete Your Account</h4>
-        <p style="color: #bac964;">{{ databasemessage }}</p>
-        <p style="color: #f6f578;">{{ resultmessage }}</p>
-        <form @submit.prevent="handleSubmit">
-            <label for="password"> > Your Password</label>
-            <div>
-                <input id="password" type="password" v-model="password" required>
-            </div>
-            <div>
-                <button class="registration-button" type="submit">
-                    Register
-                </button>
-            </div>
-        </form>
+        <div class="columns is-multiline has-text-centered is-desktop is-centered is-vcentered">
+          <div class="column is-full">
+            <h2 class="title has-text-weight-bold has-text-white">Delete Your Account</h2>
+            <p class="is-small has-text-danger-dark has-text-weight-bold">Be Cautious !!</p>
+          </div>
+          <div class="column is-half">
+            <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
+              <div class="message-header">
+                <p>Error Proccessing</p>
+                <button class="delete" @click="errormessageVisibility = false" aria-label="delete"></button>
+              </div>
+              <div class="message-body">
+                {{ resultmessage }}
+              </div>
+            </article>
+            <form @submit.prevent="handleSubmit">
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input is-rounded" id="password" type="password" placeholder="Your Password" v-model="password" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <button :class=" loading ? 'button is-loading is-rounded is-warning' : 'button is-warning is-rounded' " type="submit" :disabled="disabled">
+                <span class="icon">
+                  <i class="fas fa-user-minus"></i>
+                </span>
+                <span>Delete</span>
+              </button>
+            </form>
+          </div>
+        </div>
     </div>
 </template>
 <script>
@@ -34,7 +53,8 @@ export default {
             return {
                 password : "",
                 resultmessage: "",
-                databasemessage: "",
+                disabled: true,
+                errormessageVisibility: false,
                 userData: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
                 userToken: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8)),
                 loading: true,
@@ -63,6 +83,7 @@ export default {
                               this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "You Account is Being Deleted. Please Wait", redirectUrl: "/0:home/" } })
                             }, 1500)
                           } else {
+                            this.errormessageVisibility = true;
                             this.loading = false;
                             this.resultmessage = response.data.message
                           }
@@ -72,36 +93,34 @@ export default {
                         console.error(error);
                     });
                 } else {
-                  this.loading = false;
-                    this.resultmessage = "> Fill in Your Password"
+                    this.errormessageVisibility = true;
+                    this.loading = false;
+                    this.resultmessage = "Fill in Your Password"
                     this.password = "";
                 }
             },
         },
         mounted: function(){
-          this.loading = true;
-          this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            console.log(response);
-            if(response.status == '200'){
-              this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
-            } else {
-              this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
-            }
-          })
           var user = localStorage.getItem("userdata");
           var token = localStorage.getItem("tokendata");
           if(user && token){
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
             if(userData.verified){
               this.loading = false;
-              this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
             } else {
               this.loading = false;
-              this.resultmessage = userData.admin
             }
           } else {
             this.loading = false;
-            this.resultmessage = "Unauthorized";
+          }
+        },
+        watch: {
+          password: function() {
+            if(this.password.length > 0){
+              this.disabled = false;
+            } else {
+              this.disabled = true;
+            }
           }
         }
     }

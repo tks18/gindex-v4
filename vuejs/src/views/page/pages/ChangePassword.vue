@@ -1,38 +1,50 @@
 <template>
-    <div class="content login-page">
+    <div class="content">
       <TopLinks />
-      <p style="color: #bac964">{{ databasemessage }}</p>
       <p style="color: #f6f578">{{ resultmessage }}</p>
-        <h4>Change Your Password</h4>
-        <div class="loading">
-          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
+      </div>
+      <div class="columns is-multiline is-desktop has-text-centered is-centered is-vcentered">
+        <div class="column is-full">
+          <h2 class="title has-text-weight-bold has-text-white">Change Your Password</h2>
+          <p class="subtitle has-text-danger-dark"> Enter Your Old Password and Change </p>
         </div>
-        <form @submit.prevent="handleSubmit">
-            <p style="color:white">Your Email - <span style="color: #ff9595">"{{ userinfo.email }}"</span></p>
-            <div>
-                <label for="oldpassword" > > Your Old Password</label>
-                <div>
-                    <input id="oldpassword" type="password" v-model="oldpassword" required>
-                </div>
+        <div class="column is-half">
+          <form @submit.prevent="handleSubmit">
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-rounded" id="oldpassword" type="password" placeholder="Your Old Password" v-model="oldpassword" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
             </div>
-            <div>
-                <label for="newpassword" > > Your New Password</label>
-                <div>
-                    <input id="newpassword" type="password" v-model="newpassword" required>
-                </div>
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-rounded" id="newpassword" type="password" placeholder="New Password" v-model="newpassword" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
             </div>
-            <div>
-                <label for="confirm-password" > > Confirm New Password</label>
-                <div>
-                    <input id="confirm-password" type="password" v-model="confirmpassword" required>
-                </div>
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-rounded" id="confirm-password" type="password" placeholder="Confirm Password" v-model="confirmpassword" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
             </div>
-            <div>
-                <button class="login-button" type="submit" >
-                    Login
-                </button>
-            </div>
-        </form>
+            <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'" :disabled="disabled">
+              <span class="icon is-medium">
+                <i class="fas fa-shipping-fast"></i>
+              </span>
+              <span>Change</span>
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
 </template>
 <script>
@@ -50,9 +62,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 oldpassword: "",
                 newpassword : "",
                 confirmpassword: "",
+                disabled: true,
                 resultmessage: "",
                 databasemessage: "",
-                loading: true,
+                loading: false,
                 fullpage: true,
             }
         },
@@ -61,15 +74,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.newpassword && this.newpassword.length > 0) {
-                    var tokenData = JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8));
-                    var userData = JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8));
                     this.$http.post(window.apiRoutes.changePasswordRoute, {
-                        email: userData.email,
+                        email: this.userinfo.email,
                         oldpassword: this.oldpassword,
                         newpassword: this.newpassword,
                     })
                     .then(response => {
                       console.log(response);
+                      var userData = localStorage.getItem('userdata');
+                      var tokenData = localStorage.getItem('tokendata');
                       if(response.data.auth && response.data.registered && response.data.changed){
                           if (userData != null && tokenData != null) {
                             localStorage.removeItem("tokendata");
@@ -90,18 +103,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 }
             },
         },
-        mounted: function() {
-          this.loading = true;
-          this.$http.post(window.apiRoutes.homeRoute).then(response => {
-            console.log(response);
-            if(response.status == '200'){
-              this.loading = false;
-              this.databasemessage = `🟢 Database is Live. Ping - ${response.data.ping}ms`
+        watch: {
+          confirmpassword: function() {
+            if(this.confirmpassword === this.newpassword && this.newpassword.length > 0){
+              this.disabled = false;
             } else {
-              this.loading = false;
-              this.databasemessage = "🔴 Database Offline / under Maintenance. Please Try Later"
+              this.disabled = true;
             }
-          })
+          }
         }
     }
 </script>
