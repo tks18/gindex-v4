@@ -107,7 +107,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             handleSubmit(e){
               this.loading = true;
                 e.preventDefault();
-                if (this.password.length > 0) {
+                if (this.password.length > 0 && this.email.length > 0) {
                     this.$http.post(window.apiRoutes.loginRoute, {
                         email: this.email,
                         password: this.password

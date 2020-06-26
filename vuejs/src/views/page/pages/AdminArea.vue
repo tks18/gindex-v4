@@ -55,7 +55,7 @@
                     <p class="subtitle">Change Permission of Users</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-black" @click="gotoPage('/0:register/admin')">
+                    <button class="button is-rounded is-black" @click="gotoPage('/0:register/')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
                       </span>
@@ -73,7 +73,7 @@
                     <p class="subtitle has-text-white">Delete Users</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-warning" @click="gotoPage('/0:delete/user')">
+                    <button class="button is-rounded is-warning" @click="gotoPage('/0:delete/')">
                       <span class="icon is-small">
                         <i class="fas fa-user-times"></i>
                       </span>
@@ -113,7 +113,7 @@
                     <p class="subtitle">Request Superadmin Status for More Powers</p>
                   </div>
                   <div v-if="adminuser && !superadmin" class="column is-two-fifths">
-                    <button class="button is-success" @click="gotoPage('/0:register/request/superadmin')">
+                    <button class="button is-success" @click="gotoPage('/0:settings/request/')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
                       </span>

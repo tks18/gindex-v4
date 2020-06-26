@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "master",
+  version: "v7.3.2",
   theme: "acrou",
   client_id: "client_id",
   client_secret: "client_secret",
@@ -119,7 +119,7 @@ function html(current_drive_order = 0, model = {}) {
     window.current_drive_order = ${current_drive_order};
   </script>
 </head>
-<body>
+<body class="has-navbar-fixed-top">
     <div id="app"></div>
     <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/app.js"></script>
 </body>
