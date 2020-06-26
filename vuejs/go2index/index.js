@@ -119,7 +119,7 @@ function html(current_drive_order = 0, model = {}) {
     window.current_drive_order = ${current_drive_order};
   </script>
 </head>
-<body>
+<body class="has-navbar-fixed-top">
     <div id="app"></div>
     <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/app.js"></script>
 </body>
