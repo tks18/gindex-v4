@@ -1,6 +1,5 @@
 <template>
   <div class="content g2-content">
-    <TopLinks />
     <object :data="url" type="application/pdf" name="file.pdf">
       <embed :src="url" type="application/pdf" />
     </object>
@@ -8,12 +7,8 @@
 </template>
 
 <script>
-import TopLinks from "../common/Top-Links";
 import { decode64 } from "@utils/AcrouUtil";
 export default {
-  components: {
-    TopLinks,
-  },
   data: function() {
     return {};
   },
