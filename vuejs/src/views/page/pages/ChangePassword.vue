@@ -97,7 +97,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     });
                 } else {
                   this.loading = false;
-                  this.resultmessage = "> Passwords Do Not Match"
+                  this.resultmessage = "Passwords Do Not Match"
                   this.newpassword = "";
                   this.confirmpassword = "";
                 }

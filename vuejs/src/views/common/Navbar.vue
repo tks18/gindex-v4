@@ -1,6 +1,9 @@
 <template>
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="container">
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
+      </div>
       <div class="navbar-brand">
         <a class="navbar-item nav-heading" @click="homeRoute">
           <h3 class="title is-3 has-text-white">{{ siteName }}</h3>
@@ -161,9 +164,11 @@
 
 <script>
 import ViewMode from "@/layout/viewmode";
+import Loading from 'vue-loading-overlay';
 export default {
   components: {
     ViewMode,
+    Loading,
   },
   created() {
     this.$bus.$on('logged', () => {
@@ -194,6 +199,7 @@ export default {
       active: false,
       param: "",
       currgd: {},
+      loading: false,
       logged: false,
       admin: false,
       superadmin: false,
@@ -231,7 +237,11 @@ export default {
       this.active = !this.active
     },
     homeRoute() {
+      this.loading = true;
       this.$router.push("/0:home/");
+      setTimeout(() => {
+        this.loading = false;
+      }, 500)
     },
     loginorout() {
       var token = localStorage.getItem("tokendata");
@@ -254,7 +264,11 @@ export default {
     },
     gotoPage(url) {
       this.isActive = !this.isActive;
+      this.loading = true;
       this.$router.push(url);
+      setTimeout(() => {
+        this.loading = false;
+      }, 500)
     },
     logout() {
       this.isActive = !this.isActive;

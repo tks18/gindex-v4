@@ -162,13 +162,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.errormessageVisibility = true;
                   this.successmessageVisibility = false;
                   this.loading = false;
-                  this.resultmessage = "> Passwords Do Not Match"
+                  this.resultmessage = "Passwords Do Not Match"
                   this.password = "";
                   this.confirmpassword = "";
                 }
             },
             gotoPage(url) {
-              this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", success: true, data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
+              this.loading = true;
+              this.$router.push(url)
             }
         },
         watch: {

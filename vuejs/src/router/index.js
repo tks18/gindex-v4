@@ -58,12 +58,17 @@ router.beforeEach( (to, from, next) => {
       var tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
       var userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
       axios.post(window.apiRoutes.verifyRoute, {
+        email: userData.email,
         token: tokenData.token
       }).then(response => {
         if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
           localStorage.removeItem("tokendata");
           localStorage.removeItem("userdata");
           next({ name: 'results', params: { id: 0, cmd: "results", nextUrl: to.fullPath, data: "Your Token Got Expired. Login to Generate Another Token. You will be Redirected to Login Page Automatically." } });
+        } else if(!response.data.auth && !response.data.registered && !response.data.tokenuser){
+          localStorage.removeItem("tokendata");
+          localStorage.removeItem("userdata");
+          next({ name: 'results', params: { id: 0, cmd: "results", nextUrl: to.fullPath, data: "User Not Found." } });
         } else {
           if(to.matched.some(record => record.meta.admin)){
             if(userData.admin){

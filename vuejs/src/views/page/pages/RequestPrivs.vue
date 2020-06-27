@@ -269,7 +269,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 }
             },
             gotoPage(url){
-              this.$router.push({ name: 'results', params: { data: 'You are Being Redirected', redirectUrl: url } })
+              this.loading = true;
+              this.$router.push(url)
             },
         },
         mounted: function(){
