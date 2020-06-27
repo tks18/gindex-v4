@@ -197,7 +197,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         methods: {
           gotoPage(url) {
-            this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", success: true, data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
+            this.loading = true;
+            this.$router.push(url)
           }
         },
         created() {
@@ -206,43 +207,34 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           if (user != null && token != null){
             var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            this.axios.post(window.apiRoutes.verifyRoute, {
-              token: tokenData.token
-            }).then(response => {
-              if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
+            if(userData.admin && userData.superadmin){
+              this.superadmin = true;
+              this.admin = true;
+              this.user = userData;
+              this.tokendata = tokenData;
+              this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
+              this.logged = true
+              setTimeout(() => {
                 this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
-              } else {
-                if(userData.admin && userData.superadmin){
-                  this.superadmin = true;
-                  this.admin = true;
-                  this.user = userData;
-                  this.tokendata = tokenData;
-                  this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
-                  this.logged = true
-                  setTimeout(() => {
-                    this.loading = false;
-                  }, 1000)
-                } else if(userData.admin && !userData.superadmin){
-                  this.admin = true;
-                  this.user = userData;
-                  this.tokendata = tokenData;
-                  this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
-                  this.logged = true
-                  setTimeout(() => {
-                    this.loading = false;
-                  }, 1000)
-                } else {
-                  this.user = userData;
-                  this.tokendata = tokenData;
-                  this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
-                  this.logged = true
-                  setTimeout(() => {
-                    this.loading = false;
-                  }, 1000)
-                }
-              }
-            })
+              }, 1000)
+            } else if(userData.admin && !userData.superadmin){
+              this.admin = true;
+              this.user = userData;
+              this.tokendata = tokenData;
+              this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
+              this.logged = true
+              setTimeout(() => {
+                this.loading = false;
+              }, 1000)
+            } else {
+              this.user = userData;
+              this.tokendata = tokenData;
+              this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
+              this.logged = true
+              setTimeout(() => {
+                this.loading = false;
+              }, 1000)
+            }
           } else {
             this.logged = false
             this.loading = false;

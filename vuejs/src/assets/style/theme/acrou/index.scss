@@ -736,3 +736,12 @@ body {
     }
   }
 }
+
+.image {
+    width: 50%;
+    text-align: center;
+}
+
+.image:hover {
+  cursor: pointer;
+}

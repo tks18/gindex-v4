@@ -361,7 +361,8 @@ export default {
               })
             },
             gotoPage(url) {
-              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "You are Redirected Through a Secure Channel", redirectUrl: url } })
+              this.loading = true;
+              this.$router.push(url)
             }
         },
         mounted: function(){

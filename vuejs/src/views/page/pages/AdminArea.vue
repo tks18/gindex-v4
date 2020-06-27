@@ -37,7 +37,7 @@
                     <p class="subtitle">Invite Users</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-light" @click="gotoPage('/0:invite/user')">
+                    <button class="button is-rounded is-light" @click="gotoPage('/0:invite/')">
                       <span class="icon is-small">
                         <i class="fas fa-user-plus"></i>
                       </span>
@@ -185,7 +185,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         methods: {
           gotoPage: function(url){
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "Super Secure Line on the Way. Please Wait!!", redirectUrl: url } })
+            this.loading = true;
+            this.$router.push(url)
           }
         },
         created() {
@@ -195,31 +196,22 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           if (user != null && token != null){
             var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            this.axios.post(window.apiRoutes.verifyRoute, {
-              token: tokenData.token
-            }).then(response => {
-              if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
-                this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
-              } else {
-                if(userData.admin && userData.superadmin){
-                  this.adminuser = true;
-                  this.superadmin = true;
-                  this.userinfo = userData;
-                  this.tokeninfo = tokenData;
-                  this.loading = false;
-                } else if(userData.admin && !userData.superadmin) {
-                  this.adminuser = true;
-                  this.superadmin = false;
-                  this.userinfo = userData;
-                  this.tokeninfo = tokenData;
-                  this.loading = false;
-                } else {
-                  this.loading = false;
-                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You Have Not Given Super Admin Permissions.", redirectUrl: "/0:home/" } })
-                }
-              }
-            })
+            if(userData.admin && userData.superadmin){
+              this.adminuser = true;
+              this.superadmin = true;
+              this.userinfo = userData;
+              this.tokeninfo = tokenData;
+              this.loading = false;
+            } else if(userData.admin && !userData.superadmin) {
+              this.adminuser = true;
+              this.superadmin = false;
+              this.userinfo = userData;
+              this.tokeninfo = tokenData;
+              this.loading = false;
+            } else {
+              this.loading = false;
+              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You Have Not Given Super Admin Permissions.", redirectUrl: "/0:home/" } })
+            }
           } else {
             this.superadmin = false;
             this.loading = false;

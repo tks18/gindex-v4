@@ -10,7 +10,12 @@
         <div class="column is-two-thirds">
           <div class="box has-background-light">
             <h3 class="title has-text-centered has-text-weight-bold has-text-info-dark">Your Details</h3>
-            <div class="columns is-vcentered is-multiline is-mobile">
+            <div class="columns is-vcentered is-centered is-multiline is-mobile">
+              <div class="column has-text-centered is-full">
+                <figure class="image is-128x128 is-inline-block">
+                  <img class="is-rounded" :src="avatar" @click="alerts('Avatar Under Development')">
+                </figure>
+              </div>
               <div class="column is-three-fifths">
                 <p class="subtitle">Name</p>
               </div>
@@ -149,6 +154,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             userinfo: {},
             tokeninfo: {},
             logged: false,
+            avatar: "",
             admin: false,
             superadmin: false,
             loading: true,
@@ -160,7 +166,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             window.alert(text);
           },
           gotoPage(url) {
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "You are Redirected Through a Secure Channel", redirectUrl: url } })
+            this.loading = true;
+            this.$router.push(url)
           }
         },
         mounted() {
@@ -170,34 +177,40 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           if (user != null && token != null){
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
             var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
-            this.axios.post(window.apiRoutes.verifyRoute, {
-              token: tokenData.token
-            }).then(response => {
-              if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
-                this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "I think Your Token Has Expired. Please Login to Regerate Another One", redirectUrl: "/0:login/" } })
+            if(userData.admin && userData.superadmin){
+              this.userinfo = userData;
+              this.tokeninfo = tokenData;
+              this.logged = true;
+              this.admin = true;
+              this.loading = false;
+              this.superadmin = true;
+              if(userData.avatar){
+                this.avatar = userData.avatar;
               } else {
-                if(userData.admin && userData.superadmin){
-                  this.userinfo = userData;
-                  this.tokeninfo = tokenData;
-                  this.logged = true;
-                  this.admin = true;
-                  this.loading = false;
-                  this.superadmin = true;
-                } else if(userData.admin && !userData.superadmin){
-                  this.userinfo = userData;
-                  this.tokeninfo = tokenData;
-                  this.loading = false;
-                  this.logged = true;
-                  this.admin = true;
-                } else {
-                  this.userinfo = userData;
-                  this.tokeninfo = tokenData;
-                  this.logged = true;
-                  this.loading = false;
-                }
+                this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
               }
-            })
+            } else if(userData.admin && !userData.superadmin){
+              this.userinfo = userData;
+              this.tokeninfo = tokenData;
+              this.loading = false;
+              this.logged = true;
+              this.admin = true;
+              if(userData.avatar){
+                this.avatar = userData.avatar;
+              } else {
+                this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
+              }
+            } else {
+              this.userinfo = userData;
+              this.tokeninfo = tokenData;
+              this.logged = true;
+              this.loading = false;
+              if(userData.avatar){
+                this.avatar = userData.avatar;
+              } else {
+                this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
+              }
+            }
           } else {
             this.logged = false
             this.loading = false;
