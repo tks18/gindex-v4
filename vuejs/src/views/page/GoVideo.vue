@@ -1,6 +1,5 @@
 <template>
   <div class="content g2-content">
-    <TopLinks />
     <bread-crumb ref="breadcrumb"></bread-crumb>
     <div class="video-content">
     <vue-plyr>
@@ -60,12 +59,10 @@
 </template>
 
 <script>
-import TopLinks from "../common/Top-Links";
 import { decode64 } from "@utils/AcrouUtil";
 import BreadCrumb from "../common/BreadCrumb";
 export default {
   components: {
-    TopLinks,
     BreadCrumb,
   },
   data: function() {

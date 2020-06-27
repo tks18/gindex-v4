@@ -200,6 +200,7 @@ export default {
       param: "",
       currgd: {},
       loading: false,
+      fullpage: true,
       logged: false,
       admin: false,
       superadmin: false,

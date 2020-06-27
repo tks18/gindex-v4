@@ -1,6 +1,5 @@
 <template>
   <div class="content g2-content">
-    <TopLinks />
     <div class="audio-card">
       <vue-plyr>
         <audio controls autoplay preload="auto" :src="apiurl">Does Not Support</audio>
@@ -56,12 +55,8 @@
 </template>
 
 <script>
-import TopLinks from "../common/Top-Links";
 import { decode64 } from "@utils/AcrouUtil";
 export default {
-  components: {
-    TopLinks,
-  },
   data: function() {
     return {
       apiurl: "",

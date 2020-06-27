@@ -80,7 +80,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(login)/',
       name: 'login',
-      component: _import("page/pages/Login"),
+      component: _import("page/static/Users/Login"),
       meta: {
           ...meta,
           guest: true
@@ -89,7 +89,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(invite)/',
       name: 'inviteuser',
-      component: _import("page/pages/Invite"),
+      component: _import("page/static/Admin/Invite"),
       meta: {
           ...meta,
           requiresAuth: true,
@@ -99,7 +99,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(register)/',
       name: 'register',
-      component: _import("page/pages/Register"),
+      component: _import("page/static/Admin/Register"),
       meta: {
           ...meta,
           requiresAuth: true,
@@ -109,7 +109,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(register)/otp',
       name: 'otp',
-      component: _import("page/pages/OtpRegister"),
+      component: _import("page/static/OtpRegister"),
       meta: {
           ...meta,
           guest: true,
@@ -118,7 +118,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(home)/',
       name: 'home',
-      component: _import("page/pages/Home"),
+      component: _import("page/static/Home"),
       meta: {
           ...meta,
           guest: true,
@@ -128,7 +128,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(result)/',
       name: 'results',
-      component: _import("page/pages/ResultPage"),
+      component: _import("page/static/ResultPage"),
       meta: {
           ...meta,
           guest: true,
@@ -138,7 +138,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(register)/request/user',
       name: 'request',
-      component: _import("page/pages/Request"),
+      component: _import("page/static/Request"),
       meta: {
           ...meta,
           guest: true,
@@ -147,7 +147,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(settings)/request/',
       name: 'requestadmin',
-      component: _import("page/pages/RequestPrivs"),
+      component: _import("page/static/Users/RequestPrivs"),
       meta: {
           ...meta,
           requiresAuth: true,
@@ -156,7 +156,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(settings)/changepassword',
       name: 'changepassword',
-      component: _import("page/pages/ChangePassword"),
+      component: _import("page/static/Users/ChangePassword"),
       meta: {
           ...meta,
           requiresAuth: true,
@@ -165,7 +165,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(admin)/',
       name: 'admin',
-      component: _import("page/pages/AdminArea"),
+      component: _import("page/static/Admin/AdminArea"),
       meta: {
           ...meta,
           requiresAuth: true,
@@ -175,7 +175,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(settings)/',
       name: 'settings',
-      component: _import("page/pages/Settings"),
+      component: _import("page/static/Users/Settings"),
       meta: {
           ...meta,
           requiresAuth: true,
@@ -184,7 +184,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(delete)/',
       name: 'deleteuser',
-      component: _import("page/pages/Delete"),
+      component: _import("page/static/Admin/Delete"),
       meta: {
           ...meta,
           requiresAuth: true,
@@ -194,7 +194,7 @@ const frameIn = [{
   {
       path: '/:id(\\d)::cmd(delete)/me',
       name: 'deleteme',
-      component: _import("page/pages/DeleteMe"),
+      component: _import("page/static/Users/DeleteMe"),
       meta: {
           ...meta,
           requiresAuth: true

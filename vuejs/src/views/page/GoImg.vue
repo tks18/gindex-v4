@@ -1,6 +1,5 @@
 <template>
   <div class="content g2-content">
-    <TopLinks />
     <figure class="image">
       <img :src="imgurl" :class="!display?'is-hidden':''" @load="loading" />
       <center :class="display?'is-hidden':''">
@@ -13,12 +12,8 @@
 </template>
 
 <script>
-import TopLinks from "../common/Top-Links";
 import { decode64 } from "@utils/AcrouUtil";
 export default {
-  components: {
-    TopLinks,
-  },
   data: function() {
     return {
       imgurl: "",
