@@ -1,41 +1,41 @@
 <template>
     <div class="content mt-4">
-        <div class="loading">
-          <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
+      <div class="loading">
+        <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
+      </div>
+      <div class="columns is-multiline has-text-centered is-desktop is-centered is-vcentered">
+        <div class="column is-full">
+          <h2 class="title has-text-weight-bold has-text-white">Delete Your Account</h2>
+          <p class="is-small has-text-danger-dark has-text-weight-bold">Be Cautious !!</p>
         </div>
-        <div class="columns is-multiline has-text-centered is-desktop is-centered is-vcentered">
-          <div class="column is-full">
-            <h2 class="title has-text-weight-bold has-text-white">Delete Your Account</h2>
-            <p class="is-small has-text-danger-dark has-text-weight-bold">Be Cautious !!</p>
-          </div>
-          <div class="column is-half">
-            <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
-              <div class="message-header">
-                <p>Error Proccessing</p>
-                <button class="delete" @click="errormessageVisibility = false" aria-label="delete"></button>
-              </div>
-              <div class="message-body">
-                {{ resultmessage }}
-              </div>
-            </article>
-            <form @submit.prevent="handleSubmit">
-              <div class="field">
-                <p class="control has-icons-left">
-                  <input class="input is-rounded" id="password" type="password" placeholder="Your Password" v-model="password" required>
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                  </span>
-                </p>
-              </div>
-              <button :class=" loading ? 'button is-loading is-rounded is-warning' : 'button is-warning is-rounded' " type="submit" :disabled="disabled">
-                <span class="icon">
-                  <i class="fas fa-user-minus"></i>
+        <div class="column is-half">
+          <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
+            <div class="message-header">
+              <p>Error Proccessing</p>
+              <button class="delete" @click="errorMessage = false" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+              {{ resultmessage }}
+            </div>
+          </article>
+          <form @submit.prevent="handleSubmit">
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-rounded" id="password" type="password" placeholder="Your Password" v-model="password" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
                 </span>
-                <span>Delete</span>
-              </button>
-            </form>
-          </div>
+              </p>
+            </div>
+            <button :class=" loading ? 'button is-loading is-rounded is-warning' : 'button is-warning is-rounded' " type="submit" :disabled="disabled">
+              <span class="icon">
+                <i class="fas fa-user-minus"></i>
+              </span>
+              <span>Delete</span>
+            </button>
+          </form>
         </div>
+      </div>
     </div>
 </template>
 <script>
@@ -48,13 +48,12 @@ export default {
         props : ["nextUrl"],
         data(){
             return {
+                user: {},
                 password : "",
                 resultmessage: "",
                 disabled: true,
-                errormessageVisibility: false,
-                userData: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
-                userToken: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8)),
-                loading: true,
+                errorMessage: false,
+                loading: false,
                 fullpage: true,
             }
         },
@@ -66,7 +65,7 @@ export default {
                 {
                     let url = window.apiRoutes.deleteMe
                     this.$http.post(url, {
-                          email: this.userData.email,
+                          email: this.user.email,
                           pass: this.password,
                     })
                     .then(response => {
@@ -80,7 +79,7 @@ export default {
                               this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "You Account is Being Deleted. Please Wait", redirectUrl: "/0:home/" } })
                             }, 1500)
                           } else {
-                            this.errormessageVisibility = true;
+                            this.errorMessage = true;
                             this.loading = false;
                             this.resultmessage = response.data.message
                           }
@@ -90,25 +89,22 @@ export default {
                         console.error(error);
                     });
                 } else {
-                    this.errormessageVisibility = true;
+                    this.errorMessage = true;
                     this.loading = false;
                     this.resultmessage = "Fill in Your Password"
                     this.password = "";
                 }
             },
         },
-        mounted: function(){
+        beforeMount() {
           var user = localStorage.getItem("userdata");
           var token = localStorage.getItem("tokendata");
           if(user && token){
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            if(userData.verified){
-              this.loading = false;
-            } else {
-              this.loading = false;
-            }
+            this.user = userData, this.loading = false;
+            console.log(this.user);
           } else {
-            this.loading = false;
+            this.user = null, this.loading = false;
           }
         },
         watch: {
@@ -119,6 +115,6 @@ export default {
               this.disabled = true;
             }
           }
-        }
+        },
     }
 </script>

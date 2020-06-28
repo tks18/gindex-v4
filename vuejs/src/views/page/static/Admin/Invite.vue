@@ -79,110 +79,106 @@
 <script>
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-    export default {
-      components: {
-        Loading
-      },
-        props : ["nextUrl"],
-        data(){
-            return {
-                userinfo: {},
-                name : "",
-                email : "",
-                message: "",
-                disabled: true,
-                buttondisabled: true,
-                role: "",
-                apiurl: "",
-                resultmessage: "",
-                loading: true,
-                fullpage: true,
-                checked: "",
-                codechecked: "",
-            }
-        },
-        methods : {
-            handleSubmit(e) {
-              this.loading = true;
-                e.preventDefault()
-                if(this.checked && this.codechecked && this.name.length > 0 && this.email.length > 0 && this.message.length > 0){
-                  this.$http.post(this.apiurl, {
-                        name: this.name,
-                        email: this.email,
-                        message: this.message,
-                        adminuseremail: this.userinfo.email,
-                  })
-                  .then(response => {
-                      if(response){
-                        if(response.data.auth && response.data.registered){
-                          this.loading = false;
-                          this.resultmessage = response.data.message
-                        } else {
-                          this.loading = false;
-                          this.resultmessage = response.data.message
-                        }
-                      }
-                  })
-                  .catch(error => {
-                      this.resultmessage = error;
-                  });
-                } else {
-                  this.loading = false;
-                  this.resultmessage = "> You Need to Accept Community Guidelines."
-                  this.checked = false;
-                }
-            },
-        },
-        mounted: function(){
-            var user = localStorage.getItem("userdata");
-            var token = localStorage.getItem("tokendata");
-            if(user && token){
-              var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-              if(userData.verified){
-                if(userData.admin && userData.superadmin){
-                  this.loading = false;
-                  this.userinfo = userData;
-                  this.disabled = false;
-                  this.role = 'user';
-                  this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
-                } else if(userData.admin && !userData.superadmin) {
-                  this.loading = false;
-                  this.userinfo = userData;
-                  this.apiurl = window.apiRoutes.inviteUser;
-                  this.disabled = true;
-                  this.role = 'user';
-                  this.resultmessage = `You are Currently Logged in as ${userData.name} as ${userData.role}`
-                } else {
-                  this.loading = false;
-                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Unauthorized", redirectUrl: "/0:home/" } })
-                }
-              } else {
-                this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Unauthorized", redirectUrl: "/0:home/" } })
-              }
+export default {
+  components: {
+    Loading
+  },
+  props : ["nextUrl"],
+  data(){
+      return {
+          user: {},
+          admin: false,
+          superadmin: false,
+          disabled: true,
+          role: "",
+          apiurl: "",
+          name : "",
+          email : "",
+          message: "",
+          checked: "",
+          codechecked: "",
+          buttondisabled: true,
+          resultmessage: "",
+          loading: false,
+          fullpage: true,
+      }
+    },
+    methods : {
+        handleSubmit(e) {
+          this.loading = true;
+            e.preventDefault()
+            if(this.checked && this.codechecked && this.name.length > 0 && this.email.length > 0 && this.message.length > 0){
+              this.$http.post(this.apiurl, {
+                    name: this.name,
+                    email: this.email,
+                    message: this.message,
+                    adminuseremail: this.user.email,
+              })
+              .then(response => {
+                  if(response){
+                    if(response.data.auth && response.data.registered){
+                      this.loading = false;
+                      this.resultmessage = response.data.message
+                    } else {
+                      this.loading = false;
+                      this.resultmessage = response.data.message
+                    }
+                  }
+              })
+              .catch(error => {
+                  this.resultmessage = error;
+              });
             } else {
               this.loading = false;
-              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Unauthorized", redirectUrl: "/0:home/" } })
+              this.resultmessage = "> You Need to Accept Community Guidelines."
+              this.checked = false;
             }
         },
-        watch: {
-          role: function() {
-            if(this.role == "user"){
-              this.apiurl = window.apiRoutes.inviteUser;
-            } else if(this.role == "admin"){
-              this.apiurl = window.apiRoutes.inviteAdmin;
-            } else if(this.role == "superadmin"){
-              this.apiurl = window.apiRoutes.inviteSuperAdmin;
-            }
-          },
-          codechecked: function() {
-            const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
-            if(emailRegex.test(this.email) && this.checked && this.codechecked && this.name.length > 0 && this.email.length > 0 && this.message.length > 0){
-              this.buttondisabled = false;
-            } else {
-              this.buttondisabled = true;
-            }
-          }
+    },
+    beforeMount() {
+      this.loading = true;
+      var user = localStorage.getItem("userdata");
+      var token = localStorage.getItem("tokendata");
+      if(user && token){
+        var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+        this.user = userData;
+        this.loading = false;
+      } else {
+        this.loading = false;
+        this.user = null;
+      }
+    },
+    mounted(){
+      this.loading = true;
+      if(this.user.admin && this.user.superadmin){
+        this.apiurl = window.apiRoutes.inviteUser;
+        this.admin = true, this.superadmin = true, this.role = 'user', this.disabled = false, this.loading = false;
+      } else if(this.user.admin && !this.user.superadmin) {
+        this.apiurl = window.apiRoutes.inviteUser;
+        this.admin = true, this.superadmin = false, this.role = 'user', this.disabled = true, this.loading = false;
+      } else {
+        this.loading = false;
+        this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "UnAuthorized Route. Not Allowed.", redirectUrl: "/0:home/" } })
+      }
+    },
+    watch: {
+      role: function() {
+        if(this.role == "user"){
+          this.apiurl = window.apiRoutes.inviteUser;
+        } else if(this.role == "admin"){
+          this.apiurl = window.apiRoutes.inviteAdmin;
+        } else if(this.role == "superadmin"){
+          this.apiurl = window.apiRoutes.inviteSuperAdmin;
         }
-    }
+      },
+      codechecked: function() {
+        const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
+        if(emailRegex.test(this.email) && this.checked && this.codechecked && this.name.length > 0 && this.email.length > 0 && this.message.length > 0){
+          this.buttondisabled = false;
+        } else {
+          this.buttondisabled = true;
+        }
+      }
+    },
+  }
 </script>

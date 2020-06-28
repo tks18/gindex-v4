@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="adminuser" class="content mt-5">
+    <div v-if="admin" class="content mt-5">
       <h1 class="title has-text-centered has-text-weight-bold has-text-white">Your Admin Zone</h1>
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
@@ -46,7 +46,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="adminuser && superadmin" class="column is-full">
+            <div v-if="admin && superadmin" class="column is-full">
               <div class="box has-background-primary">
                 <h2 class="title has-text-centered has-text-weight-bold">Permission to Users</h2>
                 <div class="columns is-vcentered is-centered is-multiline is-mobile">
@@ -94,24 +94,24 @@
                     <p class="subtitle">Name</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <p class="subtitle has-text-weight-bold">{{ userinfo.name }}</p>
+                    <p class="subtitle has-text-weight-bold">{{ user.name }}</p>
                   </div>
                   <div class="column is-three-fifths">
                     <p class="subtitle">Email</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <p class="subtitle has-text-weight-bold">{{ userinfo.email }}</p>
+                    <p class="subtitle has-text-weight-bold">{{ user.email }}</p>
                   </div>
                   <div class="column is-three-fifths">
                     <p class="subtitle">Current Role</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <p class="subtitle has-text-weight-bold">{{ userinfo.role }}</p>
+                    <p class="subtitle has-text-weight-bold">{{ user.role }}</p>
                   </div>
-                  <div v-if="adminuser && !superadmin" class="column is-three-fifths">
+                  <div v-if="admin && !superadmin" class="column is-three-fifths">
                     <p class="subtitle">Request Superadmin Status for More Powers</p>
                   </div>
-                  <div v-if="adminuser && !superadmin" class="column is-two-fifths">
+                  <div v-if="admin && !superadmin" class="column is-two-fifths">
                     <button class="button is-success" @click="gotoPage('/0:settings/request/')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
@@ -119,20 +119,20 @@
                       <span>Request</span>
                     </button>
                   </div>
-                  <div v-if="adminuser && superadmin" class="column has-text-centered is-full">
+                  <div v-if="admin && superadmin" class="column has-text-centered is-full">
                     <p class="subtitle has-text-warning-dark has-text-weight-bold">You Have Maximum Access to this Website</p>
                   </div>
                   <div class="column is-three-fifths">
                     <p class="subtitle">Last Token Issue Date</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <p class="subtitle has-text-weight-bold">{{ tokeninfo.issuedate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+                    <p class="subtitle has-text-weight-bold">{{ token.issuedate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
                   </div>
                   <div class="column is-three-fifths">
                     <p class="subtitle">Last Token Expiry Date</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <p class="subtitle has-text-weight-bold">{{ tokeninfo.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+                    <p class="subtitle has-text-weight-bold">{{ token.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
                   </div>
                 </div>
               </div>
@@ -172,48 +172,39 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         data() {
           return {
             notify: true,
-            userinfo: {},
-            tokeninfo: {},
-            adminuser: false,
+            user: {},
+            token: {},
+            admin: false,
             superadmin: false,
-            loading: true,
+            loading: false,
             fullpage: true,
           }
         },
         methods: {
           gotoPage: function(url){
-            this.loading = true;
             this.$router.push(url)
           }
         },
-        created() {
+        beforeMount() {
           this.loading = true;
           var token = localStorage.getItem("tokendata")
           var user = localStorage.getItem("userdata");
           if (user != null && token != null){
             var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            if(userData.admin && userData.superadmin){
-              this.adminuser = true;
-              this.superadmin = true;
-              this.userinfo = userData;
-              this.tokeninfo = tokenData;
-              this.loading = false;
-            } else if(userData.admin && !userData.superadmin) {
-              this.adminuser = true;
-              this.superadmin = false;
-              this.userinfo = userData;
-              this.tokeninfo = tokenData;
-              this.loading = false;
-            } else {
-              this.loading = false;
-              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "You Have Not Given Super Admin Permissions.", redirectUrl: "/0:home/" } })
-            }
+            this.user = userData, this.token = tokenData, this.loading = false;
           } else {
-            this.superadmin = false;
-            this.loading = false;
-            this.adminuser = false
+            this.user = null, this.token = null, this.loading = false;
           }
-        }
+        },
+        mounted() {
+          if(this.user.admin && this.user.superadmin){
+            this.admin = true, this.superadmin = true,this.loading = false;
+          } else if(this.user.admin && !this.user.superadmin) {
+            this.admin = true, this.superadmin = false,this.loading = false;
+          } else {
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "UnAuthorized Route.", redirectUrl: "/0:home/" } })
+          }
+        },
       }
 </script>

@@ -8,6 +8,7 @@ const meta = {
 
 const frameIn = [{
     path: "/:id(\\d)::cmd(text)/:path",
+    name: 'text',
     component: _import("page/GoText"),
     meta: {
       ...meta,
@@ -17,6 +18,7 @@ const frameIn = [{
   },
   {
     path: "/:id(\\d)::cmd(pdf)/:path",
+    name: 'pdf',
     component: _import("page/GoPdf"),
     meta: {
       ...meta,
@@ -26,6 +28,7 @@ const frameIn = [{
   },
   {
     path: "/",
+    name: 'base',
     component: _import("page/GoList"),
     meta: {
       ...meta,
@@ -34,6 +37,7 @@ const frameIn = [{
   },
   {
     path: "/:id(\\d)::cmd(video)/:path",
+    name: 'video',
     component: _import("page/GoVideo"),
     meta: {
       ...meta,
@@ -43,6 +47,7 @@ const frameIn = [{
   },
   {
     path: "/:id(\\d)::cmd(audio)/:path",
+    name: 'audio',
     component: _import("page/GoAudio"),
     meta: {
       ...meta,
@@ -52,6 +57,7 @@ const frameIn = [{
   },
   {
     path: "/:id(\\d)::cmd(image)/:path",
+    name: 'image',
     component: _import("page/GoImg"),
     meta: {
       ...meta,
@@ -61,6 +67,7 @@ const frameIn = [{
   },
   {
     path: "/:id(\\d)::cmd(search)(/?q=)*",
+    name: 'search',
     component: _import("page/GoList"),
     meta: {
       ...meta,
@@ -70,6 +77,7 @@ const frameIn = [{
   },
   {
     path: "/:id(\\d):/:path*",
+    name: 'files',
     component: _import("page/GoList"),
     meta: {
       ...meta,
@@ -122,7 +130,7 @@ const frameIn = [{
       meta: {
           ...meta,
           guest: true,
-          allow: true
+          allow: true,
       }
   },
   {

@@ -45,19 +45,19 @@
                 </section>
               </div>
             </div>
-            <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
+            <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
               <div class="message-header">
                 <p>Error Logging in!!</p>
-                <button class="delete" @click="errormessageVisibility = false" aria-label="delete"></button>
+                <button class="delete" @click="errorMessage = false" aria-label="delete"></button>
               </div>
               <div class="message-body">
                 {{ resultmessage }}
               </div>
             </article>
-            <article :class=" successmessageVisibility ? 'message is-success' : 'message is-hidden is-success'">
+            <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
               <div class="message-header">
                 <p>Success !</p>
-                <button class="delete" @click="successmessageVisibility = false" aria-label="delete"></button>
+                <button class="delete" @click="successMessage = false" aria-label="delete"></button>
               </div>
               <div class="message-body">
                 {{ resultmessage }}
@@ -173,10 +173,10 @@
                   <h2 class="title has-text-white has-text-centered has-text-weight-bold">What Previleges You Get?</h2>
                   <p class="subtitle has-text-weight-bold has-text-centered"> Click the Below Buttons to See the Features</p>
                   <div class="columns is-multiline is-mobile is-centered">
-                    <div v-if="!userinfo.admin && !userinfo.superadmin" class="column is-two-thirds">
+                    <div v-if="!admin && !superadmin" class="column is-two-thirds">
                       <p class="subtitle has-text-white">For Admin Features</p>
                     </div>
-                    <div v-if="!userinfo.admin && !userinfo.superadmin" class="column is-one-third">
+                    <div v-if="!admin && !superadmin" class="column is-one-third">
                       <button class="button is-white is-rounded" @click="adminmodal = true">
                         <span class="icon is-small">
                           <i class="fas fa-sticky-note"></i>
@@ -184,10 +184,10 @@
                         <span class="content">Click Here</span>
                       </button>
                     </div>
-                    <div v-if="userinfo.admin && !userinfo.superadmin" class="column is-two-thirds">
+                    <div v-if="admin && !superadmin" class="column is-two-thirds">
                       <p class="subtitle has-text-white">For Superadmin Features</p>
                     </div>
-                    <div v-if="userinfo.admin && !userinfo.superadmin" class="column is-one-third">
+                    <div v-if="admin && !superadmin" class="column is-one-third">
                       <button class="button is-white is-rounded" @click="superadminmodal = true">
                         <span class="icon is-small">
                           <i class="fas fa-sticky-note"></i>
@@ -213,19 +213,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         props : ["nextUrl"],
         data(){
             return {
-                userinfo: {},
-                modalcontent: {},
+                user: {},
+                admin: false,
+                superadmin: false,
                 resultmessage: "",
                 checked: "",
                 codechecked: "",
                 disabled: "",
                 adminmodal: false,
                 superadminmodal: false,
-                errormessageVisibility: false,
-                successmessageVisibility: false,
+                errorMessage: false,
+                successMessage: false,
                 role: "",
                 apiurl: "",
-                loading: true,
+                loading: false,
                 fullpage: true,
                 message: "",
             }
@@ -236,20 +237,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 e.preventDefault()
                 if(this.checked && this.codechecked){
                   this.$http.post(this.apiurl, {
-                        name: this.userinfo.name,
-                        email: this.userinfo.email,
+                        name: this.user.name,
+                        email: this.user.email,
                         message: this.message,
                   })
                   .then(response => {
                       if(response){
                         if(response.data.auth && response.data.registered){
-                          this.successmessageVisibility = true;
-                          this.errormessageVisibility = false;
+                          this.successMessage = true;
+                          this.errorMessage = false;
                           this.loading = false;
                           this.resultmessage = response.data.message
                         } else {
-                          this.successmessageVisibility = false;
-                          this.errormessageVisibility = true;
+                          this.successMessage = false;
+                          this.errorMessage = true;
                           this.loading = false;
                           this.resultmessage = response.data.message
                         }
@@ -259,43 +260,38 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                       console.error(error);
                   });
                 } else {
-                  this.successmessageVisibility = false;
-                  this.errormessageVisibility = true;
+                  this.successMessage = false;
+                  this.errorMessage = true;
                   this.loading = false;
                   this.resultmessage = "You Need to Accept Community Guidelines."
                 }
             },
             gotoPage(url){
-              this.loading = true;
               this.$router.push(url)
             },
         },
-        mounted: function(){
+        beforeMount() {
+          this.loading = true;
           var token = localStorage.getItem("tokendata");
           var user = localStorage.getItem("userdata");
           if (user != null && token != null){
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            if(!userData.admin && !userData.superadmin){
-              this.loading = false;
-              this.role = "admin";
-              this.apiurl = window.apiRoutes.requestadminroute;
-              console.log(this.apiurl)
-              this.userinfo = userData;
-            } else if(userData.admin && !userData.superadmin) {
-              this.loading = false;
-              this.role = "superadmin"
-              this.apiurl = window.apiRoutes.requestsuperadminroute;
-              console.log(this.apiurl)
-              this.userinfo = userData;
-            } else {
-              this.loading = false;
-              setTimeout(() => {
-                  this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
-              }, 1000)
-            }
+            this.user = userData, this.loading = false;
+          } else {
+            this.user = null, this.loading = false;
+          }
+        },
+        mounted(){
+          this.loading = true;
+          if(!this.user.admin && !this.user.superadmin){
+            this.apiurl = window.apiRoutes.requestadminroute;
+            this.admin = false, this.superadmin = false, this.role = 'admin', this.loading = false;
+          } else if(this.user.admin && !this.user.superadmin) {
+            this.apiurl = window.apiRoutes.requestsuperadminroute;
+            this.admin = true, this.superadmin = false, this.role = "superadmin", this.loading = false;
           } else {
             this.loading = false;
-            this.logged = false
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
           }
         },
         watch: {
@@ -306,6 +302,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.disabled = true;
               }
           }
-        }
+        },
     }
 </script>

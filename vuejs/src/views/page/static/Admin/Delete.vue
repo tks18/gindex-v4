@@ -17,12 +17,12 @@
                   <p class="title has-text-weight-bold has-text-centered"> Users List </p>
                   <p class="subtitle has-text-weight-bold has-text-centered"> Press the Button to get the List </p>
                   <div class="columns is-multiline is-mobile is-centered">
-                    <div v-if="userData.admin && !userData.superadmin" class="column is-two-thirds">
+                    <div v-if="admin && !superadmin" class="column is-two-thirds">
                       <p class="subtitle has-text-weight-semibold">
                         Get Users List
                       </p>
                     </div>
-                    <div v-if="userData.admin && !userData.superadmin" class="column is-one-third">
+                    <div v-if="admin && !superadmin" class="column is-one-third">
                       <button class="button is-success" @click="modal = true; listname = 'List of all Users';getUser(getUsers);">
                         <span class="icon is-small">
                           <i class="fas fa-user-shield"></i>
@@ -30,12 +30,12 @@
                         <span>Users</span>
                       </button>
                     </div>
-                    <div v-if="userData.admin && userData.superadmin" class="column is-two-thirds">
+                    <div v-if="admin && superadmin" class="column is-two-thirds">
                       <p class="subtitle has-text-weight-semibold">
                         Get All Users
                       </p>
                     </div>
-                    <div v-if="userData.admin && userData.superadmin" class="column is-one-third">
+                    <div v-if="admin && superadmin" class="column is-one-third">
                       <button class="button is-success" @click="modal = true; listname = 'List of all Users';getUser(getAll);">
                         <span class="icon is-small">
                           <i class="fas fa-user-shield"></i>
@@ -78,19 +78,19 @@
             </div>
           </div>
           <div class="column has-text-centered is-half">
-            <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
+            <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
               <div class="message-header">
                 <p>Error Proccessing</p>
-                <button class="delete" @click="errormessageVisibility = false" aria-label="delete"></button>
+                <button class="delete" @click="errorMessage = false" aria-label="delete"></button>
               </div>
               <div class="message-body">
                 {{ resultmessage }}
               </div>
             </article>
-            <article :class=" successmessageVisibility ? 'message is-success' : 'message is-hidden is-success'">
+            <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
               <div class="message-header">
                 <p>Success !</p>
-                <button class="delete" @click="successmessageVisibility = false" aria-label="delete"></button>
+                <button class="delete" @click="successMessage = false" aria-label="delete"></button>
               </div>
               <div class="message-body">
                 {{ resultmessage }}
@@ -141,137 +141,139 @@
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
-    components: {
-      Loading
-    },
-        props : ["nextUrl"],
-        data(){
-            return {
-                email : "",
-                password : "",
-                resultmessage: "",
-                listname: "",
-                successmessageVisibility: false,
-                errormessageVisibility: false,
-                userList: [],
-                modal: false,
-                pendingMessage: "",
-                getUsers: window.apiRoutes.getUsers,
-                getAll: window.apiRoutes.getAll,
-                role: "",
-                apiurl: "",
-                disabled: "",
-                buttondisabled: "",
-                userData: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
-                userToken: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("tokendata"), this.$pass).toString(this.$hash.enc.Utf8)),
-                loading: true,
-                fullpage: true,
-            }
-        },
-        methods : {
-            handleSubmit(e) {
-              this.loading = true;
-                e.preventDefault()
-                if (this.password && this.password.length > 0)
-                {
-                    this.$http.post(this.apiurl, {
-                          email: this.email,
-                          adminpass: this.password,
-                          adminuseremail: this.userData.email,
-                    })
-                    .then(response => {
-                        if(response){
-                          if(response.data.auth && response.data.registered){
-                            this.successmessageVisibility = true;
-                            this.errormessageVisibility = false;
-                            this.resultmessage = response.data.message
-                            this.loading = false;
-                          } else {
-                            this.successmessageVisibility = false;
-                            this.errormessageVisibility = true;
-                            this.resultmessage = response.data.message
-                            this.loading = false;
-                          }
+  components: {
+    Loading
+  },
+  props : ["nextUrl"],
+  data(){
+      return {
+          user: {},
+          admin: false,
+          superadmin: false,
+          email : "",
+          password : "",
+          resultmessage: "",
+          listname: "",
+          successMessage: false,
+          errorMessage: false,
+          userList: [],
+          modal: false,
+          pendingMessage: "",
+          getUsers: window.apiRoutes.getUsers,
+          getAll: window.apiRoutes.getAll,
+          role: "",
+          apiurl: "",
+          disabled: "",
+          buttondisabled: "",
+          loading: false,
+          fullpage: true,
+        }
+      },
+      methods : {
+          handleSubmit(e) {
+            this.loading = true;
+              e.preventDefault()
+              if (this.password && this.password.length > 0)
+              {
+                  this.$http.post(this.apiurl, {
+                        email: this.email,
+                        adminpass: this.password,
+                        adminuseremail: this.user.email,
+                  })
+                  .then(response => {
+                      if(response){
+                        if(response.data.auth && response.data.registered){
+                          this.successMessage = true;
+                          this.errorMessage = false;
+                          this.resultmessage = response.data.message
+                          this.loading = false;
+                        } else {
+                          this.successMessage = false;
+                          this.errorMessage = true;
+                          this.resultmessage = response.data.message
+                          this.loading = false;
                         }
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-                } else {
-                    this.successmessageVisibility = false;
-                    this.errormessageVisibility = true;
-                    this.resultmessage = "Passwords Do Not Match"
-                    this.password = "";
-                    this.loading = false;
-                }
-            },
-            getUser(route) {
-              this.modal = true;
-              this.loading = true;
-              this.$http.post(route, {
-                    email: this.userData.email,
-              }).then(response => {
-                if(response){
-                  if(response.data.auth && response.data.registered){
-                    this.loading = false;
-                    this.userList = response.data.users;
-                  } else {
-                    this.loading = false;
-                    this.pendingMessage = response.data.message;
-                  }
-                }
-              })
-            },
-            handleTransport(user) {
-              this.email = user.email
-              if(user.role == 'User'){
-                this.role = "user";
-              } else if(user.role == 'Admin'){
-                this.role = "admin"
-              }
-            }
-        },
-        mounted: function(){
-          var user = localStorage.getItem("userdata");
-          var token = localStorage.getItem("tokendata");
-          if(user && token){
-            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            if(userData.verified){
-              if(userData.admin && !userData.superadmin){
-                this.loading = false;
-                this.role = "user"
-                this.disabled = true;
-              } else if(userData.admin && userData.superadmin) {
-                this.loading = false;
-                this.disabled = true;
+                      }
+                  })
+                  .catch(error => {
+                      console.error(error);
+                  });
               } else {
-                this.loading = false;
-                this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "Authorized Area. Not Allowed", redirectUrl: "/0:home/" } })
+                  this.successMessage = false;
+                  this.errorMessage = true;
+                  this.resultmessage = "Passwords Do Not Match"
+                  this.password = "";
+                  this.loading = false;
               }
-            } else {
+          },
+          getUser(route) {
+            this.modal = true;
+            this.loading = true;
+            this.$http.post(route, {
+                  email: this.user.email,
+            }).then(response => {
+              if(response){
+                if(response.data.auth && response.data.registered){
+                  this.loading = false;
+                  this.userList = response.data.users;
+                } else {
+                  this.loading = false;
+                  this.pendingMessage = response.data.message;
+                }
+              }
+            })
+          },
+          handleTransport(user) {
+            this.loading = true;
+            this.email = user.email
+            if(user.role == 'User'){
+              this.role = "user";
               this.loading = false;
-              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "Authorized Area. Not Allowed", redirectUrl: "/0:home/" } })
+            } else if(user.role == 'Admin'){
+              this.role = "admin"
+              this.loading = false;
             }
-          } else {
-            this.loading = false;
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "Authorized Area. Not Allowed", redirectUrl: "/0:home/" } })
+          }
+      },
+      beforeMount() {
+        this.loading = true;
+        var user = localStorage.getItem("userdata");
+        var token = localStorage.getItem("tokendata");
+        if(user && token){
+          var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+          this.loading = false;
+          this.user = userData;
+        } else {
+          this.loading = false;
+          this.user = null;
+        }
+      },
+      mounted(){
+        this.loading = true;
+        if(this.user.admin && this.user.superadmin){
+          this.admin = true, this.superadmin = true, this.role = 'user', this.disabled = false, this.loading = false;
+        } else if(this.user.admin && !this.user.superadmin) {
+          this.admin = true, this.superadmin = false, this.role = 'user', this.disabled = true, this.loading = false;
+        } else {
+          this.loading = false;
+          this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "Authorized Area. Not Allowed", redirectUrl: "/0:home/" } })
+        }
+      },
+      watch: {
+        role: function() {
+          if(this.role == "user"){
+            this.apiurl = window.apiRoutes.deleteUser;
+          } else if(this.role == "admin") {
+            this.apiurl = window.apiRoutes.deleteAdmin;
           }
         },
-        watch: {
-          role: function() {
-            if(this.role == "user"){
-              this.apiurl = window.apiRoutes.deleteUser;
-            } else if(this.role == "admin") {
-              this.apiurl = window.apiRoutes.deleteAdmin;
-            }
-          },
-          password: function() {
-            if(this.role.length > 0 && this.email.length > 0 && this.password.length > 0){
-              this.buttondisabled = false;
-            } else {
-              this.buttondisabled = true;
-            }
+        password: function() {
+          if(this.role.length > 0 && this.email.length > 0 && this.password.length > 0){
+            this.buttondisabled = false;
+          } else {
+            this.buttondisabled = true;
           }
         }
+      },
     }
 </script>

@@ -152,6 +152,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.disabled = true;
             }
           }
-        }
+        },
     }
 </script>
