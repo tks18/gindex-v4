@@ -165,7 +165,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 }
             },
             gotoPage(url) {
-              this.loading = true;
               this.$router.push(url)
             }
         },
@@ -178,6 +177,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.disabled = true;
             }
           }
-        }
+        },
     }
 </script>

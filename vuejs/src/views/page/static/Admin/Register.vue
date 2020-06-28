@@ -15,20 +15,20 @@
                     <p class="subtitle has-text-black">Admin Name</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <p class="subtitle has-text-black has-text-weight-bold">{{ userData.name }}</p>
+                    <p class="subtitle has-text-black has-text-weight-bold">{{ user.name }}</p>
                   </div>
                   <div class="column is-three-fifths">
                     <p class="subtitle has-text-black">Currently You are</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <p class="subtitle has-text-black has-text-weight-bold">{{ userData.role }}</p>
+                    <p class="subtitle has-text-black has-text-weight-bold">{{ user.role }}</p>
                   </div>
-                  <div v-if="userData.admin && !userData.superadmin" class="column is-full">
+                  <div v-if="user.admin && !user.superadmin" class="column is-full">
                     <p class="subtitle has-text-weight-bold has-text-warning-dark">
                       Your Scope is Restricted to Adding Additional Users. Use the Below Button to get Pending User Requests.
                     </p>
                   </div>
-                  <div v-if="userData.admin && !userData.superadmin" class="column has-text-centered is-full">
+                  <div v-if="user.admin && !user.superadmin" class="column has-text-centered is-full">
                     <button class="button is-white" @click="gotoPage('/0:register/request/superadmin')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
@@ -36,7 +36,7 @@
                       <span>Request</span>
                     </button>
                   </div>
-                  <div v-if="userData.admin && userData.superadmin" class="column is-full">
+                  <div v-if="user.admin && user.superadmin" class="column is-full">
                     <p class="subtitle has-text-weight-bold has-text-danger-dark">
                       Your Scope is Maximum and Can Add Additional Users, Promote Users.Use the Below Buttons to get Pending User Requests.
                     </p>
@@ -92,12 +92,12 @@
                           <span>Users</span>
                         </button>
                       </div>
-                      <div v-if="userData.admin && userData.superadmin" class="column is-two-thirds">
+                      <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
                         <p class="subtitle has-text-weight-semibold has-text-white">
                           Pending Admins
                         </p>
                       </div>
-                      <div v-if="userData.admin && userData.superadmin" class="column is-one-third">
+                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
@@ -105,12 +105,12 @@
                           <span>Admins</span>
                         </button>
                       </div>
-                      <div v-if="userData.admin && userData.superadmin" class="column is-two-thirds">
+                      <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
                         <p class="subtitle has-text-weight-semibold has-text-white">
                           Pending Superadmins
                         </p>
                       </div>
-                      <div v-if="userData.admin && userData.superadmin" class="column is-one-third">
+                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
@@ -143,19 +143,19 @@
               </div>
             </div>
           </article>
-          <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
+          <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
             <div class="message-header">
               <p>Error Proccessing</p>
-              <button class="delete" @click="errormessageVisibility = false" aria-label="delete"></button>
+              <button class="delete" @click="errorMessage = false" aria-label="delete"></button>
             </div>
             <div class="message-body">
               {{ resultmessage }}
             </div>
           </article>
-          <article :class=" successmessageVisibility ? 'message is-success' : 'message is-hidden is-success'">
+          <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
             <div class="message-header">
               <p>Success !</p>
-              <button class="delete" @click="successmessageVisibility = false" aria-label="delete"></button>
+              <button class="delete" @click="successMessage = false" aria-label="delete"></button>
             </div>
             <div class="message-body">
               {{ resultmessage }}
@@ -261,6 +261,9 @@ export default {
         props : ["nextUrl"],
         data(){
             return {
+                user: {},
+                admin: false,
+                superadmin: false,
                 name : "",
                 email : "",
                 namedisabled: false,
@@ -270,26 +273,23 @@ export default {
                 apiurl: "",
                 role: "",
                 setrole: "",
-                admin: false,
-                pendingadmin: window.apiRoutes.getPendingAdmins,
-                pendingsuperadmin: window.apiRoutes.getPendingSuperAdmins,
-                pendingusers: window.apiRoutes.getPendingUsers,
-                successmessageVisibility: false,
-                errormessageVisibility: false,
+                successMessage: false,
+                errorMessage: false,
                 warnmessageVisibility: true,
-                superadmin: false,
                 modal: false,
                 resultmessage: "",
                 message: "",
-                userData: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
                 checked: false,
                 codechecked: false,
-                listname: "",
-                pendingUserList: [],
                 pendingMessage: "",
                 columnVisibility: false,
-                loading: true,
+                loading: false,
                 fullpage: true,
+                pendingadmin: window.apiRoutes.getPendingAdmins,
+                pendingsuperadmin: window.apiRoutes.getPendingSuperAdmins,
+                pendingusers: window.apiRoutes.getPendingUsers,
+                pendingUserList: [],
+                listname: "",
             }
         },
         methods : {
@@ -303,19 +303,19 @@ export default {
                         name: this.name,
                         email: this.email,
                         adminpass: this.password,
-                        adminuseremail: this.userData.email,
+                        adminuseremail: this.user.email,
                   })
                   .then(response => {
                       if(response){
                         if(response.data.auth && response.data.registered){
                           this.loading = false;
-                          this.successmessageVisibility = true;
-                          this.errormessageVisibility = false;
+                          this.successMessage = true;
+                          this.errorMessage = false;
                           this.resultmessage = response.data.message
                         } else {
                           this.loading = false;
-                          this.successmessageVisibility = false;
-                          this.errormessageVisibility = true;
+                          this.successMessage = false;
+                          this.errorMessage = true;
                           this.resultmessage = response.data.message
                         }
                       }
@@ -325,8 +325,8 @@ export default {
                   });
                 } else {
                     this.loading = false;
-                    this.successmessageVisibility = false;
-                    this.errormessageVisibility = true;
+                    this.successMessage = false;
+                    this.errorMessage = true;
                     this.resultmessage = "Fill in the Form Properly"
                     this.password = "";
                 }
@@ -342,7 +342,7 @@ export default {
               this.modal = true;
               this.loading = true;
               this.$http.post(route, {
-                    adminuseremail: this.userData.email,
+                    adminuseremail: this.user.email,
               }).then(response => {
                 if(response){
                   if(response.data.auth && response.data.registered){
@@ -358,36 +358,31 @@ export default {
               })
             },
             gotoPage(url) {
-              this.loading = true;
               this.$router.push(url)
             }
         },
-        mounted: function(){
+        beforeMount() {
+          this.loading = true;
           var user = localStorage.getItem("userdata");
           var token = localStorage.getItem("tokendata");
           if(user && token){
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            if(userData.verified){
-              if(userData.admin && userData.superadmin){
-                this.loading = false;
-                this.superadmin = true;
-                this.admin = true;
-              } else if(userData.admin && !userData.superadmin) {
-                this.superadmin = false;
-                this.admin = true;
-                this.loading = false;
-              }
-            } else {
-              this.superadmin = false;
-              this.admin = false;
-              this.loading = false;
-              this.resultmessage = "Unauthorized"
-            }
-          } else {
-            this.superadmin = false;
-            this.admin = false;
+            this.user = userData;
             this.loading = false;
-            this.resultmessage = "Unauthorized";
+          } else {
+            this.user = null;
+            this.loading = false;
+          }
+        },
+        mounted(){
+          this.loading = true;
+          if(this.user.admin && this.user.superadmin){
+            this.admin = true, this.superadmin = true, this.loading = false;
+          } else if(this.user.admin && !this.user.superadmin) {
+            this.admin = true, this.superadmin = false, this.loading = false;
+          } else {
+            this.loading = false;
+            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "UnAuthorized Route. Not Allowed.", redirectUrl: "/0:home/" } })
           }
         },
         watch: {
@@ -410,6 +405,6 @@ export default {
               this.disabled = true;
             }
           }
-        }
+        },
     }
 </script>

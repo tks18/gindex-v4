@@ -14,7 +14,7 @@
                   <p>Token Details</p>
                 </div>
                 <div class="message-body">
-                  Remember!! Your Token will Expire on <strong><em>{{ tokendata.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</em></strong></div>
+                  Remember!! Your Token will Expire on <strong><em>{{ token.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</em></strong></div>
               </article>
               <div class="tile is-ancestor has-text-centered">
                 <div class="tile is-6 is-vertical is-parent">
@@ -141,7 +141,7 @@
                  </p>
                </div>
                <div class="column is-quarter">
-                 <button class="button is-outlined is-medium is-success is-rounded" @click="gotoPage('/0:login/')">
+                 <button class="button is-outlined is-success is-rounded" @click="gotoPage('/0:login/')">
                    <span class="icon is-medium">
                     <i class="fas fa-power-off"></i>
                   </span>
@@ -149,7 +149,7 @@
                  </button>
                </div>
                <div class="column is-quarter">
-                 <button class="button is-outlined is-medium is-warning is-rounded" @click="gotoPage('/0:register/request/user')">
+                 <button class="button is-outlined is-warning is-rounded" @click="gotoPage('/0:register/request/user')">
                    <span class="icon is-medium">
                     <i class="fas fa-user-plus"></i>
                   </span>
@@ -157,7 +157,7 @@
                  </button>
                </div>
                <div class="column is-quarter">
-                 <button class="button is-outlined is-medium is-danger is-rounded" @click="gotoPage('/0:register/otp/')">
+                 <button class="button is-outlined is-danger is-rounded" @click="gotoPage('/0:register/otp/')">
                    <span class="icon is-medium">
                     <i class="fas fa-user-check"></i>
                   </span>
@@ -182,59 +182,55 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         data () {
             return {
                 user: {},
-                tokendata: {},
+                token: {},
                 truncatedApi: "",
                 logged: false,
                 admin: false,
                 superadmin: false,
-                loading: true,
+                loading: false,
                 fullpage: true,
             }
         },
         methods: {
           gotoPage(url) {
-            this.loading = true;
             this.$router.push(url)
+          },
+          assignUserInfo() {
+            this.loading = true;
+            var token = localStorage.getItem("tokendata");
+            var user = localStorage.getItem("userdata");
+            if (user != null && token != null){
+              var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
+              var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+              this.user = userData;
+              this.token = tokenData;
+              this.logged = true;
+              this.loading = false;
+            } else {
+              this.logged = false
+              this.loading = false;
+            }
           }
         },
-        created() {
-          var token = localStorage.getItem("tokendata");
-          var user = localStorage.getItem("userdata");
-          if (user != null && token != null){
-            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
-            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            if(userData.admin && userData.superadmin){
-              this.superadmin = true;
-              this.admin = true;
-              this.user = userData;
-              this.tokendata = tokenData;
-              this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
-              this.logged = true
-              setTimeout(() => {
-                this.loading = false;
-              }, 1000)
-            } else if(userData.admin && !userData.superadmin){
-              this.admin = true;
-              this.user = userData;
-              this.tokendata = tokenData;
-              this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
-              this.logged = true
-              setTimeout(() => {
-                this.loading = false;
-              }, 1000)
-            } else {
-              this.user = userData;
-              this.tokendata = tokenData;
-              this.truncatedApi = tokenData.token.slice(0,10)+"......."+token.slice(token.length - 6,token.length -1 )
-              this.logged = true
-              setTimeout(() => {
-                this.loading = false;
-              }, 1000)
-            }
+        beforeMount() {
+          this.assignUserInfo();
+        },
+        mounted() {
+          if(this.user.admin && this.user.superadmin){
+            this.admin = true,this.superadmin = true, this.loading = false;
+          } else if(this.user.admin && !this.user.superadmin){
+            this.admin = true, this.loading = false;
           } else {
-            this.logged = false
             this.loading = false;
           }
+        },
+        updated() {
+          this.$bus.$on('logged', () => {
+            this.assignUserInfo();
+          })
+          this.$bus.$on('logout', () => {
+            this.assignUserInfo();
+          })
         }
     }
 </script>

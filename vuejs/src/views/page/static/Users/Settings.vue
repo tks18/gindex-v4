@@ -19,19 +19,19 @@
                 <p class="subtitle">Name</p>
               </div>
               <div class="column is-two-fifths">
-                <p class="subtitle has-text-weight-bold">{{ userinfo.name }}</p>
+                <p class="subtitle has-text-weight-bold">{{ user.name }}</p>
               </div>
               <div class="column is-three-fifths">
                 <p class="subtitle">Email</p>
               </div>
               <div class="column is-two-fifths">
-                <p class="subtitle has-text-weight-bold">{{ userinfo.email }}</p>
+                <p class="subtitle has-text-weight-bold">{{ user.email }}</p>
               </div>
               <div class="column is-three-fifths">
                 <p class="subtitle">Current Role</p>
               </div>
               <div class="column is-two-fifths">
-                <p class="subtitle has-text-weight-bold">{{ userinfo.role }}</p>
+                <p class="subtitle has-text-weight-bold">{{ user.role }}</p>
               </div>
               <div v-if="!admin && !superadmin" class="column is-three-fifths">
                 <p class="subtitle">Request Admin Status</p>
@@ -62,13 +62,13 @@
                 <p class="subtitle">Last Token Issue Date</p>
               </div>
               <div class="column is-two-fifths">
-                <p class="subtitle has-text-weight-bold">{{ tokeninfo.issuedate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+                <p class="subtitle has-text-weight-bold">{{ token.issuedate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
               </div>
               <div class="column is-three-fifths">
                 <p class="subtitle">Last Token Expiry Date</p>
               </div>
               <div class="column is-two-fifths">
-                <p class="subtitle has-text-weight-bold">{{ tokeninfo.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
+                <p class="subtitle has-text-weight-bold">{{ token.expirydate | moment("dddd, MMMM Do YYYY [at] hh:mm A") }}</p>
               </div>
             </div>
           </div>
@@ -148,13 +148,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         data() {
           return {
-            userinfo: {},
-            tokeninfo: {},
+            user: {},
+            token: {},
             logged: false,
             avatar: "",
             admin: false,
             superadmin: false,
-            loading: true,
+            loading: false,
             fullpage: true,
           }
         },
@@ -163,55 +163,45 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             window.alert(text);
           },
           gotoPage(url) {
-            this.loading = true;
             this.$router.push(url)
+          }
+        },
+        beforeMount() {
+          this.loading = true;
+          var token = localStorage.getItem("tokendata")
+          var user = localStorage.getItem("userdata");
+          if (user != null && token != null){
+            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+            this.user = userData, this.token = tokenData, this.loading = false; this.logged = true;
+          } else {
+            this.user = null, this.token = null, this.loading = false, this.logged = true;
           }
         },
         mounted() {
           this.loading = true;
-          var token = localStorage.getItem("tokendata");
-          var user = localStorage.getItem("userdata");
-          if (user != null && token != null){
-            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
-            if(userData.admin && userData.superadmin){
-              this.userinfo = userData;
-              this.tokeninfo = tokenData;
-              this.logged = true;
-              this.admin = true;
-              this.loading = false;
-              this.superadmin = true;
-              if(userData.avatar){
-                this.avatar = userData.avatar;
-              } else {
-                this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
-              }
-            } else if(userData.admin && !userData.superadmin){
-              this.userinfo = userData;
-              this.tokeninfo = tokenData;
-              this.loading = false;
-              this.logged = true;
-              this.admin = true;
-              if(userData.avatar){
-                this.avatar = userData.avatar;
-              } else {
-                this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
-              }
+          if(this.user.admin && this.user.superadmin){
+            this.admin = true,   this.superadmin = true, this.loading = false;
+            if(this.user.avatar){
+              this.avatar = this.user.avatar;
             } else {
-              this.userinfo = userData;
-              this.tokeninfo = tokenData;
-              this.logged = true;
-              this.loading = false;
-              if(userData.avatar){
-                this.avatar = userData.avatar;
-              } else {
-                this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
-              }
+              this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
+            }
+          } else if(this.user.admin && !this.user.superadmin){
+            this.admin = true, this.loading = false;
+            if(this.user.avatar){
+              this.avatar = this.user.avatar;
+            } else {
+              this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
             }
           } else {
-            this.logged = false
             this.loading = false;
+            if(this.user.avatar){
+              this.avatar = this.user.avatar;
+            } else {
+              this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
+            }
           }
-        }
+        },
       }
 </script>

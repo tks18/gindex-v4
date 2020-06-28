@@ -1,6 +1,5 @@
 <template>
     <div class="content">
-      <p style="color: #f6f578">{{ resultmessage }}</p>
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
@@ -10,6 +9,15 @@
           <p class="subtitle has-text-danger-dark"> Enter Your Old Password and Change </p>
         </div>
         <div class="column is-half">
+          <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
+            <div class="message-header">
+              <p>Error Proccessing</p>
+              <button class="delete" @click="errorMessage = false" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+              {{ resultmessage }}
+            </div>
+          </article>
           <form @submit.prevent="handleSubmit">
             <div class="field">
               <p class="control has-icons-left">
@@ -55,13 +63,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
         data(){
             return {
-                userinfo: JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("userdata"), this.$pass).toString(this.$hash.enc.Utf8)),
+                user: {},
                 oldpassword: "",
                 newpassword : "",
                 confirmpassword: "",
+                errorMessage: false,
                 disabled: true,
                 resultmessage: "",
-                databasemessage: "",
                 loading: false,
                 fullpage: true,
             }
@@ -72,24 +80,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 e.preventDefault();
                 if (this.confirmpassword === this.newpassword && this.newpassword.length > 0) {
                     this.$http.post(window.apiRoutes.changePasswordRoute, {
-                        email: this.userinfo.email,
+                        email: this.user.email,
                         oldpassword: this.oldpassword,
                         newpassword: this.newpassword,
                     })
                     .then(response => {
-                      console.log(response);
-                      var userData = localStorage.getItem('userdata');
-                      var tokenData = localStorage.getItem('tokendata');
                       if(response.data.auth && response.data.registered && response.data.changed){
-                          if (userData != null && tokenData != null) {
-                            localStorage.removeItem("tokendata");
-                            localStorage.removeItem("userdata");
-                            this.loading = false;
-                            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
-                            }
-                          } else {
-                            this.loading = false;
-                          this.resultmessage = "> "+response.data.message;
+                        localStorage.removeItem("tokendata");
+                        localStorage.removeItem("userdata");
+                        this.loading = false;
+                        this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
+                      } else {
+                        this.errorMessage = true
+                        this.loading = false;
+                        this.resultmessage = response.data.message;
                       }
                     });
                 } else {
@@ -100,6 +104,19 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 }
             },
         },
+        beforeMount() {
+          this.loading = true;
+          var user = localStorage.getItem("userdata");
+          var token = localStorage.getItem("tokendata");
+          if(user && token){
+            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+            this.loading = false;
+            this.user = userData;
+          } else {
+            this.loading = false;
+            this.user = null;
+          }
+        },
         watch: {
           confirmpassword: function() {
             if(this.confirmpassword === this.newpassword && this.newpassword.length > 0){
@@ -108,6 +125,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.disabled = true;
             }
           }
-        }
+        },
     }
 </script>

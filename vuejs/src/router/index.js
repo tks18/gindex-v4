@@ -48,15 +48,15 @@ Vue.use(febAlive, { router });
  */
 router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
-  var token = localStorage.getItem("tokendata");
-  var user = localStorage.getItem("userdata");
+  const token = localStorage.getItem("tokendata");
+  const user = localStorage.getItem("userdata");
   if(to.matched.some(record => record.meta.redirect)){
     next({path: "/0:home/"})
   }
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(token != null && user != null){
-      var tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
-      var userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
+      const tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
+      const userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
       axios.post(window.apiRoutes.verifyRoute, {
         email: userData.email,
         token: tokenData.token
@@ -72,21 +72,21 @@ router.beforeEach( (to, from, next) => {
         } else {
           if(to.matched.some(record => record.meta.admin)){
             if(userData.admin){
-              next();
+              next({ params: { userinfo: userData, tokeninfo: tokenData } });
             } else {
               next({ name: 'results', params: { id: 0, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
             }
           } else {
-            next();
+            next({ params: { userinfo: userData, tokeninfo: tokenData } });
           }
           if(to.matched.some(record => record.meta.superadmin)){
             if(userData.superadmin && userData.admin){
-              next();
+              next({ params: { userinfo: userData, tokeninfo: tokenData } });
             } else {
               next({ name: 'results', params: { id: 0, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
             }
           } else {
-            next();
+            next({ params: { userinfo: userData, tokeninfo: tokenData } });
           }
         }
       })
@@ -100,10 +100,12 @@ router.beforeEach( (to, from, next) => {
           next();
       }
       else{
+        const tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
+        const userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
         if(to.matched.some(record => record.meta.allow)){
-            next();
+            next({ params: { userinfo: userData, tokeninfo: tokenData } });
         } else {
-            next({path: '/0:home/'});
+            next({name: 'home', params: { id: 0, cmd: 'home' }});
         }
       }
   }else {
