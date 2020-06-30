@@ -1,87 +1,143 @@
 <template>
-  <div class="content g2-content">
-    <bread-crumb ref="breadcrumb"></bread-crumb>
-    <div class="video-content">
-    <vue-plyr>
-      <video :src="apiurl">
-        <source :src="apiurl" type="video/mp4" size="720">
-        <source :src="apiurl" type="video/mp4" size="1080">
-      </video>
-    </vue-plyr>
-    </div>
-    <div class="card">
-      <header class="card-header">
-        <p class="card-header-title">
-          <span class="icon">
-            <i class="fa fa-play-circle" aria-hidden="true"></i>
-          </span>
-          {{ $t("page.video.play") }} /
-          <span class="icon">
-            <i class="fa fa-download" aria-hidden="true"></i>
-          </span>
-          {{ $t("page.video.download") }}
-        </p>
-      </header>
-      <div class="card-content">
-        <div class="content">
-          <div class="field">
-            <label class="label">{{ $t("page.video.link") }}</label>
-            <div class="control">
-              <div class="link-text copy-download-link">
-                <input id="copy-link" class="input download-link" type="text" :value="videourl" />
+  <div class="content nopad mt-2">
+    <div class="columns is-multiline is-centered">
+      <div class="column is-two-thirds">
+        <div class="columns is-desktop is-multiline is-centered">
+          <div class="column is-full">
+            <vue-plyr ref="plyr">
+              <video :src="apiurl" class="video-content">
+                <source :src="apiurl" type="video/mp4" size="720">
+                <source :src="apiurl" type="video/mp4" size="1080">
+              </video>
+            </vue-plyr>
+            <div class="box has-background-black">
+              <div class="columns is-mobile is-multiline has-text-white">
+                <div class="column is-1">
+                  <div class="columns is-desktop is-multiline has-text-white is-centered is-vcentered">
+                    <div class="column is-full">
+                      <p class="subtitle has-text-weight-bold has-text-warning"><i class="fas fa-video"></i></p>
+                    </div>
+                  </div>
+                </div>
+                <div :class="ismobile ? 'column is-11' : 'column is-7'">
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname }}</p>
+                </div>
+                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-success has-text-right is-4' : 'column title has-text-weight-semibold has-text-success has-text-right is-4'">
+                  <span class="icon is-medium">
+                    <i :class="playicon"></i>
+                  </span>
+                  <span class="subtitle has-text-success ml-2">{{ playtext }}</span>
+                </div>
               </div>
-              <center>
-                <button id="copy-url" type="button" v-clipboard:copy="videourl">Copy Link <i class="fa fa-copy"></i></button>
-                <button id="copy-url" type="button" @click="downloadButton">Download <i class="fa fa-download"></i></button>
-              </center>
             </div>
           </div>
-          <div class="columns is-mobile is-multiline has-text-centered">
-            <div
-              class="column videocolumn"
-              v-for="(item, index) in players"
-              v-bind:key="index"
-            >
-              <p class="heading">
-                <a :href="item.scheme">
-                  <figure class="image is-48x48" style="margin: 0 auto;">
-                    <img class="icon" :src="item.icon" />
-                  </figure>
-                </a>
-              </p>
-              <p class>{{ item.name }}</p>
+          <div :class=" modal ? 'modal is-active' : 'modal' ">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title has-text-centered">External Players</p>
+                <button class="delete" @click="modal = false;" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <div class="columns is-centered is-mobile" v-for="(item, index) in players" v-bind:key="index">
+                  <div class="column is-3">
+                    <figure class="image is-48x48" style="margin: 0 auto;">
+                      <img class="icon" :src="item.icon" />
+                    </figure>
+                  </div>
+                  <div class="column is-5">
+                    <p class>{{ item.name }}</p>
+                  </div>
+                  <div class="column is-4">
+                    <a class="button is-danger is-rounded" @click="modal = false;" :href="item.scheme">
+                      <span class="icon is-small">
+                        <i class="fas fa-play"></i>
+                      </span>
+                      <span>Play</span>
+                    </a>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="column is-full">
+            <div class="box has-text-centered has-background-dark">
+              <div class="columns is-centered is-vcentered is-multiline">
+                <div class="column is-2">
+                  <button class="button is-success is-rounded" v-clipboard:copy="videourl">
+                    <span class="icon is-small">
+                      <i class="fa fa-copy"></i>
+                    </span>
+                    <span>Share Link</span>
+                  </button>
+                </div>
+                <div class="column is-4">
+                  <button class="button is-success is-rounded" @click="modal=true;">
+                    <span class="icon">
+                     <i class="fas fa-play"></i>
+                   </span>
+                   <span>External Players</span>
+                  </button>
+                </div>
+                <div class="column is-2">
+                  <button class="button is-danger is-rounded" @click="downloadButton">
+                    <span class="icon">
+                     <i class="fas fa-download"></i>
+                   </span>
+                   <span>Download</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="golist" v-loading="loading">
-      <div class="summa" v-for="(file, index) in getFilteredFiles" v-bind:key="index">
-        <svg class="iconfont" aria-hidden="true">
-          <use :xlink:href="getIcon(file.mimeType)" />
-        </svg>
-        <p class="has-text-white" @click.self="
-          action(
-            file,
-            file.mimeType !== 'application/vnd.google-apps.folder'
-              ? 'view'
-              : ''
-          )
-        ">{{ file.name }}</p>
+      <div class="column is-one-third golist" v-loading="loading">
+        <h2 class="title has-text-centered has-text-weight-bold has-text-warning"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
+        <hr>
+          <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in getFilteredFiles" v-bind:key="index" @click="action(file,'view')">
+            <div class="column is-2">
+              <svg class="iconfont" style="font-size: 20px">
+                <use :xlink:href="getIcon(file.mimeType)" />
+              </svg>
+            </div>
+            <div class="column is-10">
+              <div class="columns is-desktop is-multiline">
+                <div class="column is-full">
+                  <p class="is-small is-clipped has-text-white">{{ file.name }}</p>
+                </div>
+                <div class="column is-full">
+                  <div class="columns is-mobile is-multiline">
+                    <div :class="ismobile ? 'column has-text-left is-12' : 'column has-text-left is-8'">
+                      <p class="is-small is-clipped has-text-grey">
+                        {{ file.modifiedTime }}
+                      </p>
+                    </div>
+                    <div :class="ismobile ? 'column is-hidden has-text-right is-4' : 'column has-text-right is-4'">
+                      <p class="is-small is-clipped has-text-grey">
+                        {{ file.size }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <infinite-loading
+            v-show="!loading"
+            ref="infinite"
+            spinner="bubbles"
+            @infinite="infiniteHandler"
+          >
+          <div slot="no-more"></div>
+          <div slot="no-results"></div>
+        </infinite-loading>
+        <div
+          v-show="files.length === 0"
+          class="has-text-centered no-content"
+          >
+        </div>
       </div>
-      <infinite-loading
-        v-show="!loading"
-        ref="infinite"
-        spinner="bubbles"
-        @infinite="infiniteHandler"
-      >
-      <div slot="no-more"></div>
-      <div slot="no-results"></div>
-    </infinite-loading>
-      <div
-        v-show="files.length === 0"
-        class="has-text-centered no-content"
-      ></div>
     </div>
   </div>
 </template>
@@ -97,22 +153,25 @@ import {
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
 import { decode64 } from "@utils/AcrouUtil";
-import BreadCrumb from "../common/BreadCrumb";
 export default {
   components: {
-    BreadCrumb,
     InfiniteLoading,
   },
   data: function() {
     return {
       apiurl: "",
       videourl: "",
+      modal: false,
       infiniteId: +new Date(),
       loading: true,
+      playicon: "fas fa-spinner fa-pulse",
+      playtext: "Loading Stuffs....",
+      videoname: "",
       page: {
         page_token: null,
         page_index: 0,
       },
+      player: {},
       files: [],
       viewer: false,
       icon: {
@@ -154,17 +213,16 @@ export default {
       if (!this.page.page_token) {
         return;
       }
-      this.page.page_index++;
+      this.page.page_token++;
       this.render($state);
     },
     render($state) {
       console.log(this.url);
-      var path = this.url.split(this.url.split('/').pop())[0]
+      var path = this.url.split(this.url.split('/').pop())[0];
       console.log(path);
       var password = localStorage.getItem("password" + path);
-      let q = this.$route.query.q;
       var p = {
-        q: q ? decodeURIComponent(q) : "",
+        q: "",
         password: password || null,
         ...this.page,
       };
@@ -237,13 +295,10 @@ export default {
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl;
+      this.apiurl = "https://glorytoheaven.tk/0:/Anime/Attack%20On%20Titan%20(%20Multi%20Subs)/Shingeki%20no%20Kyojin%20(Attack%20on%20Titan)%20(Season%201)%20%5BBD%201080p%5D%5BHEVC%20x265%2010bit%5D%5BDual-Audio%5D%5BEng-Subs%5D/%5BJudas%5D%20Shingeki%20no%20Kyojin%20S1%20-%2001.mkv";
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
-    },
-    gotoPage(url){
-      this.$router.push(url);
     },
     action(file, target) {
       if (file.mimeType.indexOf("image") != -1) {
@@ -295,9 +350,19 @@ export default {
   },
   computed: {
     getFilteredFiles() {
-      return this.files.slice(0,10).filter(file => {
+      return this.files.filter(file => {
         return file.name != this.url.split('/').pop();
-      });
+      }).filter(file => {
+        return file.mimeType != "application/vnd.google-apps.folder";
+      }).slice(0,10);
+    },
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if(width > 966){
+        return false
+      } else {
+        return true
+      }
     },
     url() {
       if (this.$route.params.path) {
@@ -364,5 +429,25 @@ export default {
       return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
     },
   },
+  mounted() {
+    this.player = this.$refs.plyr.player
+    this.videoname = this.url.split('/').pop();
+  },
+  watch: {
+    player: function(){
+      this.player.on('ready', () => {
+        this.playicon="fas fa-glasses";
+        this.playtext="Ready to Play !"
+      });
+      this.player.on('play', () => {
+        this.playicon="fas fa-spin fa-compact-disc";
+        this.playtext="Playing"
+      });
+      this.player.on('pause', () => {
+        this.playicon="fas fa-pause",
+        this.playtext="Paused"
+      });
+    }
+  }
 };
 </script>

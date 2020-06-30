@@ -102,10 +102,6 @@ body {
   padding: 0.5rem 0.5rem 1.5rem 0.5rem;
 }
 
-.container {
-  max-width: 1080px;
-}
-
 .iconfont {
   width: 2em;
   height: 2em;
@@ -231,7 +227,6 @@ body {
 
 .video-content {
   width: 100%;
-  border: 1px solid #ff9595;
   background-color: black;
   position: relative;
   padding-bottom: 2%;
@@ -242,11 +237,6 @@ body {
     top: 0;
     left: 0;
   }
-}
-
-
-.video-content:hover {
-  border: 1px solid black;
 }
 
 .audio-card {
@@ -744,4 +734,16 @@ body {
 
 .image:hover {
   cursor: pointer;
+}
+
+.suggestList {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.nopad {
+  padding: 0;
+  margin: 0;
 }
