@@ -154,6 +154,7 @@ export default {
       }
       this.page.page_index++;
       this.render($state);
+      console.log($state)
     },
     render($state) {
       this.headmd = { display: false, file: "", path: "" };
