@@ -295,7 +295,7 @@ export default {
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = "https://glorytoheaven.tk/0:/Anime/Attack%20On%20Titan%20(%20Multi%20Subs)/Shingeki%20no%20Kyojin%20(Attack%20on%20Titan)%20(Season%201)%20%5BBD%201080p%5D%5BHEVC%20x265%2010bit%5D%5BDual-Audio%5D%5BEng-Subs%5D/%5BJudas%5D%20Shingeki%20no%20Kyojin%20S1%20-%2001.mkv";
+      this.apiurl = this.videourl;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
