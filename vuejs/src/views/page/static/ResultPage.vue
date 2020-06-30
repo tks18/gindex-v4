@@ -36,14 +36,17 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           Loading,
         },
         mounted: function() {
-          if(this.$route.params.data && this.$route.params.redirectUrl){
+          if(this.$route.params.data && this.$route.params.noredirect){
+            this.data = this.$route.params.data;
+            this.success = this.$route.params.success;
+            this.loading = false;
+          } else if(this.$route.params.data && this.$route.params.redirectUrl){
               this.data = this.$route.params.data;
               this.success = this.$route.params.success;
               setTimeout(() => {
                   this.$router.replace({ path: this.$route.params.redirectUrl })
               }, 1000)
-          }
-          else {
+          } else {
             this.success = false;
             this.data = "Nothing Here!...You will be Redirected"
             setTimeout(() => {

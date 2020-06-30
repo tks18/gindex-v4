@@ -89,6 +89,9 @@ router.beforeEach( (to, from, next) => {
             next({ params: { userinfo: userData, tokeninfo: tokenData } });
           }
         }
+      }).catch(e => {
+        console.log(e);
+        next({ name: 'results', params: {id: 0, cmd: 'result', success: false, data: "You are Using Proxy / Vpn to Login. Turn Off VPN/ Proxy to Use.", noredirect: true} })
       })
     } else {
       localStorage.removeItem("tokendata");
