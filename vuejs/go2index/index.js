@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.3.2",
+  version: "v7.4.0",
   theme: "acrou",
   client_id: "client_id",
   client_secret: "client_secret",
@@ -22,6 +22,7 @@ var authConfig = {
   enable_password_file_verify: true,
 };
 var routes = {
+  checkEmail: 'http://localhost:3000/checkmail',
   loginRoute: 'http://localhost:3000/login',
   registerRoute: 'http://localhost:3000/register/user',
   otpRegister: 'http://localhost:3000/register/approve/otp',
