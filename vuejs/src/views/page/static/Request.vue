@@ -27,9 +27,9 @@
           <form @submit.prevent="handleSubmit">
             <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input class="input is-rounded" placeholder="Your Name" id="name" type="text" v-model="name" required autofocus>
+                <input class="input is-rounded is-focused" placeholder="Email" id="email" type="email" v-model="email" required :autofocus="emailFocus">
                 <span class="icon is-small is-left">
-                  <i class="fas fa-user"></i>
+                  <i class="fas fa-envelope"></i>
                 </span>
                 <span class="icon is-small is-right">
                   <i class="fas fa-check"></i>
@@ -38,9 +38,9 @@
             </div>
             <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input class="input is-rounded is-focused" placeholder="Email" id="email" type="email" v-model="email" required>
+                <input class="input is-rounded" placeholder="Your Name" id="name" type="text" v-model="name" required :autofocus="nameFocus">
                 <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
+                  <i class="fas fa-user"></i>
                 </span>
                 <span class="icon is-small is-right">
                   <i class="fas fa-check"></i>
@@ -121,6 +121,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             return {
                 name : "",
                 email : "",
+                emailFocus: "",
+                nameFocus: "",
                 message: "",
                 resultmessage: "",
                 databasemessage: "",
@@ -179,6 +181,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.checked = false;
                 }
             },
+            checkParams() {
+              if(this.$route.params.email){
+                this.email = this.$route.params.email
+                this.emailFocus = false;
+                this.nameFocus = true;
+              } else {
+                this.email = ""
+                this.emailFocus = true;
+                this.nameFocus = false;
+              }
+            }
+        },
+        mounted() {
+          this.checkParams();
         },
         watch: {
           codechecked: function() {

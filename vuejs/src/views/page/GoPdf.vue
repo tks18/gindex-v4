@@ -1,5 +1,5 @@
 <template>
-  <div class="content g2-content">
+  <div class="content ml-5 mr-5 pl-5 pr-5 g2-content">
     <object :data="url" type="application/pdf" name="file.pdf">
       <embed :src="url" type="application/pdf" />
     </object>
