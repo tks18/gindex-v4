@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ml-5 mr-5 pl-5 pr-5">
     <div class="golist" v-loading="loading">
       <bread-crumb ref="breadcrumb"></bread-crumb>
       <list-view

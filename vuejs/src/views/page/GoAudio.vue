@@ -1,5 +1,5 @@
 <template>
-  <div class="content g2-content">
+  <div class="content ml-5 mr-5 pl-5 pr-5 g2-content">
     <div class="audio-card">
       <vue-plyr>
         <audio controls autoplay preload="auto" :src="apiurl">Does Not Support</audio>

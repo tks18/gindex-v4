@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="box has-background-black">
+  <div id="app" class="box has-background-black mx-0 my-0 px-0 py-0">
     <Layout ref="layout" />
   </div>
 </template>

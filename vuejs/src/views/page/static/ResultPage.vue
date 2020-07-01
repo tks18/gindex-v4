@@ -1,5 +1,5 @@
 <template>
-  <div class="columns is-mobile is-centered mt-5">
+  <div class="columns is-mobile is-centered mt-5 ml-5 mr-5 pl-5 pr-5">
     <div class="field is-grouped-multiline">
       <div class="control">
         <div class="loading">

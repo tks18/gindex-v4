@@ -119,6 +119,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         data(){
             return {
                 email : "",
+                emailFocus: "",
+                otpFocus: "",
                 otp: "",
                 password : "",
                 confirmpassword: "",
@@ -166,7 +168,21 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             },
             gotoPage(url) {
               this.$router.push(url)
+            },
+            checkParams() {
+              if(this.$route.params.email){
+                this.email = this.$route.params.email
+                this.emailFocus = false;
+                this.otpFocus = true;
+              } else {
+                this.email = ""
+                this.emailFocus = true;
+                this.otpFocus = false;
+              }
             }
+        },
+        mounted() {
+          this.checkParams();
         },
         watch: {
           confirmpassword: function() {

@@ -1,5 +1,5 @@
 <template>
-    <div class="content mt-5 is-clipped">
+    <div class="content mt-5 ml-5 mr-5 pl-5 pr-5 is-clipped">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="content nopad mt-2">
+  <div class="content nopad mt-2 ml-5 mr-5">
     <div class="columns is-multiline is-centered">
       <div class="column is-two-thirds">
         <div class="columns is-desktop is-multiline is-centered">

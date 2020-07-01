@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="logged" class="content mt-5">
+    <div v-if="logged" class="content mt-5 ml-5 mr-5 pl-5 pr-5">
       <h1 class="title has-text-centered has-text-weight-bold has-text-white">Settings</h1>
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>

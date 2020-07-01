@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="content ml-5 mr-5 pl-5 pr-5">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
@@ -52,7 +52,7 @@
             <form @submit.prevent="handleSubmit">
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input is-rounded" placeholder="Email" id="email" type="email" v-model="email" required autofocus>
+                  <input class="input is-rounded" placeholder="Email" id="email" type="email" v-model="email" required :autofocus="emailFocus">
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -63,7 +63,7 @@
               </div>
               <div class="field">
                 <p class="control has-icons-left">
-                  <input class="input is-rounded" id="password" type="password" placeholder="Password" v-model="password" required>
+                  <input class="input is-rounded" id="password" type="password" placeholder="Password" v-model="password" required :autofocus="passwordFocus">
                   <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                   </span>
@@ -92,6 +92,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 email : "",
                 password : "",
                 disabled: true,
+                emailFocus: true,
+                passwordFocus: false,
                 resultmessage: "",
                 databasemessage: "",
                 loading: false,
@@ -110,7 +112,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                         password: this.password
                     })
                     .then(response => {
-                      console.log(response);
                       if(response.data.auth && response.data.registered){
                           localStorage.setItem("tokendata", this.$hash.AES.encrypt(JSON.stringify({ token: response.data.token ,issuedate: response.data.issuedat, expirydate: response.data.expiryat }), this.$pass).toString());
                           localStorage.setItem("userdata", this.$hash.AES.encrypt(JSON.stringify( response.data.tokenuser ), this.$pass).toString());
@@ -142,6 +143,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     });
                 }
             },
+            checkParams() {
+              console.log("checked")
+              if(this.$route.params.email){
+                this.email = this.$route.params.email
+                this.emailFocus = false;
+                this.passwordFocus = true;
+              } else {
+                this.emailFocus = true;
+                this.passwordFocus = false;
+              }
+            }
+        },
+        mounted() {
+          this.checkParams();
         },
         watch: {
           password: function() {
@@ -151,7 +166,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             } else {
               this.disabled = true;
             }
-          }
+          },
         },
     }
 </script>

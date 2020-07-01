@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+  <nav class="navbar" role="navigation" aria-label="main navigation" :style="{background: navbarStyle}">
     <div class="container">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
@@ -25,7 +25,7 @@
       <div
         id="navbarBasicExample"
         :class="'navbar-menu ' + (isActive ? 'is-active' : '')"
-        style="background-color: black;"
+        style="background-color: black"
       >
         <div class="navbar-start">
           <div
@@ -173,9 +173,11 @@ export default {
   created() {
     this.$bus.$on('logged', () => {
       this.loginorout();
+      this.changeNavbarStyle()
     })
     this.$bus.$on('logout', () => {
       this.loginorout();
+      this.changeNavbarStyle()
     })
     this.loginorout();
     this.active = false;
@@ -200,6 +202,8 @@ export default {
       param: "",
       currgd: {},
       loading: false,
+      navbarStyle: "",
+      backgroundClass: "",
       fullpage: true,
       logged: false,
       admin: false,
@@ -281,6 +285,15 @@ export default {
         this.$bus.$emit("logout", "User Logged Out");
         this.$router.push({ name: 'results' , params: { id: 0, cmd: "result", data: "You are Being Logged Out. Please Wait", redirectUrl: '/0:home/' } })
       }
+    },
+    changeNavbarStyle() {
+      if(this.$route.name == 'home' && !this.logged){
+        this.navbarStyle = "transparent"
+        this.backgroundClass = "home-back";
+      } else {
+        this.navbarStyle = "black";
+        this.backgroundClass = "none";
+      }
     }
   },
   computed: {
@@ -300,8 +313,20 @@ export default {
       }
     }
   },
+  mounted() {
+    this.changeNavbarStyle();
+  },
   watch: {
     "$route.params.id": "chooseGD",
+    "$route": function() {
+      if(this.$route.name == 'home' && !this.logged){
+        this.navbarStyle = "transparent";
+        this.backgroundClass = "home-back";
+      } else {
+        this.navbarStyle = "black";
+        this.backgroundClass = "none";
+      }
+    }
   },
 };
 </script>
