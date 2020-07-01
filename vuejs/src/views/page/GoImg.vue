@@ -1,5 +1,5 @@
 <template>
-  <div class="content ml-5 mr-5 pl-5 pr-5 g2-content">
+  <div :class="ismobile ? 'content mx-0 mt-2 px-0 g2-content' : 'content ml-5 mt-2 mr-5 pl-5 pr-5 g2-content'">
     <figure class="image">
       <img :src="imgurl" :class="!display?'is-hidden':''" @load="loading" />
       <center :class="display?'is-hidden':''">
@@ -26,6 +26,14 @@ export default {
         return decode64(this.$route.params.path);
       }
       return ''
+    },
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if(width > 966){
+        return false
+      } else {
+        return true
+      }
     }
   },
   activated() {

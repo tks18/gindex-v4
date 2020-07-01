@@ -8,7 +8,7 @@
         <div class="level-item">
           <ul>
             <li>
-              <a style="color: #ff9595;"
+              <a style="color: #e50914"
                 v-show="navs && navs.length > 0"
                 @click="go('/' + index + ':/')"
                 >{{ $t("index") }}</a
@@ -22,7 +22,7 @@
               <a style="color: #80bdab;" class="breadcrumb-text" v-if="index + 1 == navs.length" aria-current="page" href="#">{{
                 item.title
               }}</a>
-              <a style="color: #ff9595;" v-else @click="go(item.path)">{{ item.title }}</a>
+              <a style="color: #e50914;" v-else @click="go(item.path)">{{ item.title }}</a>
             </li>
           </ul>
         </div>

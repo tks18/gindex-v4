@@ -1,5 +1,5 @@
 <template>
-    <div class="content is-clipped ml-5 mr-5 pl-5 pr-5">
+    <div :class="ismobile ? 'content mx-1 mt-2 px-0 is-clipped' : 'content ml-5 mt-2 mr-5 pl-5 pr-5 is-clipped'">
         <div class="loading">
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
@@ -269,6 +269,16 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             gotoPage(url){
               this.$router.push(url)
             },
+        },
+        computed: {
+          ismobile() {
+            var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+            if(width > 966){
+              return false
+            } else {
+              return true
+            }
+          }
         },
         beforeMount() {
           this.loading = true;

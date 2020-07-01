@@ -1,5 +1,5 @@
 <template>
-    <div class="content ml-5 mr-5 pl-5 pr-5">
+    <div :class="ismobile ? 'content mx-1 mt-2 px-0' : 'content ml-5 mt-2 mr-5 pl-5 pr-5'">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
@@ -154,6 +154,16 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.passwordFocus = false;
               }
             }
+        },
+        computed: {
+          ismobile() {
+            var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+            if(width > 966){
+              return false
+            } else {
+              return true
+            }
+          }
         },
         mounted() {
           this.checkParams();

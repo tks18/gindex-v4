@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-5 mr-5 pl-5 pr-5">
+  <div :class="ismobile ? 'mt-2' : 'ml-5 mt-2 mr-5 pl-5 pr-5' ">
     <div class="golist" v-loading="loading">
       <bread-crumb ref="breadcrumb"></bread-crumb>
       <list-view
@@ -135,6 +135,14 @@ export default {
       return this.files.filter(
         (file) => file.mimeType.indexOf("image") != -1
       );
+    },
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if(width > 966){
+        return false
+      } else {
+        return true
+      }
     },
     renderHeadMD() {
       return window.themeOptions.render.head_md || false;

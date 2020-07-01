@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="logged" class="content mt-5 ml-5 mr-5 pl-5 pr-5">
+    <div v-if="logged" :class="ismobile ? 'content mx-1 mt-2 px-0' : 'content ml-5 mt-2 mr-5 pl-5 pr-5'">
       <h1 class="title has-text-centered has-text-weight-bold has-text-white">Settings</h1>
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
@@ -164,6 +164,16 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           },
           gotoPage(url) {
             this.$router.push(url)
+          }
+        },
+        computed: {
+          ismobile() {
+            var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+            if(width > 966){
+              return false
+            } else {
+              return true
+            }
           }
         },
         beforeMount() {

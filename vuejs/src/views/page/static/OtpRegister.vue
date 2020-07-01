@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="content mx-2 mt-2">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
