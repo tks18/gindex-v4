@@ -1,9 +1,9 @@
 <template>
-  <section :class="logged ? 'section' : 'section home-back'">
+  <section :class="ismobile ? logged ? 'section mx-0 mt-2 px-0' : 'section home-back mt-2 mx-0 px-0' : logged ? 'section' : 'section home-back' ">
     <nav v-if="!logged" class="navbar home-navbar">
       <div class="navbar-brand">
         <a class="navbar-item nav-heading">
-          <h3 class="title is-3 has-text-weight-bold">Glory to Heaven</h3>
+          <h3 class="title is-3 has-text-weight-bold" @click="gotoPage('/0:home')">Glory to Heaven</h3>
         </a>
       </div>
       <div v-if="!ismobile" class="navbar-end">
@@ -20,7 +20,7 @@
         </a>
       </div>
     </nav>
-    <div class="columns is-mobile is-centered mx-2 my-2 px-2 py-2">
+    <div :class=" ismobile ? 'columns is-mobile is-centered mx-0 px-0' : 'columns is-mobile is-centered mx-2 my-2 px-2 py-2'">
       <div class="column is-full">
         <div class="loading">
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>

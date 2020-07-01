@@ -10,7 +10,7 @@
         </a>
         <a
           role="button"
-          style="color: #ff9595"
+          style="color: #e50914;"
           :class="'navbar-burger burger ' + (isActive ? 'navbar-active' : '')"
           aria-label="menu"
           aria-expanded="false"

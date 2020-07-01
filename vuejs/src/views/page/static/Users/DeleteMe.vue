@@ -1,5 +1,5 @@
 <template>
-    <div class="content mt-4 ml-5 mr-5 pl-5 pr-5">
+    <div :class="ismobile ? 'content mt-4 mt-2 mx-1 px-0' : 'content mt-4 mt-2 ml-5 mr-5 pl-5 pr-5'">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
@@ -95,6 +95,16 @@ export default {
                     this.password = "";
                 }
             },
+        },
+        computed: {
+          ismobile() {
+            var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+            if(width > 966){
+              return false
+            } else {
+              return true
+            }
+          },
         },
         beforeMount() {
           var user = localStorage.getItem("userdata");

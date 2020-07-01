@@ -4,7 +4,7 @@
       <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
       <span class="sr-only">Loading...</span>
     </div>
-    <div class="markdown-body content" v-html="markedHTML"></div>
+    <div class="markdown-body content has-background-dark" v-html="markedHTML"></div>
   </div>
 </template>
 

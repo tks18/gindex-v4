@@ -1,5 +1,5 @@
 <template>
-  <div class="content ml-5 mr-5 pl-5 pr-5 g2-content">
+  <div :class="ismobile ? 'content mx-0 mt-2 px-0 g2-content' : 'content ml-5 mr-5 mt-2 pl-5 pr-5 g2-content'">
     <codemirror v-model="content" :options="cmOptions" />
   </div>
 </template>
