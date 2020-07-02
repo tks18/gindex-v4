@@ -5,9 +5,27 @@
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <div class="navbar-brand">
-        <a class="navbar-item nav-heading" @click="gotoPage('/', 'home')">
-          <h3 class="title is-3 has-text-white">{{ siteName }}</h3>
+        <img class="is-rounded nav-link px-2 py-2" width="60" @click="homeroute" src="https://github.com/tks18/gindex-v4/blob/1991cb42cda5cbb86e841c36fcbaebec176d9201/vuejs/public/images/g-logo.png?raw=true">
+        <a
+          role="button"
+          style="color: #e50914;"
+          :class="'navbar-burger burger ' + (isActive ? 'navbar-active' : '')"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+          @click="burgerClick"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
         </a>
+      </div>
+      <div v-if="!ismobile" class="navbar-brand">
+        <div class="navbar-item nav-link">
+          <h3 class="title is-3 has-text-white" @click="homeroute">
+            {{ siteName }}
+          </h3>
+        </div>
         <a
           role="button"
           style="color: #e50914;"
@@ -62,16 +80,6 @@
           </div>
           <a
             class="navbar-item"
-            title="Home"
-            @click="gotoPage('/', 'home')"
-           >
-           <span class="icon">
-            <i class="fas fa-home"></i>
-          </span>
-          <span>Home</span>
-          </a>
-          <a
-            class="navbar-item"
             title="OTP Registration"
             v-if="!logged"
             @click="gotoPage('/otp/', 'register')"
@@ -108,11 +116,12 @@
             title="Movies"
             v-if="logged"
             @click="gotoPage('/')"
+            @mouseover="mouseover = true"
+            @mouseleave="mouseover = false"
            >
            <span class="icon">
-            <i class="fas fa-file-video"></i>
+            <i :class="mouseover ? 'fas fa-spin fa-compact-disc' : 'fas fa-compact-disc'"></i>
           </span>
-          <span>Movies</span>
           </a>
           <a
             class="navbar-item"
@@ -183,7 +192,8 @@ export default {
       this.gds = window.gds.map((item, index) => {
         return {
           name: item,
-          id: index,
+          id: '/'+index+':',
+          index: index,
         };
       });
       this.chooseGD();
@@ -200,12 +210,14 @@ export default {
       currgd: {},
       loading: false,
       navbarStyle: "",
+      mouseover: false,
       backgroundClass: "",
       fullpage: true,
       logged: false,
       admin: false,
       superadmin: false,
       gds: [],
+      gdindex: '',
       gddropdown: false,
       isActive: false,
       eyes:
@@ -217,12 +229,14 @@ export default {
       let index = this.$route.params.id;
       if (this.gds && this.gds.length >= index) {
         this.currgd = this.gds[index];
+        this.gdindex = this.gds[index].index;
+        console.log(this.gdindex);
       }
     },
     changeItem(item) {
       this.currgd = item;
       this.$router.push({
-        path: '/' + item.id + ':'+'home/',
+        path: '/'+this.gdindex+':home/',
       });
     },
     query() {
@@ -258,13 +272,16 @@ export default {
         this.logged = false
       }
     },
+    homeroute() {
+      this.$router.push({ path: '/'+ this.gdindex + ':' + 'home/' })
+    },
     gotoPage(url, cmd) {
       this.isActive = !this.isActive;
       this.loading = true;
       if(cmd){
-        this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
+        this.$router.push({ path: '/'+ this.gdindex + ':' + cmd + url })
       } else {
-        this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
+        this.$router.push({ path: '/'+ this.gdindex + ':' + url })
       }
       setTimeout(() => {
         this.loading = false;
@@ -278,7 +295,7 @@ export default {
         localStorage.removeItem("tokendata");
         localStorage.removeItem("userdata");
         this.$bus.$emit("logout", "User Logged Out");
-        this.$router.push({ name: 'results' , params: { id: this.currgd.id, cmd: "result", data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
+        this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
       }
     },
     changeNavbarStyle() {

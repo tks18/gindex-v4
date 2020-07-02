@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.4.3",
-  "g2index": "7.4.3",
+  "version": "7.4.4",
+  "g2index": "7.4.4",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -10,6 +10,7 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },
   "dependencies": {
+    "array-randomizer": "^1.1.2",
     "axios": "^0.19.2",
     "bulma": "^0.9.0",
     "bulma-divider": "^0.2.0",
