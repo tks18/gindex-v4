@@ -3,6 +3,8 @@ var authConfig = {
   siteName: "Glory to Heaven",
   version: "v7.4.0",
   theme: "acrou",
+  github_name: 'tks18',
+  repo_name: 'gindex-v4',
   backendSite: "http://localhost:3000", // Do Not Put '/' at the End
   client_id: "client_id",
   client_secret: "client_secret",
@@ -122,7 +124,7 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body class="has-navbar-fixed-top">
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.repo_name}@${authConfig.version}/vuejs/dist/app.js"></script>
 </body>
 </html>
 `;
