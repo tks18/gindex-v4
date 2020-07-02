@@ -220,6 +220,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 checked: "",
                 codechecked: "",
                 disabled: "",
+                gds: [],
+                currgd: {},
                 adminmodal: false,
                 superadminmodal: false,
                 errorMessage: false,
@@ -266,9 +268,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.resultmessage = "You Need to Accept Community Guidelines."
                 }
             },
-            gotoPage(url){
-              this.$router.push(url)
-            },
         },
         computed: {
           ismobile() {
@@ -301,7 +300,21 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.admin = true, this.superadmin = false, this.role = "superadmin", this.loading = false;
           } else {
             this.loading = false;
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/0:home/" } })
+            this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/", tocmd: "home" } })
+          }
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
           }
         },
         watch: {

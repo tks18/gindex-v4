@@ -92,6 +92,8 @@ export default {
           disabled: true,
           role: "",
           apiurl: "",
+          gds: [],
+          currgd: {},
           name : "",
           email : "",
           message: "",
@@ -169,6 +171,20 @@ export default {
       } else {
         this.loading = false;
         this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "UnAuthorized Route. Not Allowed.", redirectUrl: "/0:home/" } })
+      }
+    },
+    created() {
+      if (window.gds && window.gds.length > 0) {
+        this.gds = window.gds.map((item, index) => {
+          return {
+            name: item,
+            id: index,
+          };
+        });
+        let index = this.$route.params.id;
+        if (this.gds && this.gds.length >= index) {
+          this.currgd = this.gds[index];
+        }
       }
     },
     watch: {

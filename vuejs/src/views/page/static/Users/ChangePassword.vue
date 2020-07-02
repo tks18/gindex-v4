@@ -67,6 +67,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 oldpassword: "",
                 newpassword : "",
                 confirmpassword: "",
+                gds: [],
+                currgd: {},
                 errorMessage: false,
                 disabled: true,
                 resultmessage: "",
@@ -89,7 +91,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                         localStorage.removeItem("tokendata");
                         localStorage.removeItem("userdata");
                         this.loading = false;
-                        this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, redirectUrl: '/0:login/', data: `response.data.message. You have to Relogin with new Password` } })
+                        this.$bus.$emit("logout", "User Logged Out");
+                        this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: true, redirectUrl: '/', tocmd: 'login', data: `response.data.message. You have to Relogin with new Password` } })
                       } else {
                         this.errorMessage = true
                         this.loading = false;
@@ -125,6 +128,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           } else {
             this.loading = false;
             this.user = null;
+          }
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
           }
         },
         watch: {

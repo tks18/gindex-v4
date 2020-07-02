@@ -3,7 +3,7 @@
     <nav v-if="!logged" class="navbar home-navbar">
       <div class="navbar-brand">
         <a class="navbar-item nav-heading">
-          <h3 class="title is-3 has-text-weight-bold" @click="gotoPage('/0:home')">Glory to Heaven</h3>
+          <h3 class="title is-3 has-text-weight-bold" @click="gotoPage('/', 'home')">{{ currgd.name }}</h3>
         </a>
       </div>
       <div v-if="!ismobile" class="navbar-end">
@@ -11,7 +11,7 @@
           class="navbar-item button"
           title="Login"
           v-if="!logged"
-          @click="gotoPage('/0:login/')"
+          @click="gotoPage('/', 'login')"
          >
          <span>Login</span>
          <span class="icon">
@@ -20,7 +20,7 @@
         </a>
       </div>
     </nav>
-    <div :class=" ismobile ? 'columns is-mobile is-centered mx-0 px-0' : 'columns is-mobile is-centered mx-2 my-2 px-2 py-2'">
+    <div :class=" ismobile ? 'columns is-mobile is-centered mx-0 px-0' : 'columns is-mobile is-centered mx-0 px-0 '">
       <div class="column is-full">
         <div class="loading">
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
@@ -35,15 +35,15 @@
                   <div class="content">
                     <p class="subtitle">{{ user.role }}</p>
                     <p v-if="logged && admin && superadmin" class="has-text-black is-italic has-text-weight-semibold is-family-monospace">You have Maximum Access to this Website</p>
-                    <button v-if="logged && !superadmin && !admin" class="button is-danger is-light mb-3" @click="gotoPage('/0:register/request/admin/')">Request Admin Access</button>
-                    <button v-if="logged && admin && !superadmin" class="button is-danger is-light" @click="gotoPage('/0:register/request/superadmin/')">Request Super Admin Access</button>
+                    <button v-if="logged && !superadmin && !admin" class="button is-danger is-light mb-3" @click="gotoPage('/request/', 'register')">Request Admin Access</button>
+                    <button v-if="logged && admin && !superadmin" class="button is-danger is-light" @click="gotoPage('/request/', 'register')">Request Super Admin Access</button>
                   </div>
                 </div>
                 <div class="tile is-child notification is-warning box">
                   <p class="title">Your Email..</p>
                   <div class="content">
                     <p class="subtitle">{{ user.email }}</p>
-                    <button v-if="logged" class="button is-danger is-light" @click="gotoPage('/0:settings/changepassword/')">
+                    <button v-if="logged" class="button is-danger is-light" @click="gotoPage('/changepassword/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-cog"></i>
                       </span>
@@ -57,7 +57,7 @@
                   <p class="title">Quick Access</p>
                   <div class="columns is-multiline is-vcentered is-centered">
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/0:/Anime/')">
+                      <button class="button is-success is-light" @click="gotoPage('/Anime/')">
                         <span class="icon is-small">
                           <i class="fas fa-heart"></i>
                         </span>
@@ -65,7 +65,7 @@
                       </button>
                     </div>
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/0:/Movies/')">
+                      <button class="button is-success is-light" @click="gotoPage('/Movies/')">
                         <span class="icon is-small">
                           <i class="fas fa-video"></i>
                         </span>
@@ -73,7 +73,7 @@
                       </button>
                     </div>
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/0:/Series/')">
+                      <button class="button is-success is-light" @click="gotoPage('/Series/')">
                         <span class="icon is-small">
                           <i class="fas fa-tv"></i>
                         </span>
@@ -81,7 +81,7 @@
                       </button>
                     </div>
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/0:/Courses/')">
+                      <button class="button is-success is-light" @click="gotoPage('/Courses/')">
                         <span class="icon is-small">
                           <i class="fas fa-glasses"></i>
                         </span>
@@ -89,7 +89,7 @@
                       </button>
                     </div>
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/0:/Music/')">
+                      <button class="button is-success is-light" @click="gotoPage('/Music/')">
                         <span class="icon is-small">
                           <i class="fas fa-play"></i>
                         </span>
@@ -97,7 +97,7 @@
                       </button>
                     </div>
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light"  @click="gotoPage('/0:/')">
+                      <button class="button is-success is-light"  @click="gotoPage('/')">
                         <span class="icon is-small">
                           <i class="fas fa-folder-open"></i>
                         </span>
@@ -110,7 +110,7 @@
                   <p class="title">Personal</p>
                   <div class="columns is-multiline is-vcentered is-centered">
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-danger is-light" @click="gotoPage('/0:settings/')">
+                      <button class="button is-danger is-light" @click="gotoPage('/', 'settings')">
                         <span class="icon is-small">
                           <i class="fas fa-user-cog"></i>
                         </span>
@@ -118,7 +118,7 @@
                       </button>
                     </div>
                     <div v-if="logged && admin" class="column is-half">
-                      <button class="button is-danger is-light" @click="gotoPage('/0:admin/')">
+                      <button class="button is-danger is-light" @click="gotoPage('/', 'admin')">
                         <span class="icon is-small">
                           <i class="fas fa-users-cog"></i>
                         </span>
@@ -131,22 +131,17 @@
             </div>
           </div>
         </div>
-        <section v-else class="hero is-medium">
+        <section v-else class="hero is-small fullwidth custompad">
           <div class="hero-body">
             <div class="container has-text-white is-fluid">
               <h1 :class="ismobile ? 'title has-text-white has-text-centered' : 'title is-1 has-text-white has-text-centered'">
                 <div class="columns is-multiline is-mobile is-centered is-vcentered">
                   <div :class="ismobile ? 'column is-full'  : 'column is-half'">
-                    Ahh You !!
-                  </div>
-                  <div :class="ismobile ? 'column is-full'  : 'column is-full'">
-                    <h1 :class="ismobile ? 'subtitle is-small has-text-primary has-text-centered' : 'subtitle has-text-primary has-text-centered'">
-                      Anonymous
-                    </h1>
+                    Binge Watching Made Easy.
                   </div>
                   <div :class="ismobile ? 'column is-full'  : 'column is-full'">
                     <h1 :class="ismobile ? 'title is-small has-text-white has-text-centered' : 'title has-text-white has-text-centered'">
-                      Enter Your Email to Continue !
+                      Get Started Now !
                     </h1>
                   </div>
                 </div>
@@ -162,7 +157,7 @@
                           </p>
                         </div>
                       </div>
-                      <div :class="ismobile ? 'column has-text-centered is-one-fifth' : 'column has-text-left is-one-fifth'">
+                      <div :class="ismobile ? 'column has-text-centered mt-1 is-one-fifth' : 'column has-text-left is-one-fifth'">
                         <button :class="ismobile ? loading ? 'button is-loading is-netflix-red' : 'button is-netflix-red' : loading ? 'button is-loading is-large is-netflix-red' : 'button is-large is-netflix-red'" :disabled="disabled">
                           <span>Start</span>
                           <span class="icon">
@@ -172,9 +167,14 @@
                       </div>
                     </div>
                   </div>
-                  <div class="column is-two-thirds">
+                  <div class="column mx-0 my-0 px-0 py-0 is-two-thirds">
                     <p class="is-small has-text-grey subtitle has-text-centered">
-                      Get Started by Entering Your Email to Login / Request / Register.
+                      Enter Your Email to Login / Request / Register.
+                    </p>
+                  </div>
+                  <div class="column is-full mb-0 mx-0 px-0 py-0 has-text-centered">
+                    <p class="subtitle has-text-white subtitle has-text-centered">
+                      {{ Date.now() | moment("YYYY") }} | {{ currgd.name }}
                     </p>
                   </div>
                 </div>
@@ -184,9 +184,6 @@
         </section>
       </div>
     </div>
-    <footer :class="!logged ? 'footer' : 'footer is-hidden'">
-      <p class="subtitle has-text-white">2020 | Glory to Heaven</p>
-    </footer>
   </section>
 </template>
 <script>
@@ -200,6 +197,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             return {
                 user: {},
                 token: {},
+                gds: [],
+                currgd: {},
                 email: "",
                 disabled: false,
                 truncatedApi: "",
@@ -211,8 +210,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             }
         },
         methods: {
-          gotoPage(url) {
-            this.$router.push(url)
+          gotoPage(url, cmd) {
+            if(cmd){
+              this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
+            } else {
+              this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
+            }
           },
           assignUserInfo() {
             this.loading = true;
@@ -237,7 +240,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.$http.post(window.apiRoutes.checkEmail, {
                   email: this.email,
               }).then(response => {
-                console.log(response);
                 if(response.data.auth && response.data.user && response.data.status == "User Present & Verified"){
                   this.loading = false;
                   this.$bus.$emit('verified', 'User Verified')
@@ -281,6 +283,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.admin = true, this.loading = false;
           } else {
             this.loading = false;
+          }
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
           }
         },
         updated() {

@@ -18,6 +18,16 @@
       roots: [
         {
           id: "",
+          name: "Glory to Heaven",
+          pass: "",
+        },
+        {
+          id: "",
+          name: "TeamDrive",
+          pass: "",
+        },
+        {
+          id: "",
           name: "TeamDrive",
           pass: "",
         }
@@ -57,8 +67,6 @@
       render: {
         head_md: true,
         readme_md: true,
-        // Whether to display file/folder description (not displayed by default)
-        // Show file/folder description or not (not shown by default)
         desc: true,
       }
     }
@@ -69,7 +77,6 @@
       JSON.stringify(authConfig.roots.map((it) => it.name))
     );
     window.current_drive_order = 0;
-    // window.MODEL = { q: "the",root_type: 1 };
   </script>
   <!-- The JS file accelerated by CDN is configured under vue.config.js -->
   <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>

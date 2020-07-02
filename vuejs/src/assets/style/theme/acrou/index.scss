@@ -7,10 +7,10 @@
   url('//at.alicdn.com/t/font_1760192_tl9awsq3di.ttf') format('truetype'),
   url('//at.alicdn.com/t/font_1760192_tl9awsq3di.svg#iconfont') format('svg');
 }
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Varela Round', sans-serif;
 }
 
 * {
@@ -52,7 +52,6 @@ html {
 }
 
 .navbar {
-  background-color: black;
   border-bottom: 3px solid #E50914;
   .container {
     max-width: 90%;
@@ -133,7 +132,7 @@ body {
 .table {
   width: 100%;
   table-layout: fixed;
-  background-color: black;
+  background-color: inherit;
   border-top: 2px solid white;
   border-bottom: 2px solid white;
 
@@ -367,7 +366,7 @@ body {
 .mkdown-text {
   color: white;
   margin:1rem 0;
-  background-color: black;
+  background-color: inherit;
   text-align:center;
   h1,h2,h3,h4,h5,h6,p,strong,em {
     color: white;
@@ -787,10 +786,10 @@ body {
 }
 
 .home-back {
-  min-height:100%;
-  background:url(https://github.com/tks18/gindex-v4/blob/v7.4.0/vuejs/public/logo.jpg?raw=true);
+  min-width:100%;
+  background:url(https://assets.nflxext.com/ffe/siteui/vlv3/bd777948-0e8f-4f7f-b0bf-f7e0ee0875e5/cd5b9c59-183b-4b03-9caf-934bc11565b8/IN-en-20200627-popsignuptwoweeks-perspective_alpha_website_small.jpg);
   background-size:cover;
-  box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
+  box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
 }
 
 .special-email {
@@ -806,4 +805,8 @@ body {
 
 .just {
   background: transparent 0.1;
+}
+
+.custompad {
+  padding: 10%
 }

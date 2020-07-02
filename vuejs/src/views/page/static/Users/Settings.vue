@@ -33,22 +33,11 @@
               <div class="column is-two-fifths">
                 <p class="subtitle has-text-weight-bold">{{ user.role }}</p>
               </div>
-              <div v-if="!admin && !superadmin" class="column is-three-fifths">
-                <p class="subtitle">Request Admin Status</p>
+              <div v-if="!admin && !superadmin || admin && !superadmin" class="column is-three-fifths">
+                <p class="subtitle">Request More Scopes</p>
               </div>
-              <div v-if="!admin && !superadmin" class="column is-two-fifths">
-                <button class="button is-success" @click="gotoPage('/0:settings/request')">
-                  <span class="icon is-small">
-                    <i class="fas fa-user-shield"></i>
-                  </span>
-                  <span>Request</span>
-                </button>
-              </div>
-              <div v-if="admin && !superadmin" class="column is-three-fifths">
-                <p class="subtitle">Request Superadmin Status</p>
-              </div>
-              <div v-if="admin && !superadmin" class="column is-two-fifths">
-                <button class="button is-success" @click="gotoPage('/0:register/request')">
+              <div v-if="!admin && !superadmin || admin && !superadmin" class="column is-two-fifths">
+                <button class="button is-success" @click="gotoPage('/request/', 'settings')">
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
                   </span>
@@ -94,7 +83,7 @@
                     <p class="subtitle">Change Your Password</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <button class="button is-rounded is-primary" @click="gotoPage('/0:settings/changepassword')">
+                    <button class="button is-rounded is-primary" @click="gotoPage('/changepassword/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-lock"></i>
                       </span>
@@ -123,7 +112,7 @@
                     <p class="subtitle has-text-white">Delete Your Account</p>
                   </div>
                   <div class="column is-two-fifths">
-                    <button class="button is-rounded is-warning" @click="gotoPage('/0:delete/me')">
+                    <button class="button is-rounded is-warning" @click="gotoPage('/me/', 'delete')">
                       <span class="icon is-small">
                         <i class="fas fa-user-times"></i>
                       </span>
@@ -152,6 +141,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             token: {},
             logged: false,
             avatar: "",
+            gds: [],
+            currgd: {},
             admin: false,
             superadmin: false,
             loading: false,
@@ -162,8 +153,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           alerts(text) {
             window.alert(text);
           },
-          gotoPage(url) {
-            this.$router.push(url)
+          gotoPage(url, cmd) {
+            if(cmd){
+              this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
+            } else {
+              this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
+            }
           }
         },
         computed: {
@@ -213,5 +208,19 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             }
           }
         },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
+          }
+        }
       }
 </script>
