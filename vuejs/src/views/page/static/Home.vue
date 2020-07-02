@@ -279,7 +279,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         watch: {
           email: function() {
-            const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
+            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
             if(emailRegex.test(this.email)){
               this.disabled = false;
             } else {
