@@ -186,7 +186,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         watch: {
           password: function() {
-            const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
+            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
             if(emailRegex.test(this.email) && this.password.length > 0){
               this.disabled = false;
             } else {
