@@ -84,7 +84,7 @@
                           Pending Users
                         </p>
                       </div>
-                      <div class="column is-one-third">
+                      <div class="column has-text-centered is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
@@ -97,7 +97,7 @@
                           Pending Admins
                         </p>
                       </div>
-                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
+                      <div v-if="user.admin && user.superadmin" class="column has-text-centered is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
@@ -110,7 +110,7 @@
                           Pending Superadmins
                         </p>
                       </div>
-                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
+                      <div v-if="user.admin && user.superadmin" class="column has-text-centered is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>

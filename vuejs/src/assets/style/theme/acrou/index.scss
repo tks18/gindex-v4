@@ -807,6 +807,11 @@ body {
   background: transparent 0.1;
 }
 
-.custompad {
-  padding: 10%
+.nav-link {
+  cursor: pointer;
+}
+
+.navbar-item:hover {
+  background: transparent;
+  color: red;
 }

@@ -131,9 +131,9 @@
             </div>
           </div>
         </div>
-        <section v-else class="hero is-small fullwidth custompad">
+        <section v-else :class="ismobile ? 'hero is-fullheight px-0' : 'hero is-fullheight'">
           <div class="hero-body">
-            <div class="container has-text-white is-fluid">
+            <div :class="ismobile ? 'container has-text-white is-fluid px-0'  : 'container has-text-white is-fluid'">
               <h1 :class="ismobile ? 'title has-text-white has-text-centered' : 'title is-1 has-text-white has-text-centered'">
                 <div class="columns is-multiline is-mobile is-centered is-vcentered">
                   <div :class="ismobile ? 'column is-full'  : 'column is-half'">
@@ -167,12 +167,12 @@
                       </div>
                     </div>
                   </div>
-                  <div class="column mx-0 my-0 px-0 py-0 is-two-thirds">
+                  <div class="column mx-0 px-0 is-two-thirds">
                     <p class="is-small has-text-grey subtitle has-text-centered">
                       Enter Your Email to Login / Request / Register.
                     </p>
                   </div>
-                  <div class="column is-full mb-0 mx-0 px-0 py-0 has-text-centered">
+                  <div class="column is-full mb-0 mt-4 mx-0 px-0 has-text-centered">
                     <p class="subtitle has-text-white subtitle has-text-centered">
                       {{ Date.now() | moment("YYYY") }} | {{ currgd.name }}
                     </p>
@@ -200,7 +200,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 gds: [],
                 currgd: {},
                 email: "",
-                disabled: false,
+                disabled: true,
                 truncatedApi: "",
                 logged: false,
                 admin: false,

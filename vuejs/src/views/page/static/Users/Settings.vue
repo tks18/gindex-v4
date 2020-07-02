@@ -36,7 +36,7 @@
               <div v-if="!admin && !superadmin || admin && !superadmin" class="column is-three-fifths">
                 <p class="subtitle">Request More Scopes</p>
               </div>
-              <div v-if="!admin && !superadmin || admin && !superadmin" class="column is-two-fifths">
+              <div v-if="!admin && !superadmin || admin && !superadmin" class="column has-text-centered is-two-fifths">
                 <button class="button is-success" @click="gotoPage('/request/', 'settings')">
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
@@ -71,7 +71,7 @@
                   <div class="column is-three-fifths">
                     <p class="subtitle">Change Your Avatar</p>
                   </div>
-                  <div class="column is-two-fifths">
+                  <div class="column has-text-centered is-two-fifths">
                     <button class="button is-rounded is-primary" @click="alerts('Under Development')">
                       <span class="icon is-small">
                         <i class="far fa-user-circle"></i>
@@ -82,7 +82,7 @@
                   <div class="column is-three-fifths">
                     <p class="subtitle">Change Your Password</p>
                   </div>
-                  <div class="column is-two-fifths">
+                  <div class="column has-text-centered is-two-fifths">
                     <button class="button is-rounded is-primary" @click="gotoPage('/changepassword/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-lock"></i>
@@ -93,7 +93,7 @@
                   <div class="column is-three-fifths">
                     <p class="subtitle">Change Your Email</p>
                   </div>
-                  <div class="column is-two-fifths">
+                  <div class="column has-text-centered is-two-fifths">
                     <button class="button is-rounded is-primary" @click="alerts('Under Development')">
                       <span class="icon is-small">
                         <i class="fas fa-envelope"></i>

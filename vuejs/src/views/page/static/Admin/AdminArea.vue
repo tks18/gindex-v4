@@ -24,7 +24,7 @@
                   <div class="column is-two-thirds">
                     <p class="subtitle">Add a User</p>
                   </div>
-                  <div class="column is-one-third">
+                  <div class="column has-text-centered is-one-third">
                     <button class="button is-rounded is-light" @click="gotoPage('/', 'register')">
                       <span class="icon is-small">
                         <i class="fas fa-user-plus"></i>
@@ -35,7 +35,7 @@
                   <div class="column is-two-thirds">
                     <p class="subtitle">Invite Users</p>
                   </div>
-                  <div class="column is-one-third">
+                  <div class="column has-text-centered is-one-third">
                     <button class="button is-rounded is-light" @click="gotoPage('/', 'invite')">
                       <span class="icon is-small">
                         <i class="fas fa-user-plus"></i>
@@ -53,7 +53,7 @@
                   <div class="column is-two-thirds">
                     <p class="subtitle">Change Permission of Users</p>
                   </div>
-                  <div class="column is-one-third">
+                  <div class="column has-text-centered is-one-third">
                     <button class="button is-rounded is-black" @click="gotoPage('/', 'register')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
@@ -71,7 +71,7 @@
                   <div class="column is-two-thirds">
                     <p class="subtitle has-text-white">Delete Users</p>
                   </div>
-                  <div class="column is-one-third">
+                  <div class="column has-text-centered is-one-third">
                     <button class="button is-rounded is-warning" @click="gotoPage('/', 'delete')">
                       <span class="icon is-small">
                         <i class="fas fa-user-times"></i>
@@ -146,7 +146,7 @@
                     <p class="subtitle has-text-light">Go to My Settings</p>
                   </div>
                   <div class="column is-3">
-                    <button class="button is-rounded is-light" @click="gotoPage('/', 'settings')">
+                    <button class="button has-text-centered is-rounded is-light" @click="gotoPage('/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-user-cog"></i>
                       </span>
