@@ -4,9 +4,11 @@
       <div class="column mt-2 is-two-thirds">
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
-            <vue-plyr ref="plyr">
-              <audio controls autoplay preload="auto" class="audioplayer" :src="apiurl">Does Not Support</audio>
-            </vue-plyr>
+            <div class="box has-background-black custompad">
+              <vue-plyr ref="plyr">
+                <audio controls autoplay preload="auto" class="audioplayer" :src="apiurl">Does Not Support</audio>
+              </vue-plyr>
+            </div>
             <div class="box has-background-black">
               <div class="columns is-mobile is-multiline has-text-white">
                 <div class="column is-1">
@@ -17,7 +19,7 @@
                   </div>
                 </div>
                 <div :class="ismobile ? 'column is-11' : 'column is-7'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname }}</p>
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ audioname }}</p>
                 </div>
                 <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-success has-text-right is-4' : 'column title has-text-weight-semibold has-text-success has-text-right is-4'">
                   <span class="icon is-medium">
@@ -61,7 +63,7 @@
             <div class="box has-text-centered has-background-dark">
               <div class="columns is-centered is-vcentered is-multiline">
                 <div class="column is-2">
-                  <button class="button is-success is-rounded" v-clipboard:copy="videourl">
+                  <button class="button is-success is-rounded" v-clipboard:copy="audiourl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
                     </span>
@@ -158,9 +160,10 @@ export default {
       modal: false,
       infiniteId: +new Date(),
       loading: true,
+      player: "",
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
-      videoname: "",
+      audioname: "",
       page: {
         page_token: null,
         page_index: 0,
@@ -170,10 +173,10 @@ export default {
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
-        "audio/mpeg": "icon-mkv",
-        "audio/ogg": "icon-mkv",
-        "audio/aac": "icon-mkv",
-        "audio/vnd.wav": "icon-mkv",
+        "audio/mp3": "icon-webm",
+        "audio/ogg": "icon-webm",
+        "audio/flac": "icon-webm",
+        "audio/vnd.wav": "icon-webm",
         "video/x-matroska": "icon-mkv",
         "video/x-msvideo": "icon-avi",
         "video/webm": "icon-webm",
@@ -213,9 +216,7 @@ export default {
       this.render($state);
     },
     render($state) {
-      console.log(this.url);
       var path = this.url.split(this.url.split('/').pop())[0];
-      console.log(path);
       var password = localStorage.getItem("password" + path);
       var p = {
         q: "",
@@ -367,8 +368,8 @@ export default {
       return this.shuffle(this.files).filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
-        return file.mimeType != "application/vnd.google-apps.folder";
-      }).slice(0,10);
+        return file.mimeType == "audio/mp3" || "audio/flac" || "audio/ogg";
+      }).slice(0,15);
     },
     ismobile() {
       var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
@@ -390,17 +391,17 @@ export default {
         {
           name: "IINA",
           icon: this.$cdnpath("images/player/iina.png"),
-          scheme: "iina://weblink?url=" + this.videourl,
+          scheme: "iina://weblink?url=" + this.audiourl,
         },
         {
           name: "PotPlayer",
           icon: this.$cdnpath("images/player/potplayer.png"),
-          scheme: "potplayer://" + this.videourl,
+          scheme: "potplayer://" + this.audiourl,
         },
         {
           name: "VLC",
           icon: this.$cdnpath("images/player/vlc.png"),
-          scheme: "vlc://" + this.videourl,
+          scheme: "vlc://" + this.audiourl,
         },
         {
           name: "Thunder",
@@ -415,14 +416,14 @@ export default {
         {
           name: "nPlayer",
           icon: this.$cdnpath("images/player/nplayer.png"),
-          scheme: "nplayer-" + this.videourl,
+          scheme: "nplayer-" + this.audiourl,
         },
         {
           name: "MXPlayer(Free)",
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.audiourl +
             "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
             this.title +
             ";end",
@@ -432,7 +433,7 @@ export default {
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.audiourl +
             "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
             this.title +
             ";end",
@@ -445,7 +446,7 @@ export default {
   },
   mounted() {
     this.player = this.$refs.plyr.player
-    this.videoname = this.url.split('/').pop();
+    this.audioname = this.url.split('/').pop();
   },
   watch: {
     player: function(){

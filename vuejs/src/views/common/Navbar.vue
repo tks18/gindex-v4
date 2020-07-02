@@ -122,6 +122,7 @@
            <span class="icon">
             <i :class="mouseover ? 'fas fa-spin fa-compact-disc' : 'fas fa-compact-disc'"></i>
           </span>
+          <span  class="is-hidden-desktop">Movies</span>
           </a>
           <a
             class="navbar-item"

@@ -66,7 +66,7 @@ export default {
       this.index = this.$route.params.id;
       let cmd = this.$route.params.cmd;
 // Do not render if searching
-      if (cmd === "search" || cmd === "home" || cmd === "register" || cmd === "settings" || cmd === "admin") {
+      if (cmd === "search" || cmd === "home" || cmd === "register" || cmd === "settings" || cmd === "admin" || cmd === "video" || cmd === "audio") {
         this.navs = [];
         return;
       }
