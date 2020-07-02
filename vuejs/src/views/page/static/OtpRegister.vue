@@ -27,7 +27,7 @@
                   </div>
                 </div>
                 <div class="buttons is-centered">
-                  <button class="button is-rounded is-medium is-danger" @click="gotoPage('/0:login/')">
+                  <button class="button is-rounded is-medium is-danger" @click="gotoPage('/', 'login')">
                     <span class="icon is-medium">
                       <i class="fas fa-shipping-fast"></i>
                     </span>
@@ -125,6 +125,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 password : "",
                 confirmpassword: "",
                 resultmessage: "",
+                gds: [],
+                currgd: {},
                 disabled: true,
                 databasemessage: "",
                 loading: false,
@@ -166,8 +168,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.confirmpassword = "";
                 }
             },
-            gotoPage(url) {
-              this.$router.push(url)
+            gotoPage(url, cmd) {
+              if(cmd){
+                this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
+              } else {
+                this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
+              }
             },
             checkParams() {
               if(this.$route.params.email){
@@ -183,6 +189,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         mounted() {
           this.checkParams();
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
+          }
         },
         watch: {
           confirmpassword: function() {

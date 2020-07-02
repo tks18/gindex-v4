@@ -51,7 +51,7 @@ router.beforeEach( (to, from, next) => {
   const token = localStorage.getItem("tokendata");
   const user = localStorage.getItem("userdata");
   if(to.matched.some(record => record.meta.redirect)){
-    next({path: "/0:home/"})
+    next({path:'/0:home/'})
   }
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(token != null && user != null){
@@ -64,17 +64,17 @@ router.beforeEach( (to, from, next) => {
         if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
           localStorage.removeItem("tokendata");
           localStorage.removeItem("userdata");
-          next({ name: 'results', params: { id: 0, cmd: "results", nextUrl: to.fullPath, data: "Your Token Got Expired. Login to Generate Another Token. You will be Redirected to Login Page Automatically." } });
+          next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: 'home/', data: "Your Token Got Expired. Login to Generate Another Token. You will be Redirected to Login Page Automatically." } });
         } else if(!response.data.auth && !response.data.registered && !response.data.tokenuser){
           localStorage.removeItem("tokendata");
           localStorage.removeItem("userdata");
-          next({ name: 'results', params: { id: 0, cmd: "results", nextUrl: to.fullPath, data: "User Not Found." } });
+          next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: to.fullPath, data: "User Not Found." } });
         } else {
           if(to.matched.some(record => record.meta.admin)){
             if(userData.admin){
               next({ params: { userinfo: userData, tokeninfo: tokenData } });
             } else {
-              next({ name: 'results', params: { id: 0, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
+              next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
             }
           } else {
             next({ params: { userinfo: userData, tokeninfo: tokenData } });
@@ -83,7 +83,7 @@ router.beforeEach( (to, from, next) => {
             if(userData.superadmin && userData.admin){
               next({ params: { userinfo: userData, tokeninfo: tokenData } });
             } else {
-              next({ name: 'results', params: { id: 0, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/0:home/' } });
+              next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
             }
           } else {
             next({ params: { userinfo: userData, tokeninfo: tokenData } });
@@ -91,12 +91,12 @@ router.beforeEach( (to, from, next) => {
         }
       }).catch(e => {
         console.log(e);
-        next({ name: 'results', params: {id: 0, cmd: 'result', success: false, data: "You are Using Proxy / Vpn to Login. Turn Off VPN/ Proxy to Use.", noredirect: true} })
+        next({ name: 'results', params: {id: to.params.id, cmd: 'result', success: false, data: "You are Using Proxy / Vpn to Login. Turn Off VPN/ Proxy to Use.", noredirect: true} })
       })
     } else {
       localStorage.removeItem("tokendata");
       localStorage.removeItem("userdata");
-      next({ name: 'results', params: { id: 0, cmd: "results", success: false, nextUrl: to.fullPath, data: "You are Not Logged in to View Content. Please Login to Continue", redirectUrl: '/0:login/' } });
+      next({ name: 'results', params: { id: to.params.id, cmd: "result", success: false, nextUrl: to.fullPath, data: "You are Not Logged in to View Content. Please Login to Continue", redirectUrl: '/', tocmd: 'login' } });
     }
   } else if(to.matched.some(record => record.meta.guest)) {
       if(token == null && user == null){
@@ -108,7 +108,7 @@ router.beforeEach( (to, from, next) => {
         if(to.matched.some(record => record.meta.allow)){
             next({ params: { userinfo: userData, tokeninfo: tokenData } });
         } else {
-            next({name: 'home', params: { id: 0, cmd: 'home' }});
+            next({name: 'home', params: { id: to.params.id, cmd: 'home/' }});
         }
       }
   }else {

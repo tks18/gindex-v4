@@ -124,6 +124,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 emailFocus: "",
                 nameFocus: "",
                 message: "",
+                gds: [],
+                currgd: {},
                 resultmessage: "",
                 databasemessage: "",
                 checked: "",
@@ -195,6 +197,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         mounted() {
           this.checkParams();
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
+          }
         },
         watch: {
           codechecked: function() {

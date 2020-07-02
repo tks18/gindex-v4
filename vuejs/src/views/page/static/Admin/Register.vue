@@ -29,7 +29,7 @@
                     </p>
                   </div>
                   <div v-if="user.admin && !user.superadmin" class="column has-text-centered is-full">
-                    <button class="button is-white" @click="gotoPage('/0:register/request/superadmin')">
+                    <button class="button is-white" @click="gotoPage('/request/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
                       </span>
@@ -134,7 +134,7 @@
             <div class="message-body">
               <span>Only Pending User and Admin Requests can be Accepted.Use Invite Option to Invite Users.</span>
               <div class="buttons is-centered mt-2">
-                <button class="button is-rounded is-danger" @click="gotoPage('/0:invite/user')">
+                <button class="button is-rounded is-danger" @click="gotoPage('/user/', 'invite')">
                   <span class="icon is-small">
                     <i class="fas fa-user-plus"></i>
                   </span>
@@ -273,6 +273,8 @@ export default {
                 apiurl: "",
                 role: "",
                 setrole: "",
+                gds: [],
+                currgd: {},
                 successMessage: false,
                 errorMessage: false,
                 warnmessageVisibility: true,
@@ -357,8 +359,12 @@ export default {
                 }
               })
             },
-            gotoPage(url) {
-              this.$router.push(url)
+            gotoPage(url, cmd) {
+              if(cmd){
+                this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
+              } else {
+                this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
+              }
             }
         },
         computed: {
@@ -392,7 +398,21 @@ export default {
             this.admin = true, this.superadmin = false, this.loading = false;
           } else {
             this.loading = false;
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: false, data: "UnAuthorized Route. Not Allowed.", redirectUrl: "/0:home/" } })
+            this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "UnAuthorized Route. Not Allowed.", redirectUrl: "/", tocmd: "home" } })
+          }
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
           }
         },
         watch: {

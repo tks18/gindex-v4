@@ -50,6 +50,8 @@ export default {
             return {
                 user: {},
                 password : "",
+                gds: [],
+                currgd: {},
                 resultmessage: "",
                 disabled: true,
                 errorMessage: false,
@@ -76,7 +78,8 @@ export default {
                             localStorage.removeItem('tokendata');
                             setTimeout(() => {
                               this.loading = false;
-                              this.$router.push({ name: 'results', params: { id: 0, cmd: "result", success: true, data: "You Account is Being Deleted. Please Wait", redirectUrl: "/0:home/" } })
+                              this.$bus.$emit("logout", "User Logged Out");
+                              this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: true, data: "You Account is Being Deleted. Please Wait", redirectUrl: "/", tocmd: 'home' } })
                             }, 1500)
                           } else {
                             this.errorMessage = true;
@@ -112,9 +115,22 @@ export default {
           if(user && token){
             var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
             this.user = userData, this.loading = false;
-            console.log(this.user);
           } else {
             this.user = null, this.loading = false;
+          }
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
           }
         },
         watch: {

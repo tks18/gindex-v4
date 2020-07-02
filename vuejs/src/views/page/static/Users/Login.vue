@@ -93,6 +93,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 password : "",
                 disabled: true,
                 emailFocus: true,
+                gds: [],
+                currgd: {},
                 passwordFocus: false,
                 resultmessage: "",
                 databasemessage: "",
@@ -127,10 +129,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             this.$bus.$emit('logged', 'User Logged')
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
-                                this.$router.push({name: "results", params: { id: 0, cmd: "result", success: true, data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
+                                this.$router.push({name: "results", params: { id: this.currgd.id, cmd: "result", success: true, data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
                               }
                               else{
-                                  this.$router.push({name: "results", params: { id: 0, cmd: "result", success: true, data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/0:home/' }})
+                                  this.$router.push({name: "results", params: { id: this.currgd.id, cmd: "result", success: true, tocmd: 'home', data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/' }})
                               }
                             }, 500)
                           }
@@ -167,6 +169,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         mounted() {
           this.checkParams();
+        },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
+          }
         },
         watch: {
           password: function() {

@@ -29,11 +29,27 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               data: "",
               loading: true,
               success: false,
+              gds: [],
+              currgd: {},
               fullpage: true,
             }
         },
         components: {
           Loading,
+        },
+        beforeMount() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
+          }
         },
         mounted: function() {
           if(this.$route.params.data && this.$route.params.noredirect){
@@ -43,14 +59,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           } else if(this.$route.params.data && this.$route.params.redirectUrl){
               this.data = this.$route.params.data;
               this.success = this.$route.params.success;
-              setTimeout(() => {
-                  this.$router.replace({ path: this.$route.params.redirectUrl })
-              }, 1000)
+              if(this.$route.params.tocmd){
+                setTimeout(() => {
+                    this.$router.replace({ path: '/'+ this.currgd.id+ ':' + this.$route.params.tocmd+ this.$route.params.redirectUrl })
+                }, 1000)
+              } else {
+                setTimeout(() => {
+                    this.$router.replace({ path: '/'+ this.currgd.id + ':' + '/' + this.$route.params.redirectUrl })
+                }, 1000)
+              }
           } else {
             this.success = false;
             this.data = "Nothing Here!...You will be Redirected"
             setTimeout(() => {
-              this.$router.replace({ path: '/0:home/' })
+              this.$router.replace({ path: '/'+this.currgd.id+':home/' })
             }, 1000)
           }
         }

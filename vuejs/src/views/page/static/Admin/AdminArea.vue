@@ -25,7 +25,7 @@
                     <p class="subtitle">Add a User</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-light" @click="gotoPage('/0:register/')">
+                    <button class="button is-rounded is-light" @click="gotoPage('/', 'register')">
                       <span class="icon is-small">
                         <i class="fas fa-user-plus"></i>
                       </span>
@@ -36,7 +36,7 @@
                     <p class="subtitle">Invite Users</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-light" @click="gotoPage('/0:invite/')">
+                    <button class="button is-rounded is-light" @click="gotoPage('/', 'invite')">
                       <span class="icon is-small">
                         <i class="fas fa-user-plus"></i>
                       </span>
@@ -54,7 +54,7 @@
                     <p class="subtitle">Change Permission of Users</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-black" @click="gotoPage('/0:register/')">
+                    <button class="button is-rounded is-black" @click="gotoPage('/', 'register')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
                       </span>
@@ -72,7 +72,7 @@
                     <p class="subtitle has-text-white">Delete Users</p>
                   </div>
                   <div class="column is-one-third">
-                    <button class="button is-rounded is-warning" @click="gotoPage('/0:delete/')">
+                    <button class="button is-rounded is-warning" @click="gotoPage('/', 'delete')">
                       <span class="icon is-small">
                         <i class="fas fa-user-times"></i>
                       </span>
@@ -112,7 +112,7 @@
                     <p class="subtitle">Request Superadmin Status for More Powers</p>
                   </div>
                   <div v-if="admin && !superadmin" class="column is-two-fifths">
-                    <button class="button is-success" @click="gotoPage('/0:settings/request/')">
+                    <button class="button is-success" @click="gotoPage('/request/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
                       </span>
@@ -146,7 +146,7 @@
                     <p class="subtitle has-text-light">Go to My Settings</p>
                   </div>
                   <div class="column is-3">
-                    <button class="button is-rounded is-light" @click="gotoPage('/0:settings/')">
+                    <button class="button is-rounded is-light" @click="gotoPage('/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-user-cog"></i>
                       </span>
@@ -175,14 +175,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             user: {},
             token: {},
             admin: false,
+            gds: [],
+            currgd: {},
             superadmin: false,
             loading: false,
             fullpage: true,
           }
         },
         methods: {
-          gotoPage: function(url){
-            this.$router.push(url)
+          gotoPage: function(url, cmd){
+            if(cmd){
+              this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
+            } else {
+              this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
+            }
           }
         },
         computed: {
@@ -213,8 +219,22 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           } else if(this.user.admin && !this.user.superadmin) {
             this.admin = true, this.superadmin = false,this.loading = false;
           } else {
-            this.$router.push({ name: 'results', params: { id: 0, cmd: "result", data: "UnAuthorized Route.", redirectUrl: "/0:home/" } })
+            this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", data: "UnAuthorized Route.", redirectUrl: "/", tocmd: 'home' } })
           }
         },
+        created() {
+          if (window.gds && window.gds.length > 0) {
+            this.gds = window.gds.map((item, index) => {
+              return {
+                name: item,
+                id: index,
+              };
+            });
+            let index = this.$route.params.id;
+            if (this.gds && this.gds.length >= index) {
+              this.currgd = this.gds[index];
+            }
+          }
+        }
       }
 </script>
