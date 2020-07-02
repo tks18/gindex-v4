@@ -145,10 +145,10 @@ export default {
       }
     },
     renderHeadMD() {
-      return window.themeOptions.render.head_md || false;
+      return false;
     },
     renderReadMeMD() {
-      return window.themeOptions.render.readme_md || false;
+      return false;
     },
   },
   created() {

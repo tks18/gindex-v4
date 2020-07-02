@@ -54,54 +54,14 @@
               </div>
               <div class="tile is-parent is-vertical">
                 <div class="tile is-child notification is-success box">
-                  <p class="title">Quick Access</p>
+                  <p class="title">Access</p>
                   <div class="columns is-multiline is-vcentered is-centered">
                     <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Anime/')">
+                      <button class="button is-success is-light" @click="gotoPage('/')">
                         <span class="icon is-small">
                           <i class="fas fa-heart"></i>
                         </span>
-                        <span>Anime</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Movies/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-video"></i>
-                        </span>
-                        <span>The Cinema :-)</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Series/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-tv"></i>
-                        </span>
-                        <span>TV Series</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Courses/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-glasses"></i>
-                        </span>
-                        <span>Courses</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Music/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-play"></i>
-                        </span>
-                        <span>Music</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light"  @click="gotoPage('/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-folder-open"></i>
-                        </span>
-                        <span>View Full List</span>
+                        <span>Go to Drive</span>
                       </button>
                     </div>
                   </div>
