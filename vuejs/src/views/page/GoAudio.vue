@@ -285,6 +285,24 @@ export default {
         this.$router.go(-1);
       }
     },
+    shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array
+    },
     downloadButton() {
       window.open(this.audiourl);
     },
@@ -346,7 +364,7 @@ export default {
   },
   computed: {
     getFilteredFiles() {
-      return this.files.filter(file => {
+      return this.shuffle(this.files).filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
         return file.mimeType != "application/vnd.google-apps.folder";

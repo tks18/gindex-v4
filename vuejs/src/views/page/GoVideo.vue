@@ -217,9 +217,7 @@ export default {
       this.render($state);
     },
     render($state) {
-      console.log(this.url);
       var path = this.url.split(this.url.split('/').pop())[0];
-      console.log(path);
       var password = localStorage.getItem("password" + path);
       var p = {
         q: "",
@@ -262,7 +260,6 @@ export default {
     },
     buildFiles(files) {
       var path = this.url.split(this.url.split('/').pop())[0];
-      console.log(path);
       return !files
         ? []
         : files
@@ -288,6 +285,24 @@ export default {
       } else {
         this.$router.go(-1);
       }
+    },
+    shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array
     },
     downloadButton() {
       window.open(this.videourl);
@@ -350,7 +365,7 @@ export default {
   },
   computed: {
     getFilteredFiles() {
-      return this.files.filter(file => {
+      return this.shuffle(this.files).filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
         return file.mimeType != "application/vnd.google-apps.folder";
