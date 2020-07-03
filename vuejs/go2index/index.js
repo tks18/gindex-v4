@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.5.1",
+  version: "v7.4.7",
   client_id: "client_id",
   client_secret: "client_id",
   refresh_token: "refresh_token",
