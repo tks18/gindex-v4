@@ -33,6 +33,20 @@
         }
       ],
     };
+    var quickLinks = [
+      {
+        displayname: "Anime", // Name to Display
+        link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
+      },
+      {
+        displayname: "The Cinema :-)", // Name to Display
+        link: "Movies",
+      },
+      {
+        displayname: "Courses", // Name to Display
+        link: "Courses",
+      }
+    ]
     var routes = {
       checkEmail: 'http://localhost:3000/checkmail',
       loginRoute: 'http://localhost:3000/login',
@@ -72,6 +86,7 @@
     }
     window.gdconfig = JSON.parse(JSON.stringify({ version: authConfig.version, themeOptions: themeOptions }));
     window.apiRoutes = routes;
+    window.quicklinks = quickLinks;
     window.themeOptions = themeOptions;
     window.gds = JSON.parse(
       JSON.stringify(authConfig.roots.map((it) => it.name))

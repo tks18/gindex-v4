@@ -56,6 +56,11 @@
                 <div class="tile is-child notification is-success box">
                   <p class="title">Access</p>
                   <div class="columns is-multiline is-vcentered is-centered">
+                    <div class="column is-half" v-for="(link, index) in quickLinks" v-bind:key="index">
+                      <button class="button is-success is-light" @click="gotoPage('/'+link.link+'/')">
+                        <span>{{ link.displayname }}</span>
+                      </button>
+                    </div>
                     <div v-if="logged" class="column is-half">
                       <button class="button is-success is-light" @click="gotoPage('/')">
                         <span class="icon is-small">
@@ -160,6 +165,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 gds: [],
                 currgd: {},
                 email: "",
+                quickLinks: [],
                 disabled: true,
                 truncatedApi: "",
                 logged: false,
@@ -234,6 +240,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         beforeMount() {
+          this.quickLinks = window.quicklinks
           this.assignUserInfo();
         },
         mounted() {
