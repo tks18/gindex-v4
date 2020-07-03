@@ -2,6 +2,7 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   version: "v7.5.1",
+  favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico"
   client_id: "client_id",
   client_secret: "client_id",
   refresh_token: "refresh_token",
@@ -116,7 +117,7 @@ function html(current_drive_order = 0, model = {}) {
   <style>
     @import url(https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/style.css);
   </style>
-  <link rel="icon" sizes="57x57" href="https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico" />
+  <link rel="icon" sizes="57x57" href="${authConfig.favicon}" />
   <script>
     window.gdconfig = JSON.parse('${JSON.stringify({
       version: authConfig.version,
