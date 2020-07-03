@@ -1,58 +1,66 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.4.0",
-  theme: "acrou",
-  github_name: 'tks18',
-  repo_name: 'gindex-v4',
-  backendSite: "http://localhost:3000", // Do Not Put '/' at the End
+  version: "v7.5.1",
   client_id: "client_id",
-  client_secret: "client_secret",
+  client_secret: "client_id",
   refresh_token: "refresh_token",
   roots: [
     {
-      id: "id",
-      name: "name",
-      user: "user",
-      pass: "pass",
+      id: "folder_id",
+      name: "Glory to Heaven",
       protect_file_link: true,
     }
   ],
   default_gd: 0,
-  files_list_page_size: 500,
+  files_list_page_size: 200,
   search_result_list_page_size: 50,
   enable_cors_file_down: false,
   enable_password_file_verify: true,
 };
+var quickLinks = [
+      {
+        displayname: "Anime", // Name to Display
+        link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
+      },
+      {
+        displayname: "The Cinema :-)", // Name to Display
+        link: "Movies",
+      },
+      {
+        displayname: "Courses", // Name to Display
+        link: "Courses",
+      }
+    ]
 var routes = {
-  checkEmail: authConfig.backendSite + '/checkmail',
-  loginRoute: authConfig.backendSite + '/login',
-  registerRoute: authConfig.backendSite + '/register/user',
-  otpRegister: authConfig.backendSite + '/register/approve/otp',
-  requestRoute: authConfig.backendSite + '/request/user',
-  verifyRoute: authConfig.backendSite + '/user/verify',
-  changePasswordRoute: authConfig.backendSite + '/user/changepassword',
-  requestadminroute: authConfig.backendSite + '/request/admin',
-  requestsuperadminroute: authConfig.backendSite + '/request/superadmin',
-  getPendingUsers: authConfig.backendSite + '/get/pending/users',
-  getPendingAdmins: authConfig.backendSite + '/get/pending/admins',
-  getPendingSuperAdmins: authConfig.backendSite + '/get/pending/superadmins',
-  upgradeAdmin: authConfig.backendSite + '/register/approve/admin',
-  upgradeSuperAdmin: authConfig.backendSite + '/register/approve/superadmin',
-  inviteUser: authConfig.backendSite + '/invite/user',
-  inviteAdmin: authConfig.backendSite + '/invite/admin',
-  inviteSuperAdmin: authConfig.backendSite + '/invite/superadmin',
-  addSpamUser: authConfig.backendSite + '/spam/user',
-  addSpamAdmin: authConfig.backendSite + '/spam/admin',
-  getSpamUsers: authConfig.backendSite + '/get/spam/users',
-  deleteUser: authConfig.backendSite + '/delete/user',
-  deleteMe: authConfig.backendSite + '/deleteme',
-  deleteAdmin: authConfig.backendSite + '/delete/admin',
-  getUsers: authConfig.backendSite + '/get/users',
-  getAll: authConfig.backendSite + '/get/all',
-  getAdmins: authConfig.backendSite + '/get/admins',
-  getSuperAdmins: authConfig.backendSite + '/get/superadmins'
-}
+  checkEmail: 'https://glorytoheaven-db.herokuapp.com/checkmail',
+  loginRoute: 'https://glorytoheaven-db.herokuapp.com/login',
+  registerRoute: 'https://glorytoheaven-db.herokuapp.com/register/user',
+  otpRegister: 'https://glorytoheaven-db.herokuapp.com/register/approve/otp',
+  requestRoute: 'https://glorytoheaven-db.herokuapp.com/request/user',
+  verifyRoute: 'https://glorytoheaven-db.herokuapp.com/user/verify',
+  changePasswordRoute: 'https://glorytoheaven-db.herokuapp.com/user/changepassword',
+  requestadminroute: 'https://glorytoheaven-db.herokuapp.com/request/admin',
+  requestsuperadminroute: 'https://glorytoheaven-db.herokuapp.com/request/superadmin',
+  getPendingUsers: 'https://glorytoheaven-db.herokuapp.com/get/pending/users',
+  getPendingAdmins: 'https://glorytoheaven-db.herokuapp.com/get/pending/admins',
+  getPendingSuperAdmins: 'https://glorytoheaven-db.herokuapp.com/get/pending/superadmins',
+  upgradeAdmin: 'https://glorytoheaven-db.herokuapp.com/register/approve/admin',
+  upgradeSuperAdmin: 'https://glorytoheaven-db.herokuapp.com/register/approve/superadmin',
+  inviteUser: 'https://glorytoheaven-db.herokuapp.com/invite/user',
+  inviteAdmin: 'https://glorytoheaven-db.herokuapp.com/invite/admin',
+  inviteSuperAdmin: 'https://glorytoheaven-db.herokuapp.com/invite/superadmin',
+  addSpamUser: 'https://glorytoheaven-db.herokuapp.com/spam/user',
+  addSpamAdmin: 'https://glorytoheaven-db.herokuapp.com/spam/admin',
+  getSpamUsers: 'https://glorytoheaven-db.herokuapp.com/get/spam/users',
+  deleteUser: 'https://glorytoheaven-db.herokuapp.com/delete/user',
+  deleteMe: 'https://glorytoheaven-db.herokuapp.com/user/delete',
+  deleteAdmin: 'https://glorytoheaven-db.herokuapp.com/delete/admin',
+  getUsers: 'https://glorytoheaven-db.herokuapp.com/get/users',
+  getAll: 'https://glorytoheaven-db.herokuapp.com/get/all',
+  getAdmins: 'https://glorytoheaven-db.herokuapp.com/get/admins',
+  getSuperAdmins: 'https://glorytoheaven-db.herokuapp.com/get/superadmins'
+};
 var themeOptions = {
   languages: "en",
   render: {
@@ -62,6 +70,7 @@ var themeOptions = {
   },
 };
 // =======Options END=======
+
 
 /**
  * global functions
@@ -113,6 +122,15 @@ function html(current_drive_order = 0, model = {}) {
       version: authConfig.version,
       themeOptions: themeOptions,
     })}');
+    window.quicklinks = JSON.parse('${JSON.stringify(
+      quickLinks.map((it) => {
+        var links = {
+          displayname: it.displayname,
+          link: it.link,
+        }
+        return links;
+      })
+    )}');
     window.apiRoutes = JSON.parse('${JSON.stringify(routes)}');
     window.themeOptions = JSON.parse('${JSON.stringify(themeOptions)}');
     window.gds = JSON.parse('${JSON.stringify(
@@ -122,9 +140,9 @@ function html(current_drive_order = 0, model = {}) {
     window.current_drive_order = ${current_drive_order};
   </script>
 </head>
-<body class="has-navbar-fixed-top">
+<body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.repo_name}@${authConfig.version}/vuejs/dist/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/app.js"></script>
 </body>
 </html>
 `;
@@ -165,7 +183,7 @@ async function handleRequest(request) {
   function redirectToIndexPage() {
     return new Response("", {
       status: 301,
-      headers: { Location: `/${authConfig.default_gd}:/` },
+      headers: { Location: `/${authConfig.default_gd}:home/` },
     });
   }
 
@@ -176,7 +194,7 @@ async function handleRequest(request) {
   }
 
   // Special command format
-  const command_reg = /^\/(?<num>\d+):(?<command>[a-zA-Z0-9]+)(\/.*)?$/g;
+  const command_reg = /^\/(?<num>[\S]+):(?<command>[a-zA-Z0-9]+)(\/.*)?$/g;
   const match = command_reg.exec(path);
   let command;
   if (match) {
