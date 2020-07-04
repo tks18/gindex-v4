@@ -5,7 +5,7 @@
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <div v-if="logo" class="navbar-brand">
-        <img class="is-rounded nav-link px-2 py-2" width="60" @click="homeroute" :src="logoLink">
+        <img class="is-rounded nav-link px-2 py-2" width="60" style="border: none;" @click="homeroute" :src="logoLink">
         <a
           role="button"
           style="color: #e50914;"
@@ -20,7 +20,7 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div v-if="!ismobile" class="navbar-brand">
+      <div v-if="logo ? !ismobile : ismobile || !ismobile " class="navbar-brand">
         <div class="navbar-item nav-link">
           <h3 class="title is-3 has-text-white" @click="homeroute">
             {{ siteName }}
