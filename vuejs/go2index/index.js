@@ -145,7 +145,7 @@ function html(current_drive_order = 0, model = {}) {
       version: authConfig.version,
       themeOptions: themeOptions,
     })}');
-    window.quicklinks = JSON.parse('${JSON.stringify(
+    window.quickLinks = JSON.parse('${JSON.stringify(
       quickLinks.map((it) => {
         var links = {
           displayname: it.displayname,

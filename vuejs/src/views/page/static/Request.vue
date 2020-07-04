@@ -48,6 +48,16 @@
               </p>
             </div>
             <div class="field">
+              <label class="label has-text-white">Select the Space for Which Access is Required ?</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select v-model="drive" id="drive">
+                    <option v-for="(disk, index) in gds" :value="index" v-bind:key="index">{{ disk.name }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="field">
               <div class="control">
                 <textarea class="textarea is-success is-rounded" placeholder="Why You Need Access ?" id="message" rows="3" v-model="message" required></textarea>
                 <p class="help is-success">How did You Know about this and Why do You need?</p>
@@ -124,6 +134,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 emailFocus: "",
                 nameFocus: "",
                 message: "",
+                drive: 0,
                 gds: [],
                 currgd: {},
                 resultmessage: "",
@@ -148,6 +159,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     this.$http.post(url, {
                           name: this.name,
                           email: this.email,
+                          drives: this.drive,
                           message: this.message,
                     })
                     .then(response => {
@@ -225,7 +237,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           email: "validateData",
           message: "validateData",
           checked: "validateData",
-          codechecked: "validateData"
+          codechecked: "validateData",
+          drive: function() {
+            console.log(this.drive);
+          }
         },
     }
 </script>
