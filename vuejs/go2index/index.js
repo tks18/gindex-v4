@@ -1,10 +1,10 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.4.8",
+  version: "v7.6.0",
   github_name: "tks18",
   github_repo: "gindex-v4",
-  favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico"
+  favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico",
   client_id: "client_id",
   backendSite: "http://localhost:3000",
   client_secret: "client_id",

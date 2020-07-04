@@ -233,7 +233,6 @@ export default {
       if (this.gds && this.gds.length >= index) {
         this.currgd = this.gds[index];
         this.gdindex = this.gds[index].index;
-        console.log(this.gdindex);
       }
     },
     changeItem(item) {
