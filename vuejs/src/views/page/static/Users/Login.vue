@@ -155,7 +155,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.emailFocus = true;
                 this.passwordFocus = false;
               }
-            }
+            },
+            validateData(){
+              const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
+              if(emailRegex.test(this.email) && this.password.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            },
         },
         computed: {
           ismobile() {
@@ -185,14 +193,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         watch: {
-          password: function() {
-            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
-            if(emailRegex.test(this.email) && this.password.length > 0){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          },
+          email: "validateData",
+          password: "validateData",
         },
     }
 </script>

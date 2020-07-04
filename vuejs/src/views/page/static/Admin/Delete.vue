@@ -235,6 +235,13 @@ export default {
               this.role = "admin"
               this.loading = false;
             }
+          },
+          validateData(){
+            if(this.role.length > 0 && this.email.length > 0 && this.password.length > 0){
+              this.buttondisabled = false;
+            } else {
+              this.buttondisabled = true;
+            }
           }
       },
       computed: {
@@ -289,17 +296,14 @@ export default {
         role: function() {
           if(this.role == "user"){
             this.apiurl = window.apiRoutes.deleteUser;
+            this.validateData();
           } else if(this.role == "admin") {
             this.apiurl = window.apiRoutes.deleteAdmin;
+            this.validateData();
           }
         },
-        password: function() {
-          if(this.role.length > 0 && this.email.length > 0 && this.password.length > 0){
-            this.buttondisabled = false;
-          } else {
-            this.buttondisabled = true;
-          }
-        }
+        email: "validateData",
+        password: "validateData"
       },
     }
 </script>

@@ -193,6 +193,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.emailFocus = true;
                 this.nameFocus = false;
               }
+            },
+            validateData(){
+              const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
+              if(emailRegex.test(this.email) && this.name.length > 0 && this.message.length > 0 && this.checked && this.codechecked){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
             }
         },
         mounted() {
@@ -213,14 +221,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         watch: {
-          codechecked: function() {
-            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
-            if(emailRegex.test(this.email) && this.name.length > 0 && this.message.length > 0 && this.checked && this.codechecked){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          }
+          name: "validateData",
+          email: "validateData",
+          message: "validateData",
+          checked: "validateData",
+          codechecked: "validateData"
         },
     }
 </script>

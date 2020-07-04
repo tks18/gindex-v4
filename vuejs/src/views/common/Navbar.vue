@@ -296,7 +296,7 @@ export default {
         localStorage.removeItem("tokendata");
         localStorage.removeItem("userdata");
         this.$bus.$emit("logout", "User Logged Out");
-        this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
+        this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
       }
     },
     changeNavbarStyle() {

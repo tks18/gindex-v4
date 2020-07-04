@@ -271,6 +271,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.$router.push({ name: 'results', params: { cmd: 'result', id: 0, noredirect: true, success: false, error: error, data: "There's Some Error With Your Network. Please Try Again Later." } })
               })
             }
+          },
+          validateData(){
+            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
+            if(emailRegex.test(this.email)){
+              this.disabled = false;
+            } else {
+              this.disabled = true;
+            }
           }
         },
         beforeMount() {
@@ -318,14 +326,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         watch: {
-          email: function() {
-            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
-            if(emailRegex.test(this.email)){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          }
+          email: "validateData"
         }
     }
 </script>

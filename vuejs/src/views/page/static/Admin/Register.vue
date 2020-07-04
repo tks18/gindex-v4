@@ -84,12 +84,12 @@
                           Pending Users
                         </p>
                       </div>
-                      <div class="column has-text-centered is-one-third">
+                      <div class="column is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
-                          <span>Users</span>
+                          <span>Get</span>
                         </button>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
@@ -97,12 +97,12 @@
                           Pending Admins
                         </p>
                       </div>
-                      <div v-if="user.admin && user.superadmin" class="column has-text-centered is-one-third">
+                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
-                          <span>Admins</span>
+                          <span>Get</span>
                         </button>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
@@ -110,12 +110,12 @@
                           Pending Superadmins
                         </p>
                       </div>
-                      <div v-if="user.admin && user.superadmin" class="column has-text-centered is-one-third">
+                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
                         <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
-                          <span>Superadmins</span>
+                          <span>Get</span>
                         </button>
                       </div>
                     </div>
@@ -365,6 +365,13 @@ export default {
               } else {
                 this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
               }
+            },
+            validateData() {
+              if(this.name.length > 0 && this.email.length > 0 && this.password && this.password.length > 0 && this.checked && this.role.length > 0 && this.codechecked && this.password.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
             }
         },
         computed: {
@@ -419,22 +426,24 @@ export default {
           role: function() {
             if(this.role == "admin"){
               this.namedisabled = true;
+              this.validateData();
               this.apiurl = window.apiRoutes.upgradeAdmin
             } else if(this.role == "superadmin"){
               this.namedisabled = true;
+              this.validateData();
               this.apiurl = window.apiRoutes.upgradeSuperAdmin
             } else {
               this.namedisabled = false;
+              this.validateData();
               this.apiurl = window.apiRoutes.registerRoute
             }
           },
-          codechecked: function() {
-            if(this.name.length > 0 && this.email.length > 0 && this.password && this.password.length > 0 && this.checked && this.role.length > 0 && this.codechecked && this.password.length > 0){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          }
+          name: "validateData",
+          email: "validateData",
+          message: "validateData",
+          password: "validateData",
+          checked: "validateData",
+          codechecked: "validateData"
         },
     }
 </script>
