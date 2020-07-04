@@ -21,7 +21,7 @@ body {
     user-select: none;
 }
 
-.pendingusers, input {
+.pendingusers, input, textarea {
     -webkit-user-select: text;
     -khtml-user-select: text;
     -moz-user-select: text;
