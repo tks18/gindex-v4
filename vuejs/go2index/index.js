@@ -22,18 +22,45 @@ var authConfig = {
   enable_cors_file_down: false,
   enable_password_file_verify: true,
 };
+var themeOptions = {
+  languages: 'en',
+  logo: true,
+  logo_link: "https://github.com/tks18/gindex-v4/blob/1991cb42cda5cbb86e841c36fcbaebec176d9201/vuejs/public/images/g-logo.png?raw=true",
+  footer_logo: true,
+  footer_logo_link: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+  render: {
+    head_md: true,
+    head_md_link: `https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/HEAD.md`,
+    readme_md: true,
+    readme_md_link: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/README.md",
+    desc: true,
+  }
+}
 var quickLinks = [
       {
         displayname: "Anime", // Name to Display
         link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
+        faIcon: "fas fa-heart", // Font Awesome Icon Class
       },
       {
-        displayname: "The Cinema :-)", // Name to Display
+        displayname: "The Cinema :-)",
         link: "Movies",
+        faIcon: "fas fa-video",
       },
       {
-        displayname: "Courses", // Name to Display
+        displayname: "TV Series",
+        link: "Series",
+        faIcon: "fas fa-tv",
+      },
+      {
+        displayname: "Courses",
         link: "Courses",
+        faIcon: "fas fa-glasses",
+      },
+      {
+        displayname: "Music",
+        link: "Music",
+        faIcon: "fas fa-play",
       }
     ]
 var routes = {
@@ -64,14 +91,6 @@ var routes = {
   getAll: authConfig.backendSite + '/get/all',
   getAdmins: authConfig.backendSite + '/get/admins',
   getSuperAdmins: authConfig.backendSite + '/get/superadmins'
-};
-var themeOptions = {
-  languages: "en",
-  render: {
-    head_md: true,
-    readme_md: true,
-    desc: true
-  },
 };
 // =======Options END=======
 
@@ -131,6 +150,7 @@ function html(current_drive_order = 0, model = {}) {
         var links = {
           displayname: it.displayname,
           link: it.link,
+          faIcon: it.faIcon,
         }
         return links;
       })

@@ -4,8 +4,8 @@
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
-      <div class="navbar-brand">
-        <img class="is-rounded nav-link px-2 py-2" width="60" @click="homeroute" src="https://github.com/tks18/gindex-v4/blob/1991cb42cda5cbb86e841c36fcbaebec176d9201/vuejs/public/images/g-logo.png?raw=true">
+      <div v-if="logo" class="navbar-brand">
+        <img class="is-rounded nav-link px-2 py-2" width="60" @click="homeroute" :src="logoLink">
         <a
           role="button"
           style="color: #e50914;"
@@ -209,6 +209,8 @@ export default {
       active: false,
       param: "",
       currgd: {},
+      logo: false,
+      logoLink: "",
       loading: false,
       navbarStyle: "",
       mouseover: false,
@@ -328,6 +330,12 @@ export default {
   },
   mounted() {
     this.changeNavbarStyle();
+    this.logo = window.themeOptions.logo;
+    if(this.logo){
+      this.logoLink = window.themeOptions.logo_link;
+    } else {
+      this.logoLink = "";
+    }
   },
   watch: {
     "$route.params.id": "chooseGD",
