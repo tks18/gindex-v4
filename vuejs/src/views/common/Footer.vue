@@ -11,7 +11,7 @@
         Github - <a class="icon-tag" href="https://github.com/tks18/gindex-v4">Shan.tk</a> | Support Me!
       </div>
       <div class="footpad footer-copyright">
-        Copyright&nbsp;<i class="fas fa-copyright"></i> {{ Date.now() | moment("YYYY") }} | &nbsp;{{ currgd.name }}
+        Copyright&nbsp;<i class="fas fa-copyright"></i> {{ Date.now() | moment("YYYY") }} | &nbsp;Glory to Heaven 
       </div>
       <div class="footpad footer-policy">
         Licensed under FrontEnd - <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/LICENSE" target="_blank"> GPL 3.0 </a> | Backend - <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/LICENSE" target="_blank">MIT</a>
@@ -30,8 +30,6 @@ export default {
     return {
       content: "",
       footerLogo: false,
-      gds: [],
-      currgd: {},
       footerLogoLink: "",
     };
   },
@@ -43,20 +41,6 @@ export default {
       this.footerLogoLink = window.themeOptions.footer_logo_link;
     } else {
       this.footerLogoLink = "";
-    }
-  },
-  created() {
-    if (window.gds && window.gds.length > 0) {
-      this.gds = window.gds.map((item, index) => {
-        return {
-          name: item,
-          id: index,
-        };
-      });
-      let index = this.$route.params.id;
-      if (this.gds && this.gds.length >= index) {
-        this.currgd = this.gds[index];
-      }
     }
   },
 };
