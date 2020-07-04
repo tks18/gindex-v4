@@ -55,45 +55,13 @@
               <div class="tile is-parent is-vertical">
                 <div class="tile is-child notification is-success box">
                   <p class="title">Quick Access</p>
-                  <div class="columns is-multiline is-vcentered is-centered">
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Anime/')">
+                  <div v-if="logged" class="columns is-multiline is-vcentered is-centered">
+                    <div v-for="(link, index) in quickLinks" class="column is-half" v-bind:key="index">
+                      <button class="button is-success is-light" @click="gotoPage('/'+ link.link +'/')">
                         <span class="icon is-small">
-                          <i class="fas fa-heart"></i>
+                          <i :class="link.faIcon"></i>
                         </span>
-                        <span>Anime</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Movies/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-video"></i>
-                        </span>
-                        <span>The Cinema :-)</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Series/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-tv"></i>
-                        </span>
-                        <span>TV Series</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Courses/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-glasses"></i>
-                        </span>
-                        <span>Courses</span>
-                      </button>
-                    </div>
-                    <div v-if="logged" class="column is-half">
-                      <button class="button is-success is-light" @click="gotoPage('/Music/')">
-                        <span class="icon is-small">
-                          <i class="fas fa-play"></i>
-                        </span>
-                        <span>Music</span>
+                        <span>{{ link.displayname }}</span>
                       </button>
                     </div>
                     <div v-if="logged" class="column is-half">
@@ -101,7 +69,7 @@
                         <span class="icon is-small">
                           <i class="fas fa-folder-open"></i>
                         </span>
-                        <span>View Full List</span>
+                        <span>Go to Drive</span>
                       </button>
                     </div>
                   </div>
@@ -203,6 +171,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 disabled: true,
                 truncatedApi: "",
                 logged: false,
+                quickLinks: [],
                 admin: false,
                 superadmin: false,
                 loading: false,
@@ -285,6 +254,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.assignUserInfo();
         },
         mounted() {
+          this.quickLinks = window.quickLinks;
           if(this.user.admin && this.user.superadmin){
             this.admin = true,this.superadmin = true, this.loading = false;
           } else if(this.user.admin && !this.user.superadmin){

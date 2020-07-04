@@ -94,6 +94,8 @@ export default {
       },
       files: [],
       viewer: false,
+      readmeLink: "",
+      headLink: "",
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
@@ -128,6 +130,18 @@ export default {
       headmd: { display: false, file: {}, path: "" },
       readmemd: { display: false, file: {}, path: "" },
     };
+  },
+  mounted() {
+    if(window.themeOptions.render.readme_md){
+      this.readmeLink = window.themeOptions.render.readme_md_link;
+    } else {
+      this.readmeLink = "";
+    }
+    if(window.themeOptions.render.head_md){
+      this.headLink = window.themeOptions.render.head_md_link;
+    } else {
+      this.headLink = "";
+    }
   },
   computed: {
     ...mapState("acrou/view", ["mode"]),
@@ -315,7 +329,6 @@ export default {
     },
     renderMd() {
       var cmd = this.$route.params.cmd;
-      var version = require("../../../package.json").version;
       if (cmd) {
         return;
       }
@@ -323,7 +336,7 @@ export default {
         this.headmd = {
           display: true,
           file: "HEAD.md",
-          path: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v"+version+"/vuejs/dist/HEAD.md",
+          path: this.headLink,
         };
       }
       // README.md
@@ -331,7 +344,7 @@ export default {
         this.readmemd = {
           display: true,
           file: "README.md",
-          path: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v"+version+"/vuejs/dist/README.md",
+          path: this.readmeLink,
         };
       }
     },

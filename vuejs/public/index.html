@@ -33,6 +33,47 @@
         }
       ],
     };
+    var themeOptions = {
+      languages: 'en',
+      logo: true,
+      logo_link: "https://github.com/tks18/gindex-v4/blob/1991cb42cda5cbb86e841c36fcbaebec176d9201/vuejs/public/images/g-logo.png?raw=true",
+      footer_logo: true,
+      footer_logo_link: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+      render: {
+        head_md: true,
+        head_md_link: `https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/HEAD.md`,
+        readme_md: true,
+        readme_md_link: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/README.md",
+        desc: true,
+      }
+    }
+    var quickLinks = [
+          {
+            displayname: "Anime", // Name to Display
+            link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
+            faIcon: "fas fa-heart", // Font Awesome Icon Class
+          },
+          {
+            displayname: "The Cinema :-)",
+            link: "Movies",
+            faIcon: "fas fa-video",
+          },
+          {
+            displayname: "TV Series",
+            link: "Series",
+            faIcon: "fas fa-tv",
+          },
+          {
+            displayname: "Courses",
+            link: "Courses",
+            faIcon: "fas fa-glasses",
+          },
+          {
+            displayname: "Music",
+            link: "Music",
+            faIcon: "fas fa-play",
+          }
+        ]
     var routes = {
       checkEmail: 'http://localhost:3000/checkmail',
       loginRoute: 'http://localhost:3000/login',
@@ -62,17 +103,19 @@
       getAdmins: 'http://localhost:3000/get/admins',
       getSuperAdmins: 'http://localhost:3000/get/superadmins'
     }
-    var themeOptions = {
-      languages: 'en',
-      render: {
-        head_md: true,
-        readme_md: true,
-        desc: true,
-      }
-    }
     window.gdconfig = JSON.parse(JSON.stringify({ version: authConfig.version, themeOptions: themeOptions }));
     window.apiRoutes = routes;
     window.themeOptions = themeOptions;
+    window.quickLinks = JSON.parse(
+      JSON.stringify(quickLinks.map((link) => {
+        const linkdata = {
+          displayname: link.displayname,
+          link: link.link,
+          faIcon: link.faIcon,
+        }
+        return linkdata;
+      }))
+    );
     window.gds = JSON.parse(
       JSON.stringify(authConfig.roots.map((it) => it.name))
     );
