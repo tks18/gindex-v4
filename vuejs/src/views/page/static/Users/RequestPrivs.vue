@@ -268,6 +268,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.resultmessage = "You Need to Accept Community Guidelines."
                 }
             },
+            validateData(){
+              if(this.role.length > 0 && this.checked && this.codechecked && this.message.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            }
         },
         computed: {
           ismobile() {
@@ -318,13 +325,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         watch: {
-          codechecked: function() {
-              if(this.role.length > 0 && this.checked && this.codechecked && this.message.length > 0){
-                this.disabled = false;
-              } else {
-                this.disabled = true;
-              }
-          }
+          role: "validateData",
+          message: "validateData",
+          checked: "validateData",
+          codechecked: "validateData"
         },
     }
 </script>

@@ -106,6 +106,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.confirmpassword = "";
                 }
             },
+            validateData(){
+              if(this.confirmpassword === this.newpassword && this.newpassword.length > 0 && this.oldpassword.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            }
         },
         computed: {
           ismobile() {
@@ -145,13 +152,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         watch: {
-          confirmpassword: function() {
-            if(this.confirmpassword === this.newpassword && this.newpassword.length > 0){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          }
+          oldpassword: "validateData",
+          newpassword: "validateData",
+          confirmpassword: "validateData"
         },
     }
 </script>

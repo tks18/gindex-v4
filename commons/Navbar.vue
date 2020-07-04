@@ -5,22 +5,6 @@
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
       <div class="navbar-brand">
-        <img class="is-rounded nav-link px-2 py-2" width="60" @click="homeroute" src="https://github.com/tks18/gindex-v4/blob/1991cb42cda5cbb86e841c36fcbaebec176d9201/vuejs/public/images/g-logo.png?raw=true">
-        <a
-          role="button"
-          style="color: #e50914;"
-          :class="'navbar-burger burger ' + (isActive ? 'navbar-active' : '')"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-          @click="burgerClick"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-      <div v-if="!ismobile" class="navbar-brand">
         <div class="navbar-item nav-link">
           <h3 class="title is-3 has-text-white" @click="homeroute">
             {{ siteName }}
@@ -296,7 +280,7 @@ export default {
         localStorage.removeItem("tokendata");
         localStorage.removeItem("userdata");
         this.$bus.$emit("logout", "User Logged Out");
-        this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
+        this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
       }
     },
     changeNavbarStyle() {

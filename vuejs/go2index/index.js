@@ -1,9 +1,12 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.4.7",
+  version: "v7.4.8",
+  github_name: "tks18",
+  github_repo: "gindex-v4",
   favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico"
   client_id: "client_id",
+  backendSite: "http://localhost:3000",
   client_secret: "client_id",
   refresh_token: "refresh_token",
   roots: [
@@ -34,33 +37,33 @@ var quickLinks = [
       }
     ]
 var routes = {
-  checkEmail: 'https://glorytoheaven-db.herokuapp.com/checkmail',
-  loginRoute: 'https://glorytoheaven-db.herokuapp.com/login',
-  registerRoute: 'https://glorytoheaven-db.herokuapp.com/register/user',
-  otpRegister: 'https://glorytoheaven-db.herokuapp.com/register/approve/otp',
-  requestRoute: 'https://glorytoheaven-db.herokuapp.com/request/user',
-  verifyRoute: 'https://glorytoheaven-db.herokuapp.com/user/verify',
-  changePasswordRoute: 'https://glorytoheaven-db.herokuapp.com/user/changepassword',
-  requestadminroute: 'https://glorytoheaven-db.herokuapp.com/request/admin',
-  requestsuperadminroute: 'https://glorytoheaven-db.herokuapp.com/request/superadmin',
-  getPendingUsers: 'https://glorytoheaven-db.herokuapp.com/get/pending/users',
-  getPendingAdmins: 'https://glorytoheaven-db.herokuapp.com/get/pending/admins',
-  getPendingSuperAdmins: 'https://glorytoheaven-db.herokuapp.com/get/pending/superadmins',
-  upgradeAdmin: 'https://glorytoheaven-db.herokuapp.com/register/approve/admin',
-  upgradeSuperAdmin: 'https://glorytoheaven-db.herokuapp.com/register/approve/superadmin',
-  inviteUser: 'https://glorytoheaven-db.herokuapp.com/invite/user',
-  inviteAdmin: 'https://glorytoheaven-db.herokuapp.com/invite/admin',
-  inviteSuperAdmin: 'https://glorytoheaven-db.herokuapp.com/invite/superadmin',
-  addSpamUser: 'https://glorytoheaven-db.herokuapp.com/spam/user',
-  addSpamAdmin: 'https://glorytoheaven-db.herokuapp.com/spam/admin',
-  getSpamUsers: 'https://glorytoheaven-db.herokuapp.com/get/spam/users',
-  deleteUser: 'https://glorytoheaven-db.herokuapp.com/delete/user',
-  deleteMe: 'https://glorytoheaven-db.herokuapp.com/user/delete',
-  deleteAdmin: 'https://glorytoheaven-db.herokuapp.com/delete/admin',
-  getUsers: 'https://glorytoheaven-db.herokuapp.com/get/users',
-  getAll: 'https://glorytoheaven-db.herokuapp.com/get/all',
-  getAdmins: 'https://glorytoheaven-db.herokuapp.com/get/admins',
-  getSuperAdmins: 'https://glorytoheaven-db.herokuapp.com/get/superadmins'
+  checkEmail: authConfig.backendSite + '/checkmail',
+  loginRoute: authConfig.backendSite + '/login',
+  registerRoute: authConfig.backendSite + '/register/user',
+  otpRegister: authConfig.backendSite + '/register/approve/otp',
+  requestRoute: authConfig.backendSite + '/request/user',
+  verifyRoute: authConfig.backendSite + '/user/verify',
+  changePasswordRoute: authConfig.backendSite + '/user/changepassword',
+  requestadminroute: authConfig.backendSite + '/request/admin',
+  requestsuperadminroute: authConfig.backendSite + '/request/superadmin',
+  getPendingUsers: authConfig.backendSite + '/get/pending/users',
+  getPendingAdmins: authConfig.backendSite + '/get/pending/admins',
+  getPendingSuperAdmins: authConfig.backendSite + '/get/pending/superadmins',
+  upgradeAdmin: authConfig.backendSite + '/register/approve/admin',
+  upgradeSuperAdmin: authConfig.backendSite + '/register/approve/superadmin',
+  inviteUser: authConfig.backendSite + '/invite/user',
+  inviteAdmin: authConfig.backendSite + '/invite/admin',
+  inviteSuperAdmin: authConfig.backendSite + '/invite/superadmin',
+  addSpamUser: authConfig.backendSite + '/spam/user',
+  addSpamAdmin: authConfig.backendSite + '/spam/admin',
+  getSpamUsers: authConfig.backendSite + '/get/spam/users',
+  deleteUser: authConfig.backendSite + '/delete/user',
+  deleteMe: authConfig.backendSite + '/deleteme',
+  deleteAdmin: authConfig.backendSite + '/delete/admin',
+  getUsers: authConfig.backendSite + '/get/users',
+  getAll: authConfig.backendSite + '/get/all',
+  getAdmins: authConfig.backendSite + '/get/admins',
+  getSuperAdmins: authConfig.backendSite + '/get/superadmins'
 };
 var themeOptions = {
   languages: "en",
@@ -115,7 +118,7 @@ function html(current_drive_order = 0, model = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <style>
-    @import url(https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/style.css);
+    @import url(https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@${authConfig.version}/vuejs/dist/style.css);
   </style>
   <link rel="icon" sizes="57x57" href="${authConfig.favicon}" />
   <script>
@@ -143,7 +146,7 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@${authConfig.version}/vuejs/dist/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@${authConfig.version}/vuejs/dist/app.js"></script>
 </body>
 </html>
 `;
