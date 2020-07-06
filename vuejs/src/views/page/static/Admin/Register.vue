@@ -78,7 +78,7 @@
                 <div class="column is-full">
                   <div class="box has-background-dark">
                     <h3 class="title has-text-weight-bold has-text-white has-text-centered">Pending Users</h3>
-                    <div class="columns is-desktop is-multiline is-vcentered">
+                    <div class="columns is-mobile is-multiline is-vcentered">
                       <div class="column is-two-thirds">
                         <p class="subtitle has-text-weight-semibold has-text-white">
                           Pending Users
@@ -134,7 +134,7 @@
             <div class="message-body">
               <span>Only Pending User and Admin Requests can be Accepted.Use Invite Option to Invite Users.</span>
               <div class="buttons is-centered mt-2">
-                <button class="button is-rounded is-danger" @click="gotoPage('/user/', 'invite')">
+                <button class="button is-rounded is-danger" @click="gotoPage('/', 'invite')">
                   <span class="icon is-small">
                     <i class="fas fa-user-plus"></i>
                   </span>
@@ -409,7 +409,7 @@ export default {
           }
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
+          if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
                 name: item,
@@ -417,7 +417,7 @@ export default {
               };
             });
             let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
+            if (this.gds) {
               this.currgd = this.gds[index];
             }
           }

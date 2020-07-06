@@ -279,7 +279,7 @@ export default {
         }
       },
       created() {
-        if (window.gds && window.gds.length > 0) {
+        if (window.gds) {
           this.gds = window.gds.map((item, index) => {
             return {
               name: item,
@@ -287,7 +287,7 @@ export default {
             };
           });
           let index = this.$route.params.id;
-          if (this.gds && this.gds.length >= index) {
+          if (this.gds) {
             this.currgd = this.gds[index];
           }
         }

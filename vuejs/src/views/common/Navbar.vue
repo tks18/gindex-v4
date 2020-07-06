@@ -4,23 +4,7 @@
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
       </div>
-      <div v-if="logo" class="navbar-brand">
-        <img class="is-rounded nav-link px-2 py-2" width="60" style="border: none;" @click="homeroute" :src="logoLink">
-        <a
-          role="button"
-          style="color: #e50914;"
-          :class="'navbar-burger burger ' + (isActive ? 'navbar-active' : '')"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-          @click="burgerClick"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-      <div v-if="logo ? !ismobile : ismobile || !ismobile " class="navbar-brand">
+      <div class="navbar-brand">
         <div class="navbar-item nav-link">
           <h3 class="title is-3 has-text-white" @click="homeroute">
             {{ siteName }}
@@ -209,8 +193,6 @@ export default {
       active: false,
       param: "",
       currgd: {},
-      logo: false,
-      logoLink: "",
       loading: false,
       navbarStyle: "",
       mouseover: false,
@@ -329,12 +311,6 @@ export default {
   },
   mounted() {
     this.changeNavbarStyle();
-    this.logo = window.themeOptions.logo;
-    if(this.logo){
-      this.logoLink = window.themeOptions.logo_link;
-    } else {
-      this.logoLink = "";
-    }
   },
   watch: {
     "$route.params.id": "chooseGD",

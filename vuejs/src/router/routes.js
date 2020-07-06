@@ -181,6 +181,16 @@ const frameIn = [{
       }
   },
   {
+      path: '/:id(\\d)::cmd(admin)/manage',
+      name: 'manageUsers',
+      component: _import("page/static/Admin/ManageUsers"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+      }
+  },
+  {
       path: '/:id(\\d)::cmd(settings)/',
       name: 'settings',
       component: _import("page/static/Users/Settings"),

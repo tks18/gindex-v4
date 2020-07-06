@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="is-clipped">
     <div v-if="logged" :class="ismobile ? 'content mx-1 mt-2 px-0' : 'content ml-5 mt-2 mr-5 pl-5 pr-5'">
       <h1 class="title has-text-centered has-text-weight-bold has-text-white">Settings</h1>
       <div class="loading">
@@ -209,7 +209,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
+          if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
                 name: item,
@@ -217,7 +217,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               };
             });
             let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
+            if (this.gds) {
               this.currgd = this.gds[index];
             }
           }

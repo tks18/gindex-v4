@@ -264,7 +264,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
+          if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
                 name: item,
@@ -272,7 +272,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               };
             });
             let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
+            if (this.gds) {
               this.currgd = this.gds[index];
             }
           }

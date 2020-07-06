@@ -6,7 +6,6 @@
       <div class="columns is-multiline is-centered is-vcentered">
         <div class="column has-text-centered is-half">
           <h2 class="title has-text-weight-bold has-text-white">Invite Users</h2>
-          <p class="subtitle is-small has-text-white has-text-weight-bold">Invite Users using Glory to Heaven Mail Service</p>
           <p class="subtitle is-small has-text-white">(Please Use Considerably As We Have to Incur Mail Costs.)</p>
           <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
             <div class="message-header">
@@ -210,7 +209,7 @@ export default {
       }
     },
     created() {
-      if (window.gds && window.gds.length > 0) {
+      if (window.gds) {
         this.gds = window.gds.map((item, index) => {
           return {
             name: item,
@@ -218,7 +217,7 @@ export default {
           };
         });
         let index = this.$route.params.id;
-        if (this.gds && this.gds.length >= index) {
+        if (this.gds) {
           this.currgd = this.gds[index];
         }
       }
