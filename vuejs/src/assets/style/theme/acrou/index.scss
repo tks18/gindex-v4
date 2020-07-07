@@ -785,6 +785,24 @@ body {
   }
 }
 
+.has-text-netflix {
+  color: #e50914;
+  border: none;
+  &:hover {
+    opacity: 0.6;
+  }
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+th {
+  color: white;
+  &:hover {
+    color: black;
+  }
+}
+
 .home-back {
   min-width:100%;
   background:url(https://assets.nflxext.com/ffe/siteui/vlv3/bd777948-0e8f-4f7f-b0bf-f7e0ee0875e5/cd5b9c59-183b-4b03-9caf-934bc11565b8/IN-en-20200627-popsignuptwoweeks-perspective_alpha_website_small.jpg);
