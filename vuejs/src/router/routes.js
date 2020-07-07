@@ -105,6 +105,16 @@ const frameIn = [{
       }
   },
   {
+      path: '/:id(\\d)::cmd(invite)/',
+      name: 'invite',
+      component: _import("page/static/Admin/Invite"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true
+      }
+  },
+  {
       path: '/:id(\\d)::cmd(register)/otp',
       name: 'otp',
       component: _import("page/static/OtpRegister"),
