@@ -95,16 +95,6 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(invite)/',
-      name: 'inviteuser',
-      component: _import("page/static/Admin/Invite"),
-      meta: {
-          ...meta,
-          requiresAuth: true,
-          admin: true,
-      }
-  },
-  {
       path: '/:id(\\d)::cmd(register)/',
       name: 'register',
       component: _import("page/static/Admin/Register"),
@@ -197,16 +187,6 @@ const frameIn = [{
       meta: {
           ...meta,
           requiresAuth: true,
-      }
-  },
-  {
-      path: '/:id(\\d)::cmd(delete)/',
-      name: 'deleteuser',
-      component: _import("page/static/Admin/Delete"),
-      meta: {
-          ...meta,
-          requiresAuth: true,
-          admin: true
       }
   },
   {

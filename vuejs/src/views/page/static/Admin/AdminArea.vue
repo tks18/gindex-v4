@@ -58,7 +58,7 @@
               </div>
               <div class="columns is-5">
                 <div class="column pt-4 pb-4 is-one-third">
-                  <button class="button is-rounded is-danger" @click="gotoPage('/', 'register')">
+                  <button class="button is-rounded is-danger" @click="gotoPage('/manage', 'admin')">
                     <span class="icon is-small">
                       <i class="fas fa-user-plus"></i>
                     </span>
