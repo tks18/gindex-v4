@@ -10,6 +10,10 @@
   <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.css) { %>
   <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style">
   <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+  />
   <% } %>
   <title><%= htmlWebpackPlugin.options.title %></title>
   <script>

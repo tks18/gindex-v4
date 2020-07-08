@@ -220,7 +220,7 @@ export default {
     changeItem(item) {
       this.currgd = item;
       this.$router.push({
-        path: '/'+this.gdindex+':home/',
+        path: '/'+item.index+':home/',
       });
     },
     query() {

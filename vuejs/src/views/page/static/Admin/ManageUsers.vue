@@ -10,7 +10,7 @@
           <div class="columns is-desktop is-multiline is-vcentered is-centered">
             <div class="column has-text-centered is-3">
               <p class="control has-icons-right">
-                <input class="input is-rounded" placeholder="Enter User's Email" id="email" type="email" v-model="searchEmail">
+                <input class="input is-rounded" placeholder="Enter User's Email" v-focus="1==1" id="email" type="email" v-model="searchEmail">
                 <span class="icon is-small is-right">
                   <i class="fas fa-search"></i>
                 </span>
@@ -398,7 +398,7 @@ export default {
   watch: {
     searchEmail: function(){
       if(this.users.length){
-        var escapedSearch = this.searchEmail.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        var escapedSearch = this.searchEmail;
         var searchRegex = new RegExp(escapedSearch,"g")
         this.searchedUsers = this.users.filter(user => {
           return searchRegex.test(user.email)

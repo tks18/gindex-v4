@@ -4,7 +4,9 @@
       <Head v-if="showInfo"></Head>
         <!-- <keep-alive> -->
         <feb-alive>
-          <router-view></router-view>
+          <transition name="fade">
+            <router-view ></router-view>
+          </transition>
         </feb-alive>
         <!-- </keep-alive> -->
         <Footer v-if="showInfo"></Footer>
@@ -79,3 +81,11 @@ export default {
   },
 };
 </script>
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>
