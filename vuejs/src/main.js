@@ -42,7 +42,7 @@ Vue.use(VueLazyload, {
 Vue.use(Viewer);
 
 Vue.directive('focus', {
-  componentUpdated: function(el, binding, vnode) {
+  inserted: function(el, binding, vnode) {
     if (binding.value) {
       el.focus();
     }
