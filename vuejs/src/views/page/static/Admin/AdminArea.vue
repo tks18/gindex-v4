@@ -75,6 +75,7 @@
 </template>
 <script>
 import Loading from 'vue-loading-overlay';
+import 'animate.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
         components: {

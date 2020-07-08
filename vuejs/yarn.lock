@@ -1428,6 +1428,11 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+animate.css@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-4.1.0.tgz#dec2aabe4babfc6f6777f9a5cccd132838729b50"
+  integrity sha512-0aVcfWDeU9ykV6vjn1P67ZSs01jxoUQZCGaYbkk0SIIelIG8kUdLrIkua1+VabHfTtsSivDRMMn0ILPvZum2gw==
+
 ansi-colors@^3.0.0, ansi-colors@^3.2.1:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
@@ -8945,6 +8950,11 @@ vue-toastification@^1.7.6:
   version "1.7.6"
   resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.7.6.tgz#c720ed5a2e0182f1fd45c562a7858f45539a9918"
   integrity sha512-+Nezz/mXglufIaZ+0EAUDYm4Qc4sRPKu7bOX1WMoc0PrYAOVGzEafN7xW7KlVERijk7wUbMtAP9dP1tSMWV4Yw==
+
+vue2-animate@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/vue2-animate/-/vue2-animate-2.1.3.tgz#24e0aaf7326d9147d587201f91df8d6c101dd8e3"
+  integrity sha512-/wM6+wVxwqbCzB/5ZDOZeEHnCmYBFMAyPJ+syqpTWyhBshvf7P+PRhHLyITZ8kzkh+a2Q+YaZcemTP4F1ieH9g==
 
 vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"
