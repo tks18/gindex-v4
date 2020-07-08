@@ -4,9 +4,7 @@
       <Head v-if="showInfo"></Head>
         <!-- <keep-alive> -->
         <feb-alive>
-          <transition name="fade">
             <router-view ></router-view>
-          </transition>
         </feb-alive>
         <!-- </keep-alive> -->
         <Footer v-if="showInfo"></Footer>
