@@ -58,16 +58,21 @@
                     </div>
                   </div>
                   <div v-else class="columns is-centered is-mobile" v-for="user in pendingUserList" v-bind:key="user.name">
-                    <div class="column is-two-thirds">
+                    <div class="column is-6">
                       <p class="subtitle has-text-black">{{ user.email }}</p>
                     </div>
-                    <div class="column is-one-third">
+                    <div class="column is-5 has-text-right">
                       <button class="button is-success is-rounded" @click="handleTransport(user, setrole)">
                         <span class="icon is-small">
                           <i class="fas fa-user-plus"></i>
                         </span>
                         <span>Accept</span>
                       </button>
+                    </div>
+                    <div class="column is-1 has-text-centered">
+                      <span class="has-text-danger icon-link" @click="handleDelete(deleteApi, user)">
+                        <i class="fas fa-trash-alt"></i>
+                      </span>
                     </div>
                   </div>
                 </section>
@@ -85,7 +90,7 @@
                         </p>
                       </div>
                       <div class="column is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';">
+                        <button class="button is-success" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';deleteApi = 'user'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
@@ -98,7 +103,7 @@
                         </p>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';">
+                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';deleteApi = 'admin'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
@@ -111,7 +116,7 @@
                         </p>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';">
+                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';deleteApi = 'superadmin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
@@ -269,6 +274,7 @@ export default {
                 namedisabled: false,
                 adminmessage: "",
                 disabled: true,
+                deleteApi: "",
                 password : "",
                 apiurl: "",
                 role: "",
@@ -300,7 +306,6 @@ export default {
                 e.preventDefault()
                 if (this.name.length > 0 && this.email.length > 0 && this.password && this.password.length > 0 && this.checked && this.role.length > 0 && this.codechecked)
                 {
-                  console.log(this.apiurl)
                   this.$http.post(this.apiurl, {
                         name: this.name,
                         email: this.email,
@@ -372,6 +377,38 @@ export default {
               } else {
                 this.disabled = true;
               }
+            },
+            handleDelete(post, user) {
+              this.loading = true;
+              let route = "";
+              let reloadRoute = "";
+              if(post == "user"){
+                route = window.apiRoutes.deletePendingUsers;
+                reloadRoute = this.pendingusers;
+              } else if(post == "admin"){
+                route = window.apiRoutes.deletePendingAdmins;
+                reloadRoute = this.pendingadmin;
+              } else if(post == "superadmin"){
+                reloadRoute = this.pendingsuperadmin;
+                route = window.apiRoutes.deletePendingSuperAdmins;
+              }
+              this.$http.post(route, {
+                email: user.email,
+                adminuseremail: this.user.email
+              }).then(response => {
+                if(response){
+                  if(response.data.auth && response.data.removed){
+                    this.pendingUserList = [];
+                    this.getPendingUsers(reloadRoute);
+                    this.loading = false;
+                  } else {
+                    this.loading = false;
+                    this.modal = true;
+                  }
+                } else {
+                  this.loading = false;
+                }
+              })
             }
         },
         computed: {

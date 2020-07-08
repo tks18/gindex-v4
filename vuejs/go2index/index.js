@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.6.3",
+  version: "v7.6.8",
   github_name: "tks18",
   github_repo: "gindex-v4",
   favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico",
@@ -76,6 +76,9 @@ var routes = {
   getPendingUsers: authConfig.backendSite + '/get/pending/users',
   getPendingAdmins: authConfig.backendSite + '/get/pending/admins',
   getPendingSuperAdmins: authConfig.backendSite + '/get/pending/superadmins',
+  deletePendingUsers: authConfig.backendSite + '/request/remove/user',
+  deletePendingAdmins: authConfig.backendSite + '/request/remove/admin',
+  deletePendingSuperAdmins: authConfig.backendSite + '/request/remove/superadmin',
   upgradeAdmin: authConfig.backendSite + '/register/approve/admin',
   upgradeSuperAdmin: authConfig.backendSite + '/register/approve/superadmin',
   inviteUser: authConfig.backendSite + '/invite/user',
