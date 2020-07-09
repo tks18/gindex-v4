@@ -211,7 +211,7 @@
             <p v-if="admin && !superadmin" class="help is-warning">Only Superadmin can Accept Admin & Superadmin users</p>
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input is-rounded" id="password" type="password" placeholder="Your Admin Password" v-model="password" required v-focus="1==1">
+                <input class="input is-rounded" id="password" type="password" placeholder="Your Admin Password" v-model="password" required autofocus>
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>

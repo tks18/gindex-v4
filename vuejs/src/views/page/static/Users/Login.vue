@@ -52,7 +52,7 @@
             <form @submit.prevent="handleSubmit">
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input is-rounded" placeholder="Email" id="logemail" type="email" v-model="email" required v-focus="emailFocus">
+                  <input class="input is-rounded" placeholder="Email" id="logemail" type="email" v-model="email" required autofocus>
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -63,7 +63,7 @@
               </div>
               <div class="field">
                 <p class="control has-icons-left">
-                  <input class="input is-rounded" id="logpassword" type="password" placeholder="Password" v-model="password" required v-focus="passwordFocus">
+                  <input class="input is-rounded" id="logpassword" type="password" placeholder="Password" v-model="password" required>
                   <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                   </span>

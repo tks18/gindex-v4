@@ -41,14 +41,6 @@ Vue.use(VueLazyload, {
 });
 Vue.use(Viewer);
 
-Vue.directive('focus', {
-  inserted: function(el, binding, vnode) {
-    if (binding.value) {
-      el.focus();
-    }
-  }
-})
-
 new Vue({
   router,
   store,

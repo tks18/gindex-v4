@@ -27,7 +27,7 @@
           <form @submit.prevent="handleSubmit">
             <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input class="input is-rounded is-focused" placeholder="Email" id="email" type="email" v-model="email" required v-focus="emailFocus">
+                <input class="input is-rounded is-focused" placeholder="Email" id="email" type="email" v-model="email" required autofocus>
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>
@@ -38,7 +38,7 @@
             </div>
             <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input class="input is-rounded" placeholder="Your Name" id="name" type="text" v-model="name" required v-focus="nameFocus">
+                <input class="input is-rounded" placeholder="Your Name" id="name" type="text" v-model="name" required autofocus>
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>

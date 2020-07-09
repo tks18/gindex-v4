@@ -61,7 +61,7 @@
             <form @submit.prevent="handleSubmit">
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input is-rounded" placeholder="Email" id="email" type="email" v-model="email" required v-focus="emailFocus">
+                  <input class="input is-rounded" placeholder="Email" id="email" type="email" v-model="email" required autofocus>
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -72,7 +72,7 @@
               </div>
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input is-rounded" placeholder="Enter Your OTP" id="otp" type="text" v-model="otp" v-focus="otpFocus">
+                  <input class="input is-rounded" placeholder="Enter Your OTP" id="otp" type="text" v-model="otp" autofocus>
                   <span class="icon is-small is-left">
                     <i class="fas fa-key"></i>
                   </span>
