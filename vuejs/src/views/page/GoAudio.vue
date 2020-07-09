@@ -132,7 +132,7 @@
           <div slot="no-results"></div>
         </infinite-loading>
         <div
-          v-show="files.length === 0"
+          v-show="loading"
           class="has-text-centered no-content"
           >
         </div>

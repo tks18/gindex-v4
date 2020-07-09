@@ -10,7 +10,7 @@
           <div class="columns is-desktop is-multiline is-vcentered is-centered">
             <div class="column has-text-centered is-3">
               <p class="control has-icons-right">
-                <input class="input is-rounded" placeholder="Enter User's Email" v-focus="1==1" id="email" type="email" v-model="searchEmail">
+                <input class="input is-rounded" placeholder="Enter User's Email" autofocus id="email" type="email" v-model="searchEmail">
                 <span class="icon is-small is-right">
                   <i class="fas fa-search"></i>
                 </span>

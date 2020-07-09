@@ -121,7 +121,7 @@
                       <div class="column has-text-right is-four-fifths">
                         <div class="field">
                           <p class="control">
-                            <input class="input special-email" placeholder="Enter Your Email" id="email" type="email" v-model="email" required autofocus>
+                            <input class="input special-email" autofocus placeholder="Enter Your Email" id="email" type="email" v-model="email" required>
                           </p>
                         </div>
                       </div>
