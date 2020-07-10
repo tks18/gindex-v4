@@ -56,15 +56,24 @@
               <div class="column is-7">
                 <p class="subtitle has-text-weight-bold">Manage Existing Users</p>
               </div>
-              <div class="columns is-5">
-                <div class="column pt-4 pb-4 is-one-third">
-                  <button class="button is-rounded is-danger" @click="gotoPage('/manage', 'admin')">
-                    <span class="icon is-small">
-                      <i class="fas fa-user-plus"></i>
-                    </span>
-                    <span>Manage</span>
-                  </button>
-                </div>
+              <div class="column has-text-centered is-5">
+                <button class="button is-rounded is-danger" @click="gotoPage('/manage', 'admin')">
+                  <span class="icon is-small">
+                    <i class="fas fa-user-plus"></i>
+                  </span>
+                  <span>Manage</span>
+                </button>
+              </div>
+              <div class="column is-7">
+                <p class="subtitle has-text-weight-bold">Manage Spam Users</p>
+              </div>
+              <div class="column has-text-centered is-5">
+                <button class="button is-rounded is-danger" @click="gotoPage('/spam', 'admin')">
+                  <span class="icon is-small">
+                    <i class="fas fa-hand-paper"></i>
+                  </span>
+                  <span>Manage</span>
+                </button>
               </div>
             </div>
           </div>
