@@ -16,7 +16,7 @@
       </div>
       <div v-if="type == 'add'" class="column is-half">
         <p class="subtitle is-small has-text-white">Add Users to Spam List</p>
-        <form @submit.prevent="">
+        <form @submit.prevent="handleAddSpam">
           <label class="subtitle has-text-white">Select User's Role First</label>
           <div class="control mb-3">
               <input class="is-checkradio is-small is-warning" id="userradio" type="radio" name="addrole" checked value="user" :disabled="roledisabled" v-model="addrole">
@@ -30,12 +30,26 @@
             <label class="label has-text-white">Select the User</label>
             <div class="control">
               <div class="select is-fullwidth">
-                <select v-model="addUserEmail" id="drive">
-                  <option >Summa</option>
+                <select v-model="addUserEmail" id="addemail">
+                  <option v-for="(user, index) in users" v-bind:key="index">{{user.email}}</option>
                 </select>
               </div>
             </div>
           </div>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input is-rounded" id="addpassword" type="password" placeholder="Password" v-model="addpassword" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+          </div>
+          <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'">
+            <span class="icon is-medium">
+              <i class="fas fa-user-minus"></i>
+            </span>
+            <span>Add to Spam</span>
+          </button>
         </form>
       </div>
     </div>
@@ -55,11 +69,49 @@ export default {
       roledisabled: true,
       loading: false,
       addrole: "",
+      addpassword: "",
+      removerole: "",
+      users: [],
+      getUserApi: "",
+      postAddSpam: "",
+      getSpamApi: "",
       addUserEmail: "",
       fullpage: true,
       type: "",
       gds: [],
       currgd: {},
+    }
+  },
+  methods: {
+    getUsers() {
+      this.loading = true;
+      if(this.getUserApi.length > 0){
+        this.$http.post(this.getUserApi, {
+          email: this.user.email
+        }).then(response => {
+          if(response.data.auth && response.data.registered){
+            this.loading = false;
+            this.users = response.data.users;
+          } else {
+            this.users = [];
+            this.loading = false;
+          }
+        })
+      } else {
+        this.loading = false;
+        console.log("Not Possible")
+      }
+    },
+    handleAddSpam() {
+      if(this.addUserEmail.length > 0 && this.addpassword.length > 0){
+        this.$http.post(this.postAddSpam, {
+          email: this.addUserEmail,
+          adminuseremail: this.user.email,
+          adminpass: this.addpassword
+        }).then(response => {
+          console.log(response);
+        })
+      }
     }
   },
   beforeMount() {
@@ -80,9 +132,17 @@ export default {
     if(this.user.admin && this.user.superadmin){
       this.admin = true, this.superadmin = true, this.roledisabled = false, this.loading = false;
       this.addrole = "user";
+      this.getUserApi = window.apiRoutes.getUsers;
+      this.postAddSpam = window.apiRoutes.addSpamUser;
+      this.getSpamApi = window.apiRoutes.getSpamUsers;
+      this.getUsers();
     } else if(this.user.admin && !this.user.superadmin) {
       this.admin = true, this.superadmin = false, this.loading = false;
       this.addrole = "user";
+      this.getUserApi = window.apiRoutes.getUsers;
+      this.postAddSpam = window.apiRoutes.addSpamUser;
+      this.getSpamApi = window.apiRoutes.getSpamUsers;
+      this.getUsers();
     } else {
       this.loading = false;
       this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "UnAuthorized Route. Not Allowed.", redirectUrl: "/", tocmd: "home" } })
@@ -102,5 +162,31 @@ export default {
       }
     }
   },
+  watch: {
+    addrole: function() {
+      if(this.addrole == "user"){
+        this.getUserApi = window.apiRoutes.getUsers;
+        this.postAddSpam = window.apiRoutes.addSpamUser;
+        this.getUsers();
+      } else if(this.addrole == "admin"){
+        this.getUserApi = window.apiRoutes.getAdmins;
+        this.postAddSpam = window.apiRoutes.addSpamAdmin;
+        this.getUsers();
+      } else if(this.addrole == "superadmin"){
+        this.getUserApi = window.apiRoutes.getSuperAdmins;
+        this.postAddSpam = window.apiRoutes.addSpamSuperAdmin;
+        this.getUsers();
+      }
+    },
+    removerole: function() {
+      if(this.removerole == "user"){
+        this.getSpamApi = window.apiRoutes.getSpamUsers;
+      } else if(this.removerole == "admin"){
+        this.getSpamApi = window.apiRoutes.getSpamAdmins;
+      } else if(this.removerole == "superadmin"){
+        this.getSpamApi = window.apiRoutes.getSpamSuperadmins;
+      }
+    }
+  }
 }
 </script>
