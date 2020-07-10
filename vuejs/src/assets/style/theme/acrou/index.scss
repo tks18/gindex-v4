@@ -9,8 +9,17 @@
 }
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
+$vs-dropdown-z-index: 1000;
+$vs-dropdown-min-width: 150px;
+$vs-dropdown-max-height: 300px;
+
 body {
   font-family: 'Varela Round', sans-serif;
+}
+
+.vs__fade-enter-active,
+.vs__fade-leave-active {
+    transition: none;
 }
 
 * {

@@ -7,6 +7,7 @@ import "element-ui/lib/theme-chalk/loading.css";
 import axios from "@/plugin/axios";
 import VueAxios from "vue-axios";
 import router from "./router";
+import vSelect from 'vue-select';
 import EventBus from "./EventBus";
 import Crypto from "crypto-js";
 import secret from "../secret";
@@ -29,6 +30,7 @@ Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$bus = EventBus;
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+Vue.component('v-select', vSelect)
 Vue.use(require('vue-moment'));
 Vue.use(VueClipboard);
 Vue.use(VuePlyr, {

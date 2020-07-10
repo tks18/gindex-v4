@@ -2,6 +2,7 @@
 @import url(https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css);
 @import url(https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css);
+@import url(https://unpkg.com/vue-select@latest/dist/vue-select.css);
 @import url(css/chunk-vendors.40063294.css);
 @import url(css/chunk-def9fcd2.757d3cd3.css);
 @import url(css/chunk-c886bd46.ad4fef4a.css);
@@ -21,4 +22,4 @@
 @import url(css/chunk-1d573d97.ad4fef4a.css);
 @import url(css/chunk-075e2f32.1bef64fc.css);
 @import url(css/chunk-0650f1e2.7b51c22c.css);
-@import url(css/app.5676fb2a.css);
+@import url(css/app.b6c91d36.css);
