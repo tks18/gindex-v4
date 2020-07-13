@@ -11,7 +11,7 @@
             <h3 class="title has-text-centered has-text-weight-bold has-text-info-dark">Your Details</h3>
             <div class="columns is-vcentered is-centered is-multiline is-mobile">
               <div class="column has-text-centered is-full">
-                <figure class="image is-128x128 is-inline-block">
+                <figure class="image special-image is-128x128 is-inline-block">
                   <img class="is-rounded" :src="avatar" @click="alerts('Avatar Under Development')">
                 </figure>
               </div>
