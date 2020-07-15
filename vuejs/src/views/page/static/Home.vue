@@ -87,7 +87,7 @@
                </div>
              </div>
              <div class="category-block">
-               <div v-for="(cat, index) in getShuffledCategory" v-bind:key="index" class="cat-link" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
+               <div v-for="(cat, index) in getShuffledCategory" v-bind:key="index" @click="gotoPage('/'+cat.link+'/')" class="cat-link" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
                  <h1 class="title is-4 has-text-centered has-text-white has-text-weight-bold" style="display: flex;align-items: baseline;">
                    {{ cat.name }}
                  </h1>

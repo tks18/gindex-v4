@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.7.2/vuejs/dist/favicon.ico><link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css rel=preload as=style><link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css rel=preload as=style><link href=https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css rel=preload as=style><link href=https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css rel=preload as=style><link href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://unpkg.com/vue-select@latest/dist/vue-select.css rel=preload as=style><link href=https://unpkg.com/vue-select@latest/dist/vue-select.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><title>gindex-v4</title><script>var authConfig = {
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.7.3/vuejs/dist/favicon.ico><link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css rel=preload as=style><link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css rel=preload as=style><link href=https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css rel=preload as=style><link href=https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css rel=preload as=style><link href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><link href=https://unpkg.com/vue-select@latest/dist/vue-select.css rel=preload as=style><link href=https://unpkg.com/vue-select@latest/dist/vue-select.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css><title>gindex-v4</title><script>var authConfig = {
       version: '1.1.0',
       roots: [
         {
@@ -53,26 +53,32 @@
     var categories = [
       {
         name: "Anime",
+        link: "Anime",
         poster: "https://jw-webmagazine.com/wp-content/uploads/2020/03/Kimetsu-no-YaibaDemon-Slayer.jpg"
       },
       {
         name: "Music",
+        link: "Music",
         poster: "https://i1.wp.com/sova.ponominalu.ru/wp-content/uploads/2019/09/diplo.jpg?fit=1000%2C631&ssl=1"
       },
       {
         name: "The Cinema",
+        link: "Movies",
         poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS-5gU6lKVeKvdBBVQyn8aZY4kRtPBgJPIpDA&usqp=CAU"
       },
       {
         name: "TV Series",
+        link: "Series",
         poster: "https://www.arthipo.com/image/cache/catalog/genel-tasarim/all-posters/dizi-tv-series-posterleri/PSTER-dizi168k-breaking_bad_actors_face_walter_white_jesse_pinkman-1000x1000.jpg"
       },
       {
         name: "Documentaries",
+        link: "Documentaries%20🎟%EF%B8%8F",
         poster: "https://www.un.org/sites/un2.un.org/files/styles/large-article-image-style-16-9/public/field/image/virunga-poster_0.jpg?itok=sJdai-fJ"
       },
       {
         name: "Cartoons",
+        link: "Cartoons%20😚",
         poster: "https://ae01.alicdn.com/kf/HTB119BtJpXXXXauXVXXq6xXFXXXE/household-items-stickers-cartoon-animation-Avengers-superhero-Poster-20-X30-Inch-Wall-Sticker-Poster-Wallpaper-Free.jpg"
       },
     ];
@@ -205,6 +211,7 @@
         const categoryData = {
           name: category.name,
           poster: category.poster,
+          link: category.link,
         }
         return categoryData;
       }))

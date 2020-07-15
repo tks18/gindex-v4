@@ -59,26 +59,32 @@ var mainhero = [
 var categories = [
   {
     name: "Anime",
+    link: "Anime",
     poster: "https://jw-webmagazine.com/wp-content/uploads/2020/03/Kimetsu-no-YaibaDemon-Slayer.jpg"
   },
   {
     name: "Music",
+    link: "Music",
     poster: "https://i1.wp.com/sova.ponominalu.ru/wp-content/uploads/2019/09/diplo.jpg?fit=1000%2C631&ssl=1"
   },
   {
     name: "The Cinema",
+    link: "Movies",
     poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS-5gU6lKVeKvdBBVQyn8aZY4kRtPBgJPIpDA&usqp=CAU"
   },
   {
     name: "TV Series",
+    link: "Series",
     poster: "https://www.arthipo.com/image/cache/catalog/genel-tasarim/all-posters/dizi-tv-series-posterleri/PSTER-dizi168k-breaking_bad_actors_face_walter_white_jesse_pinkman-1000x1000.jpg"
   },
   {
     name: "Documentaries",
+    link: "Documentaries%20🎟%EF%B8%8F",
     poster: "https://www.un.org/sites/un2.un.org/files/styles/large-article-image-style-16-9/public/field/image/virunga-poster_0.jpg?itok=sJdai-fJ"
   },
   {
     name: "Cartoons",
+    link: "Cartoons%20😚",
     poster: "https://ae01.alicdn.com/kf/HTB119BtJpXXXXauXVXXq6xXFXXXE/household-items-stickers-cartoon-animation-Avengers-superhero-Poster-20-X30-Inch-Wall-Sticker-Poster-Wallpaper-Free.jpg"
   },
 ];
@@ -261,6 +267,7 @@ function html(current_drive_order = 0, model = {}) {
         const categoryData = {
           name: category.name,
           poster: category.poster,
+          link: category.link,
         }
         return categoryData;
       }))}'
