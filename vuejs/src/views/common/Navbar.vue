@@ -6,7 +6,7 @@
       </div>
       <div class="navbar-brand">
         <div class="navbar-item nav-link">
-          <h3 class="title is-3 has-text-white" @click="homeroute">
+          <h3 class="title has-text-netflix is-3" @click="homeroute">
             {{ siteName }}
           </h3>
         </div>
@@ -29,48 +29,13 @@
         :class="'navbar-menu ' + (isActive ? 'is-active' : '')"
         style="background-color: inherit"
       >
-        <div class="navbar-end">
-          <!-- is-hidden-desktop -->
-          <div
-            :class="ismobile ? gddropdown ? 'navbar-item has-dropdown is-active' : 'navbar-item has-dropdown' : 'navbar-item has-dropdown is-hoverable' "
-           @click="ismobile ? gddropdown = !gddropdown : '' ">
-            <a class="navbar-link" style="background-color: inherit;">{{ this.currgd.name }}</a>
-            <div class="navbar-dropdown is-boxed">
-              <a
-                class="navbar-item"
-                @click="changeItem(item)"
-                v-for="(item, index) in getCurrGD"
-                v-bind:key="index"
-                >{{ item.name }}</a
-              >
-            </div>
-          </div>
-          <div v-if="logged" class="navbar-item" v-show="showSearch">
-            <div class="field is-grouped">
-              <p class="control has-icons-left is-dark" style="width:100%;">
-                <input
-                  class="input is-rounded search-input"
-                  @keyup.enter="query"
-                  v-model="param"
-                  type="search"
-                  :placeholder="$t('search.placeholder')"
-                />
-                <span class="icon is-small is-left" style="padding:0 5px;">
-                  <!-- <i class="fas fa-search"></i> -->
-                  <img :src="eyes" />
-                </span>
-              </p>
-            </div>
-          </div>
+        <div class="navbar-start">
           <a
             class="navbar-item"
             title="OTP Registration"
             v-if="!logged"
             @click="gotoPage('/otp/', 'register')"
            >
-           <span class="icon">
-            <i class="fas fa-user-check"></i>
-          </span>
           <span>Register</span>
           </a>
           <a
@@ -79,9 +44,6 @@
             v-if="!logged"
             @click="gotoPage('/request/user/', 'register')"
            >
-           <span class="icon">
-            <i class="fas fa-user-plus"></i>
-          </span>
           <span>Request Access</span>
           </a>
           <a
@@ -90,23 +52,83 @@
             v-if="!logged"
             @click="gotoPage('/', 'login')"
            >
-           <span class="icon">
-            <i class="fas fa-power-off"></i>
-          </span>
-          <span class="is-hidden-desktop">Login</span>
+          <span>Login</span>
           </a>
           <a
             class="navbar-item"
-            title="Movies"
-            v-if="logged"
+            v-show="logged"
+            v-for="(link, index) in quicklinks.slice(0,3)"
+            :title="link.displayname"
+            v-bind:key="index"
+            @click="gotoPage('/'+ link.link + '/')"
+           >
+          <span>{{ link.displayname }}</span>
+          </a>
+          <a
+            class="navbar-item"
+            v-show="logged"
+            title="All"
             @click="gotoPage('/')"
-            @mouseover="mouseover = true"
-            @mouseleave="mouseover = false"
+           >
+          <span>View All</span>
+          </a>
+          <div
+            :class="ismobile ? gddropdown ? 'navbar-item has-dropdown is-active' : 'navbar-item has-dropdown' : 'navbar-item has-dropdown is-hoverable' "
+           @click="ismobile ? gddropdown = !gddropdown : '' " v-if="!logged">
+            <a class="navbar-link" style="background-color: inherit;">Space</a>
+            <div class="navbar-dropdown is-boxed">
+              <a
+                class="navbar-item"
+                @click="changeItem(item)"
+                v-for="(item, index) in gds"
+                v-bind:key="index"
+                >{{ item.name }}</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="navbar-end">
+          <!-- is-hidden-desktop -->
+          <div
+            :class="ismobile ? gddropdown ? 'navbar-item has-dropdown is-active' : 'navbar-item has-dropdown' : 'navbar-item has-dropdown is-hoverable' "
+           @click="ismobile ? gddropdown = !gddropdown : '' " v-if="logged">
+            <a class="navbar-link" style="background-color: inherit;">Space</a>
+            <div class="navbar-dropdown is-boxed">
+              <a
+                class="navbar-item"
+                @click="changeItem(item)"
+                v-for="(item, index) in gds"
+                v-bind:key="index"
+                >{{ item.name }}</a
+              >
+            </div>
+          </div>
+          <div v-if="logged" class="navbar-item" v-show="showSearch">
+            <div class="field is-grouped">
+              <p class="control has-icons-right is-dark" style="width:100%;">
+                <input
+                  class="input is-rounded search-input"
+                  @keyup.enter="query"
+                  v-model="param"
+                  type="search"
+                  :placeholder="$t('search.placeholder')"
+                />
+                <span class="icon is-small is-right" style="padding:0 5px;">
+                  <i class="fas fa-search"></i>
+                </span>
+              </p>
+            </div>
+          </div>
+          <a
+            class="navbar-item"
+            title="Profile"
+            @click="gotoPage('/' ,'settings')"
+            v-if="logged"
            >
            <span class="icon">
-            <i :class="mouseover ? 'fas fa-spin fa-compact-disc' : 'fas fa-compact-disc'"></i>
+            <i class="far fa-user"></i>
           </span>
-          <span  class="is-hidden-desktop">Movies</span>
+          <span class="">{{ user.name.slice(0,10) }}</span>
           </a>
           <a
             class="navbar-item"
@@ -118,17 +140,6 @@
             <i class="fas fa-user-shield"></i>
           </span>
           <span  class="is-hidden-desktop">Admin Zone</span>
-          </a>
-          <a
-            class="navbar-item"
-            title="Settings"
-            v-if="logged"
-            @click="gotoPage('/' ,'settings')"
-           >
-           <span class="icon">
-            <i class="fas fa-user-cog"></i>
-          </span>
-          <span class="is-hidden-desktop"> My Settings</span>
           </a>
           <a
             class="navbar-item"
@@ -189,6 +200,7 @@ export default {
   },
   data: function() {
     return {
+      user: {},
       siteName: "",
       active: false,
       param: "",
@@ -200,6 +212,7 @@ export default {
       fullpage: true,
       logged: false,
       admin: false,
+      quicklinks: [],
       superadmin: false,
       gds: [],
       gdindex: '',
@@ -243,13 +256,16 @@ export default {
       if (user != null && token != null){
         var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
         if(userData.admin && !userData.superadmin){
-            this.logged = true;
-            this.admin = true;
+          this.user = userData;
+          this.logged = true;
+          this.admin = true;
         } else if(userData.admin && userData.superadmin){
+          this.user = userData;
           this.logged = true;
           this.admin = true;
           this.superadmin = true
         } else {
+          this.user = userData;
           this.logged = true
         }
       } else {
@@ -293,9 +309,6 @@ export default {
     }
   },
   computed: {
-    getCurrGD() {
-      return this.gds.filter((item) => item.name !== this.currgd.name);
-    },
     showSearch() {
 // Folder does not support searching
       return window.MODEL ? window.MODEL.root_type < 2 : true
@@ -310,6 +323,7 @@ export default {
     }
   },
   mounted() {
+    this.quicklinks = window.quickLinks;
     this.changeNavbarStyle();
   },
   watch: {

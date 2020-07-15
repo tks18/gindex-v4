@@ -40,30 +40,49 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 2px;
-  background-color: black;
+  width: 0px;
+  background-color: none;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
+  box-shadow: none;
   border-radius: none;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #E50914;
-  border-radius: 10px;
+  background: none;
+  border-radius: none;
 }
 
 html {
   background-color: black;
+  font-size: 14px;
 }
 
 .navbar {
-  border-bottom: 3px solid #E50914;
+  background: linear-gradient(to bottom, black, #00000000);
   .container {
-    max-width: 90%;
+    max-width: 95%;
+  }
+  .navbar-item:hover {
+
+  }
+  .navbar-brand > .title {
+    color: #E50914;
+  }
+  a {
+    color: white;
+  }
+  a:hover {
+    color: #e50914;
+    background: none;
+  }
+  .search-input {
+    background-color: black;
+    border-color: #272727;
+    color:#e50914;
   }
   @media only screen and (max-width: 700px){
     .navbar-item {
@@ -85,25 +104,8 @@ html {
   background-color: black;
 }
 
-.navbar-link,.navbar-item {
-  color: #E50914;
-}
-
 .navbar-active {
   color: #bbf1c8;
-}
-
-.nav-heading {
-  font-family: 'Open Sans', sans-serif;
-}
-
-.navbar-item:hover {
-  color: #E50914;
-}
-
-.search-input {
-  background-color: #E50914;
-  border-color: #272727;
 }
 
 body {
@@ -805,6 +807,11 @@ body {
   }
 }
 
+.has-text-netflix-only {
+  color: #e50914;
+  border: none;
+}
+
 th {
   color: white;
   &:hover {
@@ -846,7 +853,45 @@ th {
   cursor: pointer;
 }
 
+.homehero {
+  background-size:cover;
+  min-width:100%;
+  box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
+}
+
 .navbar-item:hover {
   background: transparent;
   color: red;
+}
+
+.trending-block {
+  overflow: auto;
+  white-space: nowrap;
+  .trend-link {
+    display: inline-block;
+    box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    height: 175px;
+    padding: 14px;
+    margin: 3px;
+  }
+  .trend-link:hover {
+    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
+  }
+}
+
+.category-block {
+  overflow: auto;
+  white-space: nowrap;
+  .cat-link {
+    display: inline-block;
+    width: 250px;
+    box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+    height: 175px;
+    padding: 14px;
+    margin: 3px;
+  }
+  .cat-link:hover {
+    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
+  }
 }
