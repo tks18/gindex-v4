@@ -323,7 +323,9 @@ export default {
     }
   },
   mounted() {
-    this.quicklinks = window.quickLinks;
+    this.quicklinks = window.quickLinks.filter((links) => {
+      return links.root == this.gdindex
+    })[0].link;
     this.changeNavbarStyle();
   },
   watch: {
