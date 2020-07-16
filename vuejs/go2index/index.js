@@ -47,7 +47,7 @@ var mainhero = [
       {
         name: "The 100",
         poster: "https://wallpapercave.com/wp/wp1825213.jpg",
-        subtitle: "Fear isn't their only weapon.",
+        subtitle: "Fear isnt their only weapon.",
         link: "Series/The%20100",
       },
       {
