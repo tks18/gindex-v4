@@ -57,12 +57,12 @@ body {
 }
 
 html {
-  background-color: black;
+  background-color: #222222;
   font-size: 14px;
 }
 
 .navbar {
-  background: linear-gradient(to bottom, black, #00000000);
+  background: linear-gradient(to bottom, #222222, #00000000);
   .container {
     max-width: 95%;
   }
@@ -80,7 +80,7 @@ html {
     background: none;
   }
   .search-input {
-    background-color: black;
+    background-color: #222222;
     border-color: #272727;
     color:#e50914;
   }
@@ -101,7 +101,7 @@ html {
 }
 
 .navbar-dropdown{
-  background-color: black;
+  background-color: #222222;
 }
 
 .navbar-active {
@@ -160,7 +160,7 @@ body {
 
     &:hover {
       background-color: white;
-      color: black;
+      color: #222222;
     }
 
     &.icon {
@@ -241,7 +241,7 @@ body {
 
 .video-content {
   width: 100%;
-  background-color: black;
+  background-color: #222222;
   position: relative;
   padding-bottom: 2%;
 
@@ -257,18 +257,18 @@ body {
   text-align: center;
   width: 100%;
   padding: 5%;
-  background-color: black;
+  background-color: #222222;
   border: 1px solid #E50914;
 }
 
 .audio-card:hover {
-  border: 1px solid black;
+  border: 1px solid #222222;
 }
 
 //search bar
 .search-input,
 .search-input::-webkit-input-placeholder {
-  color: black;
+  color: #222222;
 }
 
 .golist {
@@ -298,7 +298,7 @@ body {
   }
 
   .pageloader::after {
-    border: 0 solid black;
+    border: 0 solid #222222;
   }
 }
 
@@ -349,17 +349,17 @@ body {
 
 .is-divider-vertical[data-content]::after,
 .is-divider[data-content]::after {
-  color: black;
+  color: #222222;
   background-color: #E50914;
 }
 
 .card-header-title {
   color: #E50914;
-  background-color: black;
+  background-color: #222222;
 }
 
 .card-content {
-  background-color: black;
+  background-color: #222222;
   color: #E50914;
   font-weight: bold;
 }
@@ -370,7 +370,7 @@ body {
 
 .download-link {
   border: 1px solid #E50914;
-  background-color: black;
+  background-color: #222222;
   color: #E50914;
 }
 
@@ -406,7 +406,7 @@ body {
 
 #copy-url {
   padding: 10px;
-  background-color: black;
+  background-color: #222222;
   border: 1px solid #E50914;
   margin: 10px;
   color: #E50914;
@@ -416,7 +416,7 @@ body {
 }
 
 #copy-url:hover {
-  border: 1px solid black;
+  border: 1px solid #222222;
   color: #E50914;
 }
 
@@ -435,7 +435,7 @@ body {
 
 .download-button {
   padding: 10px;
-  background-color: black;
+  background-color: #222222;
   border: 1px solid #E50914;
   margin: 10px;
   color: #E50914;
@@ -445,7 +445,7 @@ body {
 }
 
 .download-button:hover {
-  border: 1px solid black;
+  border: 1px solid #222222;
   color: #E50914;
 }
 
@@ -502,14 +502,14 @@ body {
   }
   input {
     margin: 5px;
-    background-color: black;
+    background-color: #222222;
     border: 1px solid #E50914;
     color: #E50914;
     font-family: monospace;
     font-size: 17px;
   }
   input:hover {
-    background-color: black;
+    background-color: #222222;
   }
   .login-button {
     background-color: #b6eb7a;
@@ -559,14 +559,14 @@ body {
   }
   input,textarea {
     margin: 5px;
-    background-color: black;
+    background-color: #222222;
     border: 1px solid #E50914;
     color: #E50914;
     font-family: monospace;
     font-size: 18px;
   }
   input:hover,textarea:hover {
-    background-color: black;
+    background-color: #222222;
   }
   .guidelines {
     color: #E50914;
@@ -589,7 +589,7 @@ body {
   .registration-top-buttons {
     margin: 5px;
     background-color: #ffe8df;
-    color: black;
+    color: #222222;
     border: none;
     padding: 5px;
     border-radius: 0.5rem;
@@ -609,13 +609,13 @@ body {
   .top-buttons {
     margin: 5px;
     background-color: #ffe8df;
-    color: black;
+    color: #222222;
     border: none;
     padding: 5px;
     border-radius: 0.5rem;
   }
   .top-buttons:hover {
-    background-color: black;
+    background-color: #222222;
     color:white;
     border: 1px solid #E50914;
   }
@@ -644,7 +644,7 @@ body {
         color: white;
       }
       a:hover {
-        color: black;
+        color: #222222;
       }
     }
     h3,p {
@@ -685,7 +685,7 @@ body {
       }
     }
     .scope-list:hover {
-      background-color: black;
+      background-color: #222222;
       color: white;
     }
   }
@@ -704,7 +704,7 @@ body {
 .pendingusers {
   .getuserbutton {
     color: #E50914;
-    background-color: black;
+    background-color: #222222;
     padding: 5px;
     border-radius: 0.5rem;
     border: 2px solid #E50914;
@@ -815,7 +815,7 @@ body {
 th {
   color: white;
   &:hover {
-    color: black;
+    color: #222222;
   }
 }
 

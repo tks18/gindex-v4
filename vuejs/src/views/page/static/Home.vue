@@ -26,7 +26,7 @@
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
          <div v-show="logged" class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
-           <div v-for="(hero, index) in mainhero" v-bind:key="index" class="column is-full mx-0 px-0 mt-0 pt-0">
+           <div v-for="(hero, index) in filterMainArr" v-bind:key="index" class="column is-full mx-0 px-0 mt-0 pt-0">
              <section class="hero is-fullheight mx-0 px-0" :style="'background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
               <div class="hero-body">
                 <div class="container">
@@ -66,7 +66,7 @@
                </div>
              </div>
              <div class="trending-block">
-               <div v-for="(trend, index) in getShuffledTrending" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
+               <div v-for="(trend, index) in filterTrendArr" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
                </div>
              </div>
            </div>
@@ -87,7 +87,7 @@
                </div>
              </div>
              <div class="category-block">
-               <div v-for="(cat, index) in getShuffledCategory" v-bind:key="index" @click="gotoPage('/'+cat.link+'/')" class="cat-link" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
+               <div v-for="(cat, index) in filterCatArr" v-bind:key="index" @click="gotoPage('/'+cat.link+'/')" class="cat-link" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
                  <h1 class="title is-4 has-text-centered has-text-white has-text-weight-bold" style="display: flex;align-items: baseline;">
                    {{ cat.name }}
                  </h1>
@@ -277,14 +277,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         beforeMount() {
-          this.assignUserInfo();
-        },
-        mounted() {
-          console.log(this.shuffle(window.mainHeroLinks).slice(0,1));
-          this.mainhero = this.shuffle(window.mainHeroLinks).slice(0,1);
+          this.mainhero = window.mainHeroLinks;
           this.trending = window.trendingPosterLinks;
           this.category = window.homeCategories;
           this.quickLinks = window.quickLinks;
+          this.assignUserInfo();
+        },
+        mounted() {
           if(this.user.admin && this.user.superadmin){
             this.admin = true,this.superadmin = true, this.loading = false;
           } else if(this.user.admin && !this.user.superadmin){
@@ -324,11 +323,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               return true
             }
           },
-          getShuffledTrending() {
-            return this.shuffle(this.trending)
+          filterMainArr() {
+            return this.shuffle(this.mainhero.filter((arr) => {
+              return arr.root == this.currgd.id
+            })[0].link).slice(0,1)
           },
-          getShuffledCategory() {
-            return this.shuffle(this.category)
+          filterTrendArr() {
+            return this.shuffle(this.trending.filter((arr) => {
+              return arr.root == this.currgd.id
+            })[0].link)
+          },
+          filterCatArr() {
+            return this.shuffle(this.category.filter((arr) => {
+              return arr.root == this.currgd.id
+            })[0].link)
           }
         },
         watch: {

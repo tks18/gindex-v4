@@ -24,10 +24,14 @@ var authConfig = {
 };
 var themeOptions = {
   languages: 'en',
-  logo: true,
-  logo_link: "https://github.com/tks18/gindex-v4/blob/1991cb42cda5cbb86e841c36fcbaebec176d9201/vuejs/public/images/g-logo.png?raw=true",
-  footer_logo: true,
-  footer_logo_link: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+  footer_data: {
+    copyright: true,
+    disclaimer: true,
+    license: true,
+    codeofconduct: true,
+    footer_logo: true,
+    footer_logo_link: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+  },
   render: {
     head_md: true,
     head_md_link: `https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/HEAD.md`,
@@ -38,109 +42,129 @@ var themeOptions = {
 }
 var mainhero = [
   {
-    name: "The 100",
-    poster: "https://wallpapercave.com/wp/wp1825213.jpg",
-    subtitle: "Fear isnt their only weapon.",
-    link: "Series/The%20100",
-  },
-  {
-    name: "Orange is the New Black",
-    poster: "https://ejournalz.com/wp-content/uploads/2019/09/orange-is-the-new-black-season-6-shows-background-01.jpg",
-    subtitle: "Every sentence is a story",
-    link: "Orange%20is%20the%20new%20black",
-  },
-  {
-    name: "Peaky Blinders",
-    poster: "https://images.squarespace-cdn.com/content/v1/5b3a1b92da02bc79ba013a60/1533301640630-YABFHIHFZWXYUJ6U9D4V/ke17ZwdGBToddI8pDm48kF9aEDQaTpZHfWEO2zppK7Z7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UX7HUUwySjcPdRBGehEKrDf5zebfiuf9u6oCHzr2lsfYZD7bBzAwq_2wCJyqgJebgg/PeakyBlinders-0312+1.jpg",
-    subtitle: "Crime pays well",
-    link: "Series/Peaky%20Blinders",
+    root: 0,
+    link: [
+      {
+        name: "The 100",
+        poster: "https://wallpapercave.com/wp/wp1825213.jpg",
+        subtitle: "Fear isn't their only weapon.",
+        link: "Series/The%20100",
+      },
+      {
+        name: "Orange is the New Black",
+        poster: "https://ejournalz.com/wp-content/uploads/2019/09/orange-is-the-new-black-season-6-shows-background-01.jpg",
+        subtitle: "Every sentence is a story",
+        link: "Orange%20is%20the%20new%20black",
+      },
+      {
+        name: "Peaky Blinders",
+        poster: "https://images.squarespace-cdn.com/content/v1/5b3a1b92da02bc79ba013a60/1533301640630-YABFHIHFZWXYUJ6U9D4V/ke17ZwdGBToddI8pDm48kF9aEDQaTpZHfWEO2zppK7Z7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UX7HUUwySjcPdRBGehEKrDf5zebfiuf9u6oCHzr2lsfYZD7bBzAwq_2wCJyqgJebgg/PeakyBlinders-0312+1.jpg",
+        subtitle: "Crime pays well",
+        link: "Series/Peaky%20Blinders",
+      },
+    ],
   },
 ];
 var categories = [
   {
-    name: "Anime",
-    link: "Anime",
-    poster: "https://jw-webmagazine.com/wp-content/uploads/2020/03/Kimetsu-no-YaibaDemon-Slayer.jpg"
-  },
-  {
-    name: "Music",
-    link: "Music",
-    poster: "https://i1.wp.com/sova.ponominalu.ru/wp-content/uploads/2019/09/diplo.jpg?fit=1000%2C631&ssl=1"
-  },
-  {
-    name: "The Cinema",
-    link: "Movies",
-    poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS-5gU6lKVeKvdBBVQyn8aZY4kRtPBgJPIpDA&usqp=CAU"
-  },
-  {
-    name: "TV Series",
-    link: "Series",
-    poster: "https://www.arthipo.com/image/cache/catalog/genel-tasarim/all-posters/dizi-tv-series-posterleri/PSTER-dizi168k-breaking_bad_actors_face_walter_white_jesse_pinkman-1000x1000.jpg"
-  },
-  {
-    name: "Documentaries",
-    link: "Documentaries%20🎟%EF%B8%8F",
-    poster: "https://www.un.org/sites/un2.un.org/files/styles/large-article-image-style-16-9/public/field/image/virunga-poster_0.jpg?itok=sJdai-fJ"
-  },
-  {
-    name: "Cartoons",
-    link: "Cartoons%20😚",
-    poster: "https://ae01.alicdn.com/kf/HTB119BtJpXXXXauXVXXq6xXFXXXE/household-items-stickers-cartoon-animation-Avengers-superhero-Poster-20-X30-Inch-Wall-Sticker-Poster-Wallpaper-Free.jpg"
+    root: 0,
+    link: [
+      {
+        name: "Anime",
+        link: "Anime",
+        poster: "https://jw-webmagazine.com/wp-content/uploads/2020/03/Kimetsu-no-YaibaDemon-Slayer.jpg"
+      },
+      {
+        name: "Music",
+        link: "Music",
+        poster: "https://i1.wp.com/sova.ponominalu.ru/wp-content/uploads/2019/09/diplo.jpg?fit=1000%2C631&ssl=1"
+      },
+      {
+        name: "The Cinema",
+        link: "Movies",
+        poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS-5gU6lKVeKvdBBVQyn8aZY4kRtPBgJPIpDA&usqp=CAU"
+      },
+      {
+        name: "TV Series",
+        link: "Series",
+        poster: "https://www.arthipo.com/image/cache/catalog/genel-tasarim/all-posters/dizi-tv-series-posterleri/PSTER-dizi168k-breaking_bad_actors_face_walter_white_jesse_pinkman-1000x1000.jpg"
+      },
+      {
+        name: "Documentaries",
+        link: "Documentaries%20🎟%EF%B8%8F",
+        poster: "https://www.un.org/sites/un2.un.org/files/styles/large-article-image-style-16-9/public/field/image/virunga-poster_0.jpg?itok=sJdai-fJ"
+      },
+      {
+        name: "Cartoons",
+        link: "Cartoons%20😚",
+        poster: "https://ae01.alicdn.com/kf/HTB119BtJpXXXXauXVXXq6xXFXXXE/household-items-stickers-cartoon-animation-Avengers-superhero-Poster-20-X30-Inch-Wall-Sticker-Poster-Wallpaper-Free.jpg"
+      },
+    ],
   },
 ];
 var trendingPosters = [
   {
-    poster: "https://images.newindianexpress.com/uploads/user/imagelibrary/2020/4/28/w900X450/Paatal_Lok.jpg",
-    link: "Hindi%20Series/Paatal%20Lok/Paatal%20Lok%202020%20S01%20Hindi%20720p%20AMZN%20WEBRip%20x264%20AAC%205.1%20MSubs%20-%20LOKiHD%20-%20Telly",
-  },
-  {
-    poster: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202006/qc_12-770x433.jpeg?hivJTisfzeBoAqGHnSq1nWZQCeNp_ErN",
-    link: "Uploads%20from%20Client%20-%20to%20be%20Organised/TamilRockers.com%20-%20Dark%20Season%201%20(2017)%20German%20480p%20HDRip%20x264%20ESubs%201.9GB",
-  },
-  {
-    poster: "https://cdn.shopify.com/s/files/1/0969/9128/products/Friends_tv_show_poster_-_A3_-_11x15.8_5da52b1c-6c02-4649-abee-b41bf475e692.jpg?v=1561202385",
-    link: "Series/F.R.I.E.N.D.S",
-  },
-  {
-    poster: "https://static-koimoi.akamaized.net/wp-content/new-galleries/2020/04/money-heist-season-4-la-casa-de-papel-makers-revealed-a-big-spoiler-in-their-poster-earlier-no-one-noticed-it-0001.jpg",
-    link: "Series/Money%20Heist",
-  },
-  {
-    poster: "https://cdn.vox-cdn.com/thumbor/1FsuIbsA0gKrplbv7m6BQKA4_UM=/0x683:810x1139/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/55660155/strangerthings.0.jpg",
-    link: "Series/Stranger%20Things",
-  },
-  {
-    poster: "https://cdn.shopify.com/s/files/1/0969/9128/products/91TmR1v-qRL._RI_2f56fbdc-a4e4-4fa8-b022-b45e36874fc7.jpg?v=1556951536",
-    link: "Series/The%20Office",
+    root: 0,
+    link: [
+      {
+        poster: "https://images.newindianexpress.com/uploads/user/imagelibrary/2020/4/28/w900X450/Paatal_Lok.jpg",
+        link: "Hindi%20Series/Paatal%20Lok/Paatal%20Lok%202020%20S01%20Hindi%20720p%20AMZN%20WEBRip%20x264%20AAC%205.1%20MSubs%20-%20LOKiHD%20-%20Telly",
+      },
+      {
+        poster: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202006/qc_12-770x433.jpeg?hivJTisfzeBoAqGHnSq1nWZQCeNp_ErN",
+        link: "Uploads%20from%20Client%20-%20to%20be%20Organised/TamilRockers.com%20-%20Dark%20Season%201%20(2017)%20German%20480p%20HDRip%20x264%20ESubs%201.9GB",
+      },
+      {
+        poster: "https://cdn.shopify.com/s/files/1/0969/9128/products/Friends_tv_show_poster_-_A3_-_11x15.8_5da52b1c-6c02-4649-abee-b41bf475e692.jpg?v=1561202385",
+        link: "Series/F.R.I.E.N.D.S",
+      },
+      {
+        poster: "https://static-koimoi.akamaized.net/wp-content/new-galleries/2020/04/money-heist-season-4-la-casa-de-papel-makers-revealed-a-big-spoiler-in-their-poster-earlier-no-one-noticed-it-0001.jpg",
+        link: "Series/Money%20Heist",
+      },
+      {
+        poster: "https://cdn.vox-cdn.com/thumbor/1FsuIbsA0gKrplbv7m6BQKA4_UM=/0x683:810x1139/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/55660155/strangerthings.0.jpg",
+        link: "Series/Stranger%20Things",
+      },
+      {
+        poster: "https://cdn.shopify.com/s/files/1/0969/9128/products/91TmR1v-qRL._RI_2f56fbdc-a4e4-4fa8-b022-b45e36874fc7.jpg?v=1556951536",
+        link: "Series/The%20Office",
+      },
+    ],
   },
 ];
 var quickLinks = [
       {
-        displayname: "Anime", // Name to Display
-        link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
-        faIcon: "fas fa-heart", // Font Awesome Icon Class
+        root: 0,
+        link: [
+          {
+            displayname: "Anime",
+            link: "Anime",
+            faIcon: "fas fa-heart",
+          },
+          {
+            displayname: "Movies",
+            link: "Movies",
+            faIcon: "fas fa-video",
+          },
+          {
+            displayname: "TV Series",
+            link: "Series",
+            faIcon: "fas fa-tv",
+          },
+          {
+            displayname: "Courses",
+            link: "Courses",
+            faIcon: "fas fa-glasses",
+          },
+          {
+            displayname: "Music",
+            link: "Music",
+            faIcon: "fas fa-play",
+          },
+        ],
       },
-      {
-        displayname: "The Cinema :-)",
-        link: "Movies",
-        faIcon: "fas fa-video",
-      },
-      {
-        displayname: "TV Series",
-        link: "Series",
-        faIcon: "fas fa-tv",
-      },
-      {
-        displayname: "Courses",
-        link: "Courses",
-        faIcon: "fas fa-glasses",
-      },
-      {
-        displayname: "Music",
-        link: "Music",
-        faIcon: "fas fa-play",
-      }
-    ]
+    ];
 var routes = {
   checkEmail: authConfig.backendSite + '/checkmail',
   loginRoute: authConfig.backendSite + '/login',
@@ -235,9 +259,8 @@ function html(current_drive_order = 0, model = {}) {
     window.quickLinks = JSON.parse('${JSON.stringify(
       quickLinks.map((it) => {
         var links = {
-          displayname: it.displayname,
-          link: it.link,
-          faIcon: it.faIcon,
+          root: it.root,
+          link: it.link
         }
         return links;
       })
@@ -245,9 +268,7 @@ function html(current_drive_order = 0, model = {}) {
     window.mainHeroLinks = JSON.parse(
       '${JSON.stringify(mainhero.map((hero) => {
         const heroData = {
-          name: hero.name,
-          poster: hero.poster,
-          subtitle: hero.subtitle,
+          root: hero.root,
           link: hero.link
         }
         return heroData;
@@ -256,8 +277,8 @@ function html(current_drive_order = 0, model = {}) {
     window.trendingPosterLinks = JSON.parse(
       '${JSON.stringify(trendingPosters.map((poster) => {
         const posterData = {
-          poster: poster.poster,
-          link: poster.link,
+          root: poster.root,
+          link: poster.link
         }
         return posterData;
       }))}'
@@ -265,9 +286,8 @@ function html(current_drive_order = 0, model = {}) {
     window.homeCategories = JSON.parse(
       '${JSON.stringify(categories.map((category) => {
         const categoryData = {
-          name: category.name,
-          poster: category.poster,
-          link: category.link,
+          root: category.root,
+          link: category.link
         }
         return categoryData;
       }))}'

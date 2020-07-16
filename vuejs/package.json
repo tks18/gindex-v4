@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.7.3",
-  "g2index": "7.7.3",
+  "version": "7.7.4",
+  "g2index": "7.7.4",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -22,7 +22,7 @@
     "feb-alive": "^1.0.9",
     "js-base64": "^2.6.1",
     "js-cookie": "^2.2.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lowdb": "^1.0.0",
     "markdown-it": "^11.0.0",
     "marked": "^1.1.0",
