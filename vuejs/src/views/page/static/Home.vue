@@ -25,8 +25,8 @@
         <div class="loading">
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
-         <div v-show="logged" class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
-           <div v-for="(hero, index) in filterMainArr" v-bind:key="index" class="column is-full mx-0 px-0 mt-0 pt-0">
+         <div v-show="logged && netflix" class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
+           <div v-for="(hero, index) in mainhero" v-bind:key="index" class="column is-full mx-0 px-0 mt-0 pt-0">
              <section class="hero is-fullheight mx-0 px-0" :style="'background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
               <div class="hero-body">
                 <div class="container">
@@ -58,15 +58,15 @@
                </div>
                <div class="column pr-4 mr-4 is-half has-text-centered">
                  <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
-                   <i class="fas fa-arrow-alt-circle-left" @click="scroll_left('.trending-block')"></i>
+                   <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('trend')"></i>
                  </span>
                  <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
-                   <i class="fas fa-arrow-alt-circle-right" @click="scroll_right('.trending-block')"></i>
+                   <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('trend')"></i>
                  </span>
                </div>
              </div>
-             <div class="trending-block">
-               <div v-for="(trend, index) in filterTrendArr" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
+             <div class="trending-block" ref="trend">
+               <div v-for="(trend, index) in trending" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
                </div>
              </div>
            </div>
@@ -79,22 +79,96 @@
                </div>
                <div class="column pr-4 mr-4 is-half has-text-centered">
                  <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
-                   <i class="fas fa-arrow-alt-circle-left" @click="scroll_left('.category-block')"></i>
+                   <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('cat')"></i>
                  </span>
                  <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
-                   <i class="fas fa-arrow-alt-circle-right" @click="scroll_right('.category-block')"></i>
+                   <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('cat')"></i>
                  </span>
                </div>
              </div>
-             <div class="category-block">
-               <div v-for="(cat, index) in filterCatArr" v-bind:key="index" @click="gotoPage('/'+cat.link+'/')" class="cat-link" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
+             <div class="category-block" ref="cat">
+               <div v-for="(cat, index) in category" v-bind:key="index" @click="gotoPage('/'+cat.link+'/')" class="cat-link" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
                  <h1 class="title is-4 has-text-centered has-text-white has-text-weight-bold" style="display: flex;align-items: baseline;">
                    {{ cat.name }}
                  </h1>
                </div>
              </div>
            </div>
-         </diV>
+         </div>
+         <div v-if="logged && !netflix" class="tags-has-addons mt-3">
+           <div class="container has-text-white is-fluid">
+             <h1 class="title has-text-white has-text-centered">Hey There, Whaat up? <p class="has-text-info is-italic has-text-weight-bold is-family-monospace">{{ user.name }}</p></h1>
+            <div class="tile is-ancestor has-text-centered">
+              <div class="tile is-6 is-vertical is-parent">
+                <div class="tile is-child notification is-primary box">
+                  <p class="title has-text-dark">Currently You are..</p>
+                  <div class="content">
+                    <p class="subtitle">{{ user.role }}</p>
+                    <p v-if="logged && admin && superadmin" class="has-text-black is-italic has-text-weight-semibold is-family-monospace">You have Maximum Access to this Website</p>
+                    <button v-if="logged && !superadmin && !admin" class="button is-danger is-light mb-3" @click="gotoPage('/request/', 'register')">Request Admin Access</button>
+                    <button v-if="logged && admin && !superadmin" class="button is-danger is-light" @click="gotoPage('/request/', 'register')">Request Super Admin Access</button>
+                  </div>
+                </div>
+                <div class="tile is-child notification is-warning box">
+                  <p class="title">Your Email..</p>
+                  <div class="content">
+                    <p class="subtitle">{{ user.email }}</p>
+                    <button v-if="logged" class="button is-danger is-light" @click="gotoPage('/changepassword/', 'settings')">
+                      <span class="icon is-small">
+                        <i class="fas fa-cog"></i>
+                      </span>
+                      <span>Change Your Password</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="tile is-parent is-vertical">
+                <div class="tile is-child notification is-success box">
+                  <p class="title">Quick Access</p>
+                  <div v-if="logged" class="columns is-multiline is-vcentered is-centered">
+                    <div v-for="(link, index) in quickLinks" class="column is-half" v-bind:key="index">
+                      <button class="button is-success is-light" @click="gotoPage('/'+ link.link +'/')">
+                        <span class="icon is-small">
+                          <i :class="link.faIcon"></i>
+                        </span>
+                        <span>{{ link.displayname }}</span>
+                      </button>
+                    </div>
+                    <div v-if="logged" class="column is-half">
+                      <button class="button is-success is-light"  @click="gotoPage('/')">
+                        <span class="icon is-small">
+                          <i class="fas fa-folder-open"></i>
+                        </span>
+                        <span>Go to Drive</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tile is-child notification is-danger box">
+                  <p class="title">Personal</p>
+                  <div class="columns is-multiline is-vcentered is-centered">
+                    <div v-if="logged" class="column is-half">
+                      <button class="button is-danger is-light" @click="gotoPage('/', 'settings')">
+                        <span class="icon is-small">
+                          <i class="fas fa-user-cog"></i>
+                        </span>
+                        <span>Go to my Settings</span>
+                      </button>
+                    </div>
+                    <div v-if="logged && admin" class="column is-half">
+                      <button class="button is-danger is-light" @click="gotoPage('/', 'admin')">
+                        <span class="icon is-small">
+                          <i class="fas fa-users-cog"></i>
+                        </span>
+                        <span>Your Admin Panel</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <section v-show="!logged" :class="ismobile ? 'hero is-fullheight px-0' : 'hero is-fullheight'">
           <div class="hero-body">
             <div :class="ismobile ? 'container has-text-white is-fluid px-0'  : 'container has-text-white is-fluid'">
@@ -162,6 +236,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 user: {},
                 token: {},
                 gds: [],
+                netflix: true,
                 mainhero: {},
                 trending: [],
                 category: [],
@@ -204,20 +279,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           },
           shuffle(array) {
             var currentIndex = array.length, temporaryValue, randomIndex;
-
-            // While there remain elements to shuffle...
             while (0 !== currentIndex) {
-
-              // Pick a remaining element...
               randomIndex = Math.floor(Math.random() * currentIndex);
               currentIndex -= 1;
-
-              // And swap it with the current element.
               temporaryValue = array[currentIndex];
               array[currentIndex] = array[randomIndex];
               array[randomIndex] = temporaryValue;
             }
-
             return array
           },
           verifyEmail(e) {
@@ -259,13 +327,35 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               })
             }
           },
-          scroll_left(func) {
-            let content = document.querySelector(func);
-            content.scrollLeft -= 200;
+          scrollTo(element, scrollPixels, duration) {
+            const scrollPos = element.scrollLeft;
+            if ( !( (scrollPos === 0 || scrollPixels > 0) && (element.clientWidth + scrollPos === element.scrollWidth || scrollPixels < 0)))
+            {
+              const startTime =
+                "now" in window.performance
+                  ? performance.now()
+                  : new Date().getTime();
+
+              function scroll(timestamp) {
+                const timeElapsed = timestamp - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                element.scrollLeft = scrollPos + scrollPixels * progress;
+                if (timeElapsed < duration) {
+                  window.requestAnimationFrame(scroll);
+                } else {
+                  return;
+                }
+              }
+              window.requestAnimationFrame(scroll);
+            }
           },
-          scroll_right(func) {
-            let content = document.querySelector(func);
-            content.scrollLeft += 200;
+          swipeLeft(func) {
+            const content = "this.$refs."+func;
+            this.scrollTo(eval(content), -300, 400);
+          },
+          swipeRight(func) {
+            const content = "this.$refs."+func;
+            this.scrollTo(eval(content), 300, 400);
           },
           validateData(){
             const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
@@ -274,13 +364,24 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             } else {
               this.disabled = true;
             }
+          },
+          filterArrSlice(array){
+            return this.shuffle(array.filter((arr) => {
+              return arr.root == this.currgd.id
+            })[0].link).slice(0,1)
+          },
+          filterArr(array) {
+            return this.shuffle(array.filter((arr) => {
+              return arr.root == this.currgd.id
+            })[0].link)
           }
         },
         beforeMount() {
-          this.mainhero = window.mainHeroLinks;
-          this.trending = window.trendingPosterLinks;
-          this.category = window.homeCategories;
-          this.quickLinks = window.quickLinks;
+          this.netflix = window.themeOptions.netflix_home;
+          this.mainhero = this.filterArrSlice(window.mainHeroLinks);
+          this.trending = this.filterArr(window.trendingPosterLinks);
+          this.category = this.filterArr(window.homeCategories);
+          this.quickLinks = this.filterArr(window.quickLinks);
           this.assignUserInfo();
         },
         mounted() {
@@ -323,21 +424,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               return true
             }
           },
-          filterMainArr() {
-            return this.shuffle(this.mainhero.filter((arr) => {
-              return arr.root == this.currgd.id
-            })[0].link).slice(0,1)
-          },
-          filterTrendArr() {
-            return this.shuffle(this.trending.filter((arr) => {
-              return arr.root == this.currgd.id
-            })[0].link)
-          },
-          filterCatArr() {
-            return this.shuffle(this.category.filter((arr) => {
-              return arr.root == this.currgd.id
-            })[0].link)
-          }
         },
         watch: {
           email: "validateData"

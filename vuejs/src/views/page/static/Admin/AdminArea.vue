@@ -53,10 +53,10 @@
           <div class="box has-background-light">
             <div class="columns is-centered is-multiline is-mobile">
               <h2 class="title has-text-centered has-text-weight-bold">Related to Existing Users</h2>
-              <div class="column is-7">
+              <div class="column is-two-thirds">
                 <p class="subtitle has-text-weight-bold">Manage Existing Users</p>
               </div>
-              <div class="column has-text-centered is-5">
+              <div class="column has-text-centered is-one-third">
                 <button class="button is-rounded is-danger" @click="gotoPage('/manage', 'admin')">
                   <span class="icon is-small">
                     <i class="fas fa-user-plus"></i>
@@ -64,10 +64,10 @@
                   <span>Manage</span>
                 </button>
               </div>
-              <div class="column is-7">
+              <div class="column is-two-thirds">
                 <p class="subtitle has-text-weight-bold">Manage Spam Users</p>
               </div>
-              <div class="column has-text-centered is-5">
+              <div class="column has-text-centered is-one-third">
                 <button class="button is-rounded is-danger" @click="gotoPage('/spam', 'admin')">
                   <span class="icon is-small">
                     <i class="fas fa-hand-paper"></i>

@@ -29,6 +29,7 @@
       <div
         v-show="loading"
         class="has-text-centered no-content"
+        :style="'background: url('+loadImage+') no-repeat 50% 50%;height: 240px;line-height: 240px;text-align: center;margin-top: 20px;'"
       ></div>
     </div>
     <div
@@ -88,6 +89,7 @@ export default {
     return {
       infiniteId: +new Date(),
       loading: true,
+      loadImage: "",
       page: {
         page_token: null,
         page_index: 0,
@@ -132,6 +134,11 @@ export default {
     };
   },
   mounted() {
+    if(window.themeOptions.loading_image){
+      this.loadImage = window.themeOptions.loading_image;
+    } else {
+      this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
+    }
     if(window.themeOptions.render.readme_md){
       this.readmeLink = window.themeOptions.render.readme_md_link;
     } else {

@@ -39,6 +39,9 @@
     };
     var themeOptions = {
       languages: 'en',
+      netflix_home: true, //If True Dont Forget to Fill in all the Required Details
+      prefer_netflix_black: false,
+      loading_image: "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif", // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
       footer_data: {
         copyright: true,
         disclaimer: true,
@@ -155,27 +158,22 @@
               {
                 displayname: "Anime", // Name to Display
                 link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
-                faIcon: "fas fa-heart", // Font Awesome Icon Class
               },
               {
                 displayname: "Movies",
                 link: "Movies",
-                faIcon: "fas fa-video",
               },
               {
                 displayname: "TV Series",
                 link: "Series",
-                faIcon: "fas fa-tv",
               },
               {
                 displayname: "Courses",
                 link: "Courses",
-                faIcon: "fas fa-glasses",
               },
               {
                 displayname: "Music",
                 link: "Music",
-                faIcon: "fas fa-play",
               },
             ],
           },
@@ -248,7 +246,6 @@
         return posterData;
       }))
     );
-    console.log(window.trendingPosterLinks)
     window.homeCategories = JSON.parse(
       JSON.stringify(categories.map((category) => {
         const categoryData = {

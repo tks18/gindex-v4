@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar has-background-black" role="navigation" aria-label="main navigation" :style="{background: navbarStyle}">
+  <nav class="navbar" role="navigation" aria-label="main navigation" :style=" netflix_black ? 'background-color: #222222' : 'background-color: black;'">
     <div class="container">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
@@ -207,6 +207,7 @@ export default {
       currgd: {},
       loading: false,
       navbarStyle: "",
+      netflix_black: false,
       mouseover: false,
       backgroundClass: "",
       fullpage: true,
@@ -323,6 +324,7 @@ export default {
     }
   },
   mounted() {
+    this.netflix_black = window.themeOptions.prefer_netflix_black
     this.quicklinks = window.quickLinks.filter((links) => {
       return links.root == this.gdindex
     })[0].link;
