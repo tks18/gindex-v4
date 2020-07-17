@@ -138,29 +138,24 @@ var quickLinks = [
         root: 0,
         link: [
           {
-            displayname: "Anime",
-            link: "Anime",
-            faIcon: "fas fa-heart",
+            displayname: "Anime", // Name to Display
+            link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
           },
           {
             displayname: "Movies",
             link: "Movies",
-            faIcon: "fas fa-video",
           },
           {
             displayname: "TV Series",
             link: "Series",
-            faIcon: "fas fa-tv",
           },
           {
             displayname: "Courses",
             link: "Courses",
-            faIcon: "fas fa-glasses",
           },
           {
             displayname: "Music",
             link: "Music",
-            faIcon: "fas fa-play",
           },
         ],
       },

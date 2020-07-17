@@ -40,29 +40,28 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 0px;
-  background-color: none;
+  width: 4px;
+  background-color: black;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: none;
+  box-shadow: inset 0 0 5px grey;
   border-radius: none;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: none;
-  border-radius: none;
+  background: #E50914;
+  border-radius: 10px;
 }
 
 html {
-  background-color: #222222;
+  background-color: black;
   font-size: 14px;
 }
 
 .navbar {
-  background: linear-gradient(to bottom, #222222, #00000000);
   .container {
     max-width: 95%;
   }
@@ -80,7 +79,7 @@ html {
     background: none;
   }
   .search-input {
-    background-color: #222222;
+    background-color: black;
     border-color: #272727;
     color:#e50914;
   }
@@ -101,7 +100,7 @@ html {
 }
 
 .navbar-dropdown{
-  background-color: #222222;
+  background-color: black;
 }
 
 .navbar-active {
@@ -160,7 +159,7 @@ body {
 
     &:hover {
       background-color: white;
-      color: #222222;
+      color: black;
     }
 
     &.icon {
@@ -241,7 +240,7 @@ body {
 
 .video-content {
   width: 100%;
-  background-color: #222222;
+  background-color: black;
   position: relative;
   padding-bottom: 2%;
 
@@ -257,18 +256,18 @@ body {
   text-align: center;
   width: 100%;
   padding: 5%;
-  background-color: #222222;
+  background-color: black;
   border: 1px solid #E50914;
 }
 
 .audio-card:hover {
-  border: 1px solid #222222;
+  border: 1px solid black;
 }
 
 //search bar
 .search-input,
 .search-input::-webkit-input-placeholder {
-  color: #222222;
+  color: black;
 }
 
 .golist {
@@ -298,7 +297,7 @@ body {
   }
 
   .pageloader::after {
-    border: 0 solid #222222;
+    border: 0 solid black;
   }
 }
 
@@ -349,17 +348,17 @@ body {
 
 .is-divider-vertical[data-content]::after,
 .is-divider[data-content]::after {
-  color: #222222;
+  color: black;
   background-color: #E50914;
 }
 
 .card-header-title {
   color: #E50914;
-  background-color: #222222;
+  background-color: black;
 }
 
 .card-content {
-  background-color: #222222;
+  background-color: black;
   color: #E50914;
   font-weight: bold;
 }
@@ -370,7 +369,7 @@ body {
 
 .download-link {
   border: 1px solid #E50914;
-  background-color: #222222;
+  background-color: black;
   color: #E50914;
 }
 
@@ -406,7 +405,7 @@ body {
 
 #copy-url {
   padding: 10px;
-  background-color: #222222;
+  background-color: black;
   border: 1px solid #E50914;
   margin: 10px;
   color: #E50914;
@@ -416,7 +415,7 @@ body {
 }
 
 #copy-url:hover {
-  border: 1px solid #222222;
+  border: 1px solid black;
   color: #E50914;
 }
 
@@ -435,7 +434,7 @@ body {
 
 .download-button {
   padding: 10px;
-  background-color: #222222;
+  background-color: black;
   border: 1px solid #E50914;
   margin: 10px;
   color: #E50914;
@@ -445,7 +444,7 @@ body {
 }
 
 .download-button:hover {
-  border: 1px solid #222222;
+  border: 1px solid black;
   color: #E50914;
 }
 
@@ -502,14 +501,14 @@ body {
   }
   input {
     margin: 5px;
-    background-color: #222222;
+    background-color: black;
     border: 1px solid #E50914;
     color: #E50914;
     font-family: monospace;
     font-size: 17px;
   }
   input:hover {
-    background-color: #222222;
+    background-color: black;
   }
   .login-button {
     background-color: #b6eb7a;
@@ -559,14 +558,14 @@ body {
   }
   input,textarea {
     margin: 5px;
-    background-color: #222222;
+    background-color: black;
     border: 1px solid #E50914;
     color: #E50914;
     font-family: monospace;
     font-size: 18px;
   }
   input:hover,textarea:hover {
-    background-color: #222222;
+    background-color: black;
   }
   .guidelines {
     color: #E50914;
@@ -589,7 +588,7 @@ body {
   .registration-top-buttons {
     margin: 5px;
     background-color: #ffe8df;
-    color: #222222;
+    color: black;
     border: none;
     padding: 5px;
     border-radius: 0.5rem;
@@ -609,13 +608,13 @@ body {
   .top-buttons {
     margin: 5px;
     background-color: #ffe8df;
-    color: #222222;
+    color: black;
     border: none;
     padding: 5px;
     border-radius: 0.5rem;
   }
   .top-buttons:hover {
-    background-color: #222222;
+    background-color: black;
     color:white;
     border: 1px solid #E50914;
   }
@@ -644,7 +643,7 @@ body {
         color: white;
       }
       a:hover {
-        color: #222222;
+        color: black;
       }
     }
     h3,p {
@@ -685,7 +684,7 @@ body {
       }
     }
     .scope-list:hover {
-      background-color: #222222;
+      background-color: black;
       color: white;
     }
   }
@@ -704,7 +703,7 @@ body {
 .pendingusers {
   .getuserbutton {
     color: #E50914;
-    background-color: #222222;
+    background-color: black;
     padding: 5px;
     border-radius: 0.5rem;
     border: 2px solid #E50914;
@@ -815,7 +814,7 @@ body {
 th {
   color: white;
   &:hover {
-    color: #222222;
+    color: black;
   }
 }
 
@@ -865,8 +864,12 @@ th {
 }
 
 .trending-block {
-  overflow: auto;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
   .trend-link {
     display: inline-block;
     box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
@@ -881,8 +884,12 @@ th {
 }
 
 .category-block {
-  overflow: auto;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
   .cat-link {
     display: inline-block;
     width: 250px;
