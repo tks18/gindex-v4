@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.7.2",
+  version: "v7.7.5",
   github_name: "tks18",
   github_repo: "gindex-v4",
   favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico",
@@ -24,6 +24,9 @@ var authConfig = {
 };
 var themeOptions = {
   languages: 'en',
+  netflix_home: true, //If True Dont Forget to Fill in all the Required Details
+  prefer_netflix_black: false,
+  loading_image: "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif", // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
   footer_data: {
     copyright: true,
     disclaimer: true,
