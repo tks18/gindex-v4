@@ -61,7 +61,6 @@ router.beforeEach( (to, from, next) => {
         if(to.matched.some(record => record.meta.hybrid)){
           next();
         } else {
-          localStorage.removeItem("hybridToken");
           next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page. Login to Continue", redirectUrl: '/', tocmd: 'login' } });
         }
       } else {
