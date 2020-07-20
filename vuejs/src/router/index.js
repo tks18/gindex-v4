@@ -50,11 +50,25 @@ router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
   const token = localStorage.getItem("tokendata");
   const user = localStorage.getItem("userdata");
+  const hyBridToken = localStorage.getItem("hybridToken");
   if(to.matched.some(record => record.meta.redirect)){
     next({path:'/0:home/'})
   }
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(token != null && user != null){
+    if(hyBridToken && hyBridToken != null || hyBridToken != undefined) {
+      const hybridData = JSON.parse(Crypto.AES.decrypt(hyBridToken, secret.pass).toString(Crypto.enc.Utf8))
+      if(hybridData.user){
+        if(to.matched.some(record => record.meta.hybrid)){
+          next();
+        } else {
+          localStorage.removeItem("hybridToken");
+          next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page. Login to Continue", redirectUrl: '/', tocmd: 'login' } });
+        }
+      } else {
+        localStorage.removeItem("hybridToken");
+        next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: to.fullPath, data: "Not Authorized" } });
+      }
+    } else if(token != null && user != null){
       const tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
       const userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
       axios.post(window.apiRoutes.verifyRoute, {

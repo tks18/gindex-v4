@@ -30,7 +30,19 @@ export default {
       this.loading = true;
       var token = localStorage.getItem("tokendata");
       var user = localStorage.getItem("userdata");
-      if (user != null && token != null){
+      var hyBridToken = localStorage.getItem("hybridToken");
+      console.log(hyBridToken);
+      if(hyBridToken && hyBridToken != null || hyBridToken != undefined){
+        const hybridData = JSON.parse(this.$hash.AES.decrypt(hyBridToken, this.$pass).toString(this.$hash.enc.Utf8))
+        console.log(hybridData);
+        if(hybridData.user){
+          this.logged = true;
+        } else {
+          this.logged = false;
+          localStorage.removeItem("hybridToken");
+          this.gotoPage("/", "login")
+        }
+      } else if (user != null && token != null){
         var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
         if(userData.email){
           this.logged = true;

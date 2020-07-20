@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import ElementUI from "element-ui";
+import bcrypt from 'bcryptjs';
 import "element-ui/lib/theme-chalk/icon.css";
 import "element-ui/lib/theme-chalk/notification.css";
 import "element-ui/lib/theme-chalk/loading.css";
@@ -13,7 +14,6 @@ import Crypto from "crypto-js";
 import secret from "../secret";
 import i18n from "./i18n";
 import VuePlyr from "vue-plyr"
-// store
 import store from "@/store/index";
 import VueClipboard from "vue-clipboard2";
 import VueLazyload from "vue-lazyload";
@@ -24,6 +24,7 @@ import "viewerjs/dist/viewer.css";
 import "@/assets/style/theme/register.scss";
 
 Vue.prototype.$hash = Crypto;
+Vue.prototype.$saltIt = bcrypt;
 Vue.prototype.$pass = secret.pass;
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
