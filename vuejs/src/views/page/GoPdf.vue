@@ -12,6 +12,11 @@ export default {
   data: function() {
     return {};
   },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem("hybridToken");
+    });
+  },
   computed: {
     url() {
       if (this.$route.params.path) {

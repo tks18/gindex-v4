@@ -1,7 +1,8 @@
 // =======Options START=======
 var authConfig = {
   siteName: "Glory to Heaven",
-  version: "v7.7.5",
+  hybridpass: "Copy Hybrid Password Generated from Backend",
+  version: "v7.7.6",
   github_name: "tks18",
   github_repo: "gindex-v4",
   favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico",
@@ -137,32 +138,37 @@ var trendingPosters = [
   },
 ];
 var quickLinks = [
+  {
+    root: 0,
+    link: [
       {
-        root: 0,
-        link: [
-          {
-            displayname: "Anime", // Name to Display
-            link: "Anime", // Note: This is Case Sensitive .Give Drive Folder Name Here from Default Drive.
-          },
-          {
-            displayname: "Movies",
-            link: "Movies",
-          },
-          {
-            displayname: "TV Series",
-            link: "Series",
-          },
-          {
-            displayname: "Courses",
-            link: "Courses",
-          },
-          {
-            displayname: "Music",
-            link: "Music",
-          },
-        ],
+        displayname: "Anime",
+        link: "Anime",
+        faIcon: "fas fa-heart",
       },
-    ];
+      {
+        displayname: "Movies",
+        link: "Movies",
+        faIcon: "fas fa-video",
+      },
+      {
+        displayname: "TV Series",
+        link: "Series",
+        faIcon: "fas fa-tv",
+      },
+      {
+        displayname: "Courses",
+        link: "Courses",
+        faIcon: "fas fa-glasses",
+      },
+      {
+        displayname: "Music",
+        link: "Music",
+        faIcon: "fas fa-play",
+      },
+    ],
+  },
+];
 var routes = {
   checkEmail: authConfig.backendSite + '/checkmail',
   loginRoute: authConfig.backendSite + '/login',
@@ -295,6 +301,7 @@ function html(current_drive_order = 0, model = {}) {
     window.gds = JSON.parse('${JSON.stringify(
       authConfig.roots.map((it) => it.name)
     )}');
+    window.gdHybridPass = ${authConfig.hybridpass};
     window.MODEL = JSON.parse('${JSON.stringify(model)}');
     window.current_drive_order = ${current_drive_order};
   </script>

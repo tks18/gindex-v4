@@ -182,6 +182,14 @@
                       Get Started Now !
                     </h1>
                   </div>
+                  <div :class="ismobile ? 'column is-full'  : 'column is-full'">
+                    <button class="button is-warning" @click="gotoPage('/', 'login')">
+                      <span>Hybrid Login</span>
+                      <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </h1>
               <form @submit.prevent="verifyEmail">
@@ -265,7 +273,22 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.loading = true;
             var token = localStorage.getItem("tokendata");
             var user = localStorage.getItem("userdata");
-            if (user != null && token != null){
+            var hyBridToken = localStorage.getItem("hybridToken");
+            console.log(hyBridToken);
+            if(hyBridToken && hyBridToken != null || hyBridToken != undefined){
+              const hybridData = JSON.parse(this.$hash.AES.decrypt(hyBridToken, this.$pass).toString(this.$hash.enc.Utf8))
+              console.log(hybridData);
+              if(hybridData.user){
+                this.user = hybridData;
+                this.logged = true;
+                this.loading = false;
+              } else {
+                this.logged = false;
+                this.loading = false;
+                localStorage.removeItem("hybridToken");
+                this.gotoPage("/", "login")
+              }
+            } else if (user != null && token != null){
               var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
               var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
               this.user = userData;
@@ -323,7 +346,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               }).catch(error => {
                 this.loading = false;
                 this.$bus.$emit('verified', 'User Verified')
-                this.$router.push({ name: 'results', params: { cmd: 'result', id: 0, noredirect: true, success: false, error: error, data: "There's Some Error With Your Network. Please Try Again Later." } })
+                console.log(error);
+                this.$router.push({ name: 'login', params: { cmd: 'login', id:0, email: this.email } })
               })
             }
           },
@@ -394,6 +418,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         created() {
+          window.addEventListener('beforeunload', () => {
+            localStorage.removeItem("hybridToken");
+          });
           if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {

@@ -135,6 +135,7 @@
         <div
           v-show="loading"
           class="has-text-centered no-content"
+          :style="'background: url('+loadImage+') no-repeat 50% 50%;height: 240px;line-height: 240px;text-align: center;margin-top: 20px;'"
           >
         </div>
       </div>
@@ -167,6 +168,7 @@ export default {
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
       videoname: "",
+      loadImage: "",
       page: {
         page_token: null,
         page_index: 0,
@@ -181,6 +183,11 @@ export default {
         "video/webm": "icon-webm",
       },
     };
+  },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem("hybridToken");
+    });
   },
   methods: {
     infiniteHandler($state) {
@@ -420,6 +427,11 @@ export default {
     },
   },
   mounted() {
+    if(window.themeOptions.loading_image){
+      this.loadImage = window.themeOptions.loading_image;
+    } else {
+      this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
+    }
     this.player = this.$refs.plyr.player
     this.videoname = this.url.split('/').pop();
   },

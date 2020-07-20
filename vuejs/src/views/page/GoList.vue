@@ -174,6 +174,9 @@ export default {
   },
   created() {
     this.render();
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem("hybridToken");
+    });
   },
   methods: {
     infiniteHandler($state) {
