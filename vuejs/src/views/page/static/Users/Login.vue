@@ -21,6 +21,34 @@
                         <div class="content">
                             <p class="has-text-dark has-text-weight-semibold">Login to this Website to Continue.</p>
                             <p class="has-text-dark">You are Just a Page from Experiencing the Glory.</p>
+                            <button class="button mb-3" @click="hyInput = !hyInput">
+                              <span class="icon">
+                                <i class="fas fa-dolly"></i>
+                              </span>
+                              <span>Hybrid Login</span>
+                            </button>
+                            <form @submit.prevent="handleHybrid" v-show="hyInput">
+                              <div class="columns is-mobile is-centered is-multiline is-vcentered">
+                                <div class="column is-four-fifths">
+                                  <div class="field">
+                                    <p class="control has-icons-left">
+                                      <input class="input is-rounded" id="hypassword" type="password" placeholder="Enter Your Hybrid Password" v-model="hypassword" required>
+                                      <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="column is-one-fifth">
+                                  <button class="button is-danger">
+                                    <span class="icon">
+                                      <i class="fas fa-sign-in-alt"></i>
+                                    </span>
+                                    <span class="is-hidden-mobile">Login</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
                         </div>
                       </article>
                     </div>
@@ -52,7 +80,7 @@
             <form @submit.prevent="handleSubmit">
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input is-rounded" placeholder="Email" id="email" type="email" v-model="email" required :autofocus="emailFocus">
+                  <input class="input is-rounded" placeholder="Email" id="logemail" type="email" v-model="email" required autofocus>
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -63,7 +91,7 @@
               </div>
               <div class="field">
                 <p class="control has-icons-left">
-                  <input class="input is-rounded" id="password" type="password" placeholder="Password" v-model="password" required :autofocus="passwordFocus">
+                  <input class="input is-rounded" id="logpassword" type="password" placeholder="Password" v-model="password" required>
                   <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                   </span>
@@ -91,9 +119,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             return {
                 email : "",
                 password : "",
+                hypassword: "",
                 disabled: true,
                 emailFocus: true,
                 gds: [],
+                hyInput: false,
                 currgd: {},
                 passwordFocus: false,
                 resultmessage: "",
@@ -145,6 +175,49 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     });
                 }
             },
+            async handleHybrid() {
+              this.loading = true;
+              console.log(this.hypassword);
+              const hyBridpass = window.gdHybridPass;
+              var synced = await this.$saltIt.compareSync(this.hypassword, hyBridpass)
+              if(synced){
+                console.log(synced);
+                const hybridData = {
+                  user: true,
+                  name: "Anon",
+                  email: "anonymous@gmail.com",
+                  registeredDate: Date.now(),
+                  role: "User",
+                  admin: false,
+                  superadmin: false,
+                  verified: true
+                }
+                await localStorage.setItem("hybridToken", this.$hash.AES.encrypt(JSON.stringify( hybridData ), this.$pass).toString());
+                var dataFromLocal = await JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("hybridToken"), this.$pass).toString(this.$hash.enc.Utf8));
+                if(dataFromLocal.user){
+                  console.log("Super Pa")
+                  console.log(localStorage.getItem("hybridToken"));
+                  this.loading = false;
+                  this.errormessageVisibility = false;
+                  this.successmessageVisibility = true;
+                  this.resultmessage = `Logged in Successfully as Guest User.You will Log Out after this Browser Session.`;
+                  this.$bus.$emit('logged', 'User Logged');
+                  setTimeout(() => {
+                    this.$router.push({name: "results", params: { id: this.currgd.id, cmd: "result", success: true, tocmd: 'home', data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/' }})
+                  }, 500)
+                } else {
+                  this.loading = false;
+                  this.errormessageVisibility = true;
+                  this.successmessageVisibility = false;
+                  this.resultmessage = `Hybrid Password is Wrong`;
+                }
+              } else {
+                this.loading = false;
+                this.errormessageVisibility = true;
+                this.successmessageVisibility = false;
+                this.resultmessage = `Hybrid Password is Wrong`;
+              }
+            },
             checkParams() {
               console.log("checked")
               if(this.$route.params.email){
@@ -155,7 +228,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.emailFocus = true;
                 this.passwordFocus = false;
               }
-            }
+            },
+            validateData(){
+              const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
+              if(emailRegex.test(this.email) && this.password.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            },
         },
         computed: {
           ismobile() {
@@ -171,7 +252,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.checkParams();
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
+          window.addEventListener('beforeunload', () => {
+            localStorage.removeItem("hybridToken");
+          });
+          if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
                 name: item,
@@ -179,20 +263,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               };
             });
             let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
+            if (this.gds) {
               this.currgd = this.gds[index];
             }
           }
         },
         watch: {
-          password: function() {
-            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
-            if(emailRegex.test(this.email) && this.password.length > 0){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          },
+          email: "validateData",
+          password: "validateData",
         },
     }
 </script>

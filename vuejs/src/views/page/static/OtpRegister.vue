@@ -72,7 +72,7 @@
               </div>
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input is-rounded" placeholder="Enter Your OTP" id="otp" type="text" v-model="otp" required>
+                  <input class="input is-rounded" placeholder="Enter Your OTP" id="otp" type="text" v-model="otp" autofocus>
                   <span class="icon is-small is-left">
                     <i class="fas fa-key"></i>
                   </span>
@@ -185,12 +185,23 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.emailFocus = true;
                 this.otpFocus = false;
               }
-            }
+            },
+            validateData(){
+              const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
+              if(emailRegex.test(this.email) && this.otp.length > 0 && this.password.length > 0 && this.password == this.confirmpassword){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            },
         },
         mounted() {
           this.checkParams();
         },
         created() {
+          window.addEventListener('beforeunload', () => {
+            localStorage.removeItem("hybridToken");
+          });
           if (window.gds && window.gds.length > 0) {
             this.gds = window.gds.map((item, index) => {
               return {
@@ -205,14 +216,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         watch: {
-          confirmpassword: function() {
-            const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
-            if(emailRegex.test(this.email) && this.otp.length > 0 && this.password.length > 0 && this.password == this.confirmpassword){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          }
+          otp: "validateData",
+          email: "validateData",
+          password: "validateData",
+          confirmpassword: "validateData"
         },
     }
 </script>

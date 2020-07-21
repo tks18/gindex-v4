@@ -6,12 +6,29 @@
       <div class="columns is-multiline is-centered is-vcentered">
         <div class="column has-text-centered is-half">
           <h2 class="title has-text-weight-bold has-text-white">Invite Users</h2>
-          <p class="subtitle is-small has-text-white has-text-weight-bold">Invite Users using Glory to Heaven Mail Service</p>
           <p class="subtitle is-small has-text-white">(Please Use Considerably As We Have to Incur Mail Costs.)</p>
+          <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
+            <div class="message-header">
+              <p>Error Proccessing</p>
+              <button class="delete" @click="errorMessage = false" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+              {{ resultmessage }}
+            </div>
+          </article>
+          <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
+            <div class="message-header">
+              <p>Success !</p>
+              <button class="delete" @click="successMessage = false" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+              {{ resultmessage }}
+            </div>
+          </article>
           <form @submit.prevent="handleSubmit">
             <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input class="input is-rounded" placeholder="Your Name" id="name" type="text" v-model="name" required autofocus>
+                <input class="input is-rounded" placeholder="Your Name" id="invitename" type="text" v-model="name" required autofocus>
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -94,6 +111,8 @@ export default {
           apiurl: "",
           gds: [],
           currgd: {},
+          successMessage: false,
+          errorMessage: false,
           name : "",
           email : "",
           message: "",
@@ -120,22 +139,38 @@ export default {
                   if(response){
                     if(response.data.auth && response.data.registered){
                       this.loading = false;
+                      this.successMessage = true;
+                      this.errorMessage = false;
                       this.resultmessage = response.data.message
                     } else {
                       this.loading = false;
+                      this.successMessage = false;
+                      this.errorMessage = true;
                       this.resultmessage = response.data.message
                     }
                   }
               })
               .catch(error => {
                   this.resultmessage = error;
+                  this.successMessage = false;
+                  this.errorMessage = true;
               });
             } else {
               this.loading = false;
+              this.successMessage = false;
+              this.errorMessage = true;
               this.resultmessage = "> You Need to Accept Community Guidelines."
               this.checked = false;
             }
         },
+        validateData() {
+          const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
+          if(emailRegex.test(this.email) && this.checked && this.codechecked && this.name.length > 0 && this.email.length > 0 && this.message.length > 0){
+            this.buttondisabled = false;
+          } else {
+            this.buttondisabled = true;
+          }
+        }
     },
     computed: {
       ismobile() {
@@ -174,7 +209,10 @@ export default {
       }
     },
     created() {
-      if (window.gds && window.gds.length > 0) {
+      window.addEventListener('beforeunload', () => {
+        localStorage.removeItem("hybridToken");
+      });
+      if (window.gds) {
         this.gds = window.gds.map((item, index) => {
           return {
             name: item,
@@ -182,7 +220,7 @@ export default {
           };
         });
         let index = this.$route.params.id;
-        if (this.gds && this.gds.length >= index) {
+        if (this.gds) {
           this.currgd = this.gds[index];
         }
       }
@@ -191,20 +229,20 @@ export default {
       role: function() {
         if(this.role == "user"){
           this.apiurl = window.apiRoutes.inviteUser;
+          this.validateData();
         } else if(this.role == "admin"){
           this.apiurl = window.apiRoutes.inviteAdmin;
+          this.validateData();
         } else if(this.role == "superadmin"){
+          this.validateData();
           this.apiurl = window.apiRoutes.inviteSuperAdmin;
         }
       },
-      codechecked: function() {
-        const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
-        if(emailRegex.test(this.email) && this.checked && this.codechecked && this.name.length > 0 && this.email.length > 0 && this.message.length > 0){
-          this.buttondisabled = false;
-        } else {
-          this.buttondisabled = true;
-        }
-      }
+      name: "validateData",
+      email: "validateData",
+      message: "validateData",
+      checked: "validateData",
+      codechecked: "validateData",
     },
   }
 </script>

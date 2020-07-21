@@ -27,8 +27,9 @@
       <div slot="no-results"></div>
     </infinite-loading>
       <div
-        v-show="files.length === 0"
+        v-show="loading"
         class="has-text-centered no-content"
+        :style="'background: url('+loadImage+') no-repeat 50% 50%;height: 240px;line-height: 240px;text-align: center;margin-top: 20px;'"
       ></div>
     </div>
     <div
@@ -88,12 +89,15 @@ export default {
     return {
       infiniteId: +new Date(),
       loading: true,
+      loadImage: "",
       page: {
         page_token: null,
         page_index: 0,
       },
       files: [],
       viewer: false,
+      readmeLink: "",
+      headLink: "",
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
@@ -129,6 +133,23 @@ export default {
       readmemd: { display: false, file: {}, path: "" },
     };
   },
+  mounted() {
+    if(window.themeOptions.loading_image){
+      this.loadImage = window.themeOptions.loading_image;
+    } else {
+      this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
+    }
+    if(window.themeOptions.render.readme_md){
+      this.readmeLink = window.themeOptions.render.readme_md_link;
+    } else {
+      this.readmeLink = "";
+    }
+    if(window.themeOptions.render.head_md){
+      this.headLink = window.themeOptions.render.head_md_link;
+    } else {
+      this.headLink = "";
+    }
+  },
   computed: {
     ...mapState("acrou/view", ["mode"]),
     images() {
@@ -153,6 +174,9 @@ export default {
   },
   created() {
     this.render();
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem("hybridToken");
+    });
   },
   methods: {
     infiniteHandler($state) {
@@ -315,7 +339,6 @@ export default {
     },
     renderMd() {
       var cmd = this.$route.params.cmd;
-      var version = require("../../../package.json").version;
       if (cmd) {
         return;
       }
@@ -323,7 +346,7 @@ export default {
         this.headmd = {
           display: true,
           file: "HEAD.md",
-          path: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v"+version+"/vuejs/dist/HEAD.md",
+          path: this.headLink,
         };
       }
       // README.md
@@ -331,7 +354,7 @@ export default {
         this.readmemd = {
           display: true,
           file: "README.md",
-          path: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v"+version+"/vuejs/dist/README.md",
+          path: this.readmeLink,
         };
       }
     },

@@ -58,16 +58,21 @@
                     </div>
                   </div>
                   <div v-else class="columns is-centered is-mobile" v-for="user in pendingUserList" v-bind:key="user.name">
-                    <div class="column is-two-thirds">
+                    <div class="column is-6">
                       <p class="subtitle has-text-black">{{ user.email }}</p>
                     </div>
-                    <div class="column is-one-third">
+                    <div class="column is-5 has-text-right">
                       <button class="button is-success is-rounded" @click="handleTransport(user, setrole)">
                         <span class="icon is-small">
                           <i class="fas fa-user-plus"></i>
                         </span>
                         <span>Accept</span>
                       </button>
+                    </div>
+                    <div class="column is-1 has-text-centered">
+                      <span class="has-text-danger icon-link" @click="handleDelete(deleteApi, user)">
+                        <i class="fas fa-trash-alt"></i>
+                      </span>
                     </div>
                   </div>
                 </section>
@@ -78,18 +83,18 @@
                 <div class="column is-full">
                   <div class="box has-background-dark">
                     <h3 class="title has-text-weight-bold has-text-white has-text-centered">Pending Users</h3>
-                    <div class="columns is-desktop is-multiline is-vcentered">
+                    <div class="columns is-mobile is-multiline is-vcentered">
                       <div class="column is-two-thirds">
                         <p class="subtitle has-text-weight-semibold has-text-white">
                           Pending Users
                         </p>
                       </div>
-                      <div class="column has-text-centered is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';">
+                      <div class="column is-one-third">
+                        <button class="button is-success" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';deleteApi = 'user'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
-                          <span>Users</span>
+                          <span>Get</span>
                         </button>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
@@ -97,12 +102,12 @@
                           Pending Admins
                         </p>
                       </div>
-                      <div v-if="user.admin && user.superadmin" class="column has-text-centered is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';">
+                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
+                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';deleteApi = 'admin'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
-                          <span>Admins</span>
+                          <span>Get</span>
                         </button>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
@@ -110,12 +115,12 @@
                           Pending Superadmins
                         </p>
                       </div>
-                      <div v-if="user.admin && user.superadmin" class="column has-text-centered is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';">
+                      <div v-if="user.admin && user.superadmin" class="column is-one-third">
+                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';deleteApi = 'superadmin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
-                          <span>Superadmins</span>
+                          <span>Get</span>
                         </button>
                       </div>
                     </div>
@@ -134,7 +139,7 @@
             <div class="message-body">
               <span>Only Pending User and Admin Requests can be Accepted.Use Invite Option to Invite Users.</span>
               <div class="buttons is-centered mt-2">
-                <button class="button is-rounded is-danger" @click="gotoPage('/user/', 'invite')">
+                <button class="button is-rounded is-danger" @click="gotoPage('/', 'invite')">
                   <span class="icon is-small">
                     <i class="fas fa-user-plus"></i>
                   </span>
@@ -206,7 +211,7 @@
             <p v-if="admin && !superadmin" class="help is-warning">Only Superadmin can Accept Admin & Superadmin users</p>
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input is-rounded" id="password" type="password" placeholder="Your Admin Password" v-model="password" required>
+                <input class="input is-rounded" id="password" type="password" placeholder="Your Admin Password" v-model="password" required autofocus>
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
@@ -269,6 +274,7 @@ export default {
                 namedisabled: false,
                 adminmessage: "",
                 disabled: true,
+                deleteApi: "",
                 password : "",
                 apiurl: "",
                 role: "",
@@ -300,7 +306,6 @@ export default {
                 e.preventDefault()
                 if (this.name.length > 0 && this.email.length > 0 && this.password && this.password.length > 0 && this.checked && this.role.length > 0 && this.codechecked)
                 {
-                  console.log(this.apiurl)
                   this.$http.post(this.apiurl, {
                         name: this.name,
                         email: this.email,
@@ -365,6 +370,45 @@ export default {
               } else {
                 this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
               }
+            },
+            validateData() {
+              if(this.name.length > 0 && this.email.length > 0 && this.password && this.password.length > 0 && this.checked && this.role.length > 0 && this.codechecked && this.password.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            },
+            handleDelete(post, user) {
+              this.loading = true;
+              let route = "";
+              let reloadRoute = "";
+              if(post == "user"){
+                route = window.apiRoutes.deletePendingUsers;
+                reloadRoute = this.pendingusers;
+              } else if(post == "admin"){
+                route = window.apiRoutes.deletePendingAdmins;
+                reloadRoute = this.pendingadmin;
+              } else if(post == "superadmin"){
+                reloadRoute = this.pendingsuperadmin;
+                route = window.apiRoutes.deletePendingSuperAdmins;
+              }
+              this.$http.post(route, {
+                email: user.email,
+                adminuseremail: this.user.email
+              }).then(response => {
+                if(response){
+                  if(response.data.auth && response.data.removed){
+                    this.pendingUserList = [];
+                    this.getPendingUsers(reloadRoute);
+                    this.loading = false;
+                  } else {
+                    this.loading = false;
+                    this.modal = true;
+                  }
+                } else {
+                  this.loading = false;
+                }
+              })
             }
         },
         computed: {
@@ -402,7 +446,10 @@ export default {
           }
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
+          window.addEventListener('beforeunload', () => {
+            localStorage.removeItem("hybridToken");
+          });
+          if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
                 name: item,
@@ -410,7 +457,7 @@ export default {
               };
             });
             let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
+            if (this.gds) {
               this.currgd = this.gds[index];
             }
           }
@@ -419,22 +466,24 @@ export default {
           role: function() {
             if(this.role == "admin"){
               this.namedisabled = true;
+              this.validateData();
               this.apiurl = window.apiRoutes.upgradeAdmin
             } else if(this.role == "superadmin"){
               this.namedisabled = true;
+              this.validateData();
               this.apiurl = window.apiRoutes.upgradeSuperAdmin
             } else {
               this.namedisabled = false;
+              this.validateData();
               this.apiurl = window.apiRoutes.registerRoute
             }
           },
-          codechecked: function() {
-            if(this.name.length > 0 && this.email.length > 0 && this.password && this.password.length > 0 && this.checked && this.role.length > 0 && this.codechecked && this.password.length > 0){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          }
+          name: "validateData",
+          email: "validateData",
+          message: "validateData",
+          password: "validateData",
+          checked: "validateData",
+          codechecked: "validateData"
         },
     }
 </script>

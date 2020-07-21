@@ -22,5 +22,8 @@ module.exports = [
   { name: '', library: '', js: '', css: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' },
   { name: '', library: '', js: '', css: 'https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css' },
   { name: '', library: '', js: '', css: 'https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css' },
+  { name: '', library: '', js: '', css: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css' },
+  { name: '', library: '', js: 'https://unpkg.com/vue-select@latest', css: '' },
+  { name: 'v-select', library: 'vselect', js: '', css: 'https://unpkg.com/vue-select@latest/dist/vue-select.css' }
   // { name: '', library: '', js: '', css: 'https://cdn.jsdelivr.net/npm/bulma-pageloader@0.3.0/dist/css/bulma-pageloader.min.css' },
 ]

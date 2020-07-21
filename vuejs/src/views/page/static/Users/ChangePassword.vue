@@ -106,6 +106,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.confirmpassword = "";
                 }
             },
+            validateData(){
+              if(this.confirmpassword === this.newpassword && this.newpassword.length > 0 && this.oldpassword.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            }
         },
         computed: {
           ismobile() {
@@ -131,7 +138,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
+          window.addEventListener('beforeunload', () => {
+            localStorage.removeItem("hybridToken");
+          });
+          if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
                 name: item,
@@ -139,19 +149,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               };
             });
             let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
+            if (this.gds) {
               this.currgd = this.gds[index];
             }
           }
         },
         watch: {
-          confirmpassword: function() {
-            if(this.confirmpassword === this.newpassword && this.newpassword.length > 0){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
-          }
+          oldpassword: "validateData",
+          newpassword: "validateData",
+          confirmpassword: "validateData"
         },
     }
 </script>

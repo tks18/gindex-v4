@@ -27,7 +27,7 @@
           <form @submit.prevent="handleSubmit">
             <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input class="input is-rounded is-focused" placeholder="Email" id="email" type="email" v-model="email" required :autofocus="emailFocus">
+                <input class="input is-rounded is-focused" placeholder="Email" id="email" type="email" v-model="email" required autofocus>
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>
@@ -38,7 +38,7 @@
             </div>
             <div class="field">
               <p class="control has-icons-left has-icons-right">
-                <input class="input is-rounded" placeholder="Your Name" id="name" type="text" v-model="name" required :autofocus="nameFocus">
+                <input class="input is-rounded" placeholder="Your Name" id="name" type="text" v-model="name" required autofocus>
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -46,6 +46,16 @@
                   <i class="fas fa-check"></i>
                 </span>
               </p>
+            </div>
+            <div class="field">
+              <label class="label has-text-white">Select the Space for Which Access is Required ?</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select v-model="drive" id="drive">
+                    <option v-for="(disk, index) in gds" :value="index" v-bind:key="index">{{ disk.name }}</option>
+                  </select>
+                </div>
+              </div>
             </div>
             <div class="field">
               <div class="control">
@@ -124,6 +134,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 emailFocus: "",
                 nameFocus: "",
                 message: "",
+                drive: 0,
                 gds: [],
                 currgd: {},
                 resultmessage: "",
@@ -148,6 +159,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     this.$http.post(url, {
                           name: this.name,
                           email: this.email,
+                          drives: this.drive,
                           message: this.message,
                     })
                     .then(response => {
@@ -193,12 +205,23 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.emailFocus = true;
                 this.nameFocus = false;
               }
+            },
+            validateData(){
+              const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
+              if(emailRegex.test(this.email) && this.name.length > 0 && this.message.length > 0 && this.checked && this.codechecked){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
             }
         },
         mounted() {
           this.checkParams();
         },
         created() {
+          window.addEventListener('beforeunload', () => {
+            localStorage.removeItem("hybridToken");
+          });
           if (window.gds && window.gds.length > 0) {
             this.gds = window.gds.map((item, index) => {
               return {
@@ -213,13 +236,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         watch: {
-          codechecked: function() {
-            const emailRegex = /[a-z1-9]+@+[a-z1-9A-Z]+[.][a-z]+/g
-            if(emailRegex.test(this.email) && this.name.length > 0 && this.message.length > 0 && this.checked && this.codechecked){
-              this.disabled = false;
-            } else {
-              this.disabled = true;
-            }
+          name: "validateData",
+          email: "validateData",
+          message: "validateData",
+          checked: "validateData",
+          codechecked: "validateData",
+          drive: function() {
+            console.log(this.drive);
           }
         },
     }

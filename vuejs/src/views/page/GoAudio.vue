@@ -132,8 +132,9 @@
           <div slot="no-results"></div>
         </infinite-loading>
         <div
-          v-show="files.length === 0"
+          v-show="loading"
           class="has-text-centered no-content"
+          :style="'background: url('+loadImage+') no-repeat 50% 50%;height: 240px;line-height: 240px;text-align: center;margin-top: 20px;'"
           >
         </div>
       </div>
@@ -160,6 +161,7 @@ export default {
       modal: false,
       infiniteId: +new Date(),
       loading: true,
+      loadImage: "",
       player: "",
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
@@ -205,6 +207,11 @@ export default {
   },
   components: {
     InfiniteLoading,
+  },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem("hybridToken");
+    });
   },
   methods: {
     infiniteHandler($state) {
@@ -445,6 +452,11 @@ export default {
     },
   },
   mounted() {
+    if(window.themeOptions.loading_image){
+      this.loadImage = window.themeOptions.loading_image;
+    } else {
+      this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
+    }
     this.player = this.$refs.plyr.player
     this.audioname = this.url.split('/').pop();
   },

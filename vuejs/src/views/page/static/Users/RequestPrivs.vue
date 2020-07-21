@@ -20,25 +20,19 @@
                     <div class="column is-full">
                       <p class="subtitle has-text-weight-semibold">Permissions Related to New Users:</p>
                     </div>
-                    <div class="column is-full">
-                      <p class="subtitle">Following Permissions are Related to New Users</p>
-                    </div>
-                    <div class="column is-full">
+                    <div class="column is-full has-text-left">
                       <ul>
-                        <li> Accept New Users</li>
-                        <li> Invite New Users through Glory to Heaven Mail Service.</li>
+                        <li class="has-text-black"> Accept New Users</li>
+                        <li class="has-text-black"> Invite New Users through Glory to Heaven Mail Service.</li>
                       </ul>
                     </div>
                     <div class="column is-full">
                       <p class="subtitle has-text-weight-semibold">Permission Related to Existing Users:</p>
                     </div>
-                    <div class="column is-full">
-                      <p class="subtitle">Following Permissions are Related to Handling of Existing Users</p>
-                    </div>
-                    <div class="column is-full">
+                    <div class="column is-full has-text-left">
                       <ul>
-                        <li> Delete a User</li>
-                        <li> Add a User to Spam</li>
+                        <li class="has-text-black"> Delete a User</li>
+                        <li class="has-text-black"> Add a User to Spam</li>
                       </ul>
                     </div>
                   </div>
@@ -126,22 +120,16 @@
                           <p class="subtitle has-text-weight-bold has-text-centered">Features</p>
                         </div>
                         <div class="column is-full">
-                          <p class="subtitle has-text-weight-semibold">Permissions Related to New Users:</p>
-                        </div>
-                        <div class="column is-full">
-                          <p class="subtitle">Following Permissions are Related to New Users</p>
+                          <p class="subtitle has-text-weight-semibold has-text-centered">Permissions Related to New Users:</p>
                         </div>
                         <div class="column is-full">
                           <ul>
-                            <li> Accept New Users</li>
-                            <li> Invite New Users through Glory to Heaven Mail Service.</li>
+                            <li class="has-text-black"> Accept New Users</li>
+                            <li class="has-text-black"> Invite New Users through Glory to Heaven Mail Service.</li>
                           </ul>
                         </div>
                         <div class="column is-full">
-                          <p class="subtitle has-text-weight-semibold">Granting Permissions to Existing Users:</p>
-                        </div>
-                        <div class="column is-full">
-                          <p class="subtitle">Following Permissions are Related to Granting of Permissions</p>
+                          <p class="subtitle has-text-weight-semibold has-text-centered">Granting Permissions to Existing Users:</p>
                         </div>
                         <div class="column is-full">
                           <ul>
@@ -152,10 +140,7 @@
                           </ul>
                         </div>
                         <div class="column is-full">
-                          <p class="subtitle has-text-weight-semibold">Permission Related to Existing Users:</p>
-                        </div>
-                        <div class="column is-full">
-                          <p class="subtitle">Following Permissions are Related to Handling of Existing Users</p>
+                          <p class="subtitle has-text-weight-semibold has-text-centered">Permission Related to Existing Users:</p>
                         </div>
                         <div class="column is-full">
                           <ul>
@@ -268,6 +253,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.resultmessage = "You Need to Accept Community Guidelines."
                 }
             },
+            validateData(){
+              if(this.role.length > 0 && this.checked && this.codechecked && this.message.length > 0){
+                this.disabled = false;
+              } else {
+                this.disabled = true;
+              }
+            }
         },
         computed: {
           ismobile() {
@@ -300,11 +292,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.admin = true, this.superadmin = false, this.role = "superadmin", this.loading = false;
           } else {
             this.loading = false;
-            this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/", tocmd: "home" } })
+            // this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/", tocmd: "home" } })
           }
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
+          window.addEventListener('beforeunload', () => {
+            localStorage.removeItem("hybridToken");
+          });
+          if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
                 name: item,
@@ -312,19 +307,16 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               };
             });
             let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
+            if (this.gds) {
               this.currgd = this.gds[index];
             }
           }
         },
         watch: {
-          codechecked: function() {
-              if(this.role.length > 0 && this.checked && this.codechecked && this.message.length > 0){
-                this.disabled = false;
-              } else {
-                this.disabled = true;
-              }
-          }
+          role: "validateData",
+          message: "validateData",
+          checked: "validateData",
+          codechecked: "validateData"
         },
     }
 </script>
