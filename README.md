@@ -1,8 +1,13 @@
 
 ##  A Vue js Based GD Index
-##### by _[Shan.tk](https://github.com/tks18)_
-![Settings Page](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/go2index/videoPlayer.jpg?raw=true)
-_Site - [Click Here](https://glorytoheaven.tk)_
+##### by _[Shan.tk](https://github.com/tks18)_<br>
+_Site - [Click Here](https://glorytoheaven.tk)_<br>
+Demo Site can be Seen Here - [Click Here](https://demo.gthu.workers.dev)<br>
+
+**Now With New UI**<br>
+![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home.png?raw=true)<br>
+![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home2.png?raw=true)<br>
+![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home-nolog.png?raw=true)<br>
 
 #### Complete Site Inspiration from [Aicirou](https://github.com/Aicirou)
 
