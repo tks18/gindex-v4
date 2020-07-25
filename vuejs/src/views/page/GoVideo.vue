@@ -5,7 +5,7 @@
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
             <vue-plyr ref="plyr">
-              <video :src="apiurl" class="video-content">
+              <video :src="'https://glorytoheaven.tk/0:/Series/The%20100/S01/The.100.S01E01.HDTV.x264-ChameE.mkv'" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
                 <track kind="captions" label="English captions" :src="suburl" srclang="en" default />
               </video>
@@ -20,7 +20,7 @@
                   </div>
                 </div>
                 <div :class="ismobile ? 'column is-11' : 'column is-7'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname }}</p>
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname.split('.').slice(0,-1).join('.') }}</p>
                 </div>
                 <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-success has-text-right is-4' : 'column title has-text-weight-semibold has-text-success has-text-right is-4'">
                   <span class="icon is-medium">
@@ -60,10 +60,44 @@
               </section>
             </div>
           </div>
+          <div :class="subModal ? 'modal is-active' : 'modal'">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Load Subtitle File</p>
+                <button class="delete" @click="subModal = false;" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
+                  <div class="message-body">
+                    <button class="delete" @click="successMessage = false" aria-label="delete"></button>
+                    {{ resultmessage }}
+                  </div>
+                </article>
+                <div class="field">
+                  <div class="control">
+                    <input :class=" subButLoad ? 'input is-success is-loading' : 'input is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
+                  </div>
+                </div>
+                <div class="content">
+                  <li>Note: Only Give Valid Url's otherwise this page will get Hanged on Sent Back.</li>
+                  <li>If You Want to Give drive Path, Give in this Format: <b><i>folder/sub-folder1/sub-folder2</i></b> from Root Folder.</li>
+                </div>
+              </section>
+              <footer class="modal-card-foot">
+                <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl)">Save changes</button>
+              </footer>
+            </div>
+          </div>
           <div class="column is-full">
             <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-multiline">
-                <div class="column is-2">
+                <div class="column is-quarter">
+                  <button class="button is-success is-rounded" @click="subModal=true;">
+                    Load Subtitle Track
+                  </button>
+                </div>
+                <div class="column is-quarter">
                   <button class="button is-success is-rounded" v-clipboard:copy="videourl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
@@ -71,7 +105,7 @@
                     <span>{{ ismobile ? 'Share Link' : 'Stream Link'}}</span>
                   </button>
                 </div>
-                <div v-if="ismobile" class="column is-4">
+                <div v-if="ismobile" class="column is-quarter">
                   <button class="button is-success is-rounded" @click="modal=true;">
                     <span class="icon">
                      <i class="fas fa-play"></i>
@@ -79,7 +113,7 @@
                    <span>External Players</span>
                   </button>
                 </div>
-                <div class="column is-2">
+                <div class="column is-quarter">
                   <button class="button is-danger is-rounded" @click="downloadButton">
                     <span class="icon">
                      <i class="fas fa-download"></i>
@@ -176,10 +210,17 @@ export default {
       loading: true,
       suburl: "",
       sub: false,
+      subModal: false,
+      subButLoad: false,
+      subripurl: "",
+      successMessage: false,
+      resultmessage: "",
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
       videoname: "",
       loadImage: "",
+      gds: [],
+      currgd: {},
       page: {
         page_token: null,
         page_index: 0,
@@ -293,11 +334,11 @@ export default {
       return array
     },
     checkSuburl() {
-      const toks = this.videoname.split('.')
+      const toks = this.videoname.split('.');
       const pathSansExt = toks.slice(0, -1).join('.')
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
-           var blob = await this.getSrtFile(item.path);
+           let blob = await this.getSrtFile(item.path);
            this.suburl = blob;
          } else {
            this.sub = false;
@@ -311,6 +352,30 @@ export default {
       const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' })
 			var srtBlob = URL.createObjectURL(blob);
       return srtBlob;
+    },
+    async loadCustomSub(url) {
+      this.subButLoad = true;
+      const urlRegex = /(http:\/\/|https:\/\/[\s\S]+)/;
+      if(urlRegex.test(url)){
+        let blob = await this.getSrtFile(url);
+        this.suburl = blob;
+        this.successMessage = true;
+        this.resultmessage = "Subtitle Loaded Successfully !"
+        this.subButLoad = false;
+        setTimeout(() => {
+          this.subModal = false;
+        }, 300);
+      } else {
+        let getUrl = "/"+this.currgd.id+":/"+url;
+        let blob = await this.getSrtFile(getUrl);
+        this.suburl = blob;
+        this.successMessage = true;
+        this.resultmessage = "Subtitle Loaded Successfully !"
+        this.subButLoad = false;
+        setTimeout(() => {
+          this.subModal = false;
+        }, 300);
+      }
     },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
@@ -458,6 +523,23 @@ export default {
       return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
     },
   },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem("hybridToken");
+    });
+    if (window.gds) {
+      this.gds = window.gds.map((item, index) => {
+        return {
+          name: item,
+          id: index,
+        };
+      });
+      let index = this.$route.params.id;
+      if (this.gds) {
+        this.currgd = this.gds[index];
+      }
+    }
+  },
   mounted() {
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
@@ -466,7 +548,6 @@ export default {
     }
     this.player = this.$refs.plyr.player
     this.videoname = this.url.split('/').pop();
-    console.log(this.files);
   },
   watch: {
     player: function(){
