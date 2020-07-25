@@ -5,7 +5,7 @@
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
             <vue-plyr ref="plyr">
-              <video :src="'https://glorytoheaven.tk/0:/Series/The%20100/S01/The.100.S01E01.HDTV.x264-ChameE.mkv'" class="video-content">
+              <video :src="apiurl" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
                 <track kind="captions" label="English captions" :src="suburl" srclang="en" default />
               </video>
