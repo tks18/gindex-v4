@@ -7,6 +7,7 @@
             <vue-plyr ref="plyr">
               <video :src="apiurl" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
+                <track kind="captions" label="English captions" :src="suburl" srclang="en" default />
               </video>
             </vue-plyr>
             <div class="box has-background-black">
@@ -173,6 +174,8 @@ export default {
       modal: false,
       infiniteId: +new Date(),
       loading: true,
+      suburl: "",
+      sub: false,
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
       videoname: "",
@@ -191,11 +194,6 @@ export default {
         "video/webm": "icon-webm",
       },
     };
-  },
-  created() {
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem("hybridToken");
-    });
   },
   methods: {
     infiniteHandler($state) {
@@ -294,9 +292,25 @@ export default {
 
       return array
     },
-    async getSrtFile() {
-      const srt = await this.$http.get("https://glorytoheaven.tk/0:/Courses/%5BDesireCourse.Net%5D%20Udemy%20-%20The%20Complete%20Android%20Kotlin%20Developer%20Course/29.%20Twitter%20App%20using%20MySql%20and%20PHP%20web%20service/7.%20signInAnonymously.srt");
-      console.log(srt.data);
+    checkSuburl() {
+      const toks = this.videoname.split('.')
+      const pathSansExt = toks.slice(0, -1).join('.')
+      return this.files.forEach(async (item) => {
+         if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
+           var blob = await this.getSrtFile(item.path);
+           this.suburl = blob;
+         } else {
+           this.sub = false;
+           this.suburl = "";
+           return;
+         }
+      });
+    },
+    async getSrtFile(url) {
+      const srt = await this.$http.get(url);
+      const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' })
+			var srtBlob = URL.createObjectURL(blob);
+      return srtBlob;
     },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
@@ -360,10 +374,11 @@ export default {
   activated() {
     this.getVideourl();
     this.render();
-    this.getSrtFile();
+    // this.getSrtFile("https://raw.githubusercontent.com/sampotts/plyr/master/demo/media/View_From_A_Blue_Moon_Trailer-HD.en.vtt");
   },
   computed: {
     getFilteredFiles() {
+      this.checkSuburl();
       return this.shuffle(this.files).filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
@@ -451,6 +466,7 @@ export default {
     }
     this.player = this.$refs.plyr.player
     this.videoname = this.url.split('/').pop();
+    console.log(this.files);
   },
   watch: {
     player: function(){
