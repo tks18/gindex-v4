@@ -153,6 +153,15 @@ import {
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
 import { decode64 } from "@utils/AcrouUtil";
+const srt2vtt = s =>
+	'WEBVTT FILE\r\n\r\n' +
+	s
+		.replace(/\{\\([ibu])\}/g, '</$1>')
+		.replace(/\{\\([ibu])1\}/g, '<$1>')
+		.replace(/\{([ibu])\}/g, '<$1>')
+		.replace(/\{\/([ibu])\}/g, '</$1>')
+		.replace(/(\d\d:\d\d:\d\d),(\d\d\d)/g, '$1.$2')
+		.concat('\r\n\r\n')
 export default {
   components: {
     InfiniteLoading,
@@ -285,6 +294,10 @@ export default {
 
       return array
     },
+    async getSrtFile() {
+      const srt = await this.$http.get("https://glorytoheaven.tk/0:/Courses/%5BDesireCourse.Net%5D%20Udemy%20-%20The%20Complete%20Android%20Kotlin%20Developer%20Course/29.%20Twitter%20App%20using%20MySql%20and%20PHP%20web%20service/7.%20signInAnonymously.srt");
+      console.log(srt.data);
+    },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
@@ -347,6 +360,7 @@ export default {
   activated() {
     this.getVideourl();
     this.render();
+    this.getSrtFile();
   },
   computed: {
     getFilteredFiles() {
