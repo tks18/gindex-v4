@@ -15,18 +15,18 @@
                 <div class="column is-1">
                   <div class="columns is-desktop is-multiline has-text-white is-centered is-vcentered">
                     <div class="column is-full">
-                      <p class="subtitle has-text-weight-bold has-text-warning"><i class="fas fa-video"></i></p>
+                      <p class="subtitle has-text-weight-bold has-text-netflix-only"><i class="fas fa-video"></i></p>
                     </div>
                   </div>
                 </div>
                 <div :class="ismobile ? 'column is-11' : 'column is-7'">
                     <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname.split('.').slice(0,-1).join('.') }}</p>
                 </div>
-                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-success has-text-right is-4' : 'column title has-text-weight-semibold has-text-success has-text-right is-4'">
-                  <span class="icon is-medium">
+                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-right is-4' : 'column title has-text-weight-semibold has-text-right is-4'">
+                  <span class="icon has-text-netflix-only is-medium">
                     <i :class="playicon"></i>
                   </span>
-                  <span class="subtitle has-text-success ml-2">{{ playtext }}</span>
+                  <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
                 </div>
               </div>
             </div>
@@ -93,20 +93,23 @@
             <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-multiline">
                 <div class="column is-quarter">
-                  <button class="button is-success is-rounded" @click="subModal=true;">
-                    Load Subtitle Track
-                  </button>
-                </div>
-                <div class="column is-quarter">
-                  <button class="button is-success is-rounded" v-clipboard:copy="videourl">
+                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="videourl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
                     </span>
                     <span>{{ ismobile ? 'Share Link' : 'Stream Link'}}</span>
                   </button>
                 </div>
+                <div class="column is-quarter">
+                  <button class="button is-netflix-red is-rounded" @click="subModal=true;">
+                    <span class="icon">
+                      <i class="fa fa-upload"></i>
+                    </span>
+                    <span>Load Subtitles</span>
+                  </button>
+                </div>
                 <div v-if="ismobile" class="column is-quarter">
-                  <button class="button is-success is-rounded" @click="modal=true;">
+                  <button class="button is-netflix-red is-rounded" @click="modal=true;">
                     <span class="icon">
                      <i class="fas fa-play"></i>
                    </span>
@@ -114,7 +117,7 @@
                   </button>
                 </div>
                 <div class="column is-quarter">
-                  <button class="button is-danger is-rounded" @click="downloadButton">
+                  <button class="button is-netflix-red is-rounded" @click="downloadButton">
                     <span class="icon">
                      <i class="fas fa-download"></i>
                    </span>
@@ -127,8 +130,7 @@
         </div>
       </div>
       <div class="column is-one-third golist" v-loading="loading">
-        <h2 class="title has-text-centered has-text-weight-bold has-text-warning"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
-        <hr>
+        <h2 class="title has-text-centered has-text-weight-bold has-text-danger"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
           <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in getFilteredFiles" v-bind:key="index" @click="action(file,'view')">
             <div class="column is-2">
               <svg class="iconfont" style="font-size: 20px">
@@ -348,33 +350,55 @@ export default {
       });
     },
     async getSrtFile(url) {
-      const srt = await this.$http.get(url);
-      const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' })
-			var srtBlob = URL.createObjectURL(blob);
-      return srtBlob;
+      try {
+        const srt = await this.$http.get(url);
+        const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' })
+        var srtBlob = URL.createObjectURL(blob);
+        return {
+          blobData: srtBlob,
+          success: true
+        };
+      } catch(e) {
+        return {
+          blobData: null,
+          success: false
+        };
+      }
     },
     async loadCustomSub(url) {
       this.subButLoad = true;
       const urlRegex = /(http:\/\/|https:\/\/[\s\S]+)/;
       if(urlRegex.test(url)){
         let blob = await this.getSrtFile(url);
-        this.suburl = blob;
-        this.successMessage = true;
-        this.resultmessage = "Subtitle Loaded Successfully !"
-        this.subButLoad = false;
-        setTimeout(() => {
-          this.subModal = false;
-        }, 300);
+        if(blob.success){
+          this.suburl = blob;
+          this.successMessage = true;
+          this.resultmessage = "Subtitle Loaded Successfully !"
+          this.subButLoad = false;
+          setTimeout(() => {
+            this.subModal = false;
+          }, 300);
+        } else {
+          this.successMessage = true;
+          this.resultmessage = "Error Loading the Subtitle. Please Check Your Link."
+          this.subButLoad = false;
+        }
       } else {
         let getUrl = "/"+this.currgd.id+":/"+url;
         let blob = await this.getSrtFile(getUrl);
-        this.suburl = blob;
-        this.successMessage = true;
-        this.resultmessage = "Subtitle Loaded Successfully !"
-        this.subButLoad = false;
-        setTimeout(() => {
-          this.subModal = false;
-        }, 300);
+        if(blob.success){
+          this.suburl = blob;
+          this.successMessage = true;
+          this.resultmessage = "Subtitle Loaded Successfully !"
+          this.subButLoad = false;
+          setTimeout(() => {
+            this.subModal = false;
+          }, 300);
+        } else {
+          this.successMessage = true;
+          this.resultmessage = "Error Loading the Subtitle. Please Check Your Link."
+          this.subButLoad = false;
+        }
       }
     },
     thum(url) {
