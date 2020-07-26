@@ -341,7 +341,13 @@ export default {
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
            let blob = await this.getSrtFile(item.path);
-           this.suburl = blob;
+           if(blob.success){
+             this.sub = true;
+             this.suburl = blob.blobData;
+           } else {
+             this.sub = false;
+             this.suburl = "";
+           }
          } else {
            this.sub = false;
            this.suburl = "";
@@ -371,7 +377,7 @@ export default {
       if(urlRegex.test(url)){
         let blob = await this.getSrtFile(url);
         if(blob.success){
-          this.suburl = blob;
+          this.suburl = blob.blobData;
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
@@ -387,7 +393,7 @@ export default {
         let getUrl = "/"+this.currgd.id+":/"+url;
         let blob = await this.getSrtFile(getUrl);
         if(blob.success){
-          this.suburl = blob;
+          this.suburl = blob.blobData;
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
