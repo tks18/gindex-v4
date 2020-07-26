@@ -15,18 +15,18 @@
                 <div class="column is-1">
                   <div class="columns is-desktop is-multiline has-text-white is-centered is-vcentered">
                     <div class="column is-full">
-                      <p class="subtitle has-text-weight-bold has-text-warning"><i class="fas fa-video"></i></p>
+                      <p class="subtitle has-text-weight-bold has-text-netflix-only"><i class="fas fa-video"></i></p>
                     </div>
                   </div>
                 </div>
                 <div :class="ismobile ? 'column is-11' : 'column is-7'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname }}</p>
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname.split('.').slice(0,-1).join('.') }}</p>
                 </div>
-                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-success has-text-right is-4' : 'column title has-text-weight-semibold has-text-success has-text-right is-4'">
-                  <span class="icon is-medium">
+                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-right is-4' : 'column title has-text-weight-semibold has-text-right is-4'">
+                  <span class="icon has-text-netflix-only is-medium">
                     <i :class="playicon"></i>
                   </span>
-                  <span class="subtitle has-text-success ml-2">{{ playtext }}</span>
+                  <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
                 </div>
               </div>
             </div>
@@ -60,27 +60,64 @@
               </section>
             </div>
           </div>
+          <div :class="subModal ? 'modal is-active' : 'modal'">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Load Subtitle File</p>
+                <button class="delete" @click="subModal = false;" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
+                  <div class="message-body">
+                    <button class="delete" @click="successMessage = false" aria-label="delete"></button>
+                    {{ resultmessage }}
+                  </div>
+                </article>
+                <div class="field">
+                  <div class="control">
+                    <input :class=" subButLoad ? 'input is-success is-loading' : 'input is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
+                  </div>
+                </div>
+                <div class="content">
+                  <li>Note: Only Give Valid Url's otherwise this page will get Hanged on Sent Back.</li>
+                  <li>If You Want to Give drive Path, Give in this Format: <b><i>folder/sub-folder1/sub-folder2</i></b> from Root Folder.</li>
+                </div>
+              </section>
+              <footer class="modal-card-foot">
+                <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl)">Save changes</button>
+              </footer>
+            </div>
+          </div>
           <div class="column is-full">
             <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-multiline">
-                <div class="column is-2">
-                  <button class="button is-success is-rounded" v-clipboard:copy="videourl">
+                <div class="column is-quarter">
+                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="videourl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
                     </span>
                     <span>{{ ismobile ? 'Share Link' : 'Stream Link'}}</span>
                   </button>
                 </div>
-                <div v-if="ismobile" class="column is-4">
-                  <button class="button is-success is-rounded" @click="modal=true;">
+                <div class="column is-quarter">
+                  <button class="button is-netflix-red is-rounded" @click="subModal=true;">
+                    <span class="icon">
+                      <i class="fa fa-upload"></i>
+                    </span>
+                    <span>Load Subtitles</span>
+                  </button>
+                </div>
+                <div v-if="ismobile" class="column is-quarter">
+                  <button class="button is-netflix-red is-rounded" @click="modal=true;">
                     <span class="icon">
                      <i class="fas fa-play"></i>
                    </span>
                    <span>External Players</span>
                   </button>
                 </div>
-                <div class="column is-2">
-                  <button class="button is-danger is-rounded" @click="downloadButton">
+                <div class="column is-quarter">
+                  <button class="button is-netflix-red is-rounded" @click="downloadButton">
                     <span class="icon">
                      <i class="fas fa-download"></i>
                    </span>
@@ -93,8 +130,7 @@
         </div>
       </div>
       <div class="column is-one-third golist" v-loading="loading">
-        <h2 class="title has-text-centered has-text-weight-bold has-text-warning"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
-        <hr>
+        <h2 class="title has-text-centered has-text-weight-bold has-text-danger"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
           <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in getFilteredFiles" v-bind:key="index" @click="action(file,'view')">
             <div class="column is-2">
               <svg class="iconfont" style="font-size: 20px">
@@ -176,10 +212,17 @@ export default {
       loading: true,
       suburl: "",
       sub: false,
+      subModal: false,
+      subButLoad: false,
+      subripurl: "",
+      successMessage: false,
+      resultmessage: "",
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
       videoname: "",
       loadImage: "",
+      gds: [],
+      currgd: {},
       page: {
         page_token: null,
         page_index: 0,
@@ -293,12 +336,18 @@ export default {
       return array
     },
     checkSuburl() {
-      const toks = this.videoname.split('.')
+      const toks = this.videoname.split('.');
       const pathSansExt = toks.slice(0, -1).join('.')
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
-           var blob = await this.getSrtFile(item.path);
-           this.suburl = blob;
+           let blob = await this.getSrtFile(item.path);
+           if(blob.success){
+             this.sub = true;
+             this.suburl = blob.blobData;
+           } else {
+             this.sub = false;
+             this.suburl = "";
+           }
          } else {
            this.sub = false;
            this.suburl = "";
@@ -307,10 +356,56 @@ export default {
       });
     },
     async getSrtFile(url) {
-      const srt = await this.$http.get(url);
-      const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' })
-			var srtBlob = URL.createObjectURL(blob);
-      return srtBlob;
+      try {
+        const srt = await this.$http.get(url);
+        const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' })
+        var srtBlob = URL.createObjectURL(blob);
+        return {
+          blobData: srtBlob,
+          success: true
+        };
+      } catch(e) {
+        return {
+          blobData: null,
+          success: false
+        };
+      }
+    },
+    async loadCustomSub(url) {
+      this.subButLoad = true;
+      const urlRegex = /(http:\/\/|https:\/\/[\s\S]+)/;
+      if(urlRegex.test(url)){
+        let blob = await this.getSrtFile(url);
+        if(blob.success){
+          this.suburl = blob.blobData;
+          this.successMessage = true;
+          this.resultmessage = "Subtitle Loaded Successfully !"
+          this.subButLoad = false;
+          setTimeout(() => {
+            this.subModal = false;
+          }, 300);
+        } else {
+          this.successMessage = true;
+          this.resultmessage = "Error Loading the Subtitle. Please Check Your Link."
+          this.subButLoad = false;
+        }
+      } else {
+        let getUrl = "/"+this.currgd.id+":/"+url;
+        let blob = await this.getSrtFile(getUrl);
+        if(blob.success){
+          this.suburl = blob.blobData;
+          this.successMessage = true;
+          this.resultmessage = "Subtitle Loaded Successfully !"
+          this.subButLoad = false;
+          setTimeout(() => {
+            this.subModal = false;
+          }, 300);
+        } else {
+          this.successMessage = true;
+          this.resultmessage = "Error Loading the Subtitle. Please Check Your Link."
+          this.subButLoad = false;
+        }
+      }
     },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
@@ -458,6 +553,23 @@ export default {
       return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
     },
   },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem("hybridToken");
+    });
+    if (window.gds) {
+      this.gds = window.gds.map((item, index) => {
+        return {
+          name: item,
+          id: index,
+        };
+      });
+      let index = this.$route.params.id;
+      if (this.gds) {
+        this.currgd = this.gds[index];
+      }
+    }
+  },
   mounted() {
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
@@ -466,7 +578,6 @@ export default {
     }
     this.player = this.$refs.plyr.player
     this.videoname = this.url.split('/').pop();
-    console.log(this.files);
   },
   watch: {
     player: function(){

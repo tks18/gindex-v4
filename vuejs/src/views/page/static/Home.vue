@@ -27,7 +27,7 @@
         </div>
          <div v-show="logged && netflix" class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
            <div v-for="(hero, index) in mainhero" v-bind:key="index" class="column is-full mx-0 px-0 mt-0 pt-0">
-             <section class="hero is-fullheight mx-0 px-0" :style="'background: center;background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
+             <section class="hero is-fullheight mx-0 px-0" :style=" ismobile ? 'background: center;background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);' : 'background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
               <div class="hero-body">
                 <div class="container">
                   <div class="columns is-mobile is-vcentered is-multiline">

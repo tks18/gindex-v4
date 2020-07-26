@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "@/store";
-import router from "@/router";
+// import router from "@/router";
 
 // Create an axios instance
 const service = axios.create({
@@ -40,8 +40,9 @@ service.interceptors.response.use(
       }
     }
     console.log(error);
-    router.app.$router.go(-1);
-    return Promise.reject(error);
+    return error;
+    // router.app.$router.go(-1);
+    // return Promise.reject(error);
   }
 );
 
