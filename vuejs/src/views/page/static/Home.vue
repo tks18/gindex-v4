@@ -1,5 +1,31 @@
 <template>
-  <section :class="ismobile ? logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' : logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' ">
+  <section data-app :class="ismobile ? logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' : logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' ">
+    <v-app>
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
+
+      <v-progress-circular
+        indeterminate
+        color="red"
+      ></v-progress-circular>
+
+      <v-progress-circular
+        indeterminate
+        color="purple"
+      ></v-progress-circular>
+
+      <v-progress-circular
+        indeterminate
+        color="green"
+      ></v-progress-circular>
+
+      <v-progress-circular
+        indeterminate
+        color="amber"
+      ></v-progress-circular>
+    </v-app>
     <nav v-if="!logged" class="navbar home-navbar">
       <div class="navbar-brand">
         <a class="navbar-item nav-heading">
@@ -249,6 +275,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 token: {},
                 gds: [],
                 netflix: true,
+                dialog: false,
                 mainhero: {},
                 trending: [],
                 category: [],
