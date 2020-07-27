@@ -51,6 +51,7 @@ router.beforeEach( (to, from, next) => {
   const token = localStorage.getItem("tokendata");
   const user = localStorage.getItem("userdata");
   const hyBridToken = localStorage.getItem("hybridToken");
+  const sessionStore = localStorage.getItem("sessionStore");
   if(to.matched.some(record => record.meta.redirect)){
     next({path:'/0:home/'})
   }
@@ -70,42 +71,64 @@ router.beforeEach( (to, from, next) => {
     } else if(token != null && user != null){
       const tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
       const userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
-      axios.post(window.apiRoutes.verifyRoute, {
-        email: userData.email,
-        token: tokenData.token
-      }).then(response => {
-        if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
-          localStorage.removeItem("tokendata");
-          localStorage.removeItem("userdata");
-          next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: 'home/', data: "Your Token Got Expired. Login to Generate Another Token. You will be Redirected to Login Page Automatically." } });
-        } else if(!response.data.auth && !response.data.registered && !response.data.tokenuser){
-          localStorage.removeItem("tokendata");
-          localStorage.removeItem("userdata");
-          next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: to.fullPath, data: "User Not Found." } });
+      if(sessionStore != undefined && sessionStore != null) {
+        if(to.matched.some(record => record.meta.admin)){
+          if(userData.admin){
+            next({ params: { userinfo: userData, tokeninfo: tokenData } });
+          } else {
+            next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
+          }
         } else {
-          if(to.matched.some(record => record.meta.admin)){
-            if(userData.admin){
-              next({ params: { userinfo: userData, tokeninfo: tokenData } });
-            } else {
-              next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
-            }
-          } else {
-            next({ params: { userinfo: userData, tokeninfo: tokenData } });
-          }
-          if(to.matched.some(record => record.meta.superadmin)){
-            if(userData.superadmin && userData.admin){
-              next({ params: { userinfo: userData, tokeninfo: tokenData } });
-            } else {
-              next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
-            }
-          } else {
-            next({ params: { userinfo: userData, tokeninfo: tokenData } });
-          }
+          next({ params: { userinfo: userData, tokeninfo: tokenData } });
         }
-      }).catch(e => {
-        console.log(e);
-        next({ name: 'results', params: {id: to.params.id, cmd: 'result', success: false, data: "You are Using Proxy / Vpn to Login. Turn Off VPN/ Proxy to Use.", noredirect: true} })
-      })
+        if(to.matched.some(record => record.meta.superadmin)){
+          if(userData.superadmin && userData.admin){
+            next({ params: { userinfo: userData, tokeninfo: tokenData } });
+          } else {
+            next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
+          }
+        } else {
+          next({ params: { userinfo: userData, tokeninfo: tokenData } });
+        }
+      } else {
+        axios.post(window.apiRoutes.verifyRoute, {
+          email: userData.email,
+          token: tokenData.token
+        }).then(response => {
+          if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
+            localStorage.removeItem("tokendata");
+            localStorage.removeItem("userdata");
+            next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: 'home/', data: "Your Token Got Expired. Login to Generate Another Token. You will be Redirected to Login Page Automatically." } });
+          } else if(!response.data.auth && !response.data.registered && !response.data.tokenuser){
+            localStorage.removeItem("tokendata");
+            localStorage.removeItem("userdata");
+            next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: to.fullPath, data: "User Not Found." } });
+          } else {
+            localStorage.setItem('sessionStore', Date.now());
+            if(to.matched.some(record => record.meta.admin)){
+              if(userData.admin){
+                next({ params: { userinfo: userData, tokeninfo: tokenData } });
+              } else {
+                next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
+              }
+            } else {
+              next({ params: { userinfo: userData, tokeninfo: tokenData } });
+            }
+            if(to.matched.some(record => record.meta.superadmin)){
+              if(userData.superadmin && userData.admin){
+                next({ params: { userinfo: userData, tokeninfo: tokenData } });
+              } else {
+                next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page", redirectUrl: '/', tocmd: 'home' } });
+              }
+            } else {
+              next({ params: { userinfo: userData, tokeninfo: tokenData } });
+            }
+          }
+        }).catch(e => {
+          console.log(e);
+          next({ name: 'results', params: {id: to.params.id, cmd: 'result', success: false, data: "You are Using Proxy / Vpn to Login. Turn Off VPN/ Proxy to Use.", noredirect: true} })
+        })
+      }
     } else {
       localStorage.removeItem("tokendata");
       localStorage.removeItem("userdata");

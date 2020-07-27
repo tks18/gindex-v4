@@ -31,20 +31,49 @@
           :title="file.name"
         >
           <svg class="iconfont" aria-hidden="true">
-            <use :xlink:href="icons(file.mimeType)" />
+            <use @click.self="
+              action(
+                file,
+                file.mimeType !== 'application/vnd.google-apps.folder'
+                  ? 'view'
+                  : ''
+              )
+            " :xlink:href="icons(file.mimeType)" />
           </svg>
           {{ file.name }}
           <span
             class="g2-file-desc"
             v-if="isShowDesc"
+            @click.self="
+              action(
+                file,
+                file.mimeType !== 'application/vnd.google-apps.folder'
+                  ? 'view'
+                  : ''
+              )
+            "
             v-html="file.description"
             style="color: #bbf1c8;"
           ></span>
         </td>
-        <td class="td-item is-hidden-mobile is-hidden-touch">
+        <td @click.self="
+          action(
+            file,
+            file.mimeType !== 'application/vnd.google-apps.folder'
+              ? 'view'
+              : ''
+          )
+        " class="td-item is-hidden-mobile is-hidden-touch">
           {{ file.modifiedTime }}
         </td>
-        <td class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
+        <td @click.self="
+          action(
+            file,
+            file.mimeType !== 'application/vnd.google-apps.folder'
+              ? 'view'
+              : ''
+          )
+        " class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
         <td class="is-hidden-mobile is-hidden-touch">
           <span style="color: #e50914;" class="icon" @click.stop="action(file,'copy')">
             <i

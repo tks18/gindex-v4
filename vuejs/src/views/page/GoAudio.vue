@@ -208,11 +208,6 @@ export default {
   components: {
     InfiniteLoading,
   },
-  created() {
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem("hybridToken");
-    });
-  },
   methods: {
     infiniteHandler($state) {
       // The first time you enter the page does not execute the scroll event

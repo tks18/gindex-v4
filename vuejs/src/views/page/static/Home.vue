@@ -1,31 +1,5 @@
 <template>
-  <section data-app :class="ismobile ? logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' : logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' ">
-    <v-app>
-      <v-progress-circular
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
-
-      <v-progress-circular
-        indeterminate
-        color="red"
-      ></v-progress-circular>
-
-      <v-progress-circular
-        indeterminate
-        color="purple"
-      ></v-progress-circular>
-
-      <v-progress-circular
-        indeterminate
-        color="green"
-      ></v-progress-circular>
-
-      <v-progress-circular
-        indeterminate
-        color="amber"
-      ></v-progress-circular>
-    </v-app>
+  <section :class="ismobile ? logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' : logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' ">
     <nav v-if="!logged" class="navbar home-navbar">
       <div class="navbar-brand">
         <a class="navbar-item nav-heading">
@@ -53,7 +27,7 @@
         </div>
          <div v-show="logged && netflix" class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
            <div v-for="(hero, index) in mainhero" v-bind:key="index" class="column is-full mx-0 px-0 mt-0 pt-0">
-             <section class="hero is-fullheight mx-0 px-0" :style=" ismobile ? 'background: center;background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);' : 'background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
+             <section :class="ismobile ? 'hero is-fullheight mx-0 px-0' : 'hero is-large mx-0 px-0'" :style=" ismobile ? 'background: center;background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);' : 'background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
               <div class="hero-body">
                 <div class="container">
                   <div class="columns is-mobile is-vcentered is-multiline">
@@ -447,9 +421,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         created() {
-          window.addEventListener('beforeunload', () => {
-            localStorage.removeItem("hybridToken");
-          });
           if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {

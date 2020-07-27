@@ -20,11 +20,6 @@ export default {
       display: false
     };
   },
-  created() {
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem("hybridToken");
-    });
-  },
   computed: {
     url() {
       if (this.$route.params.path) {

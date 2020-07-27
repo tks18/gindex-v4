@@ -24,6 +24,7 @@ export default {
   },
   created() {
     this.i18nHandle(this.$i18n.locale);
+    this.delTemps();
   },
   mounted() {
     // this.checkVersion();
@@ -33,6 +34,12 @@ export default {
     i18nHandle(val) {
       util.cookies.set("lang", val);
       document.querySelector("html").setAttribute("lang", val);
+    },
+    delTemps() {
+      window.addEventListener('beforeunload', () => {
+        localStorage.removeItem("hybridToken");
+        localStorage.removeItem("sessionStore");
+      });
     },
     checkVersion() {
       let g2index_version = window.gdconfig.version;
