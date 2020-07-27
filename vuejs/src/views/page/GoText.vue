@@ -28,11 +28,6 @@ export default {
       }
     };
   },
-  created() {
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem("hybridToken");
-    });
-  },
   activated () {
     this.render();
   },

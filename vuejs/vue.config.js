@@ -64,9 +64,11 @@ module.exports = {
             disableConsoleOutput: true,
             numbersToExpressions: true,
             rotateStringArray: true,
+            selfDefending: true,
             shuffleStringArray: true,
             splitStrings: true,
             splitStringChunkLength: 8,
+            transformObjectKeys: true,
         }, ['app.js']),
       ];
     }
