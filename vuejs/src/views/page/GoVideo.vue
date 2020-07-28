@@ -583,7 +583,7 @@ export default {
       var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
       var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
       this.user = userData, this.token = tokenData;
-      this.$http.post(window.routes.mediaTokenTransmitter, {
+      this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
         email: this.user.email,
         token: this.token.token,
       }).then(response => {
