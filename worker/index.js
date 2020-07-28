@@ -3,6 +3,7 @@ var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
   version: "v7.7.7",
+  frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
   github_repo: "gindex-v4",
   favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico",
@@ -399,7 +400,9 @@ async function handleRequest(request) {
     } else if (command === "id2path" && request.method === "POST") {
       return handleId2Path(request, gd);
     } else if (command === "view") {
+      console.log(command);
       const params = url.searchParams;
+      console.log(params);
       return gd.view(params.get("url"), request.headers.get("Range"));
     } else if (command !== "down" && request.method === "GET") {
       return new Response(html(gd.order, { root_type: gd.root_type }), {
@@ -432,12 +435,14 @@ async function handleRequest(request) {
   // basic auth
   // for (const r = gd.basicAuthResponse(request); r;) return r;
   const basic_auth_res = gd.basicAuthResponse(request);
+  const max_auth_res = await gd.maxAuthResponse(request);
   path = path.replace(gd.url_path_prefix, "") || "/";
   if (request.method == "POST") {
     return basic_auth_res || apiRequest(request, gd);
   }
 
   let action = url.searchParams.get("a");
+  // console.log(path, path.substr(-1), action);
 
   if (path.substr(-1) == "/" || action != null) {
     return (
@@ -451,11 +456,51 @@ async function handleRequest(request) {
     if (path.split("/").pop().toLowerCase() == ".password") {
       return basic_auth_res || new Response("", { status: 404 });
     }
+    console.log(path);
     let file = await gd.file(path);
+    const _403 = new Response(null, {
+      status: 403,
+      statusText: "Forbidden Request/ Not Allowed",
+    });
+    let player = url.searchParams.get("player");
     let range = request.headers.get("Range");
     if (gd.root.protect_file_link && basic_auth_res) return basic_auth_res;
-    const is_down = !(command && command == "down");
-    return gd.down(file.id, range, is_down);
+    if(player && player == "internal"){
+      let token = url.searchParams.get("token");
+      if(token) {
+        let response = await gd.tokenAuthResponse(token);
+        if(response == null) {
+          const is_down = !(command && command == "down");
+          return gd.down(file.id, range, is_down);
+        } else {
+          return _403
+        }
+      } else {
+        return _403
+      }
+    } else if(player && player == "external"){
+      let token = url.searchParams.get("token");
+      if(token) {
+        let response = await gd.tokenAuthResponse(token);
+        if(response == null) {
+          const is_down = !(command && command == "down");
+          return gd.down(file.id, range, is_down);
+        } else {
+          return _403
+        }
+      } else {
+        return _403
+      }
+    } else if(player && player == "download"){
+      if(max_auth_res !== null) return max_auth_res
+      const is_down = !(command && command == "down");
+      return gd.down(file.id, range, is_down);
+    } else {
+      return new Response(null, {
+        status: 403,
+        statusText: "Forbidden Request/ Not Allowed",
+      })
+    }
   }
 }
 
@@ -599,7 +644,7 @@ class googleDrive {
   basicAuthResponse(request) {
     const user = this.root.user || "",
       pass = this.root.pass || "",
-      _401 = new Response("Unauthorized", {
+      _401 = new Response("Forbidden Request", {
         headers: {
           "WWW-Authenticate": `Basic realm="goindex:drive:${this.order}"`,
         },
@@ -607,6 +652,7 @@ class googleDrive {
       });
     if (user || pass) {
       const auth = request.headers.get("Authorization");
+      // console.log(auth);
       if (auth) {
         try {
           const [received_user, received_pass] = atob(
@@ -617,6 +663,68 @@ class googleDrive {
       }
     } else return null;
     return _401;
+  }
+
+  async maxAuthResponse(request) {
+    const _401 = new Response("ForBidden Request", {
+        headers: {
+          "WWW-Authenticate": `Basic realm="goindex:drive:${this.order}"`,
+        },
+        status: 401,
+      });
+    const auth = request.headers.get("Authorization");
+    console.log(auth);
+    if (auth) {
+      try {
+        const [received_user, received_pass] = atob(
+          auth.split(" ").pop()
+        ).split(":");
+        const res = await fetch(routes.loginRoute, {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'origin': authConfig.frontendUrl,
+          },
+          body: JSON.stringify({ email: received_user, password: received_pass })
+        });
+        const resbody = await res.json();
+        if(resbody.auth && resbody.registered && resbody.token){
+          return null
+        } else {
+          return _401
+        }
+      } catch (e) {}
+    } else {
+      return _401
+    }
+  }
+
+  async tokenAuthResponse(token) {
+    const _403 = new Response(null, {
+      status: 403,
+      statusText: "Forbidden Request/ Not Allowed",
+    });
+    try {
+      const res = await fetch(routes.verifyRoute, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+          'origin': authConfig.frontendUrl,
+        },
+        body: JSON.stringify({ token: token })
+      });
+      const resbody = await res.json();
+      if(resbody.auth && resbody.registered && resbody.tokenuser){
+        return null
+      } else {
+        return new Response(null, {
+          status: 403,
+          statusText: "Forbidden Request/ Not Allowed",
+        })
+      }
+    } catch (e) {}
   }
 
   async view(url, range = "", inline = true) {
