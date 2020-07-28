@@ -467,7 +467,8 @@ async function handleRequest(request) {
     if (gd.root.protect_file_link && basic_auth_res) return basic_auth_res;
     if(player && player == "internal"){
       let token = url.searchParams.get("token");
-      if(token) {
+      let email = url.searchParams.get("email");
+      if(token && email) {
         let response = await gd.tokenAuthResponse(token);
         if(response == null) {
           const is_down = !(command && command == "down");
@@ -480,8 +481,9 @@ async function handleRequest(request) {
       }
     } else if(player && player == "external"){
       let token = url.searchParams.get("token");
-      if(token) {
-        let response = await gd.tokenAuthResponse(token);
+      let email = url.searchParams.get("email");
+      if(token && email) {
+        let response = await gd.tokenAuthResponse(token, email);
         if(response == null) {
           const is_down = !(command && command == "down");
           return gd.down(file.id, range, is_down);
@@ -700,7 +702,7 @@ class googleDrive {
     }
   }
 
-  async tokenAuthResponse(token) {
+  async tokenAuthResponse(token, email) {
     const _403 = new Response(null, {
       status: 403,
       statusText: "Forbidden Request/ Not Allowed",
@@ -713,9 +715,11 @@ class googleDrive {
           'Content-Type': 'application/json',
           'origin': authConfig.frontendUrl,
         },
-        body: JSON.stringify({ token: token })
+        body: JSON.stringify({ token: token, email: email })
       });
       const resbody = await res.json();
+      console.log(token);
+      console.log(resbody);
       if(resbody.auth && resbody.registered && resbody.tokenuser){
         return null
       } else {
