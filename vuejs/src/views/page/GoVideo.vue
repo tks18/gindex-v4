@@ -217,6 +217,7 @@ export default {
       fullpage: true,
       user: {},
       token: {},
+      mediaToken: "",
       modal: false,
       infiniteId: +new Date(),
       loading: true,
@@ -350,7 +351,8 @@ export default {
       const pathSansExt = toks.slice(0, -1).join('.')
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
-           let blob = await this.getSrtFile(item.path);
+           let url = item.path+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+           let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
              this.suburl = blob.blobData;
@@ -400,7 +402,7 @@ export default {
           this.subButLoad = false;
         }
       } else {
-        let getUrl = "/"+this.currgd.id+":/"+url;
+        let getUrl = "/"+this.currgd.id+":/"+url+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
         let blob = await this.getSrtFile(getUrl);
         if(blob.success){
           this.suburl = blob.blobData;
@@ -427,8 +429,8 @@ export default {
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
-      this.externalUrl = this.videourl+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
+      this.apiurl = this.videourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+      this.externalUrl = this.videourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -476,11 +478,6 @@ export default {
         return;
       }
     },
-  },
-  activated() {
-    this.getVideourl();
-    this.render();
-    // this.getSrtFile("https://raw.githubusercontent.com/sampotts/plyr/master/demo/media/View_From_A_Blue_Moon_Trailer-HD.en.vtt");
   },
   computed: {
     getFilteredFiles() {
@@ -585,12 +582,26 @@ export default {
     if(user && token){
       var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
       var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-      this.user = userData, this.token = tokenData, this.mainLoad = false;
+      this.user = userData, this.token = tokenData;
+      this.$http.post(window.routes.mediaTokenTransmitter, {
+        email: this.user.email,
+        token: this.token.token,
+      }).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          this.mainLoad = false;
+          this.mediaToken = response.data.token;
+          this.getVideourl();
+        } else {
+          this.mainLoad = false;
+          this.mediaToken = "";
+        }
+      })
     } else {
       this.user = null, this.token = null, this.mainLoad = false;
     }
   },
   mounted() {
+    this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
     } else {
