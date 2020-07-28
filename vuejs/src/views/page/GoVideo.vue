@@ -427,8 +427,8 @@ export default {
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl+"?player=internal"+"&token="+this.token.token;
-      this.externalUrl = this.videourl+"?player=internal"+"&token="+this.token.token;
+      this.apiurl = this.videourl+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
+      this.externalUrl = this.videourl+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
