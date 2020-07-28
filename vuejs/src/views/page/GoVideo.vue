@@ -587,14 +587,19 @@ export default {
         email: this.user.email,
         token: this.token.token,
       }).then(response => {
+        console.log(response);
         if(response.data.auth && response.data.registered && response.data.token){
           this.mainLoad = false;
           this.mediaToken = response.data.token;
+          console.log(token);
           this.getVideourl();
         } else {
           this.mainLoad = false;
           this.mediaToken = "";
         }
+      }).catch(e => {
+        this.mainLoad = false;
+        this.mediaToken = "";
       })
     } else {
       this.user = null, this.token = null, this.mainLoad = false;
