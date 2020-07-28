@@ -469,7 +469,7 @@ async function handleRequest(request) {
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
       if(token && email) {
-        let response = await gd.tokenAuthResponse(token);
+        let response = await gd.tokenAuthResponse(token, email);
         if(response == null) {
           const is_down = !(command && command == "down");
           return gd.down(file.id, range, is_down);
