@@ -352,6 +352,7 @@ export default {
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
            let url = item.path+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+           console.log(url);
            let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
@@ -482,6 +483,7 @@ export default {
   },
   computed: {
     getFilteredFiles() {
+      this.checkSuburl();
       return this.shuffle(this.files).filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
@@ -594,7 +596,6 @@ export default {
           this.mediaToken = response.data.token;
           console.log(response.data.token);
           this.getVideourl();
-          this.checkSuburl();
         } else {
           this.mainLoad = false;
           this.mediaToken = "";
