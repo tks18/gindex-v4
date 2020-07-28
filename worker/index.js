@@ -203,6 +203,8 @@ var routes = {
   deleteUser: authConfig.backendSite + '/delete/user',
   deleteMe: authConfig.backendSite + '/user/delete',
   deleteAdmin: authConfig.backendSite + '/delete/admin',
+  mediaTokenTransmitter: authConfig.backendSite + '/user/media/transmit',
+  mediaTokenVerify: authConfig.backendSite + '/user/media/verify',
   getUsers: authConfig.backendSite + '/get/users',
   getAll: authConfig.backendSite + '/get/all',
   getAdmins: authConfig.backendSite + '/get/admins',
@@ -351,7 +353,7 @@ async function handleRequest(request) {
   function redirectToIndexPage() {
     return new Response("", {
       status: 301,
-      headers: { Location: `/${authConfig.default_gd}:/` },
+      headers: { Location: `/${authConfig.default_gd}:home/` },
     });
   }
 
@@ -482,6 +484,7 @@ async function handleRequest(request) {
     } else if(player && player == "external"){
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
+      console.log(email);
       if(token && email) {
         let response = await gd.tokenAuthResponse(token, email);
         if(response == null) {
@@ -708,7 +711,7 @@ class googleDrive {
       statusText: "Forbidden Request/ Not Allowed",
     });
     try {
-      const res = await fetch(routes.verifyRoute, {
+      const res = await fetch(routes.mediaTokenVerify, {
         method: 'post',
         headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -718,8 +721,6 @@ class googleDrive {
         body: JSON.stringify({ token: token, email: email })
       });
       const resbody = await res.json();
-      console.log(token);
-      console.log(resbody);
       if(resbody.auth && resbody.registered && resbody.tokenuser){
         return null
       } else {

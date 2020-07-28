@@ -1,5 +1,8 @@
 <template>
   <div :class="ismobile ? 'content nopad mt-2 mx-0 px-0 mt-2' : 'content nopad mt-2 mt-2 ml-5 mr-5'">
+    <div class="loading">
+      <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
+    </div>
     <div class="columns is-multiline is-centered">
       <div class="column mt-2 is-two-thirds">
         <div class="columns is-desktop is-multiline is-centered">
@@ -152,13 +155,20 @@ import {
 } from "@utils/AcrouUtil";
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
+import Loading from 'vue-loading-overlay';
 import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
     return {
       apiurl: "",
+      externalUrl: "",
       audiourl: "",
       modal: false,
+      mainLoad: false,
+      fullpage: true,
+      user: {},
+      token: {},
+      mediaToken: "",
       infiniteId: +new Date(),
       loading: true,
       loadImage: "",
@@ -207,6 +217,7 @@ export default {
   },
   components: {
     InfiniteLoading,
+    Loading
   },
   methods: {
     infiniteHandler($state) {
@@ -256,12 +267,10 @@ export default {
         })
         .catch((e) => {
           this.loading = false;
-          console.log(e);
         });
     },
     buildFiles(files) {
       var path = this.url.split(this.url.split('/').pop())[0];
-      console.log(path);
       return !files
         ? []
         : files
@@ -307,12 +316,13 @@ export default {
       return array
     },
     downloadButton() {
-      window.open(this.audiourl);
+      // window.open(this.audiourl);
     },
     getAudioUrl() {
       // Easy to debug in development environment
       this.audiourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.audiourl;
+      this.apiurl = this.audiourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+      this.externalUrl = this.audiourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -362,8 +372,7 @@ export default {
     },
   },
   activated() {
-    this.render();
-    this.getAudioUrl();
+
   },
   computed: {
     getFilteredFiles() {
@@ -393,17 +402,17 @@ export default {
         {
           name: "IINA",
           icon: this.$cdnpath("images/player/iina.png"),
-          scheme: "iina://weblink?url=" + this.audiourl,
+          scheme: "iina://weblink?url=" + this.externalUrl,
         },
         {
           name: "PotPlayer",
           icon: this.$cdnpath("images/player/potplayer.png"),
-          scheme: "potplayer://" + this.audiourl,
+          scheme: "potplayer://" + this.externalUrl,
         },
         {
           name: "VLC",
           icon: this.$cdnpath("images/player/vlc.png"),
-          scheme: "vlc://" + this.audiourl,
+          scheme: "vlc://" + this.externalUrl,
         },
         {
           name: "Thunder",
@@ -418,14 +427,14 @@ export default {
         {
           name: "nPlayer",
           icon: this.$cdnpath("images/player/nplayer.png"),
-          scheme: "nplayer-" + this.audiourl,
+          scheme: "nplayer-" + this.externalUrl,
         },
         {
           name: "MXPlayer(Free)",
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.audiourl +
+            this.externalUrl +
             "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
             this.title +
             ";end",
@@ -435,7 +444,7 @@ export default {
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.audiourl +
+            this.externalUrl +
             "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
             this.title +
             ";end",
@@ -443,10 +452,39 @@ export default {
       ];
     },
     getThunder() {
-      return Buffer.from("AA" + this.audiourl + "ZZ").toString("base64");
+      return Buffer.from("AA" + this.externalUrl + "ZZ").toString("base64");
     },
   },
+  beforeMount() {
+    this.mainLoad = true;
+    var user = localStorage.getItem("userdata");
+    var token = localStorage.getItem("tokendata");
+    if(user && token){
+      var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
+      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+      this.user = userData, this.token = tokenData;
+      this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+        email: userData.email,
+        token: tokenData.token,
+      }).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          this.mainLoad = false;
+          this.mediaToken = response.data.token;
+          this.getAudioUrl();
+        } else {
+          this.mainLoad = false;
+          this.mediaToken = "";
+        }
+      }).catch(e => {
+        this.mainLoad = false;
+        this.mediaToken = "";
+      })
+    } else {
+      this.user = null, this.token = null, this.mainLoad = false;
+    }
+  },
   mounted() {
+    this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
     } else {

@@ -352,7 +352,6 @@ export default {
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
            let url = item.path+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
-           console.log(url);
            let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
@@ -432,7 +431,6 @@ export default {
       this.videourl = window.location.origin + encodeURI(this.url);
       this.apiurl = this.videourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
       this.externalUrl = this.videourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
-      console.log(this.apiurl);
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -585,16 +583,13 @@ export default {
       var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
       var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
       this.user = userData, this.token = tokenData;
-      console.log(this.user, this.token);
       this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
         email: userData.email,
         token: tokenData.token,
       }).then(response => {
-        console.log(response);
         if(response.data.auth && response.data.registered && response.data.token){
           this.mainLoad = false;
           this.mediaToken = response.data.token;
-          console.log(response.data.token);
           this.getVideourl();
         } else {
           this.mainLoad = false;
