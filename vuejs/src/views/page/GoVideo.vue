@@ -1,5 +1,8 @@
 <template>
   <div :class="ismobile ? 'content nopad mt-2 mx-1 px-1 mt-2' : 'content nopad mt-2 mt-2 ml-5 mr-5'">
+    <div class="loading">
+      <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
+    </div>
     <div class="columns is-multiline is-centered">
       <div :class="ismobile ? 'column is-full mx-0 px-1' : 'column is-two-thirds'">
         <div class="columns is-desktop is-multiline is-centered">
@@ -93,7 +96,7 @@
             <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-multiline">
                 <div class="column is-quarter">
-                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="videourl">
+                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="externalUrl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
                     </span>
@@ -187,6 +190,7 @@ import {
   checkView,
   checkExtends,
 } from "@utils/AcrouUtil";
+import Loading from 'vue-loading-overlay';
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
 import { decode64 } from "@utils/AcrouUtil";
@@ -202,11 +206,18 @@ const srt2vtt = s =>
 export default {
   components: {
     InfiniteLoading,
+    Loading
   },
   data: function() {
     return {
       apiurl: "",
+      externalUrl: "",
       videourl: "",
+      mainLoad: false,
+      fullpage: true,
+      user: {},
+      token: {},
+      mediaToken: "",
       modal: false,
       infiniteId: +new Date(),
       loading: true,
@@ -340,7 +351,8 @@ export default {
       const pathSansExt = toks.slice(0, -1).join('.')
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
-           let blob = await this.getSrtFile(item.path);
+           let url = item.path+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+           let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
              this.suburl = blob.blobData;
@@ -390,7 +402,7 @@ export default {
           this.subButLoad = false;
         }
       } else {
-        let getUrl = "/"+this.currgd.id+":/"+url;
+        let getUrl = "/"+this.currgd.id+":/"+url+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
         let blob = await this.getSrtFile(getUrl);
         if(blob.success){
           this.suburl = blob.blobData;
@@ -417,7 +429,8 @@ export default {
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl;
+      this.apiurl = this.videourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+      this.externalUrl = this.videourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -466,11 +479,6 @@ export default {
       }
     },
   },
-  activated() {
-    this.getVideourl();
-    this.render();
-    // this.getSrtFile("https://raw.githubusercontent.com/sampotts/plyr/master/demo/media/View_From_A_Blue_Moon_Trailer-HD.en.vtt");
-  },
   computed: {
     getFilteredFiles() {
       this.checkSuburl();
@@ -500,17 +508,17 @@ export default {
         {
           name: "IINA",
           icon: this.$cdnpath("images/player/iina.png"),
-          scheme: "iina://weblink?url=" + this.videourl,
+          scheme: "iina://weblink?url=" + this.externalUrl,
         },
         {
           name: "PotPlayer",
           icon: this.$cdnpath("images/player/potplayer.png"),
-          scheme: "potplayer://" + this.videourl,
+          scheme: "potplayer://" + this.externalUrl,
         },
         {
           name: "VLC",
           icon: this.$cdnpath("images/player/vlc.png"),
-          scheme: "vlc://" + this.videourl,
+          scheme: "vlc://" + this.externalUrl,
         },
         {
           name: "Thunder",
@@ -525,14 +533,14 @@ export default {
         {
           name: "nPlayer",
           icon: this.$cdnpath("images/player/nplayer.png"),
-          scheme: "nplayer-" + this.videourl,
+          scheme: "nplayer-" + this.externalUrl,
         },
         {
           name: "MXPlayer(Free)",
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.externalUrl +
             "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
             this.title +
             ";end",
@@ -542,7 +550,7 @@ export default {
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.externalUrl +
             "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
             this.title +
             ";end",
@@ -550,7 +558,7 @@ export default {
       ];
     },
     getThunder() {
-      return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
+      return Buffer.from("AA" + this.externalUrl + "ZZ").toString("base64");
     },
   },
   created() {
@@ -567,7 +575,36 @@ export default {
       }
     }
   },
+  beforeMount() {
+    this.mainLoad = true;
+    var user = localStorage.getItem("userdata");
+    var token = localStorage.getItem("tokendata");
+    if(user && token){
+      var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
+      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+      this.user = userData, this.token = tokenData;
+      this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+        email: userData.email,
+        token: tokenData.token,
+      }).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          this.mainLoad = false;
+          this.mediaToken = response.data.token;
+          this.getVideourl();
+        } else {
+          this.mainLoad = false;
+          this.mediaToken = "";
+        }
+      }).catch(e => {
+        this.mainLoad = false;
+        this.mediaToken = "";
+      })
+    } else {
+      this.user = null, this.token = null, this.mainLoad = false;
+    }
+  },
   mounted() {
+    this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
     } else {
