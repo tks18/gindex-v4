@@ -482,7 +482,6 @@ export default {
   },
   computed: {
     getFilteredFiles() {
-      this.checkSuburl();
       return this.shuffle(this.files).filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
@@ -595,6 +594,7 @@ export default {
           this.mediaToken = response.data.token;
           console.log(response.data.token);
           this.getVideourl();
+          this.checkSuburl();
         } else {
           this.mainLoad = false;
           this.mediaToken = "";
