@@ -209,7 +209,6 @@ var routes = {
 };
 // =======Options END=======
 
-
 /**
  * global functions
  */
@@ -229,16 +228,16 @@ const FUNCS = {
  * global consts
  * @type {{folder_mime_type: string, default_file_fields: string, gd_root_type: {share_drive: number, user_drive: number, sub_folder: number}}}
  */
-const CONSTS = new (class {
-  default_file_fields =
-    "parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size";
-  gd_root_type = {
+const CONSTS = {
+  default_file_fields:
+    "parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size",
+  gd_root_type: {
     user_drive: 0,
     share_drive: 1,
     sub_folder: 2,
-  };
-  folder_mime_type = "application/vnd.google-apps.folder";
-})();
+  },
+  folder_mime_type: "application/vnd.google-apps.folder",
+}
 
 // gd instances
 var gds = [];
@@ -313,7 +312,6 @@ function html(current_drive_order = 0, model = {}) {
 </html>
 `;
 }
-
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
 });
@@ -329,6 +327,7 @@ async function handleRequest(request) {
       await gd.init();
       gds.push(gd);
     }
+    // This operation is parallel to improve efficiency
     let tasks = [];
     gds.forEach((gd) => {
       tasks.push(gd.initRootType());
@@ -338,9 +337,11 @@ async function handleRequest(request) {
     }
   }
 
+  // Extract drive order from path
+  // And get the corresponding gd instance according to drive order
   let gd;
   let url = new URL(request.url);
-  let path = url.pathname;
+  let path = decodeURI(url.pathname);
 
   /**
    * Redirect to start page
@@ -349,7 +350,7 @@ async function handleRequest(request) {
   function redirectToIndexPage() {
     return new Response("", {
       status: 301,
-      headers: { Location: `/${authConfig.default_gd}:home/` },
+      headers: { Location: `/${authConfig.default_gd}:/` },
     });
   }
 
@@ -360,7 +361,7 @@ async function handleRequest(request) {
   }
 
   // Special command format
-  const command_reg = /^\/(?<num>[\S]+):(?<command>[a-zA-Z0-9]+)(\/.*)?$/g;
+  const command_reg = /^\/(?<num>\d+):(?<command>[a-zA-Z0-9]+)(\/.*)?$/g;
   const match = command_reg.exec(path);
   let command;
   if (match) {
@@ -411,7 +412,7 @@ async function handleRequest(request) {
   path = path.replace(reg, (p1, p2) => {
     return p2 + "/";
   });
-  // Desired path format
+  // Expected path format
   const common_reg = /^\/\d+:\/.*$/g;
   try {
     if (!path.match(common_reg)) {
@@ -447,12 +448,7 @@ async function handleRequest(request) {
       })
     );
   } else {
-    if (
-      path
-        .split("/")
-        .pop()
-        .toLowerCase() == ".password"
-    ) {
+    if (path.split("/").pop().toLowerCase() == ".password") {
       return basic_auth_res || new Response("", { status: 404 });
     }
     let file = await gd.file(path);
@@ -474,7 +470,7 @@ async function apiRequest(request, gd) {
     let deferred_pass = gd.password(path);
     let body = await request.text();
     body = JSON.parse(body);
-    // This can increase the speed when listing directories for the first time. The disadvantage is that if the password verification fails, the overhead of listing directories will still be incurred
+    // This can increase the speed when listing the directory for the first time. The disadvantage is that if the password verification fails, the overhead of listing directories will still be incurred
     let deferred_list_result = gd.list(
       path,
       body.page_token,
@@ -517,10 +513,10 @@ async function handleSearch(request, gd) {
 }
 
 /**
- * deal with id2path
- * @param request 需要 id 参数
+ * Handle id2path
+ * @param request Requires id parameter
  * @param gd
- * @returns {Promise<Response>} [Note] If the item represented by the id received from the front desk is not under the target gd disk, then the response will be returned to the front desk with an empty string ""
+ * @returns {Promise<Response>} [Note] If the item represented by the id received from the front desk is not under the target gd disk, the response will return an empty string "" to the front desk
  */
 async function handleId2Path(request, gd) {
   const option = {
@@ -541,7 +537,7 @@ class googleDrive {
     this.root.protect_file_link = this.root.protect_file_link || false;
     this.url_path_prefix = `/${order}:`;
     this.authConfig = authConfig;
-    // TODO: The invalid refresh strategy of these caches can be formulated later
+    // TODO: These cache invalidation refresh strategies can be formulated later
     // path id
     this.paths = [];
     // path file
@@ -559,20 +555,20 @@ class googleDrive {
   }
 
   /**
-   * Initial authorization; then obtain user_drive_real_root_id
+   * Initial authorization; then get user_drive_real_root_id
    * @returns {Promise<void>}
    */
   async init() {
     await this.accessToken();
     /*await (async () => {
-            // Get only 1 time
+            // Only get 1 time
             if (authConfig.user_drive_real_root_id) return;
             const root_obj = await (gds[0] || this).findItemById('root');
             if (root_obj && root_obj.id) {
                 authConfig.user_drive_real_root_id = root_obj.id
             }
         })();*/
-    // Wait for user_drive_real_root_id and only get it once
+    // Wait for user_drive_real_root_id, only get 1 time
     if (authConfig.user_drive_real_root_id) return;
     const root_obj = await (gds[0] || this).findItemById("root");
     if (root_obj && root_obj.id) {
@@ -697,7 +693,7 @@ class googleDrive {
     let id = await this.findPathId(path);
     let result = await this._ls(id, page_token, page_index);
     let data = result.data;
-    // Cache multiple pages
+    // Cache for multiple pages
     if (result.nextPageToken && data.files) {
       if (!Array.isArray(this.path_children_cache[path])) {
         this.path_children_cache[path] = [];
@@ -812,7 +808,7 @@ class googleDrive {
     }
     let keyword = FUNCS.formatSearchKeyword(origin_keyword);
     if (!keyword) {
-      // The keyword is empty, return
+      // Keyword is empty, return
       return empty_result;
     }
     let words = keyword.split(/\s+/);
@@ -820,7 +816,7 @@ class googleDrive {
       "' AND name contains '"
     )}'`;
 
-    // corpora is a personal drive for user and a team drive for drive. With driveId
+    // For corpora, user is a personal disk, and drive is a team disk. Match driveId
     let params = {};
     if (is_user_drive) {
       params.corpora = "user";
@@ -856,10 +852,10 @@ class googleDrive {
   }
 
   /**
-   * Get the file object of the upper folder of this file or folder up layer by layer. Note: It will be very slow! ! !
-   * Up to find the root directory (root id) of the current gd object
+   * Get the file object of the parent folder of this file or folder one by one upwards. Note: it will be slow! ! !
+   * Find up to the root directory of the current gd object (root id)
    * Only consider a single upward chain.
-   * [Note] If the item represented by this id is not in the target gd disk, then this function will return null
+   * [Note] If the item represented by this id is not under the target gd disk, then this function will return null
    *
    * @param child_id
    * @param contain_myself
@@ -871,7 +867,7 @@ class googleDrive {
     const user_drive_real_root_id = authConfig.user_drive_real_root_id;
     const is_user_drive = gd.root_type === CONSTS.gd_root_type.user_drive;
 
-    // End point query id from bottom to top
+    // End goal id for bottom-up query
     const target_top_id = is_user_drive ? user_drive_real_root_id : gd_root_id;
     const fields = CONSTS.default_file_fields;
 
@@ -911,9 +907,9 @@ class googleDrive {
   }
 
   /**
-   * Get the path relative to the root directory of this disk
+   * Get the path relative to the root directory of the disk
    * @param child_id
-   * @returns {Promise<string>} [Note] If the item represented by this id is not in the target gd disk, then this method will return an empty string ""
+   * @returns {Promise<string>} [Note] If the item represented by this id is not under the target gd disk, then this method will return an empty string ""
    */
   async findPathById(child_id) {
     if (this.id_path_cache[child_id]) {
@@ -951,7 +947,7 @@ class googleDrive {
     return cache[0].path;
   }
 
-  // Get file item based on id
+  // Get file item according to id
   async findItemById(id) {
     const is_user_drive = this.root_type === CONSTS.gd_root_type.user_drive;
     let url = `https://www.googleapis.com/drive/v3/files/${id}?fields=${
@@ -1073,9 +1069,9 @@ class googleDrive {
   }
 
   sleep(ms) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       let i = 0;
-      setTimeout(function() {
+      setTimeout(function () {
         console.log("sleep" + ms);
         i++;
         if (i >= 2) reject(new Error("i>=2"));
@@ -1085,7 +1081,7 @@ class googleDrive {
   }
 }
 
-String.prototype.trim = function(char) {
+String.prototype.trim = function (char) {
   if (char) {
     return this.replace(
       new RegExp("^\\" + char + "+|\\" + char + "+$", "g"),
