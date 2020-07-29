@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.8.8",
-  "g2index": "7.8.8",
+  "version": "7.8.9-prerelease-1",
+  "g2index": "7.8.9-prerelease-1",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -36,6 +36,7 @@
     "vue-axios": "^2.1.5",
     "vue-clipboard2": "^0.3.1",
     "vue-codemirror": "^4.0.6",
+    "vue-gtag": "^1.8.0",
     "vue-head": "^2.2.0",
     "vue-i18n": "^8.18.2",
     "vue-infinite-loading": "^2.4.5",

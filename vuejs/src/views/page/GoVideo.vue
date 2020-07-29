@@ -212,6 +212,7 @@ export default {
     return {
       apiurl: "",
       externalUrl: "",
+      downloadUrl: "",
       videourl: "",
       mainLoad: false,
       fullpage: true,
@@ -423,14 +424,14 @@ export default {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
     downloadButton() {
-      location.href = this.url.replace(/^\/(\d+:)\//, "/$1down/");
-      return;
+      location.href = this.downloadUrl;
     },
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
-      this.externalUrl = this.videourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
+      this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.externalUrl = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.downloadUrl = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -596,6 +597,7 @@ export default {
           this.mediaToken = "";
         }
       }).catch(e => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = "";
       })

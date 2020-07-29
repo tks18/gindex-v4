@@ -82,6 +82,7 @@ export default {
           this.mediaToken = "";
         }
       }).catch(e => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = "";
       })

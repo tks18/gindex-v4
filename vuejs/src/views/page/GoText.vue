@@ -1,5 +1,8 @@
 <template>
   <div :class="ismobile ? 'content mx-0 mt-2 px-0 g2-content' : 'content ml-5 mr-5 mt-2 pl-5 pr-5 g2-content'">
+    <div class="loading">
+      <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
+    </div>
     <codemirror v-model="content" :options="cmOptions" />
   </div>
 </template>
@@ -7,6 +10,7 @@
 <script>
 import { get_file, decode64 } from "@utils/AcrouUtil";
 import { codemirror } from 'vue-codemirror'
+import Loading from 'vue-loading-overlay';
 
 // import base style
 import 'codemirror/lib/codemirror.css'
@@ -19,6 +23,11 @@ export default {
     return {
       path: "",
       content: "",
+      user: {},
+      token: {},
+      mediaToken: "",
+      mainLoad: false,
+      fullpage: true,
       cmOptions: {
         tabSize: 4,
         mode: 'text/javascript',
@@ -27,9 +36,6 @@ export default {
         line: true
       }
     };
-  },
-  activated () {
-    this.render();
   },
   computed: {
     url () {
@@ -40,7 +46,8 @@ export default {
     }
   },
   components: {
-    codemirror
+    codemirror,
+    Loading
   },
   methods: {
     render () {
@@ -50,7 +57,36 @@ export default {
         this.content = data;
       });
     }
-  }
+  },
+  beforeMount() {
+    this.mainLoad = true;
+    var user = localStorage.getItem("userdata");
+    var token = localStorage.getItem("tokendata");
+    if(user && token){
+      var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
+      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+      this.user = userData, this.token = tokenData;
+      this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+        email: userData.email,
+        token: tokenData.token,
+      }).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          this.mainLoad = false;
+          this.mediaToken = response.data.token;
+          this.render();
+        } else {
+          this.mainLoad = false;
+          this.mediaToken = "";
+        }
+      }).catch(e => {
+        console.log(e);
+        this.mainLoad = false;
+        this.mediaToken = "";
+      })
+    } else {
+      this.user = null, this.token = null, this.mainLoad = false;
+    }
+  },
 };
 </script>
 <style lang="scss">

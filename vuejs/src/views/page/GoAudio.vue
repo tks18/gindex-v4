@@ -162,6 +162,7 @@ export default {
     return {
       apiurl: "",
       externalUrl: "",
+      downloadUrl: "",
       audiourl: "",
       modal: false,
       mainLoad: false,
@@ -266,6 +267,7 @@ export default {
           this.loading = false;
         })
         .catch((e) => {
+          console.log(e);
           this.loading = false;
         });
     },
@@ -316,13 +318,14 @@ export default {
       return array
     },
     downloadButton() {
-      // window.open(this.audiourl);
+      location.href = this.downloadUrl;
     },
     getAudioUrl() {
       // Easy to debug in development environment
       this.audiourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.audiourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
-      this.externalUrl = this.audiourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
+      this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.externalUrl = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.downloadUrl = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -370,9 +373,6 @@ export default {
         return;
       }
     },
-  },
-  activated() {
-
   },
   computed: {
     getFilteredFiles() {
@@ -476,6 +476,7 @@ export default {
           this.mediaToken = "";
         }
       }).catch(e => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = "";
       })

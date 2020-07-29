@@ -213,21 +213,6 @@ var routes = {
 // =======Options END=======
 
 /**
- * global functions
- */
-const FUNCS = {
-  formatSearchKeyword: function(keyword) {
-    let nothing = "";
-    let space = " ";
-    if (!keyword) return nothing;
-    return keyword
-      .replace(/(!=)|['"=<>/\\:]/g, nothing)
-      .replace(/[,，|(){}]/g, space)
-      .trim();
-  },
-};
-
-/**
  * global consts
  * @type {{folder_mime_type: string, default_file_fields: string, gd_root_type: {share_drive: number, user_drive: number, sub_folder: number}}}
  */
@@ -458,11 +443,10 @@ async function handleRequest(request) {
     if (path.split("/").pop().toLowerCase() == ".password") {
       return basic_auth_res || new Response("", { status: 404 });
     }
-    console.log(path);
     let file = await gd.file(path);
-    const _403 = new Response(null, {
+    const _403 = new Response('Sorry, this page is not available.', {
       status: 403,
-      statusText: "Forbidden Request/ Not Allowed",
+      statusText: "You Can't take a Heck Out from my Server - Shan.tk",
     });
     let player = url.searchParams.get("player");
     let range = request.headers.get("Range");
@@ -472,11 +456,14 @@ async function handleRequest(request) {
       let email = url.searchParams.get("email");
       if(token && email) {
         let response = await gd.tokenAuthResponse(token, email);
-        if(response == null) {
+        console.log(response);
+        if(response) {
           const is_down = !(command && command == "down");
-          return gd.down(file.id, range, is_down);
+          return gd.down(file.id, range ,is_down);
         } else {
-          return _403
+          if(max_auth_res !== null) return max_auth_res
+          const is_down = !(command && command == "down");
+         return gd.down(file.id, range, is_down);
         }
       } else {
         return _403
@@ -487,23 +474,40 @@ async function handleRequest(request) {
       console.log(email);
       if(token && email) {
         let response = await gd.tokenAuthResponse(token, email);
-        if(response == null) {
+        console.log(response);
+        if(response) {
+          const is_down = !(command && command == "down");
+          return gd.down(file.id, range ,is_down);
+        } else {
+          if(max_auth_res !== null) return max_auth_res
           const is_down = !(command && command == "down");
           return gd.down(file.id, range, is_down);
-        } else {
-          return _403
         }
       } else {
         return _403
       }
     } else if(player && player == "download"){
-      if(max_auth_res !== null) return max_auth_res
-      const is_down = !(command && command == "down");
-      return gd.down(file.id, range, is_down);
+      let token = url.searchParams.get("token");
+      let email = url.searchParams.get("email");
+      let response = await gd.tokenAuthResponse(token, email);
+      if(token && email) {
+        let response = await gd.tokenAuthResponse(token, email);
+        console.log(response);
+        if(response) {
+          const is_down = !(command && command == "down");
+          return gd.down(file.id, range ,is_down);
+        } else {
+          if(max_auth_res !== null) return max_auth_res
+          const is_down = !(command && command == "down");
+         return gd.down(file.id, range, is_down);
+        }
+      } else {
+        return _403
+      }
     } else {
-      return new Response(null, {
+      return new Response('Sorry, this page is not available.', {
         status: 403,
-        statusText: "Forbidden Request/ Not Allowed",
+        statusText: "You Can't take a Heck Out from my Server - Shan.tk",
       })
     }
   }
@@ -678,7 +682,6 @@ class googleDrive {
         status: 401,
       });
     const auth = request.headers.get("Authorization");
-    console.log(auth);
     if (auth) {
       try {
         const [received_user, received_pass] = atob(
@@ -706,7 +709,7 @@ class googleDrive {
   }
 
   async tokenAuthResponse(token, email) {
-    const _403 = new Response(null, {
+    const _403 = new Response('Sorry, this page is not available.', {
       status: 403,
       statusText: "Forbidden Request/ Not Allowed",
     });
@@ -721,13 +724,11 @@ class googleDrive {
         body: JSON.stringify({ token: token, email: email })
       });
       const resbody = await res.json();
+      console.log(resbody);
       if(resbody.auth && resbody.registered && resbody.tokenuser){
-        return null
+        return true
       } else {
-        return new Response(null, {
-          status: 403,
-          statusText: "Forbidden Request/ Not Allowed",
-        })
+        return false
       }
     } catch (e) {}
   }
@@ -743,7 +744,7 @@ class googleDrive {
     return res;
   }
 
-  async down(id, range = "", inline = false) {
+  async down(id,range = "", inline = false) {
     let url = `https://www.googleapis.com/drive/v3/files/${id}?alt=media`;
     let requestOption = await this.requestOption();
     requestOption.headers["Range"] = range;
