@@ -10,25 +10,49 @@
 import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
-    return {};
+    return {
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
+      ismobile: false,
+    };
   },
   computed: {
     url() {
+      this.checkMobile();
       if (this.$route.params.path) {
         return decode64(this.$route.params.path);
       }
       return ''
     },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
-    }
   },
-  methods: {}
+  methods: {
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+  },
+  watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+  }
 };
 </script>
 

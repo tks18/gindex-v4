@@ -25,6 +25,9 @@ export default {
       content: "",
       user: {},
       token: {},
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
+      ismobile: false,
       mediaToken: "",
       mainLoad: false,
       fullpage: true,
@@ -56,7 +59,15 @@ export default {
       get_file({ path: path, file: {} }, data => {
         this.content = data;
       });
-    }
+    },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
   },
   beforeMount() {
     this.mainLoad = true;
@@ -86,7 +97,26 @@ export default {
     } else {
       this.user = null, this.token = null, this.mainLoad = false;
     }
+    this.checkMobile();
   },
+  watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+  }
 };
 </script>
 <style lang="scss">

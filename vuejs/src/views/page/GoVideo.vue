@@ -214,8 +214,11 @@ export default {
       externalUrl: "",
       downloadUrl: "",
       videourl: "",
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
       mainLoad: false,
       fullpage: true,
+      ismobile: false,
       user: {},
       token: {},
       mediaToken: "",
@@ -346,6 +349,14 @@ export default {
       }
 
       return array
+    },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
     },
     checkSuburl() {
       const toks = this.videoname.split('.');
@@ -489,14 +500,6 @@ export default {
         return file.mimeType == "video/mp4" || "video/x-matroska" || "video/x-msvideo" || "video/webm"
       }).slice(0,15);
     },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
-    },
     url() {
       if (this.$route.params.path) {
         return decode64(this.$route.params.path);
@@ -606,6 +609,7 @@ export default {
     }
   },
   mounted() {
+    this.checkMobile();
     this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
@@ -616,6 +620,22 @@ export default {
     this.videoname = this.url.split('/').pop();
   },
   watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     player: function(){
       this.player.on('ready', () => {
         this.playicon="fas fa-glasses";

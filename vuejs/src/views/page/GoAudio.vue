@@ -63,26 +63,26 @@
             </div>
           </div>
           <div class="column is-full">
-            <div class="box has-text-centered has-background-dark">
+            <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-multiline">
-                <div class="column is-2">
-                  <button class="button is-success is-rounded" v-clipboard:copy="audiourl">
+                <div class="column is-one-third">
+                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="externalUrl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
                     </span>
-                    <span>Share Link</span>
+                    <span>{{ ismobile ? 'Share Link' : 'Stream Link'}}</span>
                   </button>
                 </div>
-                <div class="column is-4">
-                  <button class="button is-success is-rounded" @click="modal=true;">
+                <div v-if="ismobile" class="column is-one-third">
+                  <button class="button is-netflix-red is-rounded" @click="modal=true;">
                     <span class="icon">
                      <i class="fas fa-play"></i>
                    </span>
                    <span>External Players</span>
                   </button>
                 </div>
-                <div class="column is-2">
-                  <button class="button is-danger is-rounded" @click="downloadButton">
+                <div class="column is-one-third">
+                  <button class="button is-netflix-red is-rounded" @click="downloadButton">
                     <span class="icon">
                      <i class="fas fa-download"></i>
                    </span>
@@ -164,8 +164,11 @@ export default {
       externalUrl: "",
       downloadUrl: "",
       audiourl: "",
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
       modal: false,
       mainLoad: false,
+      ismobile: false,
       fullpage: true,
       user: {},
       token: {},
@@ -317,6 +320,14 @@ export default {
 
       return array
     },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     downloadButton() {
       location.href = this.downloadUrl;
     },
@@ -381,14 +392,6 @@ export default {
       }).filter(file => {
         return file.mimeType == "audio/mp3" || "audio/flac" || "audio/ogg";
       }).slice(0,15);
-    },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
     },
     url() {
       if (this.$route.params.path) {
@@ -485,6 +488,7 @@ export default {
     }
   },
   mounted() {
+    this.checkMobile();
     this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
@@ -495,6 +499,22 @@ export default {
     this.audioname = this.url.split('/').pop();
   },
   watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     player: function(){
       this.player.on('ready', () => {
         this.playicon="fas fa-glasses";

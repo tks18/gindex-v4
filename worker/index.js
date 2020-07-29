@@ -212,6 +212,22 @@ var routes = {
 };
 // =======Options END=======
 
+
+/**
+ * global functions
+ */
+const FUNCS = {
+  formatSearchKeyword: function(keyword) {
+    let nothing = "";
+    let space = " ";
+    if (!keyword) return nothing;
+    return keyword
+      .replace(/(!=)|['"=<>/\\:]/g, nothing)
+      .replace(/[,，|(){}]/g, space)
+      .trim();
+  },
+};
+
 /**
  * global consts
  * @type {{folder_mime_type: string, default_file_fields: string, gd_root_type: {share_drive: number, user_drive: number, sub_folder: number}}}
@@ -231,6 +247,7 @@ const CONSTS = {
 var gds = [];
 
 function html(current_drive_order = 0, model = {}) {
+    var data = returnVue();
   return `
 <!DOCTYPE html>
 <html>
@@ -292,6 +309,7 @@ function html(current_drive_order = 0, model = {}) {
     window.MODEL = JSON.parse('${JSON.stringify(model)}');
     window.current_drive_order = ${current_drive_order};
   </script>
+  ${data}
 </head>
 <body>
     <div id="app"></div>
@@ -656,6 +674,7 @@ class googleDrive {
       _401 = new Response("Forbidden Request", {
         headers: {
           "WWW-Authenticate": `Basic realm="goindex:drive:${this.order}"`,
+          "Cache-Control": "no-store"
         },
         status: 401,
       });
@@ -678,6 +697,7 @@ class googleDrive {
     const _401 = new Response("ForBidden Request", {
         headers: {
           "WWW-Authenticate": `Basic realm="goindex:drive:${this.order}"`,
+          "Cache-Control": "no-store"
         },
         status: 401,
       });
@@ -1193,6 +1213,19 @@ class googleDrive {
       }, ms);
     });
   }
+}
+
+function returnVue() {
+    return `
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156929545-2"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-156929545-2');
+        </script>
+    `
 }
 
 String.prototype.trim = function (char) {
