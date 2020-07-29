@@ -22,13 +22,13 @@
                   </div>
                 </div>
                 <div :class="ismobile ? 'column is-11' : 'column is-7'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ audioname }}</p>
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ audioname.split('.').slice(0,-1).join('.') }}</p>
                 </div>
-                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-success has-text-right is-4' : 'column title has-text-weight-semibold has-text-success has-text-right is-4'">
-                  <span class="icon is-medium">
+                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-right is-4' : 'column title has-text-weight-semibold has-text-right is-4'">
+                  <span class="icon is-medium has-text-netflix-only">
                     <i :class="playicon"></i>
                   </span>
-                  <span class="subtitle has-text-success ml-2">{{ playtext }}</span>
+                  <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
                 </div>
               </div>
             </div>
