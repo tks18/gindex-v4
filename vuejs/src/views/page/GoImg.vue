@@ -23,6 +23,9 @@ export default {
       imgurl: "",
       user: {},
       token: {},
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
+      ismobile: false,
       mediaToken: "",
       mainLoad: false,
       fullpage: true,
@@ -39,21 +42,21 @@ export default {
       }
       return ''
     },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
-    }
   },
   methods: {
     render() {
-      let path = this.url+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+      let path = this.url+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
 // Easy to debug in development environment
 // path = process.env.NODE_ENV === "development"? "/api" + path: "";
       this.imgurl = path;
+    },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
     },
     loading(event) {
       if (event.target.complete == true) {
@@ -62,6 +65,7 @@ export default {
     }
   },
   beforeMount() {
+    this.checkMobile();
     this.mainLoad = true;
     var user = localStorage.getItem("userdata");
     var token = localStorage.getItem("tokendata");
@@ -82,6 +86,7 @@ export default {
           this.mediaToken = "";
         }
       }).catch(e => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = "";
       })
@@ -89,5 +94,23 @@ export default {
       this.user = null, this.token = null, this.mainLoad = false;
     }
   },
+  watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+  }
 };
 </script>

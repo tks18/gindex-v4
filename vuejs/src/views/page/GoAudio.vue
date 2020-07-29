@@ -22,13 +22,13 @@
                   </div>
                 </div>
                 <div :class="ismobile ? 'column is-11' : 'column is-7'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ audioname }}</p>
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ audioname.split('.').slice(0,-1).join('.') }}</p>
                 </div>
-                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-success has-text-right is-4' : 'column title has-text-weight-semibold has-text-success has-text-right is-4'">
-                  <span class="icon is-medium">
+                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-right is-4' : 'column title has-text-weight-semibold has-text-right is-4'">
+                  <span class="icon is-medium has-text-netflix-only">
                     <i :class="playicon"></i>
                   </span>
-                  <span class="subtitle has-text-success ml-2">{{ playtext }}</span>
+                  <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
                 </div>
               </div>
             </div>
@@ -63,26 +63,26 @@
             </div>
           </div>
           <div class="column is-full">
-            <div class="box has-text-centered has-background-dark">
+            <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-multiline">
-                <div class="column is-2">
-                  <button class="button is-success is-rounded" v-clipboard:copy="audiourl">
+                <div class="column is-one-third">
+                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="externalUrl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
                     </span>
-                    <span>Share Link</span>
+                    <span>{{ ismobile ? 'Share Link' : 'Stream Link'}}</span>
                   </button>
                 </div>
-                <div class="column is-4">
-                  <button class="button is-success is-rounded" @click="modal=true;">
+                <div v-if="ismobile" class="column is-one-third">
+                  <button class="button is-netflix-red is-rounded" @click="modal=true;">
                     <span class="icon">
                      <i class="fas fa-play"></i>
                    </span>
                    <span>External Players</span>
                   </button>
                 </div>
-                <div class="column is-2">
-                  <button class="button is-danger is-rounded" @click="downloadButton">
+                <div class="column is-one-third">
+                  <button class="button is-netflix-red is-rounded" @click="downloadButton">
                     <span class="icon">
                      <i class="fas fa-download"></i>
                    </span>
@@ -162,9 +162,13 @@ export default {
     return {
       apiurl: "",
       externalUrl: "",
+      downloadUrl: "",
       audiourl: "",
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
       modal: false,
       mainLoad: false,
+      ismobile: false,
       fullpage: true,
       user: {},
       token: {},
@@ -266,6 +270,7 @@ export default {
           this.loading = false;
         })
         .catch((e) => {
+          console.log(e);
           this.loading = false;
         });
     },
@@ -315,14 +320,23 @@ export default {
 
       return array
     },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     downloadButton() {
-      // window.open(this.audiourl);
+      location.href = this.downloadUrl;
     },
     getAudioUrl() {
       // Easy to debug in development environment
       this.audiourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.audiourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
-      this.externalUrl = this.audiourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
+      this.apiurl = this.audiourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.externalUrl = this.audiourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.downloadUrl = this.audiourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -371,9 +385,6 @@ export default {
       }
     },
   },
-  activated() {
-
-  },
   computed: {
     getFilteredFiles() {
       return this.shuffle(this.files).filter(file => {
@@ -381,14 +392,6 @@ export default {
       }).filter(file => {
         return file.mimeType == "audio/mp3" || "audio/flac" || "audio/ogg";
       }).slice(0,15);
-    },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
     },
     url() {
       if (this.$route.params.path) {
@@ -476,6 +479,7 @@ export default {
           this.mediaToken = "";
         }
       }).catch(e => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = "";
       })
@@ -484,6 +488,7 @@ export default {
     }
   },
   mounted() {
+    this.checkMobile();
     this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
@@ -494,6 +499,22 @@ export default {
     this.audioname = this.url.split('/').pop();
   },
   watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     player: function(){
       this.player.on('ready', () => {
         this.playicon="fas fa-glasses";

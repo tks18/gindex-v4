@@ -212,9 +212,13 @@ export default {
     return {
       apiurl: "",
       externalUrl: "",
+      downloadUrl: "",
       videourl: "",
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
       mainLoad: false,
       fullpage: true,
+      ismobile: false,
       user: {},
       token: {},
       mediaToken: "",
@@ -346,6 +350,14 @@ export default {
 
       return array
     },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     checkSuburl() {
       const toks = this.videoname.split('.');
       const pathSansExt = toks.slice(0, -1).join('.')
@@ -423,14 +435,14 @@ export default {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
     downloadButton() {
-      location.href = this.url.replace(/^\/(\d+:)\//, "/$1down/");
-      return;
+      location.href = this.downloadUrl;
     },
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
-      this.externalUrl = this.videourl+"?player=external"+"&token="+this.mediaToken+"&email="+this.user.email;
+      this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.externalUrl = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.downloadUrl = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -487,14 +499,6 @@ export default {
       }).filter(file => {
         return file.mimeType == "video/mp4" || "video/x-matroska" || "video/x-msvideo" || "video/webm"
       }).slice(0,15);
-    },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
     },
     url() {
       if (this.$route.params.path) {
@@ -596,6 +600,7 @@ export default {
           this.mediaToken = "";
         }
       }).catch(e => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = "";
       })
@@ -604,6 +609,7 @@ export default {
     }
   },
   mounted() {
+    this.checkMobile();
     this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
@@ -614,6 +620,22 @@ export default {
     this.videoname = this.url.split('/').pop();
   },
   watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     player: function(){
       this.player.on('ready', () => {
         this.playicon="fas fa-glasses";

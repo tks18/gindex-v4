@@ -89,6 +89,9 @@ export default {
     return {
       infiniteId: +new Date(),
       loading: true,
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
+      ismobile: false,
       loadImage: "",
       page: {
         page_token: null,
@@ -134,6 +137,7 @@ export default {
     };
   },
   mounted() {
+    this.checkMobile();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
     } else {
@@ -156,14 +160,6 @@ export default {
       return this.files.filter(
         (file) => file.mimeType.indexOf("image") != -1
       );
-    },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
     },
     renderHeadMD() {
       return window.themeOptions.render.head_md || false;
@@ -285,6 +281,14 @@ export default {
           });
         });
     },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
@@ -377,5 +381,23 @@ export default {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
     },
   },
+  watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+  }
 };
 </script>
