@@ -3,6 +3,8 @@
 ##### by _[Shan.tk](https://github.com/tks18)_<br>
 _Site - [Click Here](https://glorytoheaven.tk)_<br>
 Demo Site can be Seen Here - [Click Here](https://demo.gthu.workers.dev)<br>
+**Support Group can be Found Here - [Here](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)**<br>
+Any Issues / Help Regarding Setup, Contact Through the telegram Group
 
 **Now With New UI**<br>
 ![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home.png?raw=true)<br>
