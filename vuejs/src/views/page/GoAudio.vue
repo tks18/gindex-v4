@@ -7,17 +7,20 @@
       <div class="column mt-2 is-two-thirds">
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
-            <div class="box has-background-black custompad">
-              <vue-plyr ref="plyr">
-                <audio controls autoplay preload="auto" class="audioplayer" :src="apiurl">Does Not Support</audio>
+            <figure class="image is-16by9 mb-0">
+              <img class="has-ratio" :src="poster">
+            </figure>
+            <div class="box has-background-black custompad mt-0">
+              <vue-plyr ref="plyr" class="audioplayer">
+                <audio preload="metadata" class="audioplayer" :src="apiurl">Does Not Support</audio>
               </vue-plyr>
             </div>
             <div class="box has-background-black">
-              <div class="columns is-mobile is-multiline has-text-white">
+              <div class="columns is-centered is-mobile is-multiline has-text-white">
                 <div class="column is-1">
                   <div class="columns is-desktop is-multiline has-text-white is-centered is-vcentered">
                     <div class="column is-full">
-                      <p class="subtitle has-text-weight-bold has-text-warning"><i class="fas fa-audio"></i></p>
+                      <p class="subtitle has-text-weight-bold has-text-netflix-only"><i class="fas fa-headphones"></i></p>
                     </div>
                   </div>
                 </div>
@@ -94,9 +97,18 @@
           </div>
         </div>
       </div>
-      <div class="column is-one-third golist" v-loading="loading">
-        <h2 class="title has-text-centered has-text-weight-bold has-text-warning"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
-        <hr>
+      <div :class="ismobile ? 'column is-centered is-vcentered is-one-third is-desktop golist' : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'" v-loading="loading">
+        <div class="column is-full">
+          <div class="columns is-mobile is-multiline is-centered is-vcentered">
+            <div class="column is-two-thirds">
+              <h2 class="title has-text-weight-bold has-text-danger">Continue Your Binge</h2>
+            </div>
+            <div class="column is-one-third">
+              <h6 class="subtitle has-text-right has-text-grey">Found {{ this.files ? this.files.length : "0" }} Results</h6>
+            </div>
+          </div>
+        </div>
+        <div class="column is-full">
           <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in getFilteredFiles" v-bind:key="index" @click="action(file,'view')">
             <div class="column is-2">
               <svg class="iconfont" style="font-size: 20px">
@@ -125,12 +137,13 @@
               </div>
             </div>
           </div>
-          <infinite-loading
-            v-show="!loading"
-            ref="infinite"
-            spinner="bubbles"
-            @infinite="infiniteHandler"
-          >
+        </div>
+        <infinite-loading
+          v-show="!loading"
+          ref="infinite"
+          spinner="bubbles"
+          @infinite="infiniteHandler"
+        >
           <div slot="no-more"></div>
           <div slot="no-results"></div>
         </infinite-loading>
@@ -173,6 +186,7 @@ export default {
       user: {},
       token: {},
       mediaToken: "",
+      poster: "",
       infiniteId: +new Date(),
       loading: true,
       loadImage: "",
@@ -387,11 +401,11 @@ export default {
   },
   computed: {
     getFilteredFiles() {
-      return this.shuffle(this.files).filter(file => {
+      return this.files.filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
         return file.mimeType == "audio/mp3" || "audio/flac" || "audio/ogg";
-      }).slice(0,15);
+      });
     },
     url() {
       if (this.$route.params.path) {
@@ -517,14 +531,27 @@ export default {
     },
     player: function(){
       this.player.on('ready', () => {
+        this.player.toggleControls(false);
         this.playicon="fas fa-glasses";
         this.playtext="Ready to Play !"
       });
+      this.player.on('loadstart', () => {
+        this.poster = "https://i.pinimg.com/originals/f3/85/20/f3852049a78fa952bb7a4774a40017db.gif";
+        this.playicon = "fas fa-spinner fa-pulse";
+        this.playtext = "Loading Awesomeness..";
+      })
+      this.player.on('canplay', () => {
+        this.poster = "https://i.pinimg.com/originals/f3/85/20/f3852049a78fa952bb7a4774a40017db.gif";
+        this.playicon="fas fa-glasses";
+        this.playtext="Let's Party"
+      })
       this.player.on('play', () => {
+        this.poster = "https://thumbs.gfycat.com/MadFamiliarAngwantibo-size_restricted.gif";
         this.playicon="fas fa-spin fa-compact-disc";
         this.playtext="Playing"
       });
       this.player.on('pause', () => {
+        this.poster = "https://thumbs.gfycat.com/HeavenlyExcitableFlyingfish-size_restricted.gif";
         this.playicon="fas fa-pause",
         this.playtext="Paused"
       });

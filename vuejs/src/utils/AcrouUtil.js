@@ -14,7 +14,7 @@ const text_exts = [
   "md",
 ];
 const audio_exts=["mp3","flac","wav","ogg","m4a"];
-const video_exts = ["mp4", "webm", "mkv", "m3u8"];
+const video_exts = ["mp4", "webm", "mkv", "m3u8","avi"];
 const image_exts = ["bmp", "jpg", "jpeg", "png", "gif"];
 const pdf_exts = ["pdf"];
 
@@ -49,29 +49,25 @@ export const checkView = (path) => {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
       return `/${p2}text/${base64Path}`;
     });
-  }
-
-  if (pdf_exts.indexOf(`${ext}`) != -1) {
+  } else if (pdf_exts.indexOf(`${ext}`) != -1) {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
       return `/${p2}pdf/${base64Path}`;
     });
-  }
-
-  if (audio_exts.indexOf(`${ext}`) != -1) {
+  } else if (audio_exts.indexOf(`${ext}`) != -1) {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
       return `/${p2}audio/${base64Path}`;
     });
-  }
-
-  if (video_exts.indexOf(`${ext}`) != -1) {
+  } else if (video_exts.indexOf(`${ext}`) != -1) {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
       return `/${p2}video/${base64Path}`;
     });
-  }
-
-  if (image_exts.indexOf(`${ext}`) != -1) {
+  } else if (image_exts.indexOf(`${ext}`) != -1) {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
       return `/${p2}image/${base64Path}`;
+    });
+  } else {
+    path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
+      return `/${p2}others/${base64Path}`;
     });
   }
   return path;
