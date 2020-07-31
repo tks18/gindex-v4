@@ -67,7 +67,6 @@ import {
   formatFileSize,
   checkoutPath,
   checkView,
-  checkExtends,
 } from "@utils/AcrouUtil";
 import { mapState } from "vuex";
 import BreadCrumb from "../common/BreadCrumb";
@@ -313,18 +312,6 @@ export default {
     },
     target(file, target) {
       let path = file.path;
-      if (target === "_blank") {
-        window.open(path);
-        return;
-      }
-      if (target === "copy") {
-        this.copy(path);
-        return;
-      }
-      if (target === "down" || (!checkExtends(path) && !file.isFolder)) {
-        location.href = path.replace(/^\/(\d+:)\//, "/$1down/");
-        return;
-      }
       if (target === "view") {
         this.$router.push({
           path: checkView(path),

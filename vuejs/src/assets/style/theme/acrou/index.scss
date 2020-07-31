@@ -836,10 +836,6 @@ th {
   }
 }
 
-.custompad {
-  padding-top: 40%;
-}
-
 .just {
   background: transparent 0.1;
 }
@@ -901,4 +897,20 @@ th {
   .cat-link:hover {
     box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
   }
+}
+
+.playbuttons, .playbuttons:visited,  {
+  border: none;
+  background: transparent;
+  color: #e50914;
+}
+
+.playbuttons:hover {
+  border-radius: 0.4rem;
+  background-color: #e50914;
+  color: white;
+}
+
+.audioplayer {
+  --plyr-color-main: #e50914;
 }

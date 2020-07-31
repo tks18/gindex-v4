@@ -8,9 +8,9 @@
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
             <vue-plyr ref="plyr">
-              <video :src="apiurl" class="video-content">
+              <video :poster="poster" :src="apiurl" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
-                <track kind="captions" label="English captions" :src="suburl" srclang="en" default />
+                <track kind="captions" label="Captions" :src="suburl" srclang="en" default />
               </video>
             </vue-plyr>
             <div class="box has-background-black">
@@ -132,8 +132,18 @@
           </div>
         </div>
       </div>
-      <div class="column is-one-third golist" v-loading="loading">
-        <h2 class="title has-text-centered has-text-weight-bold has-text-danger"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
+      <div :class="ismobile ? 'column is-centered is-vcentered is-one-third is-desktop golist' : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'" v-loading="loading">
+        <div class="column is-full">
+          <div class="columns is-mobile is-multiline is-centered is-vcentered">
+            <div class="column is-two-thirds">
+              <h2 class="title has-text-weight-bold has-text-danger">Continue Your Binge</h2>
+            </div>
+            <div class="column is-one-third">
+              <h6 class="subtitle has-text-right has-text-grey">Found {{ this.files ? this.files.length - 1 : "0" }} Results</h6>
+            </div>
+          </div>
+        </div>
+        <div class="column is-full">
           <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in getFilteredFiles" v-bind:key="index" @click="action(file,'view')">
             <div class="column is-2">
               <svg class="iconfont" style="font-size: 20px">
@@ -162,12 +172,13 @@
               </div>
             </div>
           </div>
-          <infinite-loading
-            v-show="!loading"
-            ref="infinite"
-            spinner="bubbles"
-            @infinite="infiniteHandler"
-          >
+        </div>
+        <infinite-loading
+          v-show="!loading"
+          ref="infinite"
+          spinner="bubbles"
+          @infinite="infiniteHandler"
+        >
           <div slot="no-more"></div>
           <div slot="no-results"></div>
         </infinite-loading>
@@ -214,6 +225,7 @@ export default {
       externalUrl: "",
       downloadUrl: "",
       videourl: "",
+      poster: "",
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       mainLoad: false,
@@ -288,8 +300,10 @@ export default {
             };
             if ($state) {
               this.files.push(...this.buildFiles(data.files));
+              this.getPoster();
             } else {
               this.files = this.buildFiles(data.files);
+              this.getPoster();
             }
           }
           if (body.nextPageToken) {
@@ -447,6 +461,12 @@ export default {
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
     },
+    getPoster() {
+      var data = this.files.filter((file) => {
+        return file.name == this.videoname
+      })[0].thumbnailLink;
+      this.poster = data;
+    },
     action(file, target) {
       if (file.mimeType.indexOf("image") != -1) {
         this.viewer = true;
@@ -494,11 +514,11 @@ export default {
   computed: {
     getFilteredFiles() {
       this.checkSuburl();
-      return this.shuffle(this.files).filter(file => {
+      return this.files.filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
         return file.mimeType == "video/mp4" || "video/x-matroska" || "video/x-msvideo" || "video/webm"
-      }).slice(0,15);
+      });
     },
     url() {
       if (this.$route.params.path) {
@@ -641,6 +661,14 @@ export default {
         this.playicon="fas fa-glasses";
         this.playtext="Ready to Play !"
       });
+      this.player.on('loadstart', () => {
+        this.playicon = "fas fa-spinner fa-pulse";
+        this.playtext = "Loading Awesomeness..";
+      })
+      this.player.on('canplay', () => {
+        this.playicon="fas fa-glasses";
+        this.playtext="Let's Party"
+      })
       this.player.on('play', () => {
         this.playicon="fas fa-spin fa-compact-disc";
         this.playtext="Playing"
