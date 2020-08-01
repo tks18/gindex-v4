@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.9.0",
-  "g2index": "7.9.0",
+  "version": "7.9.1",
+  "g2index": "7.9.1",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

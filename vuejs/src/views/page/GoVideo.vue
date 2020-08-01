@@ -10,7 +10,7 @@
             <vue-plyr ref="plyr">
               <video :poster="poster" :src="apiurl" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
-                <track kind="captions" label="Captions" :src="suburl" srclang="en" default />
+                <track kind="captions" :label="suburl.label" :src="suburl.url" :srclang="suburl.label" default />
               </video>
             </vue-plyr>
             <div class="box has-background-black">
@@ -204,16 +204,8 @@ import {
 import Loading from 'vue-loading-overlay';
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
-import { decode64 } from "@utils/AcrouUtil";
-const srt2vtt = s =>
-	'WEBVTT FILE\r\n\r\n' +
-	s
-		.replace(/\{\\([ibu])\}/g, '</$1>')
-		.replace(/\{\\([ibu])1\}/g, '<$1>')
-		.replace(/\{([ibu])\}/g, '<$1>')
-		.replace(/\{\/([ibu])\}/g, '</$1>')
-		.replace(/(\d\d:\d\d:\d\d),(\d\d\d)/g, '$1.$2')
-		.concat('\r\n\r\n')
+import { decode64, srt2vtt } from "@utils/AcrouUtil";
+
 export default {
   components: {
     InfiniteLoading,
@@ -237,7 +229,7 @@ export default {
       modal: false,
       infiniteId: +new Date(),
       loading: true,
-      suburl: "",
+      suburl: {},
       sub: false,
       subModal: false,
       subButLoad: false,
@@ -374,22 +366,34 @@ export default {
     },
     checkSuburl() {
       const toks = this.videoname.split('.');
-      const pathSansExt = toks.slice(0, -1).join('.')
+      const pathSansExt = toks.slice(0, -1).join('.');
+      const regext = new RegExp(`(?<name>${pathSansExt})`+'\\.(?<label>[\\s\\S\\D]+)\\.(?<format>srt|vtt)');
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
-           let url = item.path+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+           let url = item.path+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
            let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
-             this.suburl = blob.blobData;
+             this.suburl = {url: blob.blobData, label: "Default"};
            } else {
              this.sub = false;
-             this.suburl = "";
+             this.suburl = {};
+           }
+         } else if(regext.test(item.name)){
+           let groups = regext.exec(item.name).groups;
+           console.log(groups)
+           let url = item.path+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
+           let blob = await this.getSrtFile(url);
+           if(blob.success){
+             this.sub = true;
+             this.suburl = {url: blob.blobData, label: groups.label};
+           } else {
+             this.sub = false;
+             this.suburl = {};
            }
          } else {
            this.sub = false;
-           this.suburl = "";
-           return;
+           this.suburl = {};
          }
       });
     },
@@ -415,7 +419,7 @@ export default {
       if(urlRegex.test(url)){
         let blob = await this.getSrtFile(url);
         if(blob.success){
-          this.suburl = blob.blobData;
+          this.suburl = {url: blob.blobData, label: "default"};
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
@@ -428,10 +432,10 @@ export default {
           this.subButLoad = false;
         }
       } else {
-        let getUrl = "/"+this.currgd.id+":/"+url+"?player=internal"+"&token="+this.mediaToken+"&email="+this.user.email;
+        let getUrl = "/"+this.currgd.id+":/"+url+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
         let blob = await this.getSrtFile(getUrl);
         if(blob.success){
-          this.suburl = blob.blobData;
+          this.suburl = {url: blob.blobData, label: "default"};
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
@@ -450,6 +454,7 @@ export default {
     },
     downloadButton() {
       location.href = this.downloadUrl;
+      return;
     },
     getVideourl() {
       // Easy to debug in development environment
@@ -514,10 +519,11 @@ export default {
   computed: {
     getFilteredFiles() {
       this.checkSuburl();
+      const videoRegex = /(video)\/(.+)/
       return this.files.filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
-        return file.mimeType == "video/mp4" || "video/x-matroska" || "video/x-msvideo" || "video/webm"
+        return videoRegex.test(file.mimeType);
       });
     },
     url() {
