@@ -1,5 +1,5 @@
 <template>
-  <section :class="ismobile ? logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' : logged ? 'section mx-0 px-0' : 'section home-back mx-0 px-0' ">
+  <section :class="ismobile ? logged ? 'section mx-0 px-0' : 'section mx-0 px-0' : logged ? 'section mx-0 px-0' : 'section mx-0 px-0' " :style="logged ? '' : 'min-width:100%;background-image: url('+backurl+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.5);' ">
     <nav v-if="!logged" class="navbar home-navbar">
       <div class="navbar-brand">
         <a class="navbar-item nav-heading">
@@ -186,44 +186,36 @@
                       Get Started Now !
                     </h1>
                   </div>
-                  <div :class="ismobile ? 'column is-full'  : 'column is-full'">
-                    <button class="button is-warning" @click="gotoPage('/', 'login')">
-                      <span>Hybrid Login</span>
-                      <span class="icon">
-                        <i class="fas fa-arrow-right"></i>
-                      </span>
-                    </button>
-                  </div>
                 </div>
               </h1>
               <form @submit.prevent="verifyEmail">
                 <div class="columns is-multiline is-desktop is-centered is-vcentered">
                   <div class="column is-two-thirds">
                     <div class="columns is-multiline is-centered is-gapless is-vcentered">
-                      <div class="column has-text-right is-four-fifths">
-                        <div class="field">
-                          <p class="control">
-                            <input class="input special-email" autofocus placeholder="Enter Your Email" id="email" type="email" v-model="email" required>
-                          </p>
+                      <div class="column has-text-right is-full">
+                        <div class="field has-addons">
+                          <div class="control is-expanded">
+                            <input class="input is-large is-rounded" autofocus placeholder="Enter Your Email" id="email" type="email" v-model="email" required>
+                          </div>
+                          <div class="control">
+                            <button :class="ismobile ? loading ? 'button is-loading is-rounded is-netflix-red' : 'button is-rounded is-netflix-red' : loading ? 'button is-rounded is-loading is-large is-netflix-red' : 'button is-large is-rounded is-netflix-red'" :disabled="disabled">
+                              <span>Start</span>
+                              <span class="icon">
+                                <i class="fas fa-arrow-right"></i>
+                              </span>
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <div :class="ismobile ? 'column has-text-centered mt-1 is-one-fifth' : 'column has-text-left is-one-fifth'">
-                        <button :class="ismobile ? loading ? 'button is-loading is-netflix-red' : 'button is-netflix-red' : loading ? 'button is-loading is-large is-netflix-red' : 'button is-large is-netflix-red'" :disabled="disabled">
-                          <span>Start</span>
-                          <span class="icon">
-                            <i class="fas fa-arrow-right"></i>
-                          </span>
-                        </button>
                       </div>
                     </div>
                   </div>
                   <div class="column mx-0 px-0 is-two-thirds">
-                    <p class="is-small has-text-grey subtitle has-text-centered">
+                    <p class="has-text-weight-normal has-text-white subtitle has-text-centered title is-6">
                       Enter Your Email to Login / Request / Register.
                     </p>
                   </div>
                   <div class="column is-full mb-0 mt-4 mx-0 px-0 has-text-centered">
-                    <p class="subtitle has-text-white subtitle has-text-centered">
+                    <p class="subtitle has-text-netflix-only has-text-weight-bold has-text-centered">
                       {{ Date.now() | moment("YYYY") }} | {{ currgd.name }}
                     </p>
                   </div>
@@ -250,6 +242,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 gds: [],
                 netflix: true,
                 dialog: false,
+                backurl: "",
                 mainhero: {},
                 trending: [],
                 category: [],
@@ -412,6 +405,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.assignUserInfo();
         },
         mounted() {
+          if(window.themeOptions.home_background_image){
+            this.backurl = window.themeOptions.home_background_image;
+          } else {
+            this.backurl = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
+          }
           if(this.user.admin && this.user.superadmin){
             this.admin = true,this.superadmin = true, this.loading = false;
           } else if(this.user.admin && !this.user.superadmin){

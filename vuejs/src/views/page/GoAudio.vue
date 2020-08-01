@@ -401,10 +401,11 @@ export default {
   },
   computed: {
     getFilteredFiles() {
+      const audioRegex = /(audio)\/(.+)/
       return this.files.filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
-        return file.mimeType == "audio/mp3" || "audio/flac" || "audio/ogg";
+        return audioRegex.test(file.mimeType);
       });
     },
     url() {

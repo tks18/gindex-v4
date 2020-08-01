@@ -181,6 +181,11 @@ export default {
       this.loginorout();
       this.changeNavbarStyle()
     })
+    this.$bus.$on('td', () => {
+      this.quicklinks = window.quickLinks.filter((links) => {
+        return links.root == this.gdindex
+      })[0].link;
+    })
     this.loginorout();
     this.active = false;
     this.siteName = document.getElementsByTagName("title")[0].innerText;
@@ -232,6 +237,7 @@ export default {
       }
     },
     changeItem(item) {
+      this.$bus.$emit("td", "TD Changed");
       this.currgd = item;
       this.$router.push({
         path: '/'+item.index+':home/',
