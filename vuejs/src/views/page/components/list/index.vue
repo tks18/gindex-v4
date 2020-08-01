@@ -31,48 +31,49 @@
           :title="file.name"
         >
           <svg class="iconfont" aria-hidden="true">
-            <use :xlink:href="icons(file.mimeType)" />
+            <use @click.self="
+              action(
+                file,
+                file.mimeType !== 'application/vnd.google-apps.folder'
+                  ? 'view'
+                  : ''
+              )
+            " :xlink:href="icons(file.mimeType)" />
           </svg>
           {{ file.name }}
           <span
             class="g2-file-desc"
             v-if="isShowDesc"
+            @click.self="
+              action(
+                file,
+                file.mimeType !== 'application/vnd.google-apps.folder'
+                  ? 'view'
+                  : ''
+              )
+            "
             v-html="file.description"
             style="color: #bbf1c8;"
           ></span>
         </td>
-        <td class="td-item is-hidden-mobile is-hidden-touch">
+        <td @click.self="
+          action(
+            file,
+            file.mimeType !== 'application/vnd.google-apps.folder'
+              ? 'view'
+              : ''
+          )
+        " class="td-item is-hidden-mobile is-hidden-touch">
           {{ file.modifiedTime }}
         </td>
-        <td class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
-        <td class="is-hidden-mobile is-hidden-touch">
-          <span style="color: #e50914;" class="icon" @click.stop="action(file,'copy')">
-            <i
-              class="fa fa-copy faa-shake animated-hover"
-              :title="$t('list.opt.copy')"
-              aria-hidden="true"
-            ></i>
-          </span>
-          <span style="color: #e50914;" class="icon" @click.stop="action(file, '_blank')">
-            <i
-              class="fa fa-external-link faa-shake animated-hover"
-              :title="$t('list.opt.newTab')"
-              aria-hidden="true"
-            ></i>
-          </span>
-          <span
-            style="color: #e50914;"
-            class="icon"
-            @click.stop="action(file, 'down')"
-            v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
-          >
-            <i
-              class="fa fa-download faa-shake animated-hover"
-              aria-hidden="true"
-              :title="$t('list.opt.download')"
-            ></i>
-          </span>
-        </td>
+        <td @click.self="
+          action(
+            file,
+            file.mimeType !== 'application/vnd.google-apps.folder'
+              ? 'view'
+              : ''
+          )
+        " class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
       </tr>
     </tbody>
   </table>
@@ -103,11 +104,6 @@ export default {
         {
           name: this.$t("list.title.size"),
           style: "width:10.5%;color: white;",
-          class: "is-hidden-mobile is-hidden-touch",
-        },
-        {
-          name: this.$t("list.title.operation"),
-          style: "width:13.5%;color: white;",
           class: "is-hidden-mobile is-hidden-touch",
         },
       ];

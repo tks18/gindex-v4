@@ -1,13 +1,16 @@
 <template>
   <div :class="ismobile ? 'content nopad mt-2 mx-1 px-1 mt-2' : 'content nopad mt-2 mt-2 ml-5 mr-5'">
+    <div class="loading">
+      <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
+    </div>
     <div class="columns is-multiline is-centered">
       <div :class="ismobile ? 'column is-full mx-0 px-1' : 'column is-two-thirds'">
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
             <vue-plyr ref="plyr">
-              <video :src="apiurl" class="video-content">
+              <video :poster="poster" :src="apiurl" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
-                <track kind="captions" label="English captions" :src="suburl" srclang="en" default />
+                <track kind="captions" :label="suburl.label" :src="suburl.url" :srclang="suburl.label" default />
               </video>
             </vue-plyr>
             <div class="box has-background-black">
@@ -93,7 +96,7 @@
             <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-multiline">
                 <div class="column is-quarter">
-                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="videourl">
+                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="externalUrl">
                     <span class="icon is-small">
                       <i class="fa fa-copy"></i>
                     </span>
@@ -129,8 +132,18 @@
           </div>
         </div>
       </div>
-      <div class="column is-one-third golist" v-loading="loading">
-        <h2 class="title has-text-centered has-text-weight-bold has-text-danger"><i class="fas fa-film"></i>  Continue Your Binge !</h2>
+      <div :class="ismobile ? 'column is-centered is-vcentered is-one-third is-desktop golist' : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'" v-loading="loading">
+        <div class="column is-full">
+          <div class="columns is-mobile is-multiline is-centered is-vcentered">
+            <div class="column is-two-thirds">
+              <h2 class="title has-text-weight-bold has-text-danger">Continue Your Binge</h2>
+            </div>
+            <div class="column is-one-third">
+              <h6 class="subtitle has-text-right has-text-grey">Found {{ this.files ? this.files.length - 1 : "0" }} Results</h6>
+            </div>
+          </div>
+        </div>
+        <div class="column is-full">
           <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in getFilteredFiles" v-bind:key="index" @click="action(file,'view')">
             <div class="column is-2">
               <svg class="iconfont" style="font-size: 20px">
@@ -159,12 +172,13 @@
               </div>
             </div>
           </div>
-          <infinite-loading
-            v-show="!loading"
-            ref="infinite"
-            spinner="bubbles"
-            @infinite="infiniteHandler"
-          >
+        </div>
+        <infinite-loading
+          v-show="!loading"
+          ref="infinite"
+          spinner="bubbles"
+          @infinite="infiniteHandler"
+        >
           <div slot="no-more"></div>
           <div slot="no-results"></div>
         </infinite-loading>
@@ -187,30 +201,35 @@ import {
   checkView,
   checkExtends,
 } from "@utils/AcrouUtil";
+import Loading from 'vue-loading-overlay';
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
-import { decode64 } from "@utils/AcrouUtil";
-const srt2vtt = s =>
-	'WEBVTT FILE\r\n\r\n' +
-	s
-		.replace(/\{\\([ibu])\}/g, '</$1>')
-		.replace(/\{\\([ibu])1\}/g, '<$1>')
-		.replace(/\{([ibu])\}/g, '<$1>')
-		.replace(/\{\/([ibu])\}/g, '</$1>')
-		.replace(/(\d\d:\d\d:\d\d),(\d\d\d)/g, '$1.$2')
-		.concat('\r\n\r\n')
+import { decode64, srt2vtt } from "@utils/AcrouUtil";
+
 export default {
   components: {
     InfiniteLoading,
+    Loading
   },
   data: function() {
     return {
       apiurl: "",
+      externalUrl: "",
+      downloadUrl: "",
       videourl: "",
+      poster: "",
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
+      mainLoad: false,
+      fullpage: true,
+      ismobile: false,
+      user: {},
+      token: {},
+      mediaToken: "",
       modal: false,
       infiniteId: +new Date(),
       loading: true,
-      suburl: "",
+      suburl: {},
       sub: false,
       subModal: false,
       subButLoad: false,
@@ -273,8 +292,10 @@ export default {
             };
             if ($state) {
               this.files.push(...this.buildFiles(data.files));
+              this.getPoster();
             } else {
               this.files = this.buildFiles(data.files);
+              this.getPoster();
             }
           }
           if (body.nextPageToken) {
@@ -335,23 +356,44 @@ export default {
 
       return array
     },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     checkSuburl() {
       const toks = this.videoname.split('.');
-      const pathSansExt = toks.slice(0, -1).join('.')
+      const pathSansExt = toks.slice(0, -1).join('.');
+      const regext = new RegExp(`(?<name>${pathSansExt})`+'\\.(?<label>[\\s\\S\\D]+)\\.(?<format>srt|vtt)');
       return this.files.forEach(async (item) => {
          if(item.name == pathSansExt + ".srt" || item.name == pathSansExt + ".vtt"){
-           let blob = await this.getSrtFile(item.path);
+           let url = item.path+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
+           let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
-             this.suburl = blob.blobData;
+             this.suburl = {url: blob.blobData, label: "Default"};
            } else {
              this.sub = false;
-             this.suburl = "";
+             this.suburl = {};
+           }
+         } else if(regext.test(item.name)){
+           let groups = regext.exec(item.name).groups;
+           console.log(groups)
+           let url = item.path+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
+           let blob = await this.getSrtFile(url);
+           if(blob.success){
+             this.sub = true;
+             this.suburl = {url: blob.blobData, label: groups.label};
+           } else {
+             this.sub = false;
+             this.suburl = {};
            }
          } else {
            this.sub = false;
-           this.suburl = "";
-           return;
+           this.suburl = {};
          }
       });
     },
@@ -377,7 +419,7 @@ export default {
       if(urlRegex.test(url)){
         let blob = await this.getSrtFile(url);
         if(blob.success){
-          this.suburl = blob.blobData;
+          this.suburl = {url: blob.blobData, label: "default"};
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
@@ -390,10 +432,10 @@ export default {
           this.subButLoad = false;
         }
       } else {
-        let getUrl = "/"+this.currgd.id+":/"+url;
+        let getUrl = "/"+this.currgd.id+":/"+url+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
         let blob = await this.getSrtFile(getUrl);
         if(blob.success){
-          this.suburl = blob.blobData;
+          this.suburl = {url: blob.blobData, label: "default"};
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
@@ -411,16 +453,24 @@ export default {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
     downloadButton() {
-      location.href = this.url.replace(/^\/(\d+:)\//, "/$1down/");
+      location.href = this.downloadUrl;
       return;
     },
     getVideourl() {
       // Easy to debug in development environment
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl;
+      this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.externalUrl = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.downloadUrl = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
+    },
+    getPoster() {
+      var data = this.files.filter((file) => {
+        return file.name == this.videoname
+      })[0].thumbnailLink;
+      this.poster = data;
     },
     action(file, target) {
       if (file.mimeType.indexOf("image") != -1) {
@@ -466,27 +516,15 @@ export default {
       }
     },
   },
-  activated() {
-    this.getVideourl();
-    this.render();
-    // this.getSrtFile("https://raw.githubusercontent.com/sampotts/plyr/master/demo/media/View_From_A_Blue_Moon_Trailer-HD.en.vtt");
-  },
   computed: {
     getFilteredFiles() {
       this.checkSuburl();
-      return this.shuffle(this.files).filter(file => {
+      const videoRegex = /(video)\/(.+)/
+      return this.files.filter(file => {
         return file.name != this.url.split('/').pop();
       }).filter(file => {
-        return file.mimeType == "video/mp4" || "video/x-matroska" || "video/x-msvideo" || "video/webm"
-      }).slice(0,15);
-    },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
+        return videoRegex.test(file.mimeType);
+      });
     },
     url() {
       if (this.$route.params.path) {
@@ -500,17 +538,17 @@ export default {
         {
           name: "IINA",
           icon: this.$cdnpath("images/player/iina.png"),
-          scheme: "iina://weblink?url=" + this.videourl,
+          scheme: "iina://weblink?url=" + this.externalUrl,
         },
         {
           name: "PotPlayer",
           icon: this.$cdnpath("images/player/potplayer.png"),
-          scheme: "potplayer://" + this.videourl,
+          scheme: "potplayer://" + this.externalUrl,
         },
         {
           name: "VLC",
           icon: this.$cdnpath("images/player/vlc.png"),
-          scheme: "vlc://" + this.videourl,
+          scheme: "vlc://" + this.externalUrl,
         },
         {
           name: "Thunder",
@@ -525,14 +563,14 @@ export default {
         {
           name: "nPlayer",
           icon: this.$cdnpath("images/player/nplayer.png"),
-          scheme: "nplayer-" + this.videourl,
+          scheme: "nplayer-" + this.externalUrl,
         },
         {
           name: "MXPlayer(Free)",
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.externalUrl +
             "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
             this.title +
             ";end",
@@ -542,7 +580,7 @@ export default {
           icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.externalUrl +
             "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
             this.title +
             ";end",
@@ -550,13 +588,10 @@ export default {
       ];
     },
     getThunder() {
-      return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
+      return Buffer.from("AA" + this.externalUrl + "ZZ").toString("base64");
     },
   },
   created() {
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem("hybridToken");
-    });
     if (window.gds) {
       this.gds = window.gds.map((item, index) => {
         return {
@@ -570,7 +605,38 @@ export default {
       }
     }
   },
+  beforeMount() {
+    this.mainLoad = true;
+    var user = localStorage.getItem("userdata");
+    var token = localStorage.getItem("tokendata");
+    if(user && token){
+      var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
+      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+      this.user = userData, this.token = tokenData;
+      this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+        email: userData.email,
+        token: tokenData.token,
+      }).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          this.mainLoad = false;
+          this.mediaToken = response.data.token;
+          this.getVideourl();
+        } else {
+          this.mainLoad = false;
+          this.mediaToken = "";
+        }
+      }).catch(e => {
+        console.log(e);
+        this.mainLoad = false;
+        this.mediaToken = "";
+      })
+    } else {
+      this.user = null, this.token = null, this.mainLoad = false;
+    }
+  },
   mounted() {
+    this.checkMobile();
+    this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
     } else {
@@ -580,11 +646,35 @@ export default {
     this.videoname = this.url.split('/').pop();
   },
   watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     player: function(){
       this.player.on('ready', () => {
         this.playicon="fas fa-glasses";
         this.playtext="Ready to Play !"
       });
+      this.player.on('loadstart', () => {
+        this.playicon = "fas fa-spinner fa-pulse";
+        this.playtext = "Loading Awesomeness..";
+      })
+      this.player.on('canplay', () => {
+        this.playicon="fas fa-glasses";
+        this.playtext="Let's Party"
+      })
       this.player.on('play', () => {
         this.playicon="fas fa-spin fa-compact-disc";
         this.playtext="Playing"

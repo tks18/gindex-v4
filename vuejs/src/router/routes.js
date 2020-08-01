@@ -94,6 +94,17 @@ const frameIn = [{
     }
   },
   {
+    path: "/:id(\\d)::cmd(others)/:path",
+    name: 'otherFiles',
+    component: _import("page/GoOthers"),
+    meta: {
+      ...meta,
+      view: 'list',
+      requiresAuth: true,
+      hybrid: true,
+    }
+  },
+  {
       path: '/:id(\\d)::cmd(login)/',
       name: 'login',
       component: _import("page/static/Users/Login"),

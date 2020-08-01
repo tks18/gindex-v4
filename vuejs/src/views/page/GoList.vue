@@ -67,7 +67,6 @@ import {
   formatFileSize,
   checkoutPath,
   checkView,
-  checkExtends,
 } from "@utils/AcrouUtil";
 import { mapState } from "vuex";
 import BreadCrumb from "../common/BreadCrumb";
@@ -89,6 +88,9 @@ export default {
     return {
       infiniteId: +new Date(),
       loading: true,
+      windowWidth: window.innerWidth,
+      screenWidth: screen.width,
+      ismobile: false,
       loadImage: "",
       page: {
         page_token: null,
@@ -134,6 +136,7 @@ export default {
     };
   },
   mounted() {
+    this.checkMobile();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
     } else {
@@ -157,14 +160,6 @@ export default {
         (file) => file.mimeType.indexOf("image") != -1
       );
     },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
-      }
-    },
     renderHeadMD() {
       return window.themeOptions.render.head_md || false;
     },
@@ -174,9 +169,6 @@ export default {
   },
   created() {
     this.render();
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem("hybridToken");
-    });
   },
   methods: {
     infiniteHandler($state) {
@@ -288,6 +280,14 @@ export default {
           });
         });
     },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
@@ -312,18 +312,6 @@ export default {
     },
     target(file, target) {
       let path = file.path;
-      if (target === "_blank") {
-        window.open(path);
-        return;
-      }
-      if (target === "copy") {
-        this.copy(path);
-        return;
-      }
-      if (target === "down" || (!checkExtends(path) && !file.isFolder)) {
-        location.href = path.replace(/^\/(\d+:)\//, "/$1down/");
-        return;
-      }
       if (target === "view") {
         this.$router.push({
           path: checkView(path),
@@ -380,5 +368,23 @@ export default {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
     },
   },
+  watch: {
+    screenWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+    windowWidth: function() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if(width > 966){
+        this.ismobile = false
+      } else {
+        this.ismobile = true
+      }
+    },
+  }
 };
 </script>

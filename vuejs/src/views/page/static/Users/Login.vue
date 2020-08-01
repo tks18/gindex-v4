@@ -252,9 +252,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.checkParams();
         },
         created() {
-          window.addEventListener('beforeunload', () => {
-            localStorage.removeItem("hybridToken");
-          });
           if (window.gds) {
             this.gds = window.gds.map((item, index) => {
               return {
