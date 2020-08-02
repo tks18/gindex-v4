@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     render () {
-      let path = this.url;
+      let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
       this.content = this.$t("page.text.loading");
       get_file({ path: path, file: {} }, data => {
         this.content = data;
@@ -71,6 +71,7 @@ export default {
   },
   beforeMount() {
     this.mainLoad = true;
+    this.checkMobile();
     var user = localStorage.getItem("userdata");
     var token = localStorage.getItem("tokendata");
     if(user && token){
@@ -97,7 +98,6 @@ export default {
     } else {
       this.user = null, this.token = null, this.mainLoad = false;
     }
-    this.checkMobile();
   },
   watch: {
     screenWidth: function() {

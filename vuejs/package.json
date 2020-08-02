@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.9.2",
-  "g2index": "7.9.2",
+  "version": "7.9.3",
+  "g2index": "7.9.3",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -46,6 +46,7 @@
     "vue-material-checkbox": "^2.2.0",
     "vue-moment": "^4.1.0",
     "vue-notification": "^1.3.20",
+    "vue-pdf": "^4.1.0",
     "vue-plyr": "^6.0.4",
     "vue-router": "^3.3.4",
     "vue-select": "^3.10.7",
