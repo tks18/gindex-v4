@@ -26,37 +26,39 @@
           <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
         </div>
          <div v-show="logged && netflix" class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
-           <div v-for="(hero, index) in mainhero" v-bind:key="index" class="column is-full mx-0 px-0 mt-0 pt-0">
-             <section :class="ismobile ? 'hero is-fullheight mx-0 px-0' : 'hero is-large mx-0 px-0'" :style=" ismobile ? 'background: center;background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);' : 'background-image: url('+hero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
-              <div class="hero-body">
-                <div class="container">
-                  <div class="columns is-mobile is-vcentered is-multiline">
-                    <div :class="ismobile ? 'column is-full' : 'column-is-half'">
-                      <h2 class="subtitle has-text-white">
-                        {{ hero.subtitle }}
-                      </h2>
-                      <h1 class="title main-home-hero-title has-text-white is-1">
-                        {{ hero.name }}
-                      </h1>
-                      <h3 class="subtitle has-text-white">
-                        Watch Here
-                      </h3>
-                      <button class="button is-dark" @click="gotoPage('/'+hero.link+'/')">
-                        <span class="icon">
-                          <i class="fas fa-play"></i>
-                        </span>
-                        <span>Play Now</span>
-                      </button>
+           <transition name="slide-fade">
+             <div v-bind:key="mainKey" class="column is-full mx-0 px-0 mt-0 pt-0">
+               <section :class="ismobile ? 'hero is-fullheight mx-0 px-0' : 'hero is-large mx-0 px-0'" :style=" ismobile ? 'background: center;background-image: url('+mainhero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);' : 'background-image: url('+mainhero.poster+');background-size:cover;min-width:100%;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);'">
+                <div class="hero-body">
+                  <div class="container">
+                    <div class="columns is-mobile is-vcentered is-multiline">
+                      <div :class="ismobile ? 'column is-full' : 'column-is-half'">
+                        <h2 class="subtitle has-text-white">
+                          {{ mainhero.subtitle }}
+                        </h2>
+                        <h1 class="title main-home-hero-title has-text-white is-1">
+                          {{ mainhero.name }}
+                        </h1>
+                        <h3 class="subtitle has-text-white">
+                          Watch Here
+                        </h3>
+                        <button class="button is-dark" @click="gotoPage('/'+mainhero.link+'/')">
+                          <span class="icon">
+                            <i class="fas fa-play"></i>
+                          </span>
+                          <span>Play Now</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
-           </div>
+              </section>
+             </div>
+           </transition>
            <div :class=" ismobile ? 'column is-full mt-2 mr-0'  : 'column is-full ml-2 mr-0 pl-4 pr-0'">
              <div class="columns is-mobile">
                <div class="column is-half">
-                 <h2 class="subtitle has-text-netflix-only has-text-weight-bold">
+                 <h2 class="subtitle has-text-white has-text-weight-bold">
                    Top Trending
                  </h2>
                </div>
@@ -77,7 +79,7 @@
            <div :class=" ismobile ? 'column is-full mt-2 mr-0'  : 'column is-full ml-2 mr-0 pl-4 pr-0'">
              <div class="columns is-mobile">
                <div class="column is-half">
-                 <h2 class="subtitle has-text-netflix-only has-text-weight-bold">
+                 <h2 class="subtitle has-text-white has-text-weight-bold">
                    Categories
                  </h2>
                </div>
@@ -244,10 +246,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 dialog: false,
                 backurl: "",
                 mainhero: {},
+                mainHeroArray: [],
                 trending: [],
                 category: [],
                 currgd: {},
                 email: "",
+                mainKey: 0,
                 heroCss:"",
                 disabled: true,
                 truncatedApi: "",
@@ -388,7 +392,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           filterArrSlice(array){
             return this.shuffle(array.filter((arr) => {
               return arr.root == this.currgd.id
-            })[0].link).slice(0,1)
+            })[0].link)[0]
           },
           filterArr(array) {
             return this.shuffle(array.filter((arr) => {
@@ -399,6 +403,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         beforeMount() {
           this.netflix = window.themeOptions.netflix_home;
           this.mainhero = this.filterArrSlice(window.mainHeroLinks);
+          this.mainHeroArray = this.filterArr(window.mainHeroLinks);
           this.trending = this.filterArr(window.trendingPosterLinks);
           this.category = this.filterArr(window.homeCategories);
           this.quickLinks = this.filterArr(window.quickLinks);
@@ -431,6 +436,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.currgd = this.gds[index];
             }
           }
+          setInterval(() => {
+            this.mainhero = this.mainHeroArray[this.mainKey]
+            if(this.mainKey == this.mainHeroArray.length-1){
+              this.mainKey = 0;
+            } else {
+              this.mainKey++;
+            }
+          }, 5000)
         },
         updated() {
           this.$bus.$on('logged', () => {
@@ -455,3 +468,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         }
     }
 </script>
+<style lang="scss" scoped>
+.slide-fade-enter-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
