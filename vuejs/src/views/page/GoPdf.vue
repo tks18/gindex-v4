@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import pdf from "vue-pdf/src/vuePdfNoSss";
+import pdf from "vue-pdf/src/vuePdfNoSssNoWorker";
 import Loading from 'vue-loading-overlay';
 import { decode64 } from "@utils/AcrouUtil";
 export default {
