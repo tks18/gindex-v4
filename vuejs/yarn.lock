@@ -9473,6 +9473,14 @@ worker-loader@^2.0.0:
     loader-utils "^1.0.0"
     schema-utils "^0.4.0"
 
+worker-loader@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-3.0.0.tgz#4256b6ea9715ad3e0d39ad2d4b58e5fef49b06da"
+  integrity sha512-TNDhyNxUfOGkxNDH28bkrfS4d2BSKYtc3Jznkhhpra9q3p5Su9mRD9Rso5uUNCK6vsEdlceTCJ7aMcluJAotZw==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^2.7.0"
+
 wrap-ansi@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-5.1.0.tgz#1fd1f67235d5b6d0fee781056001bfb694c03b09"
