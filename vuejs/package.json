@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "7.9.3",
-  "g2index": "7.9.3",
+  "version": "7.9.5",
+  "g2index": "7.9.5",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -69,7 +69,8 @@
     "fs": "0.0.1-security",
     "vue-cli-plugin-i18n": "~1.0.1",
     "vue-template-compiler": "^2.6.11",
-    "webpack-bundle-analyzer": "^3.7.0"
+    "webpack-bundle-analyzer": "^3.7.0",
+    "worker-loader": "^3.0.0"
   },
   "eslintConfig": {
     "root": true,

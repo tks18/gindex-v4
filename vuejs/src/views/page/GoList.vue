@@ -40,24 +40,6 @@
     ></div>
     <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
     <readmemd :option="readmemd" v-if="renderReadMeMD && readmemd.display"></readmemd>
-
-    <viewer
-      v-if="viewer && images && images.length > 0"
-      :images="images"
-      class="is-hidden"
-      ref="viewer"
-      :options="{ toolbar: true, url: 'data-source' }"
-      @inited="inited"
-    >
-      <img
-        v-for="image in images"
-        :src="thum(image.thumbnailLink)"
-        :data-source="image.path"
-        :key="image.path"
-        :alt="image.name"
-        class="image"
-      />
-    </viewer>
   </div>
 </template>
 
@@ -97,7 +79,6 @@ export default {
         page_index: 0,
       },
       files: [],
-      viewer: false,
       readmeLink: "",
       headLink: "",
       icon: {
@@ -291,18 +272,7 @@ export default {
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
-    inited(viewer) {
-      this.$viewer = viewer;
-    },
     action(file, target) {
-      if (file.mimeType.indexOf("image") != -1) {
-        this.viewer = true;
-        this.$nextTick(() => {
-          let index = this.images.findIndex((item) => item.path === file.path);
-          this.$viewer.view(index);
-        });
-        return;
-      }
       let cmd = this.$route.params.cmd;
       if (cmd && cmd === "search") {
         this.goSearchResult(file, target);

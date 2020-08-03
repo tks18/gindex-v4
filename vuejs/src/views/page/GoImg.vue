@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     render() {
-      let path = this.url+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
+      let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
 // Easy to debug in development environment
 // path = process.env.NODE_ENV === "development"? "/api" + path: "";
       this.imgurl = path;

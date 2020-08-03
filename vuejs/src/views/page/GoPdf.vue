@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import pdf from "vue-pdf";
+import pdf from "vue-pdf/src/vuePdfNoSssNoWorker";
 import Loading from 'vue-loading-overlay';
 import { decode64 } from "@utils/AcrouUtil";
 export default {
@@ -114,6 +114,8 @@ export default {
         if(response.data.auth && response.data.registered && response.data.token){
           this.mainLoad = false;
           this.mediaToken = response.data.token;
+          this.getUrl();
+          console.log(this.mediaUrl)
         } else {
           this.mainLoad = false;
           this.mediaToken = "";
@@ -128,7 +130,7 @@ export default {
     }
   },
   mounted(){
-    this.getUrl()
+
   },
   watch: {
     screenWidth: function() {
