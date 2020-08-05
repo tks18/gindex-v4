@@ -57,6 +57,61 @@
               </div>
             </section>
           </div>
+          <div :class=" modal ? 'modal is-active' : 'modal' ">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title has-text-centered">Forgot Password</p>
+                <button class="delete" @click="modal = false;" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <article :class=" forgotErrorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
+                  <div class="message-header">
+                    <p>Error Processing !</p>
+                    <button class="delete" @click="forgotErrorMessage = false" aria-label="delete"></button>
+                  </div>
+                  <div class="message-body">
+                    {{ forgotMessage }}
+                  </div>
+                </article>
+                <article :class=" forgotSuccessMessage ? 'message is-success' : 'message is-hidden is-success'">
+                  <div class="message-header">
+                    <p>Success !</p>
+                    <button class="delete" @click="forgotSuccessMessage = false" aria-label="delete"></button>
+                  </div>
+                  <div class="message-body">
+                    {{ forgotMessage }}<br>
+                    <span class="forgot-pass is-medium has-text-weight-bold" @click="gotoPage('/otp/', 'register')" style="cursor: pointer;">Click Here to Enter OTP</span>
+                  </div>
+                </article>
+                <form @submit.prevent="handleForgotPass">
+                  <div class="columns is-centered is-desktop is-multiline is-vcentered">
+                    <div class="column is-two-thirds">
+                      <div class="field">
+                        <p class="control has-icons-left has-icons-right">
+                          <input class="input is-rounded" placeholder="Enter Your Account Email" id="foremail" type="email" v-model="forgotEmail" required autofocus>
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                          </span>
+                          <span class="icon is-small is-right">
+                            <i class="fas fa-check"></i>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="column has-text-centered is-two-thirds">
+                      <button :class=" loading ? 'button is-rounded is-loading is-danger' : 'button is-rounded is-danger'">
+                        <span class="icon">
+                          <i class="fas fa-user-plus"></i>
+                        </span>
+                        <span>Get OTP</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </section>
+            </div>
+          </div>
           <div class="column is centered has-text-centered has-text-white is-two-fifths">
             <article :class=" errormessageVisibility ? 'message is-danger' : 'message is-hidden is-danger'">
               <div class="message-header">
@@ -97,6 +152,7 @@
                   </span>
                 </p>
               </div>
+              <p class="help subtitle has-text-weight-bold forgot-pass has-text-right is-success" style="cursor: pointer;" @click="modal = true;">Forgot Password ?</p>
               <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'" :disabled="disabled">
                 <span class="icon is-medium">
                   <i class="fas fa-shipping-fast"></i>
@@ -121,6 +177,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 password : "",
                 hypassword: "",
                 disabled: true,
+                modal: false,
+                forgotEmail: "",
+                forgotMessage: "",
+                forgotErrorMessage: false,
+                forgotSuccessMessage: false,
                 emailFocus: true,
                 gds: [],
                 hyInput: false,
@@ -229,6 +290,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.passwordFocus = false;
               }
             },
+            gotoPage(url, cmd) {
+              if(cmd){
+                this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
+              } else {
+                this.$router.push({ path: '/'+ this.currgd.id + ':' + url })
+              }
+            },
             validateData(){
               const emailRegex = /[a-z1-9].+@+[a-z1-9A-Z].+[.][a-z]+/g
               if(emailRegex.test(this.email) && this.password.length > 0){
@@ -237,6 +305,33 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.disabled = true;
               }
             },
+            handleForgotPass(e) {
+              this.loading = true;
+              e.preventDefault();
+              console.log(this.forgotEmail);
+              if(this.forgotEmail.length > 0){
+                this.$http.post(window.apiRoutes.forgotPass, {
+                  email: this.forgotEmail
+                }).then(response => {
+                  if(response.data.auth && response.data.registered && response.data.changed){
+                    this.loading = false;
+                    this.forgotSuccessMessage = true;
+                    this.forgotErrorMessage = false;
+                    this.forgotMessage = response.data.message
+                  } else {
+                    this.loading = false;
+                    this.forgotSuccessMessage = false;
+                    this.forgotErrorMessage = true;
+                    this.forgotMessage = response.data.message;
+                  }
+                })
+              } else {
+                this.loading = false;
+                this.forgotSuccessMessage = false;
+                this.forgotErrorMessage = true;
+                this.forgotMessage = "Please Type in Your Email First."
+              }
+            }
         },
         computed: {
           ismobile() {
