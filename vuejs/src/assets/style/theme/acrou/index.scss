@@ -904,6 +904,11 @@ th {
   color: white;
 }
 
+.forgot-pass:hover {
+  text-decoration: underline;
+  text-decoration-color: inherit;
+}
+
 .audioplayer {
   --plyr-color-main: #e50914;
 }
