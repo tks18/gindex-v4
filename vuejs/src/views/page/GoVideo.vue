@@ -7,10 +7,10 @@
       <div :class="ismobile ? 'column is-full mx-0 px-1' : 'column is-two-thirds'">
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
-            <vue-plyr ref="plyr">
+            <vue-plyr ref="plyr" v-bind:key="videokey">
               <video :poster="poster" :src="apiurl" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
-                <track kind="captions" :label="suburl.label" :src="suburl.url" :srclang="suburl.label" default />
+                <track v-for="(sub, index) in suburl" kind="captions" :label="sub.label" :src="sub.url" :srclang="sub.label" v-bind:key="index">
               </video>
             </vue-plyr>
             <div class="box has-background-black">
@@ -79,8 +79,13 @@
                 </article>
                 <div class="field">
                   <div class="control">
-                    <input :class=" subButLoad ? 'input is-success is-loading' : 'input is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
+                    <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
                   </div>
+                </div>
+                <div class="field">
+                  <p class="control">
+                    <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " placeholder="Label for Subtitle File" id="sublabel" type="text" v-model="custsublabel" required>
+                  </p>
                 </div>
                 <div class="content">
                   <li>Note: Only Give Valid Url's otherwise this page will get Hanged on Sent Back.</li>
@@ -88,7 +93,7 @@
                 </div>
               </section>
               <footer class="modal-card-foot">
-                <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl)">Save changes</button>
+                <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl, custsublabel)">Save changes</button>
               </footer>
             </div>
           </div>
@@ -225,15 +230,17 @@ export default {
       ismobile: false,
       user: {},
       token: {},
+      videokey: 0,
       mediaToken: "",
       modal: false,
       infiniteId: +new Date(),
       loading: true,
-      suburl: {},
+      suburl: [],
       sub: false,
       subModal: false,
       subButLoad: false,
       subripurl: "",
+      custsublabel: "",
       successMessage: false,
       resultmessage: "",
       playicon: "fas fa-spinner fa-pulse",
@@ -374,10 +381,11 @@ export default {
            let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
-             this.suburl = {url: blob.blobData, label: "Default"};
+             this.suburl = this.suburl.concat([{url: blob.blobData, label: "Default"}]);
+             this.videokey = this.videokey + 1
            } else {
              this.sub = false;
-             this.suburl = {};
+             this.suburl = [];
            }
          } else if(regext.test(item.name)){
            let groups = regext.exec(item.name).groups;
@@ -386,14 +394,15 @@ export default {
            let blob = await this.getSrtFile(url);
            if(blob.success){
              this.sub = true;
-             this.suburl = {url: blob.blobData, label: groups.label};
+             this.suburl = this.suburl.concat([{url: blob.blobData, label: groups.label}]);
+             this.videokey = this.videokey + 1
            } else {
              this.sub = false;
-             this.suburl = {};
+             this.suburl = [];
            }
          } else {
            this.sub = false;
-           this.suburl = {};
+           this.suburl = [];
          }
       });
     },
@@ -413,13 +422,14 @@ export default {
         };
       }
     },
-    async loadCustomSub(url) {
+    async loadCustomSub(url, label) {
       this.subButLoad = true;
       const urlRegex = /(http:\/\/|https:\/\/[\s\S]+)/;
       if(urlRegex.test(url)){
         let blob = await this.getSrtFile(url);
         if(blob.success){
-          this.suburl = {url: blob.blobData, label: "default"};
+          this.suburl = this.suburl.concat([{url: blob.blobData, label: label}]);
+          this.videokey = this.videokey + 1
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
@@ -435,7 +445,8 @@ export default {
         let getUrl = "/"+this.currgd.id+":/"+url+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
         let blob = await this.getSrtFile(getUrl);
         if(blob.success){
-          this.suburl = {url: blob.blobData, label: "default"};
+          this.suburl = this.suburl.concat([{url: blob.blobData, label: label}]);
+          this.videokey = this.videokey + 1
           this.successMessage = true;
           this.resultmessage = "Subtitle Loaded Successfully !"
           this.subButLoad = false;
