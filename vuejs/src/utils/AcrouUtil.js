@@ -1,18 +1,7 @@
 import axios from "@/plugin/axios";
 let Base64 = require("js-base64").Base64;
 
-const text_exts = [
-  "html",
-  "php",
-  "css",
-  "go",
-  "java",
-  "js",
-  "json",
-  "txt",
-  "sh",
-  "md",
-];
+const text_exts = ["html","php","css","go","java","js","json","txt","sh","md"];
 const audio_exts=["mp3","flac","wav","ogg","m4a"];
 const video_exts = ["mp4", "webm", "mkv", "m3u8","avi"];
 const image_exts = ["bmp", "jpg", "jpeg", "png", "gif"];
@@ -37,16 +26,6 @@ export const checkoutPath = (path, file) => {
   }
   return path;
 };
-
-export const srt2vtt = s =>
-	'WEBVTT FILE\r\n\r\n' +
-	s
-		.replace(/\{\\([ibu])\}/g, '</$1>')
-		.replace(/\{\\([ibu])1\}/g, '<$1>')
-		.replace(/\{([ibu])\}/g, '<$1>')
-		.replace(/\{\/([ibu])\}/g, '</$1>')
-		.replace(/(\d\d:\d\d:\d\d),(\d\d\d)/g, '$1.$2')
-		.concat('\r\n\r\n') 
 
 export const checkView = (path) => {
   let name = path.split("/").pop();

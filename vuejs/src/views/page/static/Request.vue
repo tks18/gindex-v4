@@ -120,6 +120,7 @@
     </div>
 </template>
 <script>
+import { getgds } from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
@@ -219,18 +220,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.checkParams();
         },
         created() {
-          if (window.gds && window.gds.length > 0) {
-            this.gds = window.gds.map((item, index) => {
-              return {
-                name: item,
-                id: index,
-              };
-            });
-            let index = this.$route.params.id;
-            if (this.gds && this.gds.length >= index) {
-              this.currgd = this.gds[index];
-            }
-          }
+          let gddata = getgds(this.$route.params.id);
+          this.gds = gddata.gds;
+          this.currgd = gddata.current;
         },
         watch: {
           name: "validateData",

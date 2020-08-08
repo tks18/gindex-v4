@@ -66,7 +66,7 @@ export default {
       this.index = this.$route.params.id;
       let cmd = this.$route.params.cmd;
 // Do not render if searching
-      if (cmd === "search" || cmd === "home" || cmd === "result" || cmd === "register" || cmd === "settings" || cmd === "admin" || cmd === "video" || cmd === "audio" || cmd === "login") {
+      if (cmd === "search" || cmd === "home" || cmd === "result" || cmd === "register" || cmd === "settings" || cmd === "admin" || cmd === "video" || cmd === "pdf" || cmd === "audio" || cmd === "login") {
         this.navs = [];
         return;
       }
@@ -121,9 +121,6 @@ export default {
     width: 40px;
     color: #ff9595;
     &:hover {
-      // border: 1px dotted transparent;
-      // background: rgba(0, 0, 0, 0.15);
-      // text-decoration: none;
       cursor: pointer;
     }
   }

@@ -165,6 +165,8 @@
 </template>
 
 <script>
+import { getItem, removeItem } from '@utils/encryptUtils';
+import { initializeUser } from "@utils/localUtils";
 import ViewMode from "@/layout/viewmode";
 import Loading from 'vue-loading-overlay';
 export default {
@@ -206,6 +208,7 @@ export default {
   data: function() {
     return {
       user: {},
+      token: {},
       siteName: "",
       active: false,
       param: "",
@@ -258,40 +261,24 @@ export default {
       this.active = !this.active
     },
     loginorout() {
-      var token = localStorage.getItem("tokendata");
-      var user = localStorage.getItem("userdata");
-      var hyBridToken = localStorage.getItem("hybridToken");
-      console.log(hyBridToken);
-      if(hyBridToken && hyBridToken != null || hyBridToken != undefined){
-        const hybridData = JSON.parse(this.$hash.AES.decrypt(hyBridToken, this.$pass).toString(this.$hash.enc.Utf8))
-        console.log(hybridData);
-        if(hybridData.user){
-          this.user = hybridData;
-          this.logged = true;
-          this.admin = false;
-          this.superadmin = false;
-          this.loading = false;
-        } else {
-          localStorage.removeItem("hybridToken");
-          this.gotoPage("/", "login")
-        }
-      } else if (user != null && token != null){
-        var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-        if(userData.admin && !userData.superadmin){
-          this.user = userData;
-          this.logged = true;
-          this.admin = true;
-        } else if(userData.admin && userData.superadmin){
-          this.user = userData;
-          this.logged = true;
-          this.admin = true;
-          this.superadmin = true
-        } else {
-          this.user = userData;
-          this.logged = true
+      this.loading = true;
+      var userData = initializeUser();
+      if(userData.isThere){
+        if(userData.type == "hybrid"){
+          this.user = userData.data.user;
+          this.logged = userData.data.logged;
+          this.loading = userData.data.loading;
+        } else if(userData.type == "normal"){
+          this.user = userData.data.user;
+          this.token = userData.data.token;
+          this.logged = userData.data.logged;
+          this.loading = userData.data.loading;
+          this.admin = userData.data.admin;
+          this.superadmin = userData.data.superadmin;
         }
       } else {
-        this.logged = false
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
       }
     },
     homeroute() {
@@ -312,17 +299,17 @@ export default {
     logout() {
       this.loading = true;
       this.isActive = !this.isActive;
-      var token = localStorage.getItem("tokendata")
-      var user = localStorage.getItem("userdata");
-      var hyBridToken = localStorage.getItem("hybridToken");
+      var token = getItem("tokendata")
+      var user = getItem("userdata");
+      var hyBridToken = getItem("hybridToken");
       if(hyBridToken && hyBridToken != null || hyBridToken != undefined){
-        localStorage.removeItem("hybridToken");
+        removeItem("hybridToken");
         this.$bus.$emit("logout", "User Logged Out");
         this.loading = false;
         this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
       } else if (user != null && token != null){
-        localStorage.removeItem("tokendata");
-        localStorage.removeItem("userdata");
+        removeItem("tokendata");
+        removeItem("userdata");
         this.$bus.$emit("logout", "User Logged Out");
         this.loading = false;
         this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })

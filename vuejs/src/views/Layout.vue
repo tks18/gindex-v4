@@ -13,12 +13,14 @@
 </template>
 
 <script>
+import { initializeUser } from "@utils/localUtils";
 import Head from "./common/Head";
 import Footer from "./common/Footer";
 export default {
   data: function () {
     return {
       showInfo: true,
+      logged: false,
     };
   },
   components: {
@@ -27,30 +29,11 @@ export default {
   },
   methods: {
     assignUserInfo() {
-      this.loading = true;
-      var token = localStorage.getItem("tokendata");
-      var user = localStorage.getItem("userdata");
-      var hyBridToken = localStorage.getItem("hybridToken");
-      if(hyBridToken && hyBridToken != null || hyBridToken != undefined){
-        const hybridData = JSON.parse(this.$hash.AES.decrypt(hyBridToken, this.$pass).toString(this.$hash.enc.Utf8))
-        console.log(hybridData);
-        if(hybridData.user){
-          this.logged = true;
-        } else {
-          this.logged = false;
-          localStorage.removeItem("hybridToken");
-          this.gotoPage("/", "login")
-        }
-      } else if (user != null && token != null){
-        var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-        if(userData.email){
-          this.logged = true;
-        } else {
-          this.logged = false;
-        }
+      var userData = initializeUser();
+      if(userData.isThere){
+        this.logged = userData.data.logged;
       } else {
-        this.logged = false
-
+        this.logged = userData.data.logged;
       }
     },
     changeFooter() {

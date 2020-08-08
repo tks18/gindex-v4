@@ -165,11 +165,12 @@ import {
   checkoutPath,
   checkView,
   checkExtends,
+  decode64,
 } from "@utils/AcrouUtil";
+import { initializeUser } from "@utils/localUtils";
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
 import Loading from 'vue-loading-overlay';
-import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
     return {
@@ -316,24 +317,6 @@ export default {
         this.$router.go(-1);
       }
     },
-    shuffle(array) {
-      var currentIndex = array.length, temporaryValue, randomIndex;
-
-      // While there remain elements to shuffle...
-      while (0 !== currentIndex) {
-
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-      }
-
-      return array
-    },
     checkMobile() {
       var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if(width > 966){
@@ -473,34 +456,38 @@ export default {
       return Buffer.from("AA" + this.externalUrl + "ZZ").toString("base64");
     },
   },
-  beforeMount() {
-    this.mainLoad = true;
-    var user = localStorage.getItem("userdata");
-    var token = localStorage.getItem("tokendata");
-    if(user && token){
-      var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
-      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-      this.user = userData, this.token = tokenData;
-      this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
-        email: userData.email,
-        token: tokenData.token,
-      }).then(response => {
-        if(response.data.auth && response.data.registered && response.data.token){
-          this.mainLoad = false;
-          this.mediaToken = response.data.token;
-          this.getAudioUrl();
-        } else {
-          this.mainLoad = false;
-          this.mediaToken = "";
-        }
-      }).catch(e => {
-        console.log(e);
+  async beforeMount() {
+    this.mainload = true;
+    var userData = await initializeUser();
+    if(userData.isThere){
+      if(userData.type == "hybrid"){
+        this.user = userData.data.user;
+        this.logged = userData.data.logged;
+      } else if(userData.type == "normal"){
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+      }
+    } else {
+      this.logged = userData.data.logged;
+    }
+    await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+      email: userData.data.user.email,
+      token: userData.data.token.token,
+    }).then(response => {
+      if(response.data.auth && response.data.registered && response.data.token){
+        this.mainLoad = false;
+        this.mediaToken = response.data.token;
+        this.getAudioUrl();
+      } else {
         this.mainLoad = false;
         this.mediaToken = "";
-      })
-    } else {
-      this.user = null, this.token = null, this.mainLoad = false;
-    }
+      }
+    }).catch(e => {
+      console.log(e);
+      this.mainLoad = false;
+      this.mediaToken = "";
+    })
   },
   mounted() {
     this.checkMobile();

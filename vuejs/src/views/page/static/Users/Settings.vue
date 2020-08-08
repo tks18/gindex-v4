@@ -129,6 +129,10 @@
   </div>
 </template>
 <script>
+import {
+  initializeUser,
+  getgds,
+} from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
@@ -173,54 +177,36 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         beforeMount() {
           this.loading = true;
-          var token = localStorage.getItem("tokendata")
-          var user = localStorage.getItem("userdata");
-          if (user != null && token != null){
-            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
-            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            this.user = userData, this.token = tokenData, this.loading = false; this.logged = true;
+          var userData = initializeUser();
+          if(userData.isThere){
+            if(userData.type == "hybrid"){
+              this.user = userData.data.user;
+              this.logged = userData.data.logged;
+              this.loading = userData.data.loading;
+            } else if(userData.type == "normal"){
+              this.user = userData.data.user;
+              this.token = userData.data.token;
+              this.logged = userData.data.logged;
+              this.loading = userData.data.loading;
+              this.admin = userData.data.admin;
+              this.superadmin = userData.data.superadmin;
+            }
           } else {
-            this.user = null, this.token = null, this.loading = false, this.logged = true;
+            this.logged = userData.data.logged;
+            this.loading = userData.data.loading;
           }
         },
         mounted() {
-          this.loading = true;
-          if(this.user.admin && this.user.superadmin){
-            this.admin = true,   this.superadmin = true, this.loading = false;
-            if(this.user.avatar){
-              this.avatar = this.user.avatar;
-            } else {
-              this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
-            }
-          } else if(this.user.admin && !this.user.superadmin){
-            this.admin = true, this.loading = false;
-            if(this.user.avatar){
-              this.avatar = this.user.avatar;
-            } else {
-              this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
-            }
+          if(this.user.avatar){
+            this.avatar = this.user.avatar;
           } else {
-            this.loading = false;
-            if(this.user.avatar){
-              this.avatar = this.user.avatar;
-            } else {
-              this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
-            }
+            this.avatar = 'https://cdn.statically.io/img/www.joyonlineschool.com/static/emptyuserphoto.png?w=64&h=64&quality=100&f=auto';
           }
         },
         created() {
-          if (window.gds) {
-            this.gds = window.gds.map((item, index) => {
-              return {
-                name: item,
-                id: index,
-              };
-            });
-            let index = this.$route.params.id;
-            if (this.gds) {
-              this.currgd = this.gds[index];
-            }
-          }
+          let gddata = getgds(this.$route.params.id);
+          this.gds = gddata.gds;
+          this.currgd = gddata.current;
         }
       }
 </script>

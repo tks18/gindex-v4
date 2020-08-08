@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { initializeUser } from "@utils/localUtils";
 import { decode64, checkExtends } from "@utils/AcrouUtil";
 import Loading from 'vue-loading-overlay';
 export default {
@@ -74,36 +75,40 @@ export default {
       window.open(this.obj);
     }
   },
-  beforeMount() {
+  async beforeMount() {
     this.checkMobile();
-    this.mainLoad = true;
-    var user = localStorage.getItem("userdata");
-    var token = localStorage.getItem("tokendata");
-    if(user && token){
-      var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8));
-      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-      this.user = userData, this.token = tokenData;
-      this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
-        email: userData.email,
-        token: tokenData.token,
-      }).then(response => {
-        if(response.data.auth && response.data.registered && response.data.token){
-          this.mainLoad = false;
-          this.mediaToken = response.data.token;
-          this.objName = this.url.split('/').pop().split('.').slice(0,-1).join('.');
-          this.render();
-        } else {
-          this.mainLoad = false;
-          this.mediaToken = "";
-        }
-      }).catch(e => {
-        console.log(e);
+    this.mainload = true;
+    var userData = await initializeUser();
+    if(userData.isThere){
+      if(userData.type == "hybrid"){
+        this.user = userData.data.user;
+        this.logged = userData.data.logged;
+      } else if(userData.type == "normal"){
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+      }
+    } else {
+      this.logged = userData.data.logged;
+    }
+    await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+      email: userData.data.user.email,
+      token: userData.data.token.token,
+    }).then(response => {
+      if(response.data.auth && response.data.registered && response.data.token){
+        this.mainLoad = false;
+        this.mediaToken = response.data.token;
+        this.objName = this.url.split('/').pop().split('.').slice(0,-1).join('.');
+        this.render();
+      } else {
         this.mainLoad = false;
         this.mediaToken = "";
-      })
-    } else {
-      this.user = null, this.token = null, this.mainLoad = false;
-    }
+      }
+    }).catch(e => {
+      console.log(e);
+      this.mainLoad = false;
+      this.mediaToken = "";
+    })
   },
   watch: {
     screenWidth: function() {
