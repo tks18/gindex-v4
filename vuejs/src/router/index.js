@@ -2,8 +2,7 @@ import Vue from "vue";
 import febAlive from "feb-alive";
 import VueRouter from "vue-router";
 import axios from "axios";
-import secret from "../../secret";
-import Crypto from "crypto-js";
+import { decodeSecret, getItem, setItem, removeItem } from '@utils/encryptUtils';
 // Routing data
 
 import routes from "./routes";
@@ -48,16 +47,16 @@ Vue.use(febAlive, { router });
  */
 router.beforeEach( (to, from, next) => {
   store.dispatch("acrou/cancelToken/cancel")
-  const token = localStorage.getItem("tokendata");
-  const user = localStorage.getItem("userdata");
-  const hyBridToken = localStorage.getItem("hybridToken");
-  const sessionStore = localStorage.getItem("sessionStore");
+  const token = getItem("tokendata");
+  const user = getItem("userdata");
+  const hyBridToken = getItem("hybridToken");
+  const sessionStore = getItem("sessionStore");
   if(to.matched.some(record => record.meta.redirect)){
     next({path:'/0:home/'})
   }
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(hyBridToken && hyBridToken != null || hyBridToken != undefined) {
-      const hybridData = JSON.parse(Crypto.AES.decrypt(hyBridToken, secret.pass).toString(Crypto.enc.Utf8))
+      const hybridData = JSON.parse(decodeSecret(hyBridToken))
       if(hybridData.user){
         if(to.matched.some(record => record.meta.hybrid)){
           next();
@@ -65,12 +64,12 @@ router.beforeEach( (to, from, next) => {
           next({ name: 'results', params: { id: to.params.id, cmd: "results", success: false, data: "You are Unauthorized to View this Page. Login to Continue", redirectUrl: '/', tocmd: 'login' } });
         }
       } else {
-        localStorage.removeItem("hybridToken");
+        removeItem("hybridToken");
         next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: to.fullPath, data: "Not Authorized" } });
       }
     } else if(token != null && user != null){
-      const tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
-      const userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
+      const tokenData = JSON.parse(decodeSecret(token));
+      const userData = JSON.parse(decodeSecret(user));
       if(sessionStore != undefined && sessionStore != null) {
         if(to.matched.some(record => record.meta.admin)){
           if(userData.admin){
@@ -96,15 +95,15 @@ router.beforeEach( (to, from, next) => {
           token: tokenData.token
         }).then(response => {
           if(!response.data.auth && !response.data.registered && response.data.tokenuser == null){
-            localStorage.removeItem("tokendata");
-            localStorage.removeItem("userdata");
+            removeItem("tokendata");
+            removeItem("userdata");
             next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: 'home/', data: "Your Token Got Expired. Login to Generate Another Token. You will be Redirected to Login Page Automatically." } });
           } else if(!response.data.auth && !response.data.registered && !response.data.tokenuser){
-            localStorage.removeItem("tokendata");
-            localStorage.removeItem("userdata");
+            removeItem("tokendata");
+            removeItem("userdata");
             next({ name: 'results', params: { id: to.params.id, cmd: "results", nextUrl: to.fullPath, data: "User Not Found." } });
           } else {
-            localStorage.setItem('sessionStore', Date.now());
+            setItem('sessionStore', Date.now());
             if(to.matched.some(record => record.meta.admin)){
               if(userData.admin){
                 next({ params: { userinfo: userData, tokeninfo: tokenData } });
@@ -130,8 +129,8 @@ router.beforeEach( (to, from, next) => {
         })
       }
     } else {
-      localStorage.removeItem("tokendata");
-      localStorage.removeItem("userdata");
+      removeItem("tokendata");
+      removeItem("userdata");
       next({ name: 'results', params: { id: to.params.id, cmd: "result", success: false, nextUrl: to.fullPath, data: "You are Not Logged in to View Content. Please Login to Continue", redirectUrl: '/', tocmd: 'login' } });
     }
   } else if(to.matched.some(record => record.meta.guest)) {
@@ -139,8 +138,8 @@ router.beforeEach( (to, from, next) => {
           next();
       }
       else{
-        const tokenData = JSON.parse(Crypto.AES.decrypt(token, secret.pass).toString(Crypto.enc.Utf8));
-        const userData = JSON.parse(Crypto.AES.decrypt(user, secret.pass).toString(Crypto.enc.Utf8));
+        const tokenData = JSON.parse(decodeSecret(token));
+        const userData = JSON.parse(decodeSecret(user));
         if(to.matched.some(record => record.meta.allow)){
             next({ params: { userinfo: userData, tokeninfo: tokenData } });
         } else {

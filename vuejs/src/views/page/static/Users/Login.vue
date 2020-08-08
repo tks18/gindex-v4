@@ -32,7 +32,7 @@
                                 <div class="column is-four-fifths">
                                   <div class="field">
                                     <p class="control has-icons-left">
-                                      <input class="input is-rounded" id="hypassword" type="password" placeholder="Enter Your Hybrid Password" v-model="hypassword" required>
+                                      <input class="input is-rounded" id="hypassword" autocomplete="hy-password" type="password" placeholder="Enter Your Hybrid Password" v-model="hypassword" required>
                                       <span class="icon is-small is-left">
                                         <i class="fas fa-lock"></i>
                                       </span>
@@ -135,7 +135,7 @@
             <form @submit.prevent="handleSubmit">
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input class="input is-rounded" placeholder="Email" id="logemail" type="email" v-model="email" required autofocus>
+                  <input class="input is-rounded" placeholder="Email" autocomplete="username" id="logemail" type="email" v-model="email" required autofocus>
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -146,7 +146,7 @@
               </div>
               <div class="field">
                 <p class="control has-icons-left">
-                  <input class="input is-rounded" id="logpassword" type="password" placeholder="Password" v-model="password" required>
+                  <input class="input is-rounded" id="logpassword" autocomplete="current-password" type="password" placeholder="Password" v-model="password" required>
                   <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                   </span>
@@ -165,6 +165,14 @@
     </div>
 </template>
 <script>
+import {
+  decodeSecret,
+  encodeSecret,
+  getItem,
+  setItem,
+  checkPass
+} from '@utils/encryptUtils';
+import { getgds } from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
@@ -206,13 +214,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     })
                     .then(response => {
                       if(response.data.auth && response.data.registered){
-                          localStorage.setItem("tokendata", this.$hash.AES.encrypt(JSON.stringify({ token: response.data.token ,issuedate: response.data.issuedat, expirydate: response.data.expiryat }), this.$pass).toString());
-                          localStorage.setItem("userdata", this.$hash.AES.encrypt(JSON.stringify( response.data.tokenuser ), this.$pass).toString());
-                          var token = localStorage.getItem("tokendata");
-                          var user = localStorage.getItem("userdata");
+                          setItem("tokendata", encodeSecret(JSON.stringify({ token: response.data.token ,issuedate: response.data.issuedat, expirydate: response.data.expiryat })));
+                          setItem("userdata", encodeSecret(JSON.stringify( response.data.tokenuser )));
+                          var token = getItem("tokendata");
+                          var user = getItem("userdata");
                           if(token != null && user != null){
-                            var tokenData = JSON.parse(this.$hash.AES.decrypt(token, this.$pass).toString(this.$hash.enc.Utf8))
-                            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
+                            var tokenData = JSON.parse(decodeSecret(token));
+                            var userData = JSON.parse(decodeSecret(user));
                             this.loading = false;
                             this.errormessageVisibility = false;
                             this.successmessageVisibility = true;
@@ -240,7 +248,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
               console.log(this.hypassword);
               const hyBridpass = window.gdHybridPass;
-              var synced = await this.$saltIt.compareSync(this.hypassword, hyBridpass)
+              var synced = await checkPass(this.hypassword, hyBridpass)
               if(synced){
                 console.log(synced);
                 const hybridData = {
@@ -253,11 +261,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   superadmin: false,
                   verified: true
                 }
-                await localStorage.setItem("hybridToken", this.$hash.AES.encrypt(JSON.stringify( hybridData ), this.$pass).toString());
-                var dataFromLocal = await JSON.parse(this.$hash.AES.decrypt(localStorage.getItem("hybridToken"), this.$pass).toString(this.$hash.enc.Utf8));
+                await setItem("hybridToken", encodeSecret(JSON.stringify( hybridData )));
+                var dataFromLocal = await JSON.parse(decodeSecret(getItem("hybridToken")));
                 if(dataFromLocal.user){
-                  console.log("Super Pa")
-                  console.log(localStorage.getItem("hybridToken"));
                   this.loading = false;
                   this.errormessageVisibility = false;
                   this.successmessageVisibility = true;
@@ -280,7 +286,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               }
             },
             checkParams() {
-              console.log("checked")
               if(this.$route.params.email){
                 this.email = this.$route.params.email
                 this.emailFocus = false;
@@ -347,18 +352,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.checkParams();
         },
         created() {
-          if (window.gds) {
-            this.gds = window.gds.map((item, index) => {
-              return {
-                name: item,
-                id: index,
-              };
-            });
-            let index = this.$route.params.id;
-            if (this.gds) {
-              this.currgd = this.gds[index];
-            }
-          }
+          let gddata = getgds(this.$route.params.id);
+          this.gds = gddata.gds;
+          this.currgd = gddata.current;
         },
         watch: {
           email: "validateData",

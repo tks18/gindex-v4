@@ -116,6 +116,10 @@
   </div>
 </template>
 <script>
+import {
+  initializeUser,
+  getgds,
+} from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 export default {
   components: {
@@ -239,51 +243,50 @@ export default {
   },
   beforeMount() {
     this.loading = true;
-    var user = localStorage.getItem("userdata");
-    var token = localStorage.getItem("tokendata");
-    if(user && token){
-      var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-      this.user = userData;
-      this.loading = false;
+    var userData = initializeUser();
+    if(userData.isThere){
+      if(userData.type == "hybrid"){
+        this.user = userData.data.user;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+      } else if(userData.type == "normal"){
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
     } else {
-      this.user = null;
-      this.loading = false;
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
     }
   },
   mounted(){
     this.loading = true;
-    if(this.user.admin && this.user.superadmin){
-      this.admin = true, this.superadmin = true, this.roledisabled = false, this.loading = false;
+    if(this.admin && this.superadmin){
       this.addrole = "user",this.removerole = "user";
       this.getUserApi = window.apiRoutes.getUsers,this.postAddSpam = window.apiRoutes.addSpamUser;
       this.getSpamApi = window.apiRoutes.getSpamUsers,this.postSpamApi = window.apiRoutes.removeSpamUser;
       this.getUsers();
       this.getSpamUsers();
-    } else if(this.user.admin && !this.user.superadmin) {
-      this.admin = true, this.superadmin = false, this.loading = false;
+      this.loading = false;
+    } else if(this.admin && !this.superadmin) {
       this.addrole = "user",this.removerole = "user";
       this.getUserApi = window.apiRoutes.getUsers,this.postAddSpam = window.apiRoutes.addSpamUser;
       this.getSpamApi = window.apiRoutes.getSpamUsers,this.postSpamApi = window.apiRoutes.removeSpamUser;
       this.getUsers();
       this.getSpamUsers();
+      this.loading = false;
     } else {
       this.loading = false;
       this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "UnAuthorized Route. Not Allowed.", redirectUrl: "/", tocmd: "home" } })
     }
   },
   created() {
-    if (window.gds) {
-      this.gds = window.gds.map((item, index) => {
-        return {
-          name: item,
-          id: index,
-        };
-      });
-      let index = this.$route.params.id;
-      if (this.gds) {
-        this.currgd = this.gds[index];
-      }
-    }
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
   },
   watch: {
     addrole: function() {

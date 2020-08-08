@@ -39,6 +39,7 @@
     </div>
 </template>
 <script>
+import { initializeUser, getgds } from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
@@ -110,28 +111,24 @@ export default {
           },
         },
         beforeMount() {
-          var user = localStorage.getItem("userdata");
-          var token = localStorage.getItem("tokendata");
-          if(user && token){
-            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            this.user = userData, this.loading = false;
+          this.loading = true;
+          var userData = initializeUser();
+          if(userData.isThere){
+            if(userData.type == "hybrid"){
+              this.user = userData.data.user;
+              this.loading = userData.data.loading;
+            } else if(userData.type == "normal"){
+              this.user = userData.data.user;
+              this.loading = userData.data.loading;
+            }
           } else {
-            this.user = null, this.loading = false;
+            this.loading = userData.data.loading;
           }
         },
         created() {
-          if (window.gds) {
-            this.gds = window.gds.map((item, index) => {
-              return {
-                name: item,
-                id: index,
-              };
-            });
-            let index = this.$route.params.id;
-            if (this.gds) {
-              this.currgd = this.gds[index];
-            }
-          }
+          let gddata = getgds(this.$route.params.id);
+          this.gds = gddata.gds;
+          this.currgd = gddata.current;
         },
         watch: {
           password: function() {

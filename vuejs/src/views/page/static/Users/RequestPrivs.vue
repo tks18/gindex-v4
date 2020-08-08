@@ -189,6 +189,10 @@
     </div>
 </template>
 <script>
+import {
+  initializeUser,
+  getgds,
+} from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
@@ -273,41 +277,29 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         beforeMount() {
           this.loading = true;
-          var token = localStorage.getItem("tokendata");
-          var user = localStorage.getItem("userdata");
-          if (user != null && token != null){
-            var userData = JSON.parse(this.$hash.AES.decrypt(user, this.$pass).toString(this.$hash.enc.Utf8));
-            this.user = userData, this.loading = false;
+          var userData = initializeUser();
+          if(userData.isThere){
+            if(userData.type == "hybrid"){
+              this.user = userData.data.user;
+              this.logged = userData.data.logged;
+              this.loading = userData.data.loading;
+            } else if(userData.type == "normal"){
+              this.user = userData.data.user;
+              this.token = userData.data.token;
+              this.logged = userData.data.logged;
+              this.loading = userData.data.loading;
+              this.admin = userData.data.admin;
+              this.superadmin = userData.data.superadmin;
+            }
           } else {
-            this.user = null, this.loading = false;
-          }
-        },
-        mounted(){
-          this.loading = true;
-          if(!this.user.admin && !this.user.superadmin){
-            this.apiurl = window.apiRoutes.requestadminroute;
-            this.admin = false, this.superadmin = false, this.role = 'admin', this.loading = false;
-          } else if(this.user.admin && !this.user.superadmin) {
-            this.apiurl = window.apiRoutes.requestsuperadminroute;
-            this.admin = true, this.superadmin = false, this.role = "superadmin", this.loading = false;
-          } else {
-            this.loading = false;
-            // this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/", tocmd: "home" } })
+            this.logged = userData.data.logged;
+            this.loading = userData.data.loading;
           }
         },
         created() {
-          if (window.gds) {
-            this.gds = window.gds.map((item, index) => {
-              return {
-                name: item,
-                id: index,
-              };
-            });
-            let index = this.$route.params.id;
-            if (this.gds) {
-              this.currgd = this.gds[index];
-            }
-          }
+          let gddata = getgds(this.$route.params.id);
+          this.gds = gddata.gds;
+          this.currgd = gddata.current;
         },
         watch: {
           role: "validateData",
