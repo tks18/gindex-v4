@@ -127,10 +127,23 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       components: {
         Loading,
       },
+      metaInfo() {
+        return {
+          title: this.metatitle,
+          titleTemplate: (titleChunk) => {
+            if(titleChunk && this.currgd.name){
+              return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+            } else {
+              return "Loading..."
+            }
+          }
+        }
+      },
         props : ["nextUrl"],
         data(){
             return {
                 name : "",
+                metatitle: "Request Access",
                 email : "",
                 emailFocus: "",
                 nameFocus: "",
@@ -152,6 +165,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         methods : {
             handleSubmit(e) {
+              this.metatitle = "Requesting Access..."
               this.loading = true;
                 e.preventDefault()
                 if(this.checked){
@@ -169,11 +183,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             this.successmessageVisibility = true;
                             this.errormessageVisibility = false;
                             this.loading = false;
+                            this.metatitle = "Success Requesting...";
+                            this.$ga.event({eventCategory: "User Request",eventAction: "Success - "+" - "+this.currgd.name,eventLabel: "Request Access"})
                             this.resultmessage = response.data.message
                           } else {
                             this.successmessageVisibility = false;
                             this.errormessageVisibility = true;
                             this.loading = false;
+                            this.metatitle = "Request Failed...";
+                            this.$ga.event({eventCategory: "User Request",eventAction: "Failed - "+" - "+this.currgd.name,eventLabel: "Request Access"})
                             this.resultmessage = response.data.message
                           }
                         }
@@ -185,6 +203,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     this.successmessageVisibility = false;
                     this.errormessageVisibility = true;
                     this.loading = false;
+                    this.metatitle = "Request Failed...";
                     this.resultmessage = "> You Need to Accept Code of Conduct."
                     this.checked = false;
                   }
@@ -192,6 +211,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.successmessageVisibility = false;
                   this.errormessageVisibility = true;
                   this.loading = false;
+                  this.metatitle = "Request Failed...";
                   this.resultmessage = "> You Need to Accept Community Guidelines."
                   this.checked = false;
                 }
@@ -223,6 +243,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
+          this.$ga.page({
+            page: this.$route.path,
+            title: "Request Access"+" - "+this.currgd.name,
+            location: window.location.href
+          });
         },
         watch: {
           name: "validateData",

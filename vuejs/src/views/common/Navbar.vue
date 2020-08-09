@@ -7,7 +7,7 @@
       <div class="navbar-brand">
         <div class="navbar-item nav-link">
           <h3 class="title has-text-netflix is-3" @click="homeroute">
-            {{ siteName }}
+            {{ currgd.name }}
           </h3>
         </div>
         <a
@@ -266,10 +266,12 @@ export default {
       if(userData.isThere){
         if(userData.type == "hybrid"){
           this.user = userData.data.user;
+          this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Navigator",nonInteraction: true})
           this.logged = userData.data.logged;
           this.loading = userData.data.loading;
         } else if(userData.type == "normal"){
           this.user = userData.data.user;
+          this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Navigator",nonInteraction: true})
           this.token = userData.data.token;
           this.logged = userData.data.logged;
           this.loading = userData.data.loading;
@@ -285,6 +287,7 @@ export default {
       this.$router.push({ path: '/'+ this.gdindex + ':' + 'home/' })
     },
     gotoPage(url, cmd) {
+      this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.currgd.name,eventLabel: "Navigator"})
       this.isActive = !this.isActive;
       this.loading = true;
       if(cmd){
@@ -306,12 +309,14 @@ export default {
         removeItem("hybridToken");
         this.$bus.$emit("logout", "User Logged Out");
         this.loading = false;
+        this.$ga.event({eventCategory: "User Logout",eventAction: "Hybrid"+" - "+this.currgd.name,eventLabel: "Navigator"})
         this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
       } else if (user != null && token != null){
         removeItem("tokendata");
         removeItem("userdata");
         this.$bus.$emit("logout", "User Logged Out");
         this.loading = false;
+        this.$ga.event({eventCategory: "User Logout",eventAction: "Normal"+" - "+this.currgd.name,eventLabel: "Navigator"})
         this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
       } else {
         this.loading = false;

@@ -51,28 +51,39 @@
                   <p class="modal-card-title has-text-centered">{{ listname }}</p>
                   <button class="delete" @click="modal = false; pendingUserList = [];" aria-label="close"></button>
                 </header>
-                <section class="modal-card-body">
+                <section v-bind:key="actionKey" class="modal-card-body">
                   <div v-if="pendingUserList.length == 0" class="columns is-centered is-mobile">
                     <div class="column has-text-centered is-full">
                       <p class="subtitle has-text-black">No Pending User Requests</p>
                     </div>
                   </div>
-                  <div v-else class="columns is-centered is-mobile" v-for="user in pendingUserList" v-bind:key="user.name">
+                  <div v-else class="columns is-centered is-multiline is-mobile" v-for="(user, index) in pendingUserList" v-bind:key="index">
                     <div class="column is-6">
                       <p class="subtitle has-text-black">{{ user.email }}</p>
                     </div>
-                    <div class="column is-5 has-text-right">
-                      <button class="button is-success is-rounded" @click="handleTransport(user, setrole)">
-                        <span class="icon is-small">
-                          <i class="fas fa-user-plus"></i>
-                        </span>
-                        <span>Accept</span>
-                      </button>
+                    <div v-if="admin && superadmin" class="column is-6 has-text-right">
+                      <button class="button is-netflix-red is-rounded" @click="handleUserActions(user.email)">{{ action[user.email] ? "Close" : "Actions" }}</button>
                     </div>
-                    <div class="column is-1 has-text-centered">
-                      <span class="has-text-danger icon-link" @click="handleDelete(deleteApi, user)">
-                        <i class="fas fa-trash-alt"></i>
-                      </span>
+                    <div v-show="admin && superadmin && action[user.email]" class="column has-text-centered is-full">
+                      <div class="box has-background-light">
+                        <div class="columns is-mobile is-multiline is-centered">
+                          <div :class="ismobile ? 'column is-half' : 'column is-one-third'">
+                            <button class="button is-netflix-red is-rounded" @click="handleTransport(user, setrole)">
+                              Accept
+                            </button>
+                          </div>
+                          <div :class="ismobile ? 'column is-half' : 'column is-one-third'">
+                            <button class="button is-netflix-red is-rounded" @click="handleDelete(deleteApi, user)">
+                              Reject
+                            </button>
+                          </div>
+                          <div :class="ismobile ? 'column is-full' : 'column is-one-third'">
+                            <button class="button is-netflix-red is-rounded" @click="handleSpam(deleteApi, user)">
+                              Mark as Spam
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </section>
@@ -267,14 +278,29 @@ export default {
     components: {
       Loading
     },
+    metaInfo() {
+      return {
+        title: this.metatitle,
+        titleTemplate: (titleChunk) => {
+          if(titleChunk && this.currgd.name){
+            return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+          } else {
+            return "Loading..."
+          }
+        }
+      }
+    },
         props : ["nextUrl"],
         data(){
             return {
+                metatitle: "Add / Upgrade Users",
                 user: {},
                 admin: false,
                 superadmin: false,
                 name : "",
                 email : "",
+                action: {},
+                actionKey: 0,
                 namedisabled: false,
                 adminmessage: "",
                 disabled: true,
@@ -306,6 +332,7 @@ export default {
         },
         methods : {
             handleSubmit(e) {
+              this.metatitle = "Registering the User...";
               this.loading = true;
                 e.preventDefault()
                 if (this.name.length > 0 && this.email.length > 0 && this.password && this.password.length > 0 && this.checked && this.role.length > 0 && this.codechecked)
@@ -322,11 +349,15 @@ export default {
                           this.loading = false;
                           this.successMessage = true;
                           this.errorMessage = false;
+                          this.metatitle = "Success...";
+                          this.$ga.event({eventCategory: "Add User",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Register"})
                           this.resultmessage = response.data.message
                         } else {
                           this.loading = false;
                           this.successMessage = false;
                           this.errorMessage = true;
+                          this.metatitle = "Failed...";
+                          this.$ga.event({eventCategory: "Add User",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Register"})
                           this.resultmessage = response.data.message
                         }
                       }
@@ -350,6 +381,7 @@ export default {
               this.email = user.email;
             },
             getPendingUsers(route) {
+              this.metatitle = "Getting Pending List";
               this.modal = true;
               this.loading = true;
               this.$http.post(route, {
@@ -359,16 +391,22 @@ export default {
                   if(response.data.auth && response.data.registered){
                     this.loading = false;
                     this.columnVisibility = true;
+                    this.metatitle = "Got the List";
                     this.pendingUserList = response.data.users;
+                    response.data.users.forEach((user) => {
+                      return this.action[user.email] = false;
+                    });
                   } else {
                     this.loading = false;
                     this.columnVisibility = false;
+                    this.metatitle = "Failed...";
                     this.pendingMessage = response.data.message;
                   }
                 }
               })
             },
             gotoPage(url, cmd) {
+              this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.currgd.name,eventLabel: "Register"})
               if(cmd){
                 this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
               } else {
@@ -382,7 +420,37 @@ export default {
                 this.disabled = true;
               }
             },
+            handleUserActions(email){
+              if(!this.action[email]){
+                this.actionKey = this.actionKey + 1;
+                this.action[email] = true;
+              } else {
+                this.actionKey = this.actionKey + 1;
+                this.action[email] = false;
+              }
+            },
+            async handleSpam(post, user) {
+              this.loading = true;
+              this.metatitle = "Adding Spammers...";
+              await this.$http.post(window.apiRoutes.quickaddSpam, {
+                email: user.email,
+                adminuseremail: this.user.email
+              }).then(response => {
+                if(response){
+                  if(response.data.auth && response.data.registered){
+                    this.handleDelete(post, user);
+                    this.metatitle = "Adding Spammers...";
+                    this.$ga.event({eventCategory: "Add Spam",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Register"})
+                  } else {
+                    this.metatitle = "Failed to Add";
+                    this.loading = false;
+                    this.$ga.event({eventCategory: "Add Spam",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Register"})
+                  }
+                }
+              })
+            },
             handleDelete(post, user) {
+              this.metatitle = "Deleting from the List";
               this.loading = true;
               let route = "";
               let reloadRoute = "";
@@ -403,9 +471,13 @@ export default {
                 if(response){
                   if(response.data.auth && response.data.removed){
                     this.pendingUserList = [];
+                    this.metatitle = "Removed";
+                    this.$ga.event({eventCategory: "Delete",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Register"})
                     this.getPendingUsers(reloadRoute);
                     this.loading = false;
                   } else {
+                    this.metatitle = "Failed to Remove";
+                    this.$ga.event({eventCategory: "Delete",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Register"})
                     this.loading = false;
                     this.modal = true;
                   }
@@ -430,10 +502,12 @@ export default {
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Register",nonInteraction: true})
               this.user = userData.data.user;
               this.logged = userData.data.logged;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Register",nonInteraction: true})
               this.user = userData.data.user;
               this.token = userData.data.token;
               this.logged = userData.data.logged;
@@ -450,6 +524,11 @@ export default {
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
+          this.$ga.page({
+            page: this.$route.path,
+            title: "Add/Promote Users"+" - "+this.currgd.name,
+            location: window.location.href
+          });
         },
         watch: {
           role: function() {

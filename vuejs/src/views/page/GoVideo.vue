@@ -23,7 +23,7 @@
                   </div>
                 </div>
                 <div :class="ismobile ? 'column is-11' : 'column is-7'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ videoname.split('.').slice(0,-1).join('.') }}</p>
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ decodeURIComponent(videoname.split('.').slice(0,-1).join('.')) }}</p>
                 </div>
                 <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-right is-4' : 'column title has-text-weight-semibold has-text-right is-4'">
                   <span class="icon has-text-netflix-only is-medium">
@@ -218,8 +218,21 @@ export default {
     InfiniteLoading,
     Loading
   },
+  metaInfo() {
+    return {
+      title: this.metatitle,
+      titleTemplate: (titleChunk) => {
+        if(titleChunk && this.currgd.name){
+          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        } else {
+          return "Loading..."
+        }
+      }
+    }
+  },
   data: function() {
     return {
+      metatitle: "",
       apiurl: "",
       externalUrl: "",
       downloadUrl: "",
@@ -276,6 +289,7 @@ export default {
       this.render($state);
     },
     render($state) {
+      this.metatitle = "Loading...";
       var path = this.url.split(this.url.split('/').pop())[0];
       var password = localStorage.getItem("password" + path);
       var p = {
@@ -320,6 +334,7 @@ export default {
         });
     },
     buildFiles(files) {
+      this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
       var path = this.url.split(this.url.split('/').pop())[0];
       return !files
         ? []
@@ -589,6 +604,11 @@ export default {
     let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
+    this.$ga.page({
+      page: "/Video/"+this.url.split('/').pop()+"/",
+      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.currgd.name,
+      location: window.location.href
+    });
   },
   async beforeMount() {
     this.mainload = true;
@@ -665,10 +685,13 @@ export default {
         this.playtext="Let's Party"
       })
       this.player.on('play', () => {
+        this.$ga.event({eventCategory: this.videoname,eventAction: "Started Playing"+" - "+this.currgd.name,eventLabel: "Video Page"})
         this.playicon="fas fa-spin fa-compact-disc";
+        this.metatitle = "Playing"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playtext="Playing"
       });
       this.player.on('pause', () => {
+        this.metatitle = "Paused"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playicon="fas fa-pause",
         this.playtext="Paused"
       });

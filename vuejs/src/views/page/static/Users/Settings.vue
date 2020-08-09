@@ -139,10 +139,23 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         components: {
           Loading,
         },
+        metaInfo() {
+          return {
+            title: this.metatitle,
+            titleTemplate: (titleChunk) => {
+              if(titleChunk && this.currgd.name){
+                return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+              } else {
+                return "Loading..."
+              }
+            }
+          }
+        },
         data() {
           return {
             user: {},
             token: {},
+            metatitle: "Settings",
             logged: false,
             avatar: "",
             gds: [],
@@ -158,6 +171,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             window.alert(text);
           },
           gotoPage(url, cmd) {
+            this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.currgd.name,eventLabel: "Settings"})
             if(cmd){
               this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
             } else {
@@ -180,10 +194,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Settings",nonInteraction: true})
               this.user = userData.data.user;
               this.logged = userData.data.logged;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Settings",nonInteraction: true})
               this.user = userData.data.user;
               this.token = userData.data.token;
               this.logged = userData.data.logged;
@@ -197,6 +213,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           }
         },
         mounted() {
+          this.metatitle = this.user.name+" | "+"Settings";
           if(this.user.avatar){
             this.avatar = this.user.avatar;
           } else {
@@ -207,6 +224,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
+          this.$ga.page({
+            page: this.$route.path,
+            title: "Settings"+" - "+this.currgd.name,
+            location: window.location.href
+          });
         }
       }
 </script>

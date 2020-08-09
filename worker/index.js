@@ -2,7 +2,7 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "v7.9.6",
+  version: "v7.9.9",
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
   github_repo: "gindex-v4",
@@ -201,6 +201,7 @@ var routes = {
   getSpamUsers: authConfig.backendSite + '/get/spam/users',
   getSpamAdmins: authConfig.backendSite + '/get/spam/admins',
   getSpamSuperadmins: authConfig.backendSite + '/get/spam/superadmins',
+  quickaddSpam: authConfig.backendSite + '/spam/quickadd',
   deleteUser: authConfig.backendSite + '/delete/user',
   deleteMe: authConfig.backendSite + '/user/delete',
   deleteAdmin: authConfig.backendSite + '/delete/admin',
@@ -249,7 +250,6 @@ const CONSTS = {
 var gds = [];
 
 function html(current_drive_order = 0, model = {}) {
-    var data = returnVue();
   return `
 <!DOCTYPE html>
 <html>
@@ -311,7 +311,6 @@ function html(current_drive_order = 0, model = {}) {
     window.MODEL = JSON.parse('${JSON.stringify(model)}');
     window.current_drive_order = ${current_drive_order};
   </script>
-  ${data}
 </head>
 <body>
     <div id="app"></div>
@@ -1215,19 +1214,6 @@ class googleDrive {
       }, ms);
     });
   }
-}
-
-function returnVue() {
-    return `
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156929545-2"></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-156929545-2');
-        </script>
-    `
 }
 
 String.prototype.trim = function (char) {

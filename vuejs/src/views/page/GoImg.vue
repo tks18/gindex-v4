@@ -15,18 +15,33 @@
 </template>
 
 <script>
-import { initializeUser } from "@utils/localUtils";
+import { initializeUser, getgds } from "@utils/localUtils";
 import { decode64 } from "@utils/AcrouUtil";
 import Loading from 'vue-loading-overlay';
 export default {
+  metaInfo() {
+    return {
+      title: this.metatitle,
+      titleTemplate: (titleChunk) => {
+        if(titleChunk && this.currgd.name){
+          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        } else {
+          return "Loading..."
+        }
+      }
+    }
+  },
   data: function() {
     return {
       imgurl: "",
+      metatitle: "",
       user: {},
       token: {},
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       ismobile: false,
+      gds: [],
+      currgd: {},
       mediaToken: "",
       mainLoad: false,
       fullpage: true,
@@ -49,6 +64,7 @@ export default {
       let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
 // Easy to debug in development environment
 // path = process.env.NODE_ENV === "development"? "/api" + path: "";
+      this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
       this.imgurl = path;
     },
     checkMobile() {
@@ -98,6 +114,16 @@ export default {
       this.mainLoad = false;
       this.mediaToken = "";
     })
+  },
+  created() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+    this.$ga.page({
+      page: "/Image/"+this.url.split('/').pop()+"/",
+      title: this.url.split('/').pop().split('.').slice(0,-1).join('.')+" - "+this.currgd.name,
+      location: window.location.href
+    });
   },
   watch: {
     screenWidth: function() {

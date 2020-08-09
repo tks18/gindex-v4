@@ -199,9 +199,22 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       components: {
         Loading
       },
+      metaInfo() {
+        return {
+          title: this.metatitle,
+          titleTemplate: (titleChunk) => {
+            if(titleChunk && this.currgd.name){
+              return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+            } else {
+              return "Loading..."
+            }
+          }
+        }
+      },
         props : ["nextUrl"],
         data(){
             return {
+                metatitle: "Previlege Request",
                 user: {},
                 admin: false,
                 superadmin: false,
@@ -224,6 +237,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         methods : {
             handleSubmit(e) {
+              this.metatitle = "Verifying Your Details.."
               this.loading = true;
                 e.preventDefault()
                 if(this.checked && this.codechecked){
@@ -237,11 +251,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                         if(response.data.auth && response.data.registered){
                           this.successMessage = true;
                           this.errorMessage = false;
+                          this.metatitle = "Request Sent...";
+                          this.$ga.event({eventCategory: "Previlege Request",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Request Previleges"})
                           this.loading = false;
                           this.resultmessage = response.data.message
                         } else {
                           this.successMessage = false;
                           this.errorMessage = true;
+                          this.metatitle = "Request Failed...";
+                          this.$ga.event({eventCategory: "Previlege Request",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Request Previleges"})
                           this.loading = false;
                           this.resultmessage = response.data.message
                         }
@@ -253,6 +271,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 } else {
                   this.successMessage = false;
                   this.errorMessage = true;
+                  this.metatitle = "Request Failed...";
                   this.loading = false;
                   this.resultmessage = "You Need to Accept Community Guidelines."
                 }
@@ -300,6 +319,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
+          this.$ga.page({
+            page: this.$route.path,
+            title: "Previleges Request"+" - "+this.currgd.name,
+            location: window.location.href
+          });
         },
         watch: {
           role: "validateData",

@@ -190,8 +190,21 @@ export default {
   components: {
     Loading,
   },
+  metaInfo() {
+    return {
+      title: this.metatitle,
+      titleTemplate: (titleChunk) => {
+        if(titleChunk && this.currgd.name){
+          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        } else {
+          return "Loading..."
+        }
+      }
+    }
+  },
   data(){
     return {
+      metatitle: "Manage Users",
       user: {},
       token: {},
       users: [],
@@ -222,6 +235,7 @@ export default {
   },
   methods: {
     handleRefresh() {
+      this.metatitle = "Refreshing...";
       this.loading = true;
       if(this.apiurl.length > 0){
         this.$http.post(this.apiurl, {
@@ -229,15 +243,18 @@ export default {
         }).then(response => {
           if(response.data.auth && response.data.registered){
             this.loading = false;
+            this.metatitle = "Success...";
             this.users = response.data.users;
             this.searchedUsers = response.data.users;
           } else {
+            this.metatitle = "Failed...";
             console.log(response);
           }
         })
       }
     },
     gotoPage(url, cmd) {
+      this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.currgd.name,eventLabel: "Manage Users"})
       if(cmd){
         this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
       } else {
@@ -245,6 +262,7 @@ export default {
       }
     },
     handleUpgradeDelete(user, action) {
+      this.metatitle = "Handling the Changes...";
       this.loading = true;
       let route = "";
       if(action == "delete"){
@@ -262,6 +280,7 @@ export default {
         if(action == "delete"){
           if(response.data.auth && response.data.registered && response.data.deleted){
             this.usermodal = false;
+            this.metatitle = "Done...";
             this.currentUser = {};
             this.errorMessage = false;
             this.successMessage = false;
@@ -273,6 +292,7 @@ export default {
           } else {
             this.loading = false;
             this.errorMessage = true
+            this.metatitle = "Failed...";
             this.successMessage = false;
             this.resultmessage = response.data.message;
           }
@@ -280,6 +300,7 @@ export default {
       })
     },
     handleInvite(user) {
+      this.metatitle = "Inviting...";
       this.loading = true;
       let route = "";
       if(user.role == "User"){
@@ -295,12 +316,16 @@ export default {
         }).then(response => {
           if(response.data.auth && response.data.registered){
             this.successMessage = true;
+            this.metatitle = "Invite Sent...";
             this.errorMessage = false;
+            this.$ga.event({eventCategory: "Invite",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Manage Users"})
             this.resultmessage = response.data.message;
             this.loading = false;
           } else {
             this.successMessage = false;
             this.errorMessage = true;
+            this.metatitle = "Invite Failed...";
+            this.$ga.event({eventCategory: "Invite",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Manage Users"})
             this.resultmessage = response.data.message;
             this.loading = false;
           }
@@ -314,6 +339,7 @@ export default {
       this.errorMessage = false;
       this.successMessage = false;
       this.currentUser = user;
+      this.metatitle = "Handling the Changes...";
       let route = "";
       if(user.role == "User"){
         route = window.apiRoutes.getPendingAdmins;
@@ -332,29 +358,35 @@ export default {
               response.data.users.forEach((pendingUser) => {
                 if(pendingUser.email == user.email){
                     this.loading = false;
+                    this.metatitle = "Done...";
                     this.currentUser.pending = true;
                 } else {
                   this.loading = false;
+                  this.metatitle = "Failed...";
                   this.currentUser.pending = false;
                 }
               });
             } else {
+              this.metatitle = "Failed...";
               this.loading = false;
               this.currentUser.pending = false
             }
           } else {
             this.loading = false;
+            this.metatitle = "Failed...";
             this.currentUser.pending = false
           }
         })
       } else {
         this.loading = false;
+        this.metatitle = "Failed...";
         this.currentUser.pending = false
       }
     },
     closeUserModal() {
       this.usermodal = false;
       this.currentUser = {};
+      this.metatitle = "Manage Users";
       this.errorMessage = false;
       this.successMessage = false;
       this.inviteInput = false;
@@ -367,10 +399,12 @@ export default {
     var userData = initializeUser();
     if(userData.isThere){
       if(userData.type == "hybrid"){
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Manage Users",nonInteraction: true})
         this.user = userData.data.user;
         this.logged = userData.data.logged;
         this.loading = userData.data.loading;
       } else if(userData.type == "normal"){
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Manage Users",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -398,6 +432,11 @@ export default {
     let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
+    this.$ga.page({
+      page: this.$route.path,
+      title: "Manage Users"+" - "+this.currgd.name,
+      location: window.location.href
+    });
   },
   watch: {
     searchEmail: function(){

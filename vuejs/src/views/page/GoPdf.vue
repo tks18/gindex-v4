@@ -38,16 +38,31 @@
 </template>
 
 <script>
-import { initializeUser } from "@utils/localUtils";
+import { initializeUser, getgds } from "@utils/localUtils";
 import pdf from "vue-pdf/src/vuePdfNoSssNoWorker";
 import Loading from 'vue-loading-overlay';
 import { decode64 } from "@utils/AcrouUtil";
 export default {
+  metaInfo() {
+    return {
+      title: this.metatitle,
+      titleTemplate: (titleChunk) => {
+        if(titleChunk && this.currgd.name){
+          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        } else {
+          return "Loading..."
+        }
+      }
+    }
+  },
   data: function() {
     return {
       user: {},
       token: {},
       mediaUrl: "",
+      metatitle: "",
+      gds: [],
+      currgd: {},
       mediaToken: "",
       mainLoad: false,
       fullpage: true,
@@ -83,6 +98,7 @@ export default {
     },
     getUrl(){
       this.mediaUrl = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
     },
     previousPage() {
       if(this.page == 1){
@@ -134,8 +150,15 @@ export default {
       this.mediaToken = "";
     })
   },
-  mounted(){
-
+  created() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+    this.$ga.page({
+      page: "/PDF/"+this.url.split('/').pop()+"/",
+      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.currgd.name,
+      location: window.location.href
+    });
   },
   watch: {
     screenWidth: function() {
