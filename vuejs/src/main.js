@@ -20,6 +20,7 @@ import Viewer from "v-viewer";
 import cdnpath from "./libs/util.cdn";
 import vuetify from "@/plugin/vuetify";
 import '@/components'
+import Meta from 'vue-meta'
 import "viewerjs/dist/viewer.css";
 import "@/assets/style/theme/register.scss";
 
@@ -28,11 +29,25 @@ Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$bus = EventBus;
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+Vue.use(Meta)
 Vue.use(vea, {
-  config: { id: secret.uid },
-  appName: 'Gindex-Ultimate',
-  pageTrackerScreenviewEnabled: true
-}, router)
+  id: secret.uid,
+  autoTracking: {
+    transformQueryString: false,
+    screenview: true,
+    pageviewTemplate (route) {
+      return {
+        page: route.path,
+        title: document.title,
+        location: window.location.href
+      }
+    }
+  },
+  debug: {
+    enabled: false,
+    sendHitTask: true,
+  }
+})
 Vue.component('v-select', vSelect)
 Vue.use(require('vue-moment'));
 Vue.use(VueClipboard);

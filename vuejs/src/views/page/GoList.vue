@@ -50,6 +50,7 @@ import {
   checkoutPath,
   checkView,
 } from "@utils/AcrouUtil";
+import { getgds } from "@utils/localUtils";
 import { mapState } from "vuex";
 import BreadCrumb from "../common/BreadCrumb";
 import ListView from "./components/list";
@@ -66,14 +67,30 @@ export default {
     Readmemd: Markdown,
     InfiniteLoading,
   },
+  metaInfo() {
+    return {
+      title: this.metatitle,
+      titleTemplate: (titleChunk) => {
+        if(titleChunk && this.currgd.name){
+          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        } else {
+          return "Loading..."
+        }
+      }
+    }
+  },
   data: function() {
     return {
+      metatitle: "",
       infiniteId: +new Date(),
       loading: true,
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       ismobile: false,
       loadImage: "",
+      currentLocation: "",
+      gds: [],
+      currgd: {},
       page: {
         page_token: null,
         page_index: 0,
@@ -117,6 +134,7 @@ export default {
     };
   },
   mounted() {
+    this.metatitle = "Getting Files..."
     this.checkMobile();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
@@ -150,6 +168,14 @@ export default {
   },
   created() {
     this.render();
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+    this.$ga.page({
+      page: this.$route.path,
+      title: this.$route.name+" - "+this.currgd.name,
+      location: window.location.href
+    });
   },
   methods: {
     infiniteHandler($state) {
@@ -162,6 +188,7 @@ export default {
       console.log($state)
     },
     render($state) {
+      this.metatitle = "Getting Files..."
       this.headmd = { display: false, file: "", path: "" };
       this.readmemd = { display: false, file: "", path: "" };
       var path = this.$route.path;
@@ -210,6 +237,8 @@ export default {
         });
     },
     buildFiles(files) {
+      let lastName = decodeURIComponent(this.$route.fullPath.split("/").slice(0,-1).join("/").split("/").pop());
+      this.metatitle = lastName.slice(lastName.length-1, lastName.length) == ":" ? "Root" : lastName;
       var path = this.$route.path;
       return !files
         ? []
@@ -273,6 +302,7 @@ export default {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
     action(file, target) {
+      this.$ga.event({eventCategory: "File Navigation",eventAction: file.name+" - "+this.currgd.name,eventLabel: "Files",nonInteraction: true})
       let cmd = this.$route.params.cmd;
       if (cmd && cmd === "search") {
         this.goSearchResult(file, target);
