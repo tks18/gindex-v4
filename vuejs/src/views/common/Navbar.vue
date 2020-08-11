@@ -191,7 +191,7 @@ export default {
     this.loginorout();
     this.active = false;
     this.$ga.event({eventCategory: "Site Initialized",eventAction: "Normal - "+this.siteTitle,eventLabel: "Navbar",nonInteraction: true})
-    this.siteTitle = document.getElementsByTagName("title")[0].innerText;
+    this.siteName = document.getElementsByTagName("title")[0].innerText;
     if (window.gds && window.gds.length > 0) {
       this.gds = window.gds.map((item, index) => {
         return {

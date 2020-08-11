@@ -146,7 +146,6 @@ export default {
         this.mainLoad = false;
         this.mediaToken = response.data.token;
         this.getUrl();
-        console.log(this.mediaUrl)
       } else {
         this.mainLoad = false;
         this.mediaToken = "";
