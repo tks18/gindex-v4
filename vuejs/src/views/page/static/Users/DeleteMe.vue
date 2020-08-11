@@ -51,12 +51,12 @@ export default {
       return {
         title: this.metatitle,
         titleTemplate: (titleChunk) => {
-          if(titleChunk && this.currgd.name){
-            return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+          if(titleChunk && this.siteName){
+            return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
           } else {
             return "Loading..."
           }
-        }
+        },
       }
     },
         props : ["nextUrl"],
@@ -91,7 +91,7 @@ export default {
                           if(response.data.auth && response.data.registered && response.data.deleted){
                             this.metatitle = "Deletion Success";
                             this.resultmessage = response.data.message
-                            this.$ga.event({eventCategory: "Delete Personal",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Delete Me"})
+                            this.$ga.event({eventCategory: "Delete Personal",eventAction: "Success"+" - "+this.siteName,eventLabel: "Delete Me"})
                             removeItem('userdata');
                             removeItem('tokendata');
                             setTimeout(() => {
@@ -103,7 +103,7 @@ export default {
                             this.metatitle = "Deletion Failed";
                             this.errorMessage = true;
                             this.loading = false;
-                            this.$ga.event({eventCategory: "Delete Personal",eventAction: "Fail"+" - "+this.currgd.name,eventLabel: "Delete Me"})
+                            this.$ga.event({eventCategory: "Delete Personal",eventAction: "Fail"+" - "+this.siteName,eventLabel: "Delete Me"})
                             this.resultmessage = response.data.message
                           }
                         }
@@ -128,17 +128,22 @@ export default {
               return true
             }
           },
+          siteName() {
+            return window.gds.filter((item, index) => {
+              return index == this.$route.params.id;
+            })[0];
+          },
         },
         beforeMount() {
           this.loading = true;
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Delete Personal",nonInteraction: true})
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Delete Personal",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Delete Personal",nonInteraction: true})
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Delete Personal",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             }
@@ -152,7 +157,7 @@ export default {
           this.currgd = gddata.current;
           this.$ga.page({
             page: this.$route.path,
-            title: "Delete Me"+" - "+this.currgd.name,
+            title: "Delete Me"+" - "+this.siteName,
             location: window.location.href
           });
         },

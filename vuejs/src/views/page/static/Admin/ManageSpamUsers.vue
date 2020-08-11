@@ -129,12 +129,12 @@ export default {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.currgd.name){
-          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        if(titleChunk && this.siteName){
+          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
         } else {
           return "Loading..."
         }
-      }
+      },
     }
   },
   data() {
@@ -228,14 +228,14 @@ export default {
             this.successmessageVisibility = true;
             this.errormessageVisibility = false;
             this.metatitle = "Success...";
-            this.$ga.event({eventCategory: "Add Spam",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Manage Spam"})
+            this.$ga.event({eventCategory: "Add Spam",eventAction: "Success"+" - "+this.siteName,eventLabel: "Manage Spam"})
             this.resultmessage = response.data.message;
             this.loading = false;
           } else {
             this.successmessageVisibility = false;
             this.errormessageVisibility = true;
             this.metatitle = "Failed...";
-            this.$ga.event({eventCategory: "Add Spam",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Manage Spam"})
+            this.$ga.event({eventCategory: "Add Spam",eventAction: "Failed"+" - "+this.siteName,eventLabel: "Manage Spam"})
             this.resultmessage = response.data.message;
             this.loading = false;
           }
@@ -255,14 +255,14 @@ export default {
             this.successmessageVisibility = true;
             this.errormessageVisibility = false;
             this.metatitle = "Done...";
-            this.$ga.event({eventCategory: "Remove Spam",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Manage Spam"})
+            this.$ga.event({eventCategory: "Remove Spam",eventAction: "Success"+" - "+this.siteName,eventLabel: "Manage Spam"})
             this.resultmessage = response.data.message;
             this.loading = false;
           } else {
             this.metatitle = "Failed...";
             this.successmessageVisibility = false;
             this.errormessageVisibility = true;
-            this.$ga.event({eventCategory: "Remove Spam",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Manage Spam"})
+            this.$ga.event({eventCategory: "Remove Spam",eventAction: "Failed"+" - "+this.siteName,eventLabel: "Manage Spam"})
             this.resultmessage = response.data.message;
             this.loading = false;
           }
@@ -278,12 +278,12 @@ export default {
     var userData = initializeUser();
     if(userData.isThere){
       if(userData.type == "hybrid"){
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Manage Spam",nonInteraction: true})
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Manage Spam",nonInteraction: true})
         this.user = userData.data.user;
         this.logged = userData.data.logged;
         this.loading = userData.data.loading;
       } else if(userData.type == "normal"){
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Manage Spam",nonInteraction: true})
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Manage Spam",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -295,6 +295,13 @@ export default {
       this.logged = userData.data.logged;
       this.loading = userData.data.loading;
     }
+  },
+  computed: {
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
   },
   mounted(){
     this.loading = true;
@@ -324,7 +331,7 @@ export default {
     this.currgd = gddata.current;
     this.$ga.page({
       page: this.$route.path,
-      title: "Manage Spam"+" - "+this.currgd.name,
+      title: "Manage Spam"+" - "+this.siteName,
       location: window.location.href
     });
   },

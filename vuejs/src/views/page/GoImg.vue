@@ -23,12 +23,12 @@ export default {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.currgd.name){
-          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        if(titleChunk && this.siteName){
+          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
         } else {
           return "Loading..."
         }
-      }
+      },
     }
   },
   data: function() {
@@ -57,6 +57,11 @@ export default {
         return decode64(this.$route.params.path);
       }
       return ''
+    },
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
     },
   },
   methods: {
@@ -88,8 +93,10 @@ export default {
     if(userData.isThere){
       if(userData.type == "hybrid"){
         this.user = userData.data.user;
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Image",nonInteraction: true})
         this.logged = userData.data.logged;
       } else if(userData.type == "normal"){
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Image",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -121,7 +128,7 @@ export default {
     this.currgd = gddata.current;
     this.$ga.page({
       page: "/Image/"+this.url.split('/').pop()+"/",
-      title: this.url.split('/').pop().split('.').slice(0,-1).join('.')+" - "+this.currgd.name,
+      title: this.url.split('/').pop().split('.').slice(0,-1).join('.')+" - "+this.siteName,
       location: window.location.href
     });
   },

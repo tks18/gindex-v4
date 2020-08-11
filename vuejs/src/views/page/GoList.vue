@@ -71,12 +71,12 @@ export default {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.currgd.name){
-          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        if(titleChunk && this.siteName){
+          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
         } else {
           return "Loading..."
         }
-      }
+      },
     }
   },
   data: function() {
@@ -159,6 +159,11 @@ export default {
         (file) => file.mimeType.indexOf("image") != -1
       );
     },
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
     renderHeadMD() {
       return window.themeOptions.render.head_md || false;
     },
@@ -173,7 +178,7 @@ export default {
     this.currgd = gddata.current;
     this.$ga.page({
       page: this.$route.path,
-      title: this.$route.name+" - "+this.currgd.name,
+      title: this.$route.name+" - "+this.siteName,
       location: window.location.href
     });
   },
@@ -302,7 +307,7 @@ export default {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
     action(file, target) {
-      this.$ga.event({eventCategory: "File Navigation",eventAction: file.name+" - "+this.currgd.name,eventLabel: "Files",nonInteraction: true})
+      this.$ga.event({eventCategory: "File Navigation",eventAction: file.name+" - "+this.siteName,eventLabel: "Files",nonInteraction: true})
       let cmd = this.$route.params.cmd;
       if (cmd && cmd === "search") {
         this.goSearchResult(file, target);

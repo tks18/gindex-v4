@@ -131,12 +131,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         return {
           title: this.metatitle,
           titleTemplate: (titleChunk) => {
-            if(titleChunk && this.currgd.name){
-              return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+            if(titleChunk && this.siteName){
+              return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
             } else {
               return "Loading..."
             }
-          }
+          },
         }
       },
         props : ["nextUrl"],
@@ -184,14 +184,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             this.errormessageVisibility = false;
                             this.loading = false;
                             this.metatitle = "Success Requesting...";
-                            this.$ga.event({eventCategory: "User Request",eventAction: "Success - "+" - "+this.currgd.name,eventLabel: "Request Access"})
+                            this.$ga.event({eventCategory: "User Request",eventAction: "Success - "+" - "+this.siteName,eventLabel: "Request Access"})
                             this.resultmessage = response.data.message
                           } else {
                             this.successmessageVisibility = false;
                             this.errormessageVisibility = true;
                             this.loading = false;
                             this.metatitle = "Request Failed...";
-                            this.$ga.event({eventCategory: "User Request",eventAction: "Failed - "+" - "+this.currgd.name,eventLabel: "Request Access"})
+                            this.$ga.event({eventCategory: "User Request",eventAction: "Failed - "+" - "+this.siteName,eventLabel: "Request Access"})
                             this.resultmessage = response.data.message
                           }
                         }
@@ -236,6 +236,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               }
             }
         },
+        computed: {
+          siteName() {
+            return window.gds.filter((item, index) => {
+              return index == this.$route.params.id;
+            })[0];
+          },
+        },
         mounted() {
           this.checkParams();
         },
@@ -245,7 +252,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.currgd = gddata.current;
           this.$ga.page({
             page: this.$route.path,
-            title: "Request Access"+" - "+this.currgd.name,
+            title: "Request Access"+" - "+this.siteName,
             location: window.location.href
           });
         },

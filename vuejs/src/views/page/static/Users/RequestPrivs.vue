@@ -203,12 +203,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         return {
           title: this.metatitle,
           titleTemplate: (titleChunk) => {
-            if(titleChunk && this.currgd.name){
-              return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+            if(titleChunk && this.siteName){
+              return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
             } else {
               return "Loading..."
             }
-          }
+          },
         }
       },
         props : ["nextUrl"],
@@ -252,14 +252,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                           this.successMessage = true;
                           this.errorMessage = false;
                           this.metatitle = "Request Sent...";
-                          this.$ga.event({eventCategory: "Previlege Request",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Request Previleges"})
+                          this.$ga.event({eventCategory: "Previlege Request",eventAction: "Success"+" - "+this.siteName,eventLabel: "Request Previleges"})
                           this.loading = false;
                           this.resultmessage = response.data.message
                         } else {
                           this.successMessage = false;
                           this.errorMessage = true;
                           this.metatitle = "Request Failed...";
-                          this.$ga.event({eventCategory: "Previlege Request",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Request Previleges"})
+                          this.$ga.event({eventCategory: "Previlege Request",eventAction: "Failed"+" - "+this.siteName,eventLabel: "Request Previleges"})
                           this.loading = false;
                           this.resultmessage = response.data.message
                         }
@@ -292,7 +292,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             } else {
               return true
             }
-          }
+          },
+          siteName() {
+            return window.gds.filter((item, index) => {
+              return index == this.$route.params.id;
+            })[0];
+          },
         },
         beforeMount() {
           this.loading = true;
@@ -315,13 +320,26 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.loading = userData.data.loading;
           }
         },
+        mounted(){
+          this.loading = true;
+          if(!this.admin && !this.superadmin){
+            this.apiurl = window.apiRoutes.requestadminroute;
+            this.role = 'admin', this.loading = false;
+          } else if(this.admin && !this.superadmin) {
+            this.apiurl = window.apiRoutes.requestsuperadminroute;
+            this.role = "superadmin", this.loading = false;
+          } else {
+            this.loading = false;
+            this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: false, data: "You are Already a Admin or SuperAdmin", redirectUrl: "/", tocmd: "home" } })
+          }
+        },
         created() {
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
           this.$ga.page({
             page: this.$route.path,
-            title: "Previleges Request"+" - "+this.currgd.name,
+            title: "Previleges Request"+" - "+this.siteName,
             location: window.location.href
           });
         },

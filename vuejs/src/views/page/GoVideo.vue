@@ -222,12 +222,12 @@ export default {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.currgd.name){
-          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        if(titleChunk && this.siteName){
+          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
         } else {
           return "Loading..."
         }
-      }
+      },
     }
   },
   data: function() {
@@ -462,6 +462,7 @@ export default {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
     downloadButton() {
+      this.$ga.event({eventCategory: "Video Download",eventAction: "Download - "+this.siteName,eventLabel: "Video Page",nonInteraction: true})
       location.href = this.downloadUrl;
       return;
     },
@@ -535,6 +536,11 @@ export default {
         return videoRegex.test(file.mimeType);
       });
     },
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
     url() {
       if (this.$route.params.path) {
         return decode64(this.$route.params.path);
@@ -606,7 +612,7 @@ export default {
     this.currgd = gddata.current;
     this.$ga.page({
       page: "/Video/"+this.url.split('/').pop()+"/",
-      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.currgd.name,
+      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.siteName,
       location: window.location.href
     });
   },
@@ -616,8 +622,10 @@ export default {
     if(userData.isThere){
       if(userData.type == "hybrid"){
         this.user = userData.data.user;
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Video Page",nonInteraction: true})
         this.logged = userData.data.logged;
       } else if(userData.type == "normal"){
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Video Page",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -685,7 +693,7 @@ export default {
         this.playtext="Let's Party"
       })
       this.player.on('play', () => {
-        this.$ga.event({eventCategory: this.videoname,eventAction: "Started Playing"+" - "+this.currgd.name,eventLabel: "Video Page"})
+        this.$ga.event({eventCategory: this.videoname,eventAction: "Started Playing"+" - "+this.siteName,eventLabel: "Video Page"})
         this.playicon="fas fa-spin fa-compact-disc";
         this.metatitle = "Playing"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playtext="Playing"
