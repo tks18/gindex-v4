@@ -176,12 +176,12 @@ export default {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.currgd.name){
-          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        if(titleChunk && this.siteName){
+          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
         } else {
           return "Loading..."
         }
-      }
+      },
     }
   },
   data: function() {
@@ -343,6 +343,7 @@ export default {
       }
     },
     downloadButton() {
+      this.$ga.event({eventCategory: "Audio Download",eventAction: "Download - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
       location.href = this.downloadUrl;
     },
     getAudioUrl() {
@@ -407,6 +408,11 @@ export default {
       }).filter(file => {
         return audioRegex.test(file.mimeType);
       });
+    },
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
     },
     url() {
       if (this.$route.params.path) {
@@ -479,8 +485,10 @@ export default {
     if(userData.isThere){
       if(userData.type == "hybrid"){
         this.user = userData.data.user;
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
         this.logged = userData.data.logged;
       } else if(userData.type == "normal"){
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -523,7 +531,7 @@ export default {
     this.currgd = gddata.current;
     this.$ga.page({
       page: "/Audio/"+this.url.split('/').pop()+"/",
-      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.currgd.name,
+      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.siteName,
       location: window.location.href
     });
   },
@@ -561,13 +569,14 @@ export default {
         this.playtext="Let's Party"
       })
       this.player.on('play', () => {
-        this.$ga.event({eventCategory: this.audioname,eventAction: "Started Playing"+" - "+this.currgd.name,eventLabel: "Audio Page"})
+        this.$ga.event({eventCategory: this.audioname,eventAction: "Started Playing"+" - "+this.siteName,eventLabel: "Audio Page"})
         this.poster = "https://thumbs.gfycat.com/MadFamiliarAngwantibo-size_restricted.gif";
         this.metatitle = "Playing"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playicon="fas fa-spin fa-compact-disc";
         this.playtext="Playing"
       });
       this.player.on('pause', () => {
+        this.$ga.event({eventCategory: this.audioname,eventAction: "Paused"+" - "+this.siteName,eventLabel: "Audio Page"})
         this.poster = "https://thumbs.gfycat.com/HeavenlyExcitableFlyingfish-size_restricted.gif";
         this.metatitle = "Paused"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playicon="fas fa-pause",

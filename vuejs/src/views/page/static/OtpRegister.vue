@@ -121,12 +121,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         return {
           title: this.metatitle,
           titleTemplate: (titleChunk) => {
-            if(titleChunk && this.currgd.name){
-              return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+            if(titleChunk && this.siteName){
+              return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
             } else {
               return "Loading..."
             }
-          }
+          },
         }
       },
         data(){
@@ -166,14 +166,14 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                           this.successmessageVisibility = true;
                           this.loading = false;
                           this.metatitle = "Success Verifying";
-                          this.$ga.event({eventCategory: "User Verification",eventAction: "User Registered - "+" - "+this.currgd.name,eventLabel: "OTP Register"})
+                          this.$ga.event({eventCategory: "User Verification",eventAction: "User Registered - "+" - "+this.siteName,eventLabel: "OTP Register"})
                           this.resultmessage = response.data.message + "Now You can Login with Your Email and Password";
                         } else {
                           this.errormessageVisibility = true;
                           this.successmessageVisibility = false;
                           this.loading = false;
                           this.metatitle = "Failed Verifying";
-                          this.$ga.event({eventCategory: "User Verification",eventAction: "Failed - "+" - "+this.currgd.name,eventLabel: "OTP Register"})
+                          this.$ga.event({eventCategory: "User Verification",eventAction: "Failed - "+" - "+this.siteName,eventLabel: "OTP Register"})
                           this.resultmessage = response.data.message;
                       }
                     });
@@ -187,7 +187,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 }
             },
             gotoPage(url, cmd) {
-              this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.currgd.name,eventLabel: "OTP Register"})
+              this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.siteName,eventLabel: "OTP Register"})
               if(cmd){
                 this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
               } else {
@@ -214,6 +214,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               }
             },
         },
+        computed: {
+          siteName() {
+            return window.gds.filter((item, index) => {
+              return index == this.$route.params.id;
+            })[0];
+          },
+        },
         mounted() {
           this.checkParams();
         },
@@ -223,7 +230,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.currgd = gddata.current;
           this.$ga.page({
             page: this.$route.path,
-            title: "OTP Register"+" - "+this.currgd.name,
+            title: "OTP Register"+" - "+this.siteName,
             location: window.location.href
           });
         },

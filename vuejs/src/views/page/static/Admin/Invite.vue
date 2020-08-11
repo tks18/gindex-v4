@@ -108,12 +108,12 @@ export default {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.currgd.name){
-          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        if(titleChunk && this.siteName){
+          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
         } else {
           return "Loading..."
         }
-      }
+      },
     }
   },
   props : ["nextUrl"],
@@ -160,14 +160,14 @@ export default {
                       this.successMessage = true;
                       this.errorMessage = false;
                       this.metatitle = "Invite Sent...";
-                      this.$ga.event({eventCategory: "Invite",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Invite"})
+                      this.$ga.event({eventCategory: "Invite",eventAction: "Success"+" - "+this.siteName,eventLabel: "Invite"})
                       this.resultmessage = response.data.message
                     } else {
                       this.loading = false;
                       this.successMessage = false;
                       this.errorMessage = true;
                       this.metatitle = "Invite Failed...";
-                      this.$ga.event({eventCategory: "Invite",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Invite"})
+                      this.$ga.event({eventCategory: "Invite",eventAction: "Failed"+" - "+this.siteName,eventLabel: "Invite"})
                       this.resultmessage = response.data.message
                     }
                   }
@@ -204,19 +204,24 @@ export default {
         } else {
           return true
         }
-      }
+      },
+      siteName() {
+        return window.gds.filter((item, index) => {
+          return index == this.$route.params.id;
+        })[0];
+      },
     },
     beforeMount() {
       this.loading = true;
       var userData = initializeUser();
       if(userData.isThere){
         if(userData.type == "hybrid"){
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Invite",nonInteraction: true})
+          this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Invite",nonInteraction: true})
           this.user = userData.data.user;
           this.logged = userData.data.logged;
           this.loading = userData.data.loading;
         } else if(userData.type == "normal"){
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Invite",nonInteraction: true})
+          this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Invite",nonInteraction: true})
           this.user = userData.data.user;
           this.token = userData.data.token;
           this.logged = userData.data.logged;
@@ -248,7 +253,7 @@ export default {
       this.currgd = gddata.current;
       this.$ga.page({
         page: this.$route.path,
-        title: "Invite"+" - "+this.currgd.name,
+        title: "Invite"+" - "+this.siteName,
         location: window.location.href
       });
     },

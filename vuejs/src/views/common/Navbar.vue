@@ -190,7 +190,8 @@ export default {
     })
     this.loginorout();
     this.active = false;
-    this.siteName = document.getElementsByTagName("title")[0].innerText;
+    this.$ga.event({eventCategory: "Site Initialized",eventAction: "Normal - "+this.siteTitle,eventLabel: "Navbar",nonInteraction: true})
+    this.siteTitle = document.getElementsByTagName("title")[0].innerText;
     if (window.gds && window.gds.length > 0) {
       this.gds = window.gds.map((item, index) => {
         return {
@@ -240,6 +241,7 @@ export default {
       }
     },
     changeItem(item) {
+      this.$ga.event({eventCategory: "TD Change",eventAction: "Normal - "+this.siteName,eventLabel: "Navbar",nonInteraction: true})
       this.$bus.$emit("td", "TD Changed");
       this.currgd = item;
       this.$router.push({
@@ -247,6 +249,7 @@ export default {
       });
     },
     query() {
+      this.$ga.event({eventCategory: "Query",eventAction: "Normal - "+this.siteName,eventLabel: "Navbar",nonInteraction: true})
       if (this.param) {
         this.isActive = !this.isActive;
         this.$router.push({
@@ -337,6 +340,11 @@ export default {
 // Folder does not support searching
       return window.MODEL ? window.MODEL.root_type < 2 : true
     },
+    siteTitle() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
     ismobile() {
       var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
       if(width > 966){
@@ -356,6 +364,7 @@ export default {
   watch: {
     "$route.params.id": "chooseGD",
     "$route": function() {
+      this.$ga.event({eventCategory: "Route Change",eventAction: "Normal - "+this.siteName,eventLabel: "Navbar",nonInteraction: true})
       if(this.$route.name == 'home' && !this.logged){
         this.navbarStyle = "transparent";
         this.backgroundClass = "home-back";

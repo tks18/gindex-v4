@@ -45,6 +45,7 @@ export default {
     }
   },
   beforeMount() {
+    this.$ga.event({eventCategory: "Website Started",eventAction: "Normal - "+this.siteName,eventLabel: "Main",nonInteraction: true})
     this.assignUserInfo();
     this.changeFooter();
   },

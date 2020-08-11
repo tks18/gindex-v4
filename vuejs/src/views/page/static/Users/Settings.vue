@@ -143,12 +143,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           return {
             title: this.metatitle,
             titleTemplate: (titleChunk) => {
-              if(titleChunk && this.currgd.name){
-                return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+              if(titleChunk && this.siteName){
+                return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
               } else {
                 return "Loading..."
               }
-            }
+            },
           }
         },
         data() {
@@ -171,7 +171,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             window.alert(text);
           },
           gotoPage(url, cmd) {
-            this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.currgd.name,eventLabel: "Settings"})
+            this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.siteName,eventLabel: "Settings"})
             if(cmd){
               this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
             } else {
@@ -187,19 +187,24 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             } else {
               return true
             }
-          }
+          },
+          siteName() {
+            return window.gds.filter((item, index) => {
+              return index == this.$route.params.id;
+            })[0];
+          },
         },
         beforeMount() {
           this.loading = true;
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Settings",nonInteraction: true})
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Settings",nonInteraction: true})
               this.user = userData.data.user;
               this.logged = userData.data.logged;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Settings",nonInteraction: true})
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Settings",nonInteraction: true})
               this.user = userData.data.user;
               this.token = userData.data.token;
               this.logged = userData.data.logged;
@@ -226,7 +231,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.currgd = gddata.current;
           this.$ga.page({
             page: this.$route.path,
-            title: "Settings"+" - "+this.currgd.name,
+            title: "Settings"+" - "+this.siteName,
             location: window.location.href
           });
         }

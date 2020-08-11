@@ -29,12 +29,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         return {
           title: this.metatitle,
           titleTemplate: (titleChunk) => {
-            if(titleChunk && this.currgd.name){
-              return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+            if(titleChunk && this.siteName){
+              return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
             } else {
               return "Loading..."
             }
-          }
+          },
         }
       },
         data () {
@@ -51,6 +51,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         components: {
           Loading,
         },
+        computed: {
+          siteName() {
+            return window.gds.filter((item, index) => {
+              return index == this.$route.params.id;
+            })[0];
+          },
+        },
         beforeMount() {
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
@@ -59,7 +66,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         mounted: function() {
           this.$ga.page({
             page: this.$route.path,
-            title: "Temp"+" - "+this.currgd.name,
+            title: "Temp"+" - "+this.siteName,
             location: window.location.href
           });
           if(this.$route.params.data && this.$route.params.noredirect){
@@ -69,7 +76,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           } else if(this.$route.params.data && this.$route.params.redirectUrl){
               this.data = this.$route.params.data;
               this.success = this.$route.params.success;
-              this.$ga.event({eventCategory: "Page Routing",eventAction: "To - "+this.$route.params.redirectUrl+" - "+this.currgd.name,eventLabel: "Temp"})
+              this.$ga.event({eventCategory: "Page Routing",eventAction: "To - "+this.$route.params.redirectUrl+" - "+this.siteName,eventLabel: "Temp"})
               if(this.$route.params.tocmd){
                 setTimeout(() => {
                     this.$router.replace({ path: '/'+ this.currgd.id+ ':' + this.$route.params.tocmd+ this.$route.params.redirectUrl })
@@ -82,7 +89,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           } else {
             this.success = false;
             this.data = "Nothing Here!...You will be Redirected"
-            this.$ga.event({eventCategory: "Page Routing",eventAction: "To - Home"+" - "+this.currgd.name,eventLabel: "Temp"})
+            this.$ga.event({eventCategory: "Page Routing",eventAction: "To - Home"+" - "+this.siteName,eventLabel: "Temp"})
             setTimeout(() => {
               this.$router.replace({ path: '/'+this.currgd.id+':home/' })
             }, 1000)

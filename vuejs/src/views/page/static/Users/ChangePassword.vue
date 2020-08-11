@@ -67,12 +67,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         return {
           title: this.metatitle,
           titleTemplate: (titleChunk) => {
-            if(titleChunk && this.currgd.name){
-              return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+            if(titleChunk && this.siteName){
+              return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
             } else {
               return "Loading..."
             }
-          }
+          },
         }
       },
         data(){
@@ -109,13 +109,13 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                         this.loading = false;
                         this.metatitle = "Success...";
                         this.$bus.$emit("logout", "User Logged Out");
-                        this.$ga.event({eventCategory: "Password Change",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Change Password"});
+                        this.$ga.event({eventCategory: "Password Change",eventAction: "Success"+" - "+this.siteName,eventLabel: "Change Password"});
                         this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: true, redirectUrl: '/', tocmd: 'login', data: `response.data.message. You have to Relogin with new Password` } })
                       } else {
                         this.errorMessage = true
                         this.loading = false;
                         this.metatitle = "Failed...";
-                        this.$ga.event({eventCategory: "Password Change",eventAction: "Fail"+" - "+this.currgd.name,eventLabel: "Change Password"});
+                        this.$ga.event({eventCategory: "Password Change",eventAction: "Fail"+" - "+this.siteName,eventLabel: "Change Password"});
                         this.resultmessage = response.data.message;
                       }
                     });
@@ -143,18 +143,23 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             } else {
               return true
             }
-          }
+          },
+          siteName() {
+            return window.gds.filter((item, index) => {
+              return index == this.$route.params.id;
+            })[0];
+          },
         },
         beforeMount() {
           this.loading = true;
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Change Password",nonInteraction: true})
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Change Password",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Change Password",nonInteraction: true})
+              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Change Password",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             }
@@ -168,7 +173,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.currgd = gddata.current;
           this.$ga.page({
             page: this.$route.path,
-            title: "Change Password"+" - "+this.currgd.name,
+            title: "Change Password"+" - "+this.siteName,
             location: window.location.href
           });
         },

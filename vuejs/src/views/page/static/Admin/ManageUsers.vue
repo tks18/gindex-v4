@@ -194,12 +194,12 @@ export default {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.currgd.name){
-          return titleChunk ? `${titleChunk} | ${this.currgd.name}` : `${this.currgd.name}`;
+        if(titleChunk && this.siteName){
+          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
         } else {
           return "Loading..."
         }
-      }
+      },
     }
   },
   data(){
@@ -254,7 +254,7 @@ export default {
       }
     },
     gotoPage(url, cmd) {
-      this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.currgd.name,eventLabel: "Manage Users"})
+      this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.siteName,eventLabel: "Manage Users"})
       if(cmd){
         this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
       } else {
@@ -318,14 +318,14 @@ export default {
             this.successMessage = true;
             this.metatitle = "Invite Sent...";
             this.errorMessage = false;
-            this.$ga.event({eventCategory: "Invite",eventAction: "Success"+" - "+this.currgd.name,eventLabel: "Manage Users"})
+            this.$ga.event({eventCategory: "Invite",eventAction: "Success"+" - "+this.siteName,eventLabel: "Manage Users"})
             this.resultmessage = response.data.message;
             this.loading = false;
           } else {
             this.successMessage = false;
             this.errorMessage = true;
             this.metatitle = "Invite Failed...";
-            this.$ga.event({eventCategory: "Invite",eventAction: "Failed"+" - "+this.currgd.name,eventLabel: "Manage Users"})
+            this.$ga.event({eventCategory: "Invite",eventAction: "Failed"+" - "+this.siteName,eventLabel: "Manage Users"})
             this.resultmessage = response.data.message;
             this.loading = false;
           }
@@ -399,12 +399,12 @@ export default {
     var userData = initializeUser();
     if(userData.isThere){
       if(userData.type == "hybrid"){
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid",eventLabel: "Manage Users",nonInteraction: true})
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Manage Users",nonInteraction: true})
         this.user = userData.data.user;
         this.logged = userData.data.logged;
         this.loading = userData.data.loading;
       } else if(userData.type == "normal"){
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal",eventLabel: "Manage Users",nonInteraction: true})
+        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Manage Users",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -416,6 +416,13 @@ export default {
       this.logged = userData.data.logged;
       this.loading = userData.data.loading;
     }
+  },
+  computed: {
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
   },
   mounted() {
     if(this.admin && this.superadmin){
@@ -434,7 +441,7 @@ export default {
     this.currgd = gddata.current;
     this.$ga.page({
       page: this.$route.path,
-      title: "Manage Users"+" - "+this.currgd.name,
+      title: "Manage Users"+" - "+this.siteName,
       location: window.location.href
     });
   },
