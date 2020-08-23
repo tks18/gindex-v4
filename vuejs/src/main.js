@@ -18,7 +18,6 @@ import VueClipboard from "vue-clipboard2";
 import VueLazyload from "vue-lazyload";
 import Viewer from "v-viewer";
 import cdnpath from "./libs/util.cdn";
-import vuetify from "@/plugin/vuetify";
 import '@/components'
 import Meta from 'vue-meta'
 import "viewerjs/dist/viewer.css";
@@ -63,7 +62,6 @@ Vue.use(VueLazyload, {
 Vue.use(Viewer);
 
 new Vue({
-  vuetify,
   router,
   store,
   i18n,
