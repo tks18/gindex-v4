@@ -301,6 +301,19 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         beforeMount() {
           this.loading = true;
+          this.$http.post(window.apiRoutes.getSiteSettings).then(response => {
+            if(response.data.auth && response.data.registered){
+              if(response.data.data.adminRequests){
+                this.loading = false;
+              } else {
+                this.loading = false;
+                this.$router.push({ name: 'results', params: {id: this.currgd.id, cmd: 'result', success: false, data: "User Requests are Closed by the Admin. Please Try Afterwards or Contact Admins.", noredirect: true} })
+              }
+            } else {
+              this.loading = false;
+            }
+          })
+          this.loading = true;
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){

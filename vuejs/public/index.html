@@ -225,7 +225,9 @@
       forgotPass: 'http://localhost:3000/user/forgotpass',
       getAll: 'http://localhost:3000/get/all',
       getAdmins: 'http://localhost:3000/get/admins',
-      getSuperAdmins: 'http://localhost:3000/get/superadmins'
+      getSuperAdmins: 'http://localhost:3000/get/superadmins',
+      setSiteSettings: 'http://localhost:3000/user/sitesettings',
+      getSiteSettings: 'http://localhost:3000/get/sitesettings'
     }
     window.gdconfig = JSON.parse(JSON.stringify({ version: authConfig.version, themeOptions: themeOptions }));
     window.apiRoutes = routes;
