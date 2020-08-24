@@ -2,7 +2,7 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "v7.9.9",
+  version: "v8.0.3",
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
   github_repo: "gindex-v4",
@@ -211,7 +211,9 @@ var routes = {
   getUsers: authConfig.backendSite + '/get/users',
   getAll: authConfig.backendSite + '/get/all',
   getAdmins: authConfig.backendSite + '/get/admins',
-  getSuperAdmins: authConfig.backendSite + '/get/superadmins'
+  getSuperAdmins: authConfig.backendSite + '/get/superadmins',
+  setSiteSettings: authConfig.backendSite + '/user/sitesettings',
+  getSiteSettings: authConfig.backendSite + '/get/sitesettings'
 };
 // =======Options END=======
 

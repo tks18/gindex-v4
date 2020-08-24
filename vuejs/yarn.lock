@@ -9209,6 +9209,13 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
+vue-switch-button@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/vue-switch-button/-/vue-switch-button-0.2.1.tgz#d2916987e385d7df3b25fb823ac02a36c9e2c4c3"
+  integrity sha512-IXRR5rS75St6eQWOpD0aZ4bsnrxUK1tZEzQkQMCEBJCMOKBxdqWr9nezJjvbrvwJM5yPu4FF5D8qNaCPGOXe8w==
+  dependencies:
+    vue "^2.5.17"
+
 vue-template-compiler@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.11.tgz#c04704ef8f498b153130018993e56309d4698080"
@@ -9231,6 +9238,11 @@ vue2-animate@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/vue2-animate/-/vue2-animate-2.1.3.tgz#24e0aaf7326d9147d587201f91df8d6c101dd8e3"
   integrity sha512-/wM6+wVxwqbCzB/5ZDOZeEHnCmYBFMAyPJ+syqpTWyhBshvf7P+PRhHLyITZ8kzkh+a2Q+YaZcemTP4F1ieH9g==
+
+vue@^2.5.17:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
+  integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
 vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"

@@ -221,6 +221,17 @@ const frameIn = [{
       }
   },
   {
+      path: '/:id(\\d)::cmd(admin)/settings',
+      name: 'sitesettings',
+      component: _import("page/static/Admin/SiteSettings"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          hybrid: false,
+      }
+  },
+  {
       path: '/:id(\\d)::cmd(admin)/spam',
       name: 'managespam',
       component: _import("page/static/Admin/ManageSpamUsers"),
