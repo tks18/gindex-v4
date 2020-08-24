@@ -7,6 +7,12 @@
       <div :class="ismobile ? 'column is-full mx-0 px-1' : 'column is-two-thirds'">
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
+            <div class="has-text-right is-small">
+              <span class="icon has-text-netflix-only is-medium">
+                <i :class="playicon"></i>
+              </span>
+              <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
+            </div>
             <vue-plyr ref="plyr" v-bind:key="videokey">
               <video :poster="poster" :src="apiurl" class="video-content">
                 <source :src="apiurl" type="video/mp4" size="Original Format">
@@ -14,22 +20,21 @@
               </video>
             </vue-plyr>
             <div class="box has-background-black">
-              <div class="columns is-mobile is-multiline has-text-white">
-                <div class="column is-1">
-                  <div class="columns is-desktop is-multiline has-text-white is-centered is-vcentered">
-                    <div class="column is-full">
-                      <p class="subtitle has-text-weight-bold has-text-netflix-only"><i class="fas fa-video"></i></p>
-                    </div>
-                  </div>
-                </div>
-                <div :class="ismobile ? 'column is-11' : 'column is-7'">
+              <div class="columns is-desktop is-vcentered is-multiline is-mobile">
+                <div :class="ismobile ? 'column is-full' : 'column is-8'">
                     <p class="subtitle has-text-white has-text-weight-bold"> {{ decodeURIComponent(videoname.split('.').slice(0,-1).join('.')) }}</p>
                 </div>
-                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-right is-4' : 'column title has-text-weight-semibold has-text-right is-4'">
-                  <span class="icon has-text-netflix-only is-medium">
-                    <i :class="playicon"></i>
-                  </span>
-                  <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-right is-1'" @click="modal=true;">
+                  <i class="fas fa-external-link-square-alt fontonly"></i>
+                </div>
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-right is-1'" v-clipboard:copy="externalUrl">
+                  <i class="fa fa-copy fontonly"></i>
+                </div>
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-right is-1'"  @click="downloadButton">
+                  <i class="fas fa-download fontonly"></i>
+                </div>
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-right is-1'" @click="subModal=true;">
+                  <i class="fas fa-closed-captioning fontonly"></i>
                 </div>
               </div>
             </div>
@@ -95,44 +100,6 @@
               <footer class="modal-card-foot">
                 <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl, custsublabel)">Save changes</button>
               </footer>
-            </div>
-          </div>
-          <div class="column is-full">
-            <div class="box has-text-centered has-background-black">
-              <div class="columns is-centered is-vcentered is-multiline">
-                <div class="column is-quarter">
-                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="externalUrl">
-                    <span class="icon is-small">
-                      <i class="fa fa-copy"></i>
-                    </span>
-                    <span>{{ ismobile ? 'Share Link' : 'Stream Link'}}</span>
-                  </button>
-                </div>
-                <div class="column is-quarter">
-                  <button class="button is-netflix-red is-rounded" @click="subModal=true;">
-                    <span class="icon">
-                      <i class="fa fa-upload"></i>
-                    </span>
-                    <span>Load Subtitles</span>
-                  </button>
-                </div>
-                <div v-if="ismobile" class="column is-quarter">
-                  <button class="button is-netflix-red is-rounded" @click="modal=true;">
-                    <span class="icon">
-                     <i class="fas fa-play"></i>
-                   </span>
-                   <span>External Players</span>
-                  </button>
-                </div>
-                <div class="column is-quarter">
-                  <button class="button is-netflix-red is-rounded" @click="downloadButton">
-                    <span class="icon">
-                     <i class="fas fa-download"></i>
-                   </span>
-                   <span>Download</span>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>

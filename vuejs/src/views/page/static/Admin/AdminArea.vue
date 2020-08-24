@@ -67,10 +67,10 @@
           </div>
         </div>
       </div>
-      <div class="column is-full">
+      <div class="column is-two-thirds">
         <div class="box has-background-light">
           <h2 class="title has-text-centered has-text-weight-bold">Manage Global Site Settings</h2>
-          <div class="columns is-centered is-vcentered is-multiline">
+          <div class="columns is-centered is-vcentered is-multiline is-mobile">
             <div class="column is-two-thirds">
               <p class="subtitle has-text-weight-bold">Go to Settings</p>
             </div>
