@@ -366,7 +366,6 @@ export default {
           url: this.apiurl,
           }]
       });
-      console.log(this.player);
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
