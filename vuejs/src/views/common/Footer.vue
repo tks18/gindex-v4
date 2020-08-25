@@ -11,7 +11,7 @@
         Github - <a class="icon-tag" href="https://github.com/tks18/gindex-v4">Shan.tk</a> | Support Me!
       </div>
       <div v-if="copyright" class="footpad footer-copyright">
-        Copyright&nbsp;<i class="fas fa-copyright"></i> {{ Date.now() | moment("YYYY") }} | &nbsp;{{ sitename }}
+        Copyright&nbsp;<i class="fas fa-copyright"></i> {{ Date.now() | moment("YYYY") }} | &nbsp;{{ siteTitle }}
       </div>
       <div v-if="license" class="footpad footer-policy">
         Licensed under FrontEnd - <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/LICENSE" target="_blank"> GPL 3.0 </a> | Backend - <a href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/LICENSE" target="_blank">MIT</a>
@@ -39,6 +39,13 @@ export default {
   },
   components: {},
   methods: {},
+  computed: {
+    siteTitle() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
+  },
   beforeMount(){
     this.sitename = document.getElementsByTagName("title")[0].innerText;
   },
