@@ -551,6 +551,7 @@ export default {
         url: this.apiurl,
         }]
     });
+    console.log(this.player);
   },
   created() {
     let gddata = getgds(this.$route.params.id);
