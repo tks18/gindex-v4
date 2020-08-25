@@ -59,17 +59,7 @@ module.exports = {
           minRatio: 0.8,
           deleteOriginalAssets: false,
         }),
-        new JavaScriptObfuscator({
-            compact: true,
-            disableConsoleOutput: false,
-            numbersToExpressions: true,
-            rotateStringArray: true,
-            selfDefending: true,
-            shuffleStringArray: true,
-            splitStrings: true,
-            splitStringChunkLength: 8,
-            transformObjectKeys: true,
-        }, ['app.js']),
+        
       ];
     }
     return configNew;
