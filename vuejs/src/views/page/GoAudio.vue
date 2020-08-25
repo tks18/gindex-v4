@@ -7,13 +7,10 @@
       <div class="column mt-2 is-two-thirds">
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
-            <figure class="image is-16by9 mb-0">
-              <img class="has-ratio" :src="poster">
-            </figure>
-            <div class="box has-background-black custompad mt-0">
-              <vue-plyr ref="plyr" class="audioplayer">
+            <div id="aplayer" class="box has-background-dark has-text-white mt-0">
+              <!-- <vue-plyr ref="plyr" class="audioplayer">
                 <audio preload="metadata" class="audioplayer" :src="apiurl">Does Not Support</audio>
-              </vue-plyr>
+              </vue-plyr> -->
             </div>
             <div class="box has-background-black">
               <div class="columns is-centered is-mobile is-multiline has-text-white">
@@ -167,6 +164,8 @@ import {
   checkExtends,
   decode64,
 } from "@utils/AcrouUtil";
+import 'aplayer/dist/APlayer.min.css';
+import aplayer from 'aplayer';
 import { initializeUser, getgds } from "@utils/localUtils";
 import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
@@ -399,6 +398,17 @@ export default {
         return;
       }
     },
+    addAudios() {
+      if(this.getFilteredFiles.length > 0){
+        this.getFilteredFiles.forEach((item) => {
+          this.player.list.add({
+            name: item.name.split('.').slice(0,-1).join('.'),
+            artist: 'Unknown',
+            url: window.location.origin + encodeURI(item.path) + +"?player=internal"+"&email="+this.user.email+"&token="+this.token.token,
+          })
+        });
+      }
+    }
   },
   computed: {
     getFilteredFiles() {
@@ -409,6 +419,7 @@ export default {
         return audioRegex.test(file.mimeType);
       });
     },
+
     siteName() {
       return window.gds.filter((item, index) => {
         return index == this.$route.params.id;
@@ -522,8 +533,24 @@ export default {
     } else {
       this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
     }
-    this.player = this.$refs.plyr.player
     this.audioname = this.url.split('/').pop();
+    this.player = new aplayer({
+    container: document.getElementById('aplayer'),
+    mini: false,
+    autoplay: false,
+    loop: 'all',
+    theme: '#e50914',
+    preload: 'auto',
+    volume: 0.7,
+    mutex: true,
+    listFolded: false,
+    listMaxHeight: 90,
+    audio: [{
+        name: this.audioname.split('.').slice(0,-1).join('.'),
+        artist: 'Unknown',
+        url: this.apiurl,
+        }]
+    });
   },
   created() {
     let gddata = getgds(this.$route.params.id);
