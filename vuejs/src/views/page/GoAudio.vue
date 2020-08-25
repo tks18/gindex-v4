@@ -543,8 +543,6 @@ export default {
     preload: 'auto',
     volume: 0.7,
     mutex: true,
-    listFolded: false,
-    listMaxHeight: 90,
     audio: [{
         name: this.audioname.split('.').slice(0,-1).join('.'),
         artist: 'Unknown',
