@@ -16,6 +16,7 @@ import VuePlyr from "vue-plyr"
 import store from "@/store/index";
 import VueClipboard from "vue-clipboard2";
 import VueLazyload from "vue-lazyload";
+import VTooltip from 'v-tooltip'
 import Viewer from "v-viewer";
 import cdnpath from "./libs/util.cdn";
 import '@/components'
@@ -27,6 +28,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$bus = EventBus;
 Vue.use(ElementUI);
+Vue.use(VTooltip);
 Vue.use(VueAxios, axios);
 Vue.use(Meta)
 Vue.use(vea, {

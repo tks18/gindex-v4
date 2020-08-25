@@ -1,7 +1,7 @@
 {
   "name": "gindex-v4",
-  "version": "8.0.4",
-  "g2index": "8.0.4",
+  "version": "8.0.5",
+  "g2index": "8.0.5",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -30,6 +30,7 @@
     "node-sass": "^4.14.0",
     "plyr": "^3.6.2",
     "sass-loader": "8.0.2",
+    "v-tooltip": "^2.0.3",
     "v-viewer": "^1.5.1",
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
@@ -51,6 +52,7 @@
     "vue-plyr": "^6.0.4",
     "vue-router": "^3.3.4",
     "vue-select": "^3.10.7",
+    "vue-share-buttons": "^1.1.0",
     "vue-switch-button": "^0.2.1",
     "vue-toastification": "^1.7.6",
     "vue2-animate": "^2.1.3",
