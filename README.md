@@ -12,7 +12,7 @@ If you apply a Creative Commons license and a user violates the license conditio
 ##### by _[Shan.tk](https://github.com/tks18)_<br>
 _Site - [Click Here](https://glorytoheaven.tk)_<br>
 Demo Site can be Seen Here - [Click Here](https://demo.gthu.workers.dev)<br>
-**Support Group can be Found Here - [Here](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)**<br>
+**Support Group can be Found Here - [Here](https://t.me/joinchat/LVLR1U5Gs_9lmHGNGqpxIw)**<br>
 Any Issues / Help Regarding Setup, Contact Through the telegram Group
 
 **Now With New UI**<br>
