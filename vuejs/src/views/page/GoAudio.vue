@@ -345,12 +345,27 @@ export default {
       this.$ga.event({eventCategory: "Audio Download",eventAction: "Download - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
       location.href = this.downloadUrl;
     },
-    getAudioUrl() {
+    async getAudioUrl() {
       // Easy to debug in development environment
       this.audiourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.audiourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.apiurl = await this.audiourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
       this.externalUrl = this.audiourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
       this.downloadUrl = this.audiourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.player = new aplayer({
+      container: document.getElementById('aplayer'),
+      mini: false,
+      autoplay: false,
+      loop: 'all',
+      theme: '#e50914',
+      preload: 'auto',
+      volume: 0.7,
+      mutex: true,
+      audio: [{
+          name: this.audioname.split('.').slice(0,-1).join('.'),
+          artist: 'Unknown',
+          url: this.apiurl,
+          }]
+      });
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
@@ -534,24 +549,6 @@ export default {
       this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
     }
     this.audioname = this.url.split('/').pop();
-    this.player = new aplayer({
-    container: document.getElementById('aplayer'),
-    mini: false,
-    autoplay: false,
-    loop: 'all',
-    theme: '#e50914',
-    preload: 'auto',
-    volume: 0.7,
-    mutex: true,
-    listFolded: false,
-    listMaxHeight: 90,
-    audio: [{
-        name: this.audioname.split('.').slice(0,-1).join('.'),
-        artist: 'Unknown',
-        url: this.apiurl,
-        }]
-    });
-    console.log(this.player);
   },
   created() {
     let gddata = getgds(this.$route.params.id);
@@ -581,11 +578,6 @@ export default {
       }
     },
     player: function(){
-      this.player.on('ready', () => {
-        this.player.toggleControls(false);
-        this.playicon="fas fa-glasses";
-        this.playtext="Ready to Play !"
-      });
       this.player.on('loadstart', () => {
         this.poster = "https://i.pinimg.com/originals/f3/85/20/f3852049a78fa952bb7a4774a40017db.gif";
         this.playicon = "fas fa-spinner fa-pulse";
