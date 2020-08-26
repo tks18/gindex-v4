@@ -338,7 +338,6 @@ export default {
       if(this.$audio.player() == undefined) this.$audio.createPlayer();
       this.$audio.player().list.add(this.playlist);
       this.miniplayer = true;
-      console.log(this.playlist, this.$audio.player());
       this.$bus.$emit("music-toggled", "Music Toggled")
     },
     toggleModes(){
@@ -350,7 +349,6 @@ export default {
         this.miniplayer = false;
         this.$audio.destroy();
       }
-      console.log(this.playlist, this.$audio.player());
       this.$bus.$emit("music-toggled", "Music Toggled")
     }
   },
