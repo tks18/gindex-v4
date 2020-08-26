@@ -2,7 +2,7 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "v8.0.3",
+  version: "v8.0.8",
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
   github_repo: "gindex-v4",
@@ -30,6 +30,9 @@ var themeOptions = {
   prefer_netflix_black: false,
   loading_image: "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif", // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
   home_background_image: "https://assets.nflxext.com/ffe/siteui/vlv3/bd777948-0e8f-4f7f-b0bf-f7e0ee0875e5/cd5b9c59-183b-4b03-9caf-934bc11565b8/IN-en-20200627-popsignuptwoweeks-perspective_alpha_website_small.jpg",
+  audio: {
+    default_poster: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+  },
   footer_data: {
     copyright: true,
     disclaimer: true,

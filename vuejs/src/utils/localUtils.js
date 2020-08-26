@@ -144,3 +144,35 @@ export function getgds(id) {
     }
   }
 }
+
+export const icon = {
+  "application/vnd.google-apps.folder": "icon-morenwenjianjia",
+  "video/mp4": "icon-mp",
+  "audio/mpeg": "icon-mkv",
+  "audio/ogg": "icon-mkv",
+  "audio/aac": "icon-mkv",
+  "audio/vnd.wav": "icon-mkv",
+  "video/x-matroska": "icon-mkv",
+  "video/x-msvideo": "icon-avi",
+  "video/webm": "icon-webm",
+  "text/plain": "icon-txt",
+  "text/markdown": "icon-markdown",
+  "text/x-ssa": "icon-ASS",
+  "text/html": "icon-html",
+  "text/x-python-script": "icon-python",
+  "text/x-java": "icon-java1",
+  "text/x-sh": "icon-SH",
+  "application/x-subrip": "icon-srt",
+  "application/zip": "icon-zip",
+  "application/x-zip-compressed": "icon-zip",
+  "application/rar": "icon-rar",
+  "application/pdf": "icon-pdf",
+  "application/json": "icon-JSON1",
+  "application/x-yaml": "icon-YML",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+    "icon-word",
+  "image/bmp": "icon-img",
+  "image/jpeg": "icon-img",
+  "image/png": "icon-img",
+  "image/gif": "icon-img"
+};

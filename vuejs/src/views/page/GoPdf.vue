@@ -39,7 +39,7 @@
 
 <script>
 import { initializeUser, getgds } from "@utils/localUtils";
-import pdf from "vue-pdf/src/vuePdfNoSssNoWorker";
+import pdf from "vue-pdf-modified/src/vuePdfNoSssNoWorker";
 import Loading from 'vue-loading-overlay';
 import { decode64 } from "@utils/AcrouUtil";
 export default {
@@ -106,6 +106,10 @@ export default {
       this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
     },
     previousPage() {
+      if(this.$audio.player() == undefined){
+        this.$audio.createPlayer();
+      }
+      this.$audio.destroy();
       if(this.page == 1){
         this.page = 1;
       } else {
@@ -113,6 +117,14 @@ export default {
       }
     },
     nextPage() {
+      if(this.$audio.player() == undefined){
+        this.$audio.createPlayer();
+      }
+      this.$audio.player().list.add({
+        name: "summas",
+        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        cover: window.themeOptions.audio.default_poster
+      });
       if(this.page >= this.pageCount){
         this.page = this.currentPage
       } else {

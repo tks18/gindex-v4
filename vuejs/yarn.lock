@@ -9274,10 +9274,10 @@ vue-notification@^1.3.20:
   resolved "https://registry.yarnpkg.com/vue-notification/-/vue-notification-1.3.20.tgz#d85618127763b46f3e25b8962b857947d5a97cbe"
   integrity sha512-vPj67Ah72p8xvtyVE8emfadqVWguOScAjt6OJDEUdcW5hW189NsqvfkOrctxHUUO9UYl9cTbIkzAEcPnHu+zBQ==
 
-vue-pdf@^4.1.0:
+vue-pdf-modified@^4.1.0:
   version "4.1.0"
-  resolved "https://registry.yarnpkg.com/vue-pdf/-/vue-pdf-4.1.0.tgz#028019750a1246cd41c3b9781b5ba6536ab22024"
-  integrity sha512-kjDmCJplCtf5+qQv6uMuUoh01AsoyKNsawHtfi9x739f1sTxdIwrLu25g+EhfRdtjh6JBqW46Mff1wijKa79wA==
+  resolved "https://registry.yarnpkg.com/vue-pdf-modified/-/vue-pdf-modified-4.1.0.tgz#72a8fe7c7650e9a385f911c2a49d76ee13afe15a"
+  integrity sha512-0gG9pKOs4RCMU+lP3mljTKJllE6wTIqlTBIGimXrn2RdXukAZ8nLnt2wk8VsTrrI7AmJm3IViEOI31pAHQHogg==
   dependencies:
     babel-plugin-syntax-dynamic-import "^6.18.0"
     loader-utils "^1.4.0"

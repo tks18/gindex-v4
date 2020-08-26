@@ -50,7 +50,7 @@ import {
   checkoutPath,
   checkView,
 } from "@utils/AcrouUtil";
-import { getgds } from "@utils/localUtils";
+import { getgds, icon } from "@utils/localUtils";
 import { mapState } from "vuex";
 import BreadCrumb from "../common/BreadCrumb";
 import ListView from "./components/list";
@@ -98,37 +98,6 @@ export default {
       files: [],
       readmeLink: "",
       headLink: "",
-      icon: {
-        "application/vnd.google-apps.folder": "icon-morenwenjianjia",
-        "video/mp4": "icon-mp",
-        "audio/mpeg": "icon-mkv",
-        "audio/ogg": "icon-mkv",
-        "audio/aac": "icon-mkv",
-        "audio/vnd.wav": "icon-mkv",
-        "video/x-matroska": "icon-mkv",
-        "video/x-msvideo": "icon-avi",
-        "video/webm": "icon-webm",
-        "text/plain": "icon-txt",
-        "text/markdown": "icon-markdown",
-        "text/x-ssa": "icon-ASS",
-        "text/html": "icon-html",
-        "text/x-python-script": "icon-python",
-        "text/x-java": "icon-java1",
-        "text/x-sh": "icon-SH",
-        "application/x-subrip": "icon-srt",
-        "application/zip": "icon-zip",
-        "application/x-zip-compressed": "icon-zip",
-        "application/rar": "icon-rar",
-        "application/pdf": "icon-pdf",
-        "application/json": "icon-JSON1",
-        "application/x-yaml": "icon-YML",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-          "icon-word",
-        "image/bmp": "icon-img",
-        "image/jpeg": "icon-img",
-        "image/png": "icon-img",
-        "image/gif": "icon-img"
-      },
       headmd: { display: false, file: {}, path: "" },
       readmemd: { display: false, file: {}, path: "" },
     };
@@ -370,7 +339,7 @@ export default {
         });
     },
     getIcon(type) {
-      return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
+      return "#" + (icon[type] ? icon[type] : "icon-weizhi");
     },
   },
   watch: {

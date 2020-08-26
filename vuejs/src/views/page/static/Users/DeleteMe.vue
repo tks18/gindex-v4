@@ -135,6 +135,7 @@ export default {
           },
         },
         beforeMount() {
+          if(this.$audio.player() != undefined) this.$audio.destroy();
           this.loading = true;
           var userData = initializeUser();
           if(userData.isThere){
