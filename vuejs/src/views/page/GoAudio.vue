@@ -273,6 +273,7 @@ export default {
       this.apiurl = await this.audiourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
       this.externalUrl = this.audiourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
       this.downloadUrl = this.audiourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
+          this.audioname = this.url.split('/').pop();
       this.player = new aplayer({
       container: document.getElementById('static-aplayer'),
       mini: false,
@@ -337,6 +338,7 @@ export default {
       if(this.$audio.player() == undefined) this.$audio.createPlayer();
       this.$audio.player().list.add(this.playlist);
       this.miniplayer = true;
+      console.log(this.playlist, this.$audio.player());
       this.$bus.$emit("music-toggled", "Music Toggled")
     },
     toggleModes(){
@@ -348,6 +350,7 @@ export default {
         this.miniplayer = false;
         this.$audio.destroy();
       }
+      console.log(this.playlist, this.$audio.player());
       this.$bus.$emit("music-toggled", "Music Toggled")
     }
   },
@@ -466,7 +469,6 @@ export default {
     } else {
       this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
     }
-    this.audioname = this.url.split('/').pop();
   },
   created() {
     let gddata = getgds(this.$route.params.id);
