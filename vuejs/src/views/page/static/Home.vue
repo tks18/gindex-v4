@@ -400,6 +400,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.assignUserInfo();
         },
         mounted() {
+          if(!this.logged && this.$audio.player() != undefined) this.$audio.destroy();
           if(window.themeOptions.home_background_image){
             this.backurl = window.themeOptions.home_background_image;
           } else {

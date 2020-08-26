@@ -1,5 +1,5 @@
 <template>
-  <div id="aplayer"></div>
+  <div id="dynamic-aplayer"></div>
 </template>
 <script>
 
@@ -8,6 +8,12 @@ export default {
     return {}
   },
   mounted() {
+
+  },
+  watch: {
+    "this.$audio": function(){
+      console.log(this.$audio)
+    }
   }
 }
 </script>

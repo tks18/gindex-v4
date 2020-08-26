@@ -7,30 +7,7 @@
       <div class="column mt-2 is-two-thirds">
         <div class="columns is-desktop is-multiline is-centered">
           <div class="column is-full">
-            <div id="aplayer" class="box has-background-dark has-text-white mt-0">
-              <!-- <vue-plyr ref="plyr" class="audioplayer">
-                <audio preload="metadata" class="audioplayer" :src="apiurl">Does Not Support</audio>
-              </vue-plyr> -->
-            </div>
-            <div class="box has-background-black">
-              <div class="columns is-centered is-mobile is-multiline has-text-white">
-                <div class="column is-1">
-                  <div class="columns is-desktop is-multiline has-text-white is-centered is-vcentered">
-                    <div class="column is-full">
-                      <p class="subtitle has-text-weight-bold has-text-netflix-only"><i class="fas fa-headphones"></i></p>
-                    </div>
-                  </div>
-                </div>
-                <div :class="ismobile ? 'column is-11' : 'column is-7'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ audioname.split('.').slice(0,-1).join('.') }}</p>
-                </div>
-                <div :class="ismobile ? 'column is-hidden title has-text-weight-semibold has-text-right is-4' : 'column title has-text-weight-semibold has-text-right is-4'">
-                  <span class="icon is-medium has-text-netflix-only">
-                    <i :class="playicon"></i>
-                  </span>
-                  <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
-                </div>
-              </div>
+            <div id="static-aplayer" class="box has-background-light mt-0">
             </div>
           </div>
           <div :class=" modal ? 'modal is-active' : 'modal' ">
@@ -62,112 +39,80 @@
               </section>
             </div>
           </div>
+          <div class="has-text-left mx-1 is-small">
+            <span class="icon has-text-netflix-only is-medium">
+              <i :class="playicon"></i>
+            </span>
+            <span class="subtitle has-text-netflix-only">{{ playtext }}</span>
+          </div>
           <div class="column is-full">
             <div class="box has-text-centered has-background-black">
-              <div class="columns is-centered is-vcentered is-multiline">
-                <div class="column is-one-third">
-                  <button class="button is-netflix-red is-rounded" v-clipboard:copy="externalUrl">
-                    <span class="icon is-small">
-                      <i class="fa fa-copy"></i>
+              <div class="columns is-centered is-vcentered is-mobile is-multiline">
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-full' : 'column has-text-netflix is-medium has-text-centered is-half'">
+                  <button class="button is-netflix-red" @click="toggleModes" v-tooltip.bottom-start="'Toggle MiniPlayer'">
+                    <span class="icon">
+                      <i class="fas fa-compact-disc"></i>
                     </span>
-                    <span>{{ ismobile ? 'Share Link' : 'Stream Link'}}</span>
+                    <span>Toggle MiniPlayer</span>
                   </button>
                 </div>
-                <div v-if="ismobile" class="column is-one-third">
-                  <button class="button is-netflix-red is-rounded" @click="modal=true;">
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-full' : 'column has-text-netflix is-medium has-text-centered is-half'">
+                  <button class="button is-netflix-red" @click="addtoCurrlist" v-tooltip.bottom-start="'Add Songs to Current Playlist. Only for Miniplayer'">
                     <span class="icon">
-                     <i class="fas fa-play"></i>
-                   </span>
-                   <span>External Players</span>
-                  </button>
-                </div>
-                <div class="column is-one-third">
-                  <button class="button is-netflix-red is-rounded" @click="downloadButton">
-                    <span class="icon">
-                     <i class="fas fa-download"></i>
-                   </span>
-                   <span>Download</span>
+                      <i class="fas fa-clipboard-list"></i>
+                    </span>
+                    <span>Add Current Playlist</span>
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div :class="ismobile ? 'column is-centered is-vcentered is-one-third is-desktop golist' : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'" v-loading="loading">
-        <div class="column is-full">
-          <div class="columns is-mobile is-multiline is-centered is-vcentered">
-            <div class="column is-two-thirds">
-              <h2 class="title has-text-weight-bold has-text-danger">Continue Your Binge</h2>
-            </div>
-            <div class="column is-one-third">
-              <h6 class="subtitle has-text-right has-text-grey">Found {{ this.files ? this.files.length : "0" }} Results</h6>
-            </div>
-          </div>
-        </div>
-        <div class="column is-full">
-          <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in getFilteredFiles" v-bind:key="index" @click="action(file,'view')">
-            <div class="column is-2">
-              <svg class="iconfont" style="font-size: 20px">
-                <use :xlink:href="getIcon(file.mimeType)" />
-              </svg>
-            </div>
-            <div class="column is-10">
-              <div class="columns is-desktop is-multiline">
-                <div class="column is-full">
-                  <p class="is-small is-clipped has-text-white">{{ file.name }}</p>
+          <div class="column is-full">
+            <div class="box has-text-centered has-background-black">
+              <div class="columns is-centered is-vcentered is-mobile is-multiline">
+                <div :class="ismobile ? 'column is-full' : 'column is-8'">
+                    <p class="subtitle has-text-white has-text-weight-bold"> {{ miniplayer ? "Mini Player is toggled on" : "Mini Player is toggled off" }}</p>
                 </div>
-                <div class="column is-full">
-                  <div class="columns is-mobile is-multiline">
-                    <div :class="ismobile ? 'column has-text-left is-12' : 'column has-text-left is-8'">
-                      <p class="is-small is-clipped has-text-grey">
-                        {{ file.modifiedTime }}
-                      </p>
-                    </div>
-                    <div :class="ismobile ? 'column is-hidden has-text-right is-4' : 'column has-text-right is-4'">
-                      <p class="is-small is-clipped has-text-grey">
-                        {{ file.size }}
-                      </p>
-                    </div>
-                  </div>
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
+                  <button class="button is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
+                    <span class="icon">
+                      <i class="fas fa-external-link-square-alt fontonly"></i>
+                    </span>
+                  </button>
+                </div>
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
+                  <button class="button is-netflix-red" v-clipboard:copy="externalUrl" v-tooltip.bottom-start="'Copy Link'">
+                    <span class="icon">
+                      <i class="fa fa-copy fontonly"></i>
+                    </span>
+                  </button>
+                </div>
+                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
+                  <button class="button is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
+                    <span class="icon">
+                      <i class="fas fa-download fontonly"></i>
+                    </span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <infinite-loading
-          v-show="!loading"
-          ref="infinite"
-          spinner="bubbles"
-          @infinite="infiniteHandler"
-        >
-          <div slot="no-more"></div>
-          <div slot="no-results"></div>
-        </infinite-loading>
-        <div
-          v-show="loading"
-          class="has-text-centered no-content"
-          :style="'background: url('+loadImage+') no-repeat 50% 50%;height: 240px;line-height: 240px;text-align: center;margin-top: 20px;'"
-          >
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import {
   formatDate,
   formatFileSize,
   checkoutPath,
-  checkView,
   checkExtends,
   decode64,
 } from "@utils/AcrouUtil";
 import 'aplayer/dist/APlayer.min.css';
 import aplayer from 'aplayer';
 import { initializeUser, getgds } from "@utils/localUtils";
-import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
 import Loading from 'vue-loading-overlay';
 export default {
@@ -190,10 +135,11 @@ export default {
       metatitle: "",
       downloadUrl: "",
       audiourl: "",
+      miniplayer: false,
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       modal: false,
-      mainLoad: false,
+      mainLoad: true,
       ismobile: false,
       fullpage: true,
       user: {},
@@ -206,6 +152,7 @@ export default {
       loading: true,
       loadImage: "",
       player: "",
+      playlist: [],
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
       audioname: "",
@@ -214,42 +161,11 @@ export default {
         page_index: 0,
       },
       files: [],
+      originalFiles: [],
       viewer: false,
-      icon: {
-        "application/vnd.google-apps.folder": "icon-morenwenjianjia",
-        "video/mp4": "icon-mp",
-        "audio/mp3": "icon-webm",
-        "audio/ogg": "icon-webm",
-        "audio/flac": "icon-webm",
-        "audio/vnd.wav": "icon-webm",
-        "video/x-matroska": "icon-mkv",
-        "video/x-msvideo": "icon-avi",
-        "video/webm": "icon-webm",
-        "text/plain": "icon-txt",
-        "text/markdown": "icon-markdown",
-        "text/x-ssa": "icon-ASS",
-        "text/html": "icon-html",
-        "text/x-python-script": "icon-python",
-        "text/x-java": "icon-java1",
-        "text/x-sh": "icon-SH",
-        "application/x-subrip": "icon-srt",
-        "application/zip": "icon-zip",
-        "application/x-zip-compressed": "icon-zip",
-        "application/rar": "icon-rar",
-        "application/pdf": "icon-pdf",
-        "application/json": "icon-JSON1",
-        "application/x-yaml": "icon-YML",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-          "icon-word",
-        "image/bmp": "icon-img",
-        "image/jpeg": "icon-img",
-        "image/png": "icon-img",
-        "image/gif": "icon-img"
-      },
     };
   },
   components: {
-    InfiniteLoading,
     Loading
   },
   methods: {
@@ -287,9 +203,15 @@ export default {
               page_index: body.curPageIndex,
             };
             if ($state) {
-              this.files.push(...this.buildFiles(data.files));
+              this.originalFiles.push(...this.buildFiles(data.files));
+              this.files.push(this.getFilteredFiles(...this.buildFiles(data.files)));
+              this.playlist.push(this.getFilteredFiles(...this.buildFiles(data.files), true));
+              this.addAudios();
             } else {
-              this.files = this.buildFiles(data.files);
+              this.originalFiles = this.buildFiles(data.files);
+              this.files = this.getFilteredFiles(this.buildFiles(data.files));
+              this.playlist = this.getFilteredFiles(this.buildFiles(data.files), true);
+              this.addAudios();
             }
           }
           if (body.nextPageToken) {
@@ -352,7 +274,7 @@ export default {
       this.externalUrl = this.audiourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
       this.downloadUrl = this.audiourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
       this.player = new aplayer({
-      container: document.getElementById('aplayer'),
+      container: document.getElementById('static-aplayer'),
       mini: false,
       autoplay: false,
       loop: 'all',
@@ -362,79 +284,74 @@ export default {
       mutex: true,
       audio: [{
           name: this.audioname.split('.').slice(0,-1).join('.'),
-          artist: 'Unknown',
           url: this.apiurl,
+          cover: this.poster,
           }]
       });
-    },
-    getIcon(type) {
-      return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
+      this.mainLoad = false;
     },
     action(file, target) {
-      if (file.mimeType.indexOf("image") != -1) {
-        this.viewer = true;
-        this.$nextTick(() => {
-          let index = this.images.findIndex((item) => item.path === file.path);
-          this.$viewer.view(index);
-        });
-        return;
-      }
-      let cmd = this.$route.params.cmd;
-      if (cmd && cmd === "search") {
-        this.goSearchResult(file, target);
-        return;
-      }
-      this.target(file, target);
-    },
-    target(file, target) {
       let path = file.path;
-      if (target === "_blank") {
-        window.open(path);
-        return;
-      }
-      if (target === "copy") {
-        this.copy(path);
-        return;
-      }
       if (target === "down" || (!checkExtends(path) && !file.isFolder)) {
         location.href = path.replace(/^\/(\d+:)\//, "/$1down/");
         return;
       }
-      if (target === "view") {
-        this.$router.push({
-          path: checkView(path),
-        });
-        return;
-      }
-      if (file.mimeType === "application/vnd.google-apps.folder") {
-        this.$router.push({
-          path: path,
-        });
-        return;
-      }
     },
     addAudios() {
-      if(this.getFilteredFiles.length > 0){
-        this.getFilteredFiles.forEach((item) => {
+      if(this.files.length > 0){
+        this.files.forEach((item) => {
           this.player.list.add({
             name: item.name.split('.').slice(0,-1).join('.'),
-            artist: 'Unknown',
-            url: window.location.origin + encodeURI(item.path) + +"?player=internal"+"&email="+this.user.email+"&token="+this.token.token,
+            cover: this.poster,
+            url: window.location.origin + encodeURI(item.path)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token,
           })
         });
       }
+      if(this.playlist.length > 0){
+        let filteredTracks = [];
+        this.playlist.forEach((item) => {
+          filteredTracks.push({
+            name: item.name.split('.').slice(0,-1).join('.'),
+            cover: this.poster,
+            url: window.location.origin + encodeURI(item.path)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token,
+          })
+        });
+        this.playlist = filteredTracks;
+      }
+    },
+    getFilteredFiles(rawFiles, nofill) {
+      const audioRegex = /(audio)\/(.+)/
+      if(nofill){
+        return rawFiles.filter(file => {
+          return audioRegex.test(file.mimeType);
+        });
+      } else {
+        return rawFiles.filter(file => {
+          return file.name != this.url.split('/').pop();
+        }).filter(file => {
+          return audioRegex.test(file.mimeType);
+        });
+      }
+    },
+    addtoCurrlist(){
+      if(this.$audio.player() == undefined) this.$audio.createPlayer();
+      this.$audio.player().list.add(this.playlist);
+      this.miniplayer = true;
+      this.$bus.$emit("music-toggled", "Music Toggled")
+    },
+    toggleModes(){
+      if(this.$audio.player() == undefined){
+        this.$audio.createPlayer()
+        this.$audio.player().list.add(this.playlist);
+        this.miniplayer = true;
+      } else {
+        this.miniplayer = false;
+        this.$audio.destroy();
+      }
+      this.$bus.$emit("music-toggled", "Music Toggled")
     }
   },
   computed: {
-    getFilteredFiles() {
-      const audioRegex = /(audio)\/(.+)/
-      return this.files.filter(file => {
-        return file.name != this.url.split('/').pop();
-      }).filter(file => {
-        return audioRegex.test(file.mimeType);
-      });
-    },
-
     siteName() {
       return window.gds.filter((item, index) => {
         return index == this.$route.params.id;
@@ -541,6 +458,7 @@ export default {
     })
   },
   mounted() {
+    this.poster = window.themeOptions.audio.default_poster;
     this.checkMobile();
     this.render();
     if(window.themeOptions.loading_image){
@@ -579,30 +497,22 @@ export default {
     },
     player: function(){
       this.player.on('loadstart', () => {
-        this.poster = "https://i.pinimg.com/originals/f3/85/20/f3852049a78fa952bb7a4774a40017db.gif";
         this.playicon = "fas fa-spinner fa-pulse";
         this.playtext = "Loading Awesomeness..";
       })
-      this.player.on('canplay', () => {
-        this.poster = "https://i.pinimg.com/originals/f3/85/20/f3852049a78fa952bb7a4774a40017db.gif";
-        this.playicon="fas fa-glasses";
-        this.playtext="Let's Party"
-      })
       this.player.on('play', () => {
         this.$ga.event({eventCategory: this.audioname,eventAction: "Started Playing"+" - "+this.siteName,eventLabel: "Audio Page"})
-        this.poster = "https://thumbs.gfycat.com/MadFamiliarAngwantibo-size_restricted.gif";
         this.metatitle = "Playing"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playicon="fas fa-spin fa-compact-disc";
         this.playtext="Playing"
       });
       this.player.on('pause', () => {
         this.$ga.event({eventCategory: this.audioname,eventAction: "Paused"+" - "+this.siteName,eventLabel: "Audio Page"})
-        this.poster = "https://thumbs.gfycat.com/HeavenlyExcitableFlyingfish-size_restricted.gif";
         this.metatitle = "Paused"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playicon="fas fa-pause",
         this.playtext="Paused"
       });
-    }
+    },
   }
 };
 </script>

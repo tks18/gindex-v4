@@ -61,7 +61,7 @@ module.exports = {
         }),
         new JavaScriptObfuscator({
             compact: true,
-            disableConsoleOutput: false,
+            disableConsoleOutput: true,
             rotateStringArray: true,
             shuffleStringArray: true,
         }, ['app.js']),

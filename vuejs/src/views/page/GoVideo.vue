@@ -11,7 +11,7 @@
               <span class="icon has-text-netflix-only is-medium">
                 <i :class="playicon"></i>
               </span>
-              <span class="subtitle has-text-netflix-only ml-2">{{ playtext }}</span>
+              <span class="subtitle has-text-netflix-only">{{ playtext }}</span>
             </div>
             <vue-plyr ref="plyr" v-bind:key="videokey">
               <video :poster="poster" :src="apiurl" class="video-content">
@@ -647,6 +647,7 @@ export default {
     })
   },
   mounted() {
+    if(this.$audio.player() != undefined) this.$audio.destroy();
     this.checkMobile();
     this.render();
     if(window.themeOptions.loading_image){

@@ -222,6 +222,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           },
         },
         mounted() {
+          if(this.$audio.player() != undefined) this.$audio.destroy();
           this.checkParams();
         },
         created() {

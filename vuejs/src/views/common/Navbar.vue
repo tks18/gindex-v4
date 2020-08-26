@@ -136,6 +136,18 @@
           </div>
           <a
             class="navbar-item"
+            title="Logout"
+            v-tooltip.bottom-start="'Stop Music Player'"
+            @click="closeMusicPlayer()"
+            v-if="logged && miniplayer"
+           >
+           <span class="icon">
+            <i class="fas fa-volume-mute"></i>
+          </span>
+          <span class="is-hidden-desktop">Stop Player</span>
+          </a>
+          <a
+            class="navbar-item"
             title="Profile"
             v-tooltip.bottom-start="'Go to Settings'"
             @click="gotoPage('/' ,'settings')"
@@ -201,6 +213,13 @@ export default {
       this.loginorout();
       this.changeNavbarStyle()
     })
+    this.$bus.$on("music-toggled", () => {
+      if(this.$audio.player() == undefined){
+        this.miniplayer = false;
+      } else if(this.$audio.player() != undefined){
+        this.miniplayer = true;
+      }
+    })
     this.$bus.$on('td', () => {
       this.quicklinks = window.quickLinks.filter((links) => {
         return links.root == this.gdindex
@@ -236,6 +255,7 @@ export default {
       navbarStyle: "",
       netflix_black: false,
       mouseover: false,
+      miniplayer: false,
       backgroundClass: "",
       searchBar: false,
       fullpage: true,
@@ -352,6 +372,11 @@ export default {
         this.navbarStyle = "black";
         this.backgroundClass = "none";
       }
+    },
+    closeMusicPlayer(){
+      if(this.$audio.player() == undefined) return;
+      this.$audio.destroy();
+      this.$bus.$emit("music-toggled", "Music Toggled")
     }
   },
   computed: {

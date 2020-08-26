@@ -30,16 +30,9 @@
           "
           :title="file.name"
         >
-          <svg class="iconfont" aria-hidden="true">
-            <use @click.self="
-              action(
-                file,
-                file.mimeType !== 'application/vnd.google-apps.folder'
-                  ? 'view'
-                  : ''
-              )
-            " :xlink:href="icons(file.mimeType)" />
-          </svg>
+        <svg class="iconfont" aria-hidden="true">
+          <use :xlink:href="icons(file.mimeType)" />
+        </svg>
           {{ file.name }}
           <span
             class="g2-file-desc"

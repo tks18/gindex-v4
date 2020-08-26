@@ -8,13 +8,11 @@
         </feb-alive>
         <!-- </keep-alive> -->
         <Footer v-if="showInfo"></Footer>
-        <aplayer />
     </section>
   </div>
 </template>
 
 <script>
-import aplayer from "./page/components/aPlayer/index.vue";
 import { initializeUser } from "@utils/localUtils";
 import Head from "./common/Head";
 import Footer from "./common/Footer";
@@ -28,7 +26,6 @@ export default {
   components: {
     Head,
     Footer: Footer,
-    aplayer
   },
   methods: {
     assignUserInfo() {
