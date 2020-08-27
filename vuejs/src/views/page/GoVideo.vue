@@ -631,32 +631,39 @@ export default {
     await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
       email: userData.data.user.email,
       token: userData.data.token.token,
-    }).then(response => {
+    }).then(async response => {
       if(response.data.auth && response.data.registered && response.data.token){
-        this.mainLoad = false;
+        await this.getVideourl();
         this.mediaToken = response.data.token;
-        this.getVideourl();
-      } else {
+        await this.checkMobile();
+        await this.render();
+        this.player = this.$refs.plyr.player
+        this.videoname = this.url.split('/').pop();
         this.mainLoad = false;
+      } else {
+        await this.checkMobile();
+        await this.render();
+        this.player = this.$refs.plyr.player
+        this.videoname = this.url.split('/').pop();
         this.mediaToken = "";
+        this.mainLoad = false;
       }
     }).catch(e => {
       console.log(e);
+      this.checkMobile();
+      this.render();
       this.mainLoad = false;
       this.mediaToken = "";
     })
   },
   mounted() {
     if(this.$audio.player() != undefined) this.$audio.destroy();
-    this.checkMobile();
-    this.render();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;
     } else {
       this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
     }
-    this.player = this.$refs.plyr.player
-    this.videoname = this.url.split('/').pop();
+
   },
   watch: {
     searchBarTerm: function() {

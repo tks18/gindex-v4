@@ -153,6 +153,7 @@ export default {
       loadImage: "",
       player: "",
       playlist: [],
+      rawAudios: [],
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
       audioname: "",
@@ -205,12 +206,12 @@ export default {
             if ($state) {
               this.originalFiles.push(...this.buildFiles(data.files));
               this.files.push(this.getFilteredFiles(...this.buildFiles(data.files)));
-              this.playlist.push(this.getFilteredFiles(...this.buildFiles(data.files), true));
+              this.rawAudios.push(this.getFilteredFiles(...this.buildFiles(data.files), true));
               this.addAudios();
             } else {
               this.originalFiles = this.buildFiles(data.files);
               this.files = this.getFilteredFiles(this.buildFiles(data.files));
-              this.playlist = this.getFilteredFiles(this.buildFiles(data.files), true);
+              this.rawAudios = this.getFilteredFiles(this.buildFiles(data.files), true);
               this.addAudios();
             }
           }
@@ -273,23 +274,7 @@ export default {
       this.apiurl = await this.audiourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
       this.externalUrl = this.audiourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
       this.downloadUrl = this.audiourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
-          this.audioname = this.url.split('/').pop();
-      this.player = new aplayer({
-      container: document.getElementById('static-aplayer'),
-      mini: false,
-      autoplay: false,
-      loop: 'all',
-      theme: '#e50914',
-      preload: 'auto',
-      volume: 0.7,
-      mutex: true,
-      audio: [{
-          name: this.audioname.split('.').slice(0,-1).join('.'),
-          url: this.apiurl,
-          cover: this.poster,
-          }]
-      });
-      this.mainLoad = false;
+      this.audioname = this.url.split('/').pop();
     },
     action(file, target) {
       let path = file.path;
@@ -308,16 +293,14 @@ export default {
           })
         });
       }
-      if(this.playlist.length > 0){
-        let filteredTracks = [];
-        this.playlist.forEach((item) => {
-          filteredTracks.push({
+      if(this.rawAudios.length > 0){
+        this.rawAudios.forEach((item) => {
+          this.playlist.push({
             name: item.name.split('.').slice(0,-1).join('.'),
             cover: this.poster,
             url: window.location.origin + encodeURI(item.path)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token,
           })
         });
-        this.playlist = filteredTracks;
       }
     },
     getFilteredFiles(rawFiles, nofill) {
@@ -333,6 +316,23 @@ export default {
           return audioRegex.test(file.mimeType);
         });
       }
+    },
+    createPlayer(){
+      this.player = new aplayer({
+      container: document.getElementById('static-aplayer'),
+      mini: false,
+      autoplay: false,
+      loop: 'all',
+      theme: '#e50914',
+      preload: 'auto',
+      volume: 0.7,
+      mutex: true,
+      audio: [{
+          name: this.audioname.split('.').slice(0,-1).join('.'),
+          url: this.apiurl,
+          cover: this.poster,
+          }]
+      });
     },
     addtoCurrlist(){
       if(this.$audio.player() == undefined) this.$audio.createPlayer();
@@ -458,15 +458,13 @@ export default {
       this.mediaToken = "";
     })
   },
-  mounted() {
+  async mounted() {
+    this.mainload = true;
     this.poster = window.themeOptions.audio.default_poster;
+    await this.createPlayer()
     this.checkMobile();
-    this.render();
-    if(window.themeOptions.loading_image){
-      this.loadImage = window.themeOptions.loading_image;
-    } else {
-      this.loadImage = "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif"
-    }
+    await this.render();
+    this.mainload = false;
   },
   created() {
     let gddata = getgds(this.$route.params.id);
