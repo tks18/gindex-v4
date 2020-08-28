@@ -457,14 +457,10 @@ export default {
       this.mainLoad = false;
       this.mediaToken = "";
     })
-    this.createPlayer();
-  },
-  async mounted() {
-    this.mainload = true;
     this.poster = window.themeOptions.audio.default_poster;
+    await this.createPlayer();
     this.checkMobile();
     await this.render();
-    this.mainload = false;
   },
   created() {
     let gddata = getgds(this.$route.params.id);
