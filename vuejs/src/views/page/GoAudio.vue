@@ -443,11 +443,11 @@ export default {
     await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
       email: userData.data.user.email,
       token: userData.data.token.token,
-    }).then(response => {
+    }).then(async response => {
       if(response.data.auth && response.data.registered && response.data.token){
-        this.mainLoad = false;
         this.mediaToken = response.data.token;
         this.getAudioUrl();
+        this.mainLoad = false;
       } else {
         this.mainLoad = false;
         this.mediaToken = "";
@@ -457,11 +457,11 @@ export default {
       this.mainLoad = false;
       this.mediaToken = "";
     })
+    this.createPlayer();
   },
   async mounted() {
     this.mainload = true;
     this.poster = window.themeOptions.audio.default_poster;
-    await this.createPlayer()
     this.checkMobile();
     await this.render();
     this.mainload = false;
