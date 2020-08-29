@@ -27,7 +27,7 @@ export default {
     this.delTemps();
   },
   mounted() {
-    // this.checkVersion();
+    this.checkVersion();
     this.netflix_black = window.themeOptions.prefer_netflix_black
   },
   methods: {
@@ -42,17 +42,21 @@ export default {
       });
     },
     checkVersion() {
-      let g2index_version = window.gdconfig.version;
-      let app_version = process.env.VUE_APP_G2INDEX_VERSION;
-      if (!g2index_version || app_version !== g2index_version) {
-        this.$notify({
-          title: this.$t("notify.title"),
-          dangerouslyUseHTMLString: true,
-          message: this.$t("checkVersion.tips").replace("${url}", this.github),
-          duration: 0,
-          type: "success",
-        });
-      }
+      let appVersion = window.version;
+      this.$http.get("https://api.github.com/repos/tks18/gindex-v4/releases/latest").then(response => {
+        if(response.data.name){
+          let latestVersion = response.data.name;
+          if(appVersion != latestVersion){
+            this.$notify({
+              title: "Update Available",
+              dangerouslyUseHTMLString: true,
+              message: `Update to ${latestVersion} Available`,
+              duration: 0,
+              type: "warning",
+            });
+          }
+        }
+      })
     },
   },
 };

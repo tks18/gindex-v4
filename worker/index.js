@@ -312,6 +312,7 @@ function html(current_drive_order = 0, model = {}) {
     window.gds = JSON.parse('${JSON.stringify(
       authConfig.roots.map((it) => it.name)
     )}');
+    window.version = '${authConfig.version}';
     window.gdHybridPass = '${authConfig.hybridpass}';
     window.MODEL = JSON.parse('${JSON.stringify(model)}');
     window.current_drive_order = ${current_drive_order};
