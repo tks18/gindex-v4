@@ -7,7 +7,7 @@ const meta = {
 }
 
 const frameIn = [{
-    path: "/:id(\\d)::cmd(text)/:path",
+    path: "/:id(\\d+)::cmd(text)/:path",
     name: 'text',
     component: _import("page/GoText"),
     meta: {
@@ -18,7 +18,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(pdf)/:path",
+    path: "/:id(\\d+)::cmd(pdf)/:path",
     name: 'pdf',
     component: _import("page/GoPdf"),
     meta: {
@@ -39,7 +39,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(video)/:path",
+    path: "/:id(\\d+)::cmd(video)/:path",
     name: 'video',
     component: _import("page/GoVideo"),
     meta: {
@@ -50,7 +50,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(audio)/:path",
+    path: "/:id(\\d+)::cmd(audio)/:path",
     name: 'audio',
     component: _import("page/GoAudio"),
     meta: {
@@ -61,7 +61,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(image)/:path",
+    path: "/:id(\\d+)::cmd(image)/:path",
     name: 'image',
     component: _import("page/GoImg"),
     meta: {
@@ -72,7 +72,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(search)(/?q=)*",
+    path: "/:id(\\d+)::cmd(search)(/?q=)*",
     name: 'search',
     component: _import("page/GoList"),
     meta: {
@@ -83,7 +83,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d):/:path*",
+    path: "/:id(\\d+):/:path*",
     name: 'files',
     component: _import("page/GoList"),
     meta: {
@@ -94,7 +94,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(others)/:path",
+    path: "/:id(\\d+)::cmd(others)/:path",
     name: 'otherFiles',
     component: _import("page/GoOthers"),
     meta: {
@@ -105,7 +105,7 @@ const frameIn = [{
     }
   },
   {
-      path: '/:id(\\d)::cmd(login)/',
+      path: '/:id(\\d+)::cmd(login)/',
       name: 'login',
       component: _import("page/static/Users/Login"),
       meta: {
@@ -115,7 +115,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(register)/',
+      path: '/:id(\\d+)::cmd(register)/',
       name: 'register',
       component: _import("page/static/Admin/Register"),
       meta: {
@@ -126,7 +126,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(invite)/',
+      path: '/:id(\\d+)::cmd(invite)/',
       name: 'invite',
       component: _import("page/static/Admin/Invite"),
       meta: {
@@ -137,7 +137,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(register)/otp',
+      path: '/:id(\\d+)::cmd(register)/otp',
       name: 'otp',
       component: _import("page/static/OtpRegister"),
       meta: {
@@ -147,7 +147,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(home)/',
+      path: '/:id(\\d+)::cmd(home)/',
       name: 'home',
       component: _import("page/static/Home"),
       meta: {
@@ -158,7 +158,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(result)/',
+      path: '/:id(\\d+)::cmd(result)/',
       name: 'results',
       component: _import("page/static/ResultPage"),
       meta: {
@@ -169,7 +169,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(register)/request/user',
+      path: '/:id(\\d+)::cmd(register)/request/user',
       name: 'request',
       component: _import("page/static/Request"),
       meta: {
@@ -179,7 +179,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(settings)/request/',
+      path: '/:id(\\d+)::cmd(settings)/request/',
       name: 'requestadmin',
       component: _import("page/static/Users/RequestPrivs"),
       meta: {
@@ -189,7 +189,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(settings)/changepassword',
+      path: '/:id(\\d+)::cmd(settings)/changepassword',
       name: 'changepassword',
       component: _import("page/static/Users/ChangePassword"),
       meta: {
@@ -199,7 +199,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(admin)/',
+      path: '/:id(\\d+)::cmd(admin)/',
       name: 'admin',
       component: _import("page/static/Admin/AdminArea"),
       meta: {
@@ -210,7 +210,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(admin)/manage',
+      path: '/:id(\\d+)::cmd(admin)/manage',
       name: 'manageUsers',
       component: _import("page/static/Admin/ManageUsers"),
       meta: {
@@ -221,7 +221,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(admin)/settings',
+      path: '/:id(\\d+)::cmd(admin)/settings',
       name: 'sitesettings',
       component: _import("page/static/Admin/SiteSettings"),
       meta: {
@@ -232,7 +232,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(admin)/spam',
+      path: '/:id(\\d+)::cmd(admin)/spam',
       name: 'managespam',
       component: _import("page/static/Admin/ManageSpamUsers"),
       meta: {
@@ -243,7 +243,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(settings)/',
+      path: '/:id(\\d+)::cmd(settings)/',
       name: 'settings',
       component: _import("page/static/Users/Settings"),
       meta: {
@@ -253,7 +253,7 @@ const frameIn = [{
       }
   },
   {
-      path: '/:id(\\d)::cmd(delete)/me',
+      path: '/:id(\\d+)::cmd(delete)/me',
       name: 'deleteme',
       component: _import("page/static/Users/DeleteMe"),
       meta: {

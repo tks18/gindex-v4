@@ -3,7 +3,7 @@ let Base64 = require("js-base64").Base64;
 
 const text_exts = ["html","php","css","go","java","js","json","txt","sh","md"];
 const audio_exts=["mp3","flac","wav","ogg","m4a"];
-const video_exts = ["mp4", "webm", "mkv", "m3u8","avi"];
+const video_exts = ["mp4", "webm", "mkv", "m3u8","avi","flv","mov","m4v"];
 const image_exts = ["bmp", "jpg", "jpeg", "png", "gif"];
 const pdf_exts = ["pdf"];
 

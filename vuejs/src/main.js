@@ -1,20 +1,19 @@
 import Vue from "vue";
 import App from "./App.vue";
-import ElementUI from "element-ui";
+import { Loading } from "element-ui";
 import "element-ui/lib/theme-chalk/icon.css";
 import "element-ui/lib/theme-chalk/notification.css";
 import "element-ui/lib/theme-chalk/loading.css";
 import axios from "@/plugin/axios";
 import VueAxios from "vue-axios";
 import router from "./router";
+import Clipboard from "@/plugin/clipboard";
 import vSelect from 'vue-select';
 import vea from './vea';
 import EventBus from "./EventBus";
 import secret from "../secret";
 import i18n from "./i18n";
-import VuePlyr from "vue-plyr"
 import store from "@/store/index";
-import VueClipboard from "vue-clipboard2";
 import VueLazyload from "vue-lazyload";
 import VTooltip from 'v-tooltip'
 import Viewer from "v-viewer";
@@ -33,10 +32,11 @@ Vue.prototype.$audio = {
   player: globalPlayer,
   destroy: destroyPlayer,
 }
-Vue.use(ElementUI);
+Vue.use(Loading);
 Vue.use(VTooltip);
 Vue.use(VueAxios, axios);
 Vue.use(Meta)
+Vue.use(Clipboard);
 Vue.use(vea, {
   id: secret.uid,
   autoTracking: {
@@ -57,13 +57,6 @@ Vue.use(vea, {
 })
 Vue.component('v-select', vSelect)
 Vue.use(require('vue-moment'));
-Vue.use(VueClipboard);
-Vue.use(VuePlyr, {
-  plyr: {
-    fullscreen: { enabled: true },
-    keyboard: { focused: true, global: true },
-  },
-});
 Vue.use(VueLazyload, {
   loading: cdnpath("images/airplane.gif"),
 });
