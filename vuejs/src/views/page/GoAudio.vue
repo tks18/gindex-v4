@@ -322,14 +322,15 @@ export default {
         this.$router.go(-1);
       }
     },
-    initializePage() {
+    async initializePage() {
       this.mainload = true;
       this.poster = window.themeOptions.audio.default_poster;
-      this.initializeUser();
-      this.getAudioUrl();
-      this.createPlayer();
-      this.checkMobile();
-      this.getFiles();
+      await this.initializeUser();
+      await this.getAudioUrl();
+      console.log(this.apiurl);
+      await this.createPlayer();
+      await this.checkMobile();
+      await this.getFiles();
       this.player.play();
       this.mainLoad = false;
     },
