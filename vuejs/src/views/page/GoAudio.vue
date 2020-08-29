@@ -256,13 +256,13 @@ export default {
             };
             if ($state) {
               this.originalFiles.push(...this.buildFiles(data.files));
-              this.files.push(this.getFilteredFiles(data.files));
-              this.rawAudios.push(this.getFilteredFiles(data.files, true));
+              this.files.push(this.getFilteredFiles(...this.buildFiles(data.files)));
+              this.rawAudios.push(...this.getFilteredFiles(...this.buildFiles(data.files), true));
               this.addAudios();
             } else {
               this.originalFiles = this.buildFiles(data.files);
-              this.files = this.getFilteredFiles(data.files);
-              this.rawAudios = this.getFilteredFiles(data.files, true);
+              this.files = this.getFilteredFiles(this.buildFiles(data.files));
+              this.rawAudios = this.getFilteredFiles(this.buildFiles(data.files), true);
               this.addAudios();
             }
           }
@@ -322,10 +322,10 @@ export default {
         this.$router.go(-1);
       }
     },
-    async initializePage() {
+    initializePage() {
       this.mainload = true;
       this.poster = window.themeOptions.audio.default_poster;
-      await this.initializeUser();
+      this.initializeUser();
       this.getAudioUrl();
       this.createPlayer();
       this.checkMobile();
@@ -355,12 +355,14 @@ export default {
       if(this.$audio.player() == undefined) this.$audio.createPlayer();
       this.$audio.player().list.add(this.playlist);
       this.miniplayer = true;
+      this.$audio.player().play();
       this.$bus.$emit("music-toggled", "Music Toggled")
     },
     toggleModes(){
       if(this.$audio.player() == undefined){
         this.$audio.createPlayer()
         this.$audio.player().list.add(this.playlist);
+        this.$audio.player().play();
         this.miniplayer = true;
       } else {
         this.miniplayer = false;
