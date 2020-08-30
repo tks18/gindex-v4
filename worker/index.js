@@ -269,9 +269,6 @@ function html(current_drive_order = 0, model = {}) {
       }))}'
     );
     window.themeOptions = JSON.parse('${JSON.stringify(themeOptions)}');
-    window.gds = JSON.parse('${JSON.stringify(
-      authConfig.roots.map((it) => it.name)
-    )}');
     window.backend = '${authConfig.backendSite}';
     window.version = '${authConfig.version}';
     window.gdHybridPass = '${authConfig.hybridpass}';

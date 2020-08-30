@@ -228,9 +228,6 @@
         return categoryData;
       }))
     );
-    window.gds = JSON.parse(
-      JSON.stringify(authConfig.roots.map((it) => it.name))
-    );
     window.backend = authConfig.backendSite;
     window.version = authConfig.version;
     window.gdHybridPass = authConfig.hybridpass;
