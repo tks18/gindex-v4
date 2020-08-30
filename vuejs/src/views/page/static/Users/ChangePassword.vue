@@ -55,6 +55,7 @@
     </div>
 </template>
 <script>
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
 import { removeItem } from "@utils/encryptUtils";
 import Loading from 'vue-loading-overlay';
@@ -97,11 +98,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.newpassword && this.newpassword.length > 0) {
-                    this.$http.post(window.apiRoutes.changePasswordRoute, {
+                    this.$http.post(apiRoutes.changePasswordRoute, {
                         email: this.user.email,
                         oldpassword: this.oldpassword,
                         newpassword: this.newpassword,
-                    })
+                    }, backendHeaders(this.token.token))
                     .then(response => {
                       if(response.data.auth && response.data.registered && response.data.changed){
                         removeItem("tokendata");

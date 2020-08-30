@@ -110,6 +110,7 @@
     </div>
 </template>
 <script>
+import { apiRoutes } from "@/utils/backendUtils";
 import { getgds } from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -155,7 +156,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.password && this.password.length > 0) {
-                    this.$http.post(window.apiRoutes.otpRegister, {
+                    this.$http.post(apiRoutes.otpRegister, {
                         email: this.email,
                         otp: this.otp,
                         newpassword: this.password,

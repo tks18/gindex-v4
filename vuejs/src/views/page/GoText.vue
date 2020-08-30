@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
 import { get_file, decode64 } from "@utils/AcrouUtil";
 import { codemirror } from 'vue-codemirror'
@@ -109,10 +110,10 @@ export default {
     } else {
       this.logged = userData.data.logged;
     }
-    this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+    this.$http.post(apiRoutes.mediaTokenTransmitter, {
       email: userData.data.user.email,
       token: userData.data.token.token,
-    }).then(response => {
+    }, backendHeaders(userData.data.token.token)).then(response => {
       if(response.data.auth && response.data.registered && response.data.token){
         this.mainLoad = false;
         this.mediaToken = response.data.token;

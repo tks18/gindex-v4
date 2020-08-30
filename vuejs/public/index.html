@@ -19,6 +19,7 @@
   <script>
     var authConfig = {
       version: '1.1.0',
+      backendSite: "http://localhost:3000",
       hybridpass: "$2b$10$VuQSSgZ130dr8e7o3rUqS.5Hxl1lPxgN.v9JsqGLh30/4i0u5bCua",
       roots: [
         {
@@ -188,52 +189,8 @@
         ],
       },
     ];
-    var routes = {
-      checkEmail: 'http://localhost:3000/checkmail',
-      loginRoute: 'http://localhost:3000/login',
-      registerRoute: 'http://localhost:3000/register/user',
-      otpRegister: 'http://localhost:3000/register/approve/otp',
-      requestRoute: 'http://localhost:3000/request/user',
-      verifyRoute: 'http://localhost:3000/user/verify',
-      changePasswordRoute: 'http://localhost:3000/user/changepassword',
-      requestadminroute: 'http://localhost:3000/request/admin',
-      requestsuperadminroute: 'http://localhost:3000/request/superadmin',
-      getPendingUsers: 'http://localhost:3000/get/pending/users',
-      getPendingAdmins: 'http://localhost:3000/get/pending/admins',
-      getPendingSuperAdmins: 'http://localhost:3000/get/pending/superadmins',
-      deletePendingUsers: 'http://localhost:3000/request/remove/user',
-      deletePendingAdmins: 'http://localhost:3000/request/remove/admin',
-      deletePendingSuperAdmins: 'http://localhost:3000/request/remove/superadmin',
-      upgradeAdmin: 'http://localhost:3000/register/approve/admin',
-      upgradeSuperAdmin: 'http://localhost:3000/register/approve/superadmin',
-      inviteUser: 'http://localhost:3000/invite/user',
-      inviteAdmin: 'http://localhost:3000/invite/admin',
-      inviteSuperAdmin: 'http://localhost:3000/invite/superadmin',
-      addSpamUser: 'http://localhost:3000/spam/user',
-      quickaddSpam: 'http://localhost:3000/spam/quickadd',
-      addSpamAdmin: 'http://localhost:3000/spam/admin',
-      addSpamSuperAdmin: 'http://localhost:3000/spam/superadmin',
-      removeSpamUser: 'http://localhost:3000/spam/remove/user',
-      removeSpamAdmin: 'http://localhost:3000/spam/remove/admin',
-      removeSpamSuperadmin: 'http://localhost:3000/spam/remove/superadmin',
-      getSpamUsers: 'http://localhost:3000/get/spam/users',
-      getSpamAdmins: 'http://localhost:3000/get/spam/admins',
-      getSpamSuperadmins: 'http://localhost:3000/get/spam/superadmins',
-      deleteUser: 'http://localhost:3000/delete/user',
-      deleteMe: 'http://localhost:3000/user/delete',
-      deleteAdmin: 'http://localhost:3000/delete/admin',
-      mediaTokenTransmitter: 'http://localhost:3000/user/media/transmit',
-      mediaTokenVerify: 'http://localhost:3000/user/media/verify',
-      getUsers: 'http://localhost:3000/get/users',
-      forgotPass: 'http://localhost:3000/user/forgotpass',
-      getAll: 'http://localhost:3000/get/all',
-      getAdmins: 'http://localhost:3000/get/admins',
-      getSuperAdmins: 'http://localhost:3000/get/superadmins',
-      setSiteSettings: 'http://localhost:3000/user/sitesettings',
-      getSiteSettings: 'http://localhost:3000/get/sitesettings'
-    }
+
     window.gdconfig = JSON.parse(JSON.stringify({ version: authConfig.version, themeOptions: themeOptions }));
-    window.apiRoutes = routes;
     window.themeOptions = themeOptions;
     window.quickLinks = JSON.parse(
       JSON.stringify(quickLinks.map((link) => {
@@ -274,7 +231,8 @@
     window.gds = JSON.parse(
       JSON.stringify(authConfig.roots.map((it) => it.name))
     );
-    window.version = authConfig.version
+    window.backend = authConfig.backendSite;
+    window.version = authConfig.version;
     window.gdHybridPass = authConfig.hybridpass;
     window.current_drive_order = 0;
   </script>

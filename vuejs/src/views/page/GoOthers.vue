@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
 import { decode64, checkExtends } from "@utils/AcrouUtil";
 import Loading from 'vue-loading-overlay';
@@ -114,10 +115,10 @@ export default {
     } else {
       this.logged = userData.data.logged;
     }
-    await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+    await this.$http.post(apiRoutes.mediaTokenTransmitter, {
       email: userData.data.user.email,
       token: userData.data.token.token,
-    }).then(response => {
+    }, backendHeaders(userData.data.token.token)).then(response => {
       if(response.data.auth && response.data.registered && response.data.token){
         this.mainLoad = false;
         this.mediaToken = response.data.token;

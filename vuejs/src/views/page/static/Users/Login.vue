@@ -172,6 +172,7 @@ import {
   setItem,
   checkPass
 } from '@utils/encryptUtils';
+import { apiRoutes } from "@/utils/backendUtils";
 import { getgds } from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -222,7 +223,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
                 e.preventDefault();
                 if (this.password.length > 0 && this.email.length > 0) {
-                    this.$http.post(window.apiRoutes.loginRoute, {
+                    this.$http.post(apiRoutes.loginRoute, {
                         email: this.email,
                         password: this.password
                     })
@@ -339,7 +340,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
               e.preventDefault();
               if(this.forgotEmail.length > 0){
-                this.$http.post(window.apiRoutes.forgotPass, {
+                this.$http.post(apiRoutes.forgotPass, {
                   email: this.forgotEmail
                 }).then(response => {
                   if(response.data.auth && response.data.registered && response.data.changed){

@@ -2,7 +2,7 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "v8.0.8",
+  version: "v8.1.3",
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
   github_repo: "gindex-v4",
@@ -174,49 +174,10 @@ var quickLinks = [
     ],
   },
 ];
+
 var routes = {
-  checkEmail: authConfig.backendSite + '/checkmail',
-  loginRoute: authConfig.backendSite + '/login',
-  registerRoute: authConfig.backendSite + '/register/user',
-  otpRegister: authConfig.backendSite + '/register/approve/otp',
-  requestRoute: authConfig.backendSite + '/request/user',
-  verifyRoute: authConfig.backendSite + '/user/verify',
-  changePasswordRoute: authConfig.backendSite + '/user/changepassword',
-  requestadminroute: authConfig.backendSite + '/request/admin',
-  requestsuperadminroute: authConfig.backendSite + '/request/superadmin',
-  getPendingUsers: authConfig.backendSite + '/get/pending/users',
-  getPendingAdmins: authConfig.backendSite + '/get/pending/admins',
-  getPendingSuperAdmins: authConfig.backendSite + '/get/pending/superadmins',
-  deletePendingUsers: authConfig.backendSite + '/request/remove/user',
-  deletePendingAdmins: authConfig.backendSite + '/request/remove/admin',
-  deletePendingSuperAdmins: authConfig.backendSite + '/request/remove/superadmin',
-  upgradeAdmin: authConfig.backendSite + '/register/approve/admin',
-  upgradeSuperAdmin: authConfig.backendSite + '/register/approve/superadmin',
-  inviteUser: authConfig.backendSite + '/invite/user',
-  inviteAdmin: authConfig.backendSite + '/invite/admin',
-  inviteSuperAdmin: authConfig.backendSite + '/invite/superadmin',
-  addSpamUser: authConfig.backendSite + '/spam/user',
-  addSpamAdmin: authConfig.backendSite + '/spam/admin',
-  addSpamSuperAdmin: authConfig.backendSite + '/spam/superadmin',
-  removeSpamUser: authConfig.backendSite + '/spam/remove/user',
-  removeSpamAdmin: authConfig.backendSite + '/spam/remove/admin',
-  removeSpamSuperadmin: authConfig.backendSite + '/spam/remove/superadmin',
-  getSpamUsers: authConfig.backendSite + '/get/spam/users',
-  getSpamAdmins: authConfig.backendSite + '/get/spam/admins',
-  getSpamSuperadmins: authConfig.backendSite + '/get/spam/superadmins',
-  quickaddSpam: authConfig.backendSite + '/spam/quickadd',
-  deleteUser: authConfig.backendSite + '/delete/user',
-  deleteMe: authConfig.backendSite + '/user/delete',
-  deleteAdmin: authConfig.backendSite + '/delete/admin',
-  mediaTokenTransmitter: authConfig.backendSite + '/user/media/transmit',
-  mediaTokenVerify: authConfig.backendSite + '/user/media/verify',
-  forgotPass: authConfig.backendSite + '/user/forgotpass',
-  getUsers: authConfig.backendSite + '/get/users',
-  getAll: authConfig.backendSite + '/get/all',
-  getAdmins: authConfig.backendSite + '/get/admins',
-  getSuperAdmins: authConfig.backendSite + '/get/superadmins',
-  setSiteSettings: authConfig.backendSite + '/user/sitesettings',
-  getSiteSettings: authConfig.backendSite + '/get/sitesettings'
+  mediaTokenTransmitter: authConfig.backendSite + '/media/generate',
+  mediaTokenVerify: authConfig.backendSite + '/media/verify',
 };
 // =======Options END=======
 
@@ -307,11 +268,11 @@ function html(current_drive_order = 0, model = {}) {
         return categoryData;
       }))}'
     );
-    window.apiRoutes = JSON.parse('${JSON.stringify(routes)}');
     window.themeOptions = JSON.parse('${JSON.stringify(themeOptions)}');
     window.gds = JSON.parse('${JSON.stringify(
       authConfig.roots.map((it) => it.name)
     )}');
+    window.backend = '${authConfig.backendSite}';
     window.version = '${authConfig.version}';
     window.gdHybridPass = '${authConfig.hybridpass}';
     window.MODEL = JSON.parse('${JSON.stringify(model)}');

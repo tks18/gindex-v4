@@ -160,6 +160,7 @@ export default {
     },
   },
   created() {
+    this.initializeUser();
     this.render();
     let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
@@ -311,6 +312,7 @@ export default {
       }
       if (file.mimeType.startsWith("image/") && target === "view") {
        this.viewer = true;
+       console.log(this.user.email);
        this.$nextTick(() => {
          let index = this.images.findIndex((item) => item.path === file.path);
          this.$viewer.view(index);

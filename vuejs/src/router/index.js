@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import axios from "axios";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { apiRoutes } from "@/utils/backendUtils";
 import { decodeSecret, getItem, setItem, removeItem } from '@utils/encryptUtils';
 // Routing data
 
@@ -93,7 +94,7 @@ router.beforeEach( (to, from, next) => {
           next({ params: { userinfo: userData, tokeninfo: tokenData } });
         }
       } else {
-        axios.post(window.apiRoutes.verifyRoute, {
+        axios.post(apiRoutes.verifyRoute, {
           email: userData.email,
           token: tokenData.token
         }).then(response => {

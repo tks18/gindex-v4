@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
 import pdf from "vue-pdf-modified/src/vuePdfNoSssNoWorker";
 import Loading from 'vue-loading-overlay';
@@ -106,10 +107,6 @@ export default {
       this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
     },
     previousPage() {
-      if(this.$audio.player() == undefined){
-        this.$audio.createPlayer();
-      }
-      this.$audio.destroy();
       if(this.page == 1){
         this.page = 1;
       } else {
@@ -117,14 +114,6 @@ export default {
       }
     },
     nextPage() {
-      if(this.$audio.player() == undefined){
-        this.$audio.createPlayer();
-      }
-      this.$audio.player().list.add({
-        name: "summas",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-        cover: window.themeOptions.audio.default_poster
-      });
       if(this.page >= this.pageCount){
         this.page = this.currentPage
       } else {
@@ -150,10 +139,10 @@ export default {
     } else {
       this.logged = userData.data.logged;
     }
-    await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+    await this.$http.post(apiRoutes.mediaTokenTransmitter, {
       email: userData.data.user.email,
       token: userData.data.token.token,
-    }).then(response => {
+    }, backendHeaders(userData.data.token.token)).then(response => {
       if(response.data.auth && response.data.registered && response.data.token){
         this.mainLoad = false;
         this.mediaToken = response.data.token;

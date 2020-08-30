@@ -120,6 +120,7 @@
     </div>
 </template>
 <script>
+import { apiRoutes } from "@/utils/backendUtils";
 import { getgds } from "@utils/localUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -170,7 +171,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 e.preventDefault()
                 if(this.checked){
                   if(this.codechecked){
-                    let url = window.apiRoutes.requestRoute
+                    let url = apiRoutes.requestRoute
                     this.$http.post(url, {
                           name: this.name,
                           email: this.email,
@@ -245,7 +246,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         beforeMount(){
           this.loading = true;
-          this.$http.post(window.apiRoutes.getSiteSettings).then(response => {
+          this.$http.post(apiRoutes.getSiteSettings).then(response => {
             if(response.data.auth && response.data.registered){
               if(response.data.data.requests){
                 this.loading = false;

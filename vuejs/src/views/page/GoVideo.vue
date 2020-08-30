@@ -189,6 +189,7 @@
 </template>
 
 <script>
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
 import {
   formatDate,
@@ -296,10 +297,10 @@ export default {
       } else {
         this.logged = userData.data.logged;
       }
-      await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+      await this.$http.post(apiRoutes.mediaTokenTransmitter, {
         email: userData.data.user.email,
         token: userData.data.token.token,
-      }).then(response => {
+      }, backendHeaders(userData.data.token.token)).then(response => {
         if(response.data.auth && response.data.registered && response.data.token){
           this.mediaToken = response.data.token;
         } else {
