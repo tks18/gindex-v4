@@ -120,6 +120,7 @@ import {
   initializeUser,
   getgds,
 } from "@utils/localUtils";
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import Loading from 'vue-loading-overlay';
 export default {
   components: {
@@ -174,7 +175,7 @@ export default {
       if(this.getUserApi.length > 0){
         this.$http.post(this.getUserApi, {
           email: this.user.email
-        }).then(response => {
+        }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
             this.loading = false;
             this.metatitle = "Got Users...";
@@ -197,7 +198,7 @@ export default {
       if(this.getUserApi.length > 0){
         this.$http.post(this.getSpamApi, {
           adminuseremail: this.user.email
-        }).then(response => {
+        }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
             this.loading = false;
             this.metatitle = "Done...";
@@ -223,7 +224,7 @@ export default {
           message: this.addmessage,
           adminuseremail: this.user.email,
           adminpass: this.addpassword,
-        }).then(response => {
+        }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
             this.successmessageVisibility = true;
             this.errormessageVisibility = false;
@@ -250,7 +251,7 @@ export default {
           email: this.removeUserEmail,
           adminuseremail: this.user.email,
           password: this.removepassword
-        }).then(response => {
+        }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.deleted){
             this.successmessageVisibility = true;
             this.errormessageVisibility = false;
@@ -308,15 +309,15 @@ export default {
     if(this.admin && this.superadmin){
       this.addrole = "user",this.removerole = "user";
       this.roledisabled = false;
-      this.getUserApi = window.apiRoutes.getUsers,this.postAddSpam = window.apiRoutes.addSpamUser;
-      this.getSpamApi = window.apiRoutes.getSpamUsers,this.postSpamApi = window.apiRoutes.removeSpamUser;
+      this.getUserApi = apiRoutes.getUsers,this.postAddSpam = apiRoutes.addSpamUser;
+      this.getSpamApi = apiRoutes.getSpamUsers,this.postSpamApi = apiRoutes.removeSpamUser;
       this.getUsers();
       this.getSpamUsers();
       this.loading = false;
     } else if(this.admin && !this.superadmin) {
       this.addrole = "user",this.removerole = "user";
-      this.getUserApi = window.apiRoutes.getUsers,this.postAddSpam = window.apiRoutes.addSpamUser;
-      this.getSpamApi = window.apiRoutes.getSpamUsers,this.postSpamApi = window.apiRoutes.removeSpamUser;
+      this.getUserApi = apiRoutes.getUsers,this.postAddSpam = apiRoutes.addSpamUser;
+      this.getSpamApi = apiRoutes.getSpamUsers,this.postSpamApi = apiRoutes.removeSpamUser;
       this.getUsers();
       this.getSpamUsers();
       this.loading = false;
@@ -338,31 +339,31 @@ export default {
   watch: {
     addrole: function() {
       if(this.addrole == "user"){
-        this.getUserApi = window.apiRoutes.getUsers;
-        this.postAddSpam = window.apiRoutes.addSpamUser;
+        this.getUserApi = apiRoutes.getUsers;
+        this.postAddSpam = apiRoutes.addSpamUser;
         this.getUsers();
       } else if(this.addrole == "admin"){
-        this.getUserApi = window.apiRoutes.getAdmins;
-        this.postAddSpam = window.apiRoutes.addSpamAdmin;
+        this.getUserApi = apiRoutes.getAdmins;
+        this.postAddSpam = apiRoutes.addSpamAdmin;
         this.getUsers();
       } else if(this.addrole == "superadmin"){
-        this.getUserApi = window.apiRoutes.getSuperAdmins;
-        this.postAddSpam = window.apiRoutes.addSpamSuperAdmin;
+        this.getUserApi = apiRoutes.getSuperAdmins;
+        this.postAddSpam = apiRoutes.addSpamSuperAdmin;
         this.getUsers();
       }
     },
     removerole: function() {
       if(this.removerole == "user"){
-        this.getSpamApi = window.apiRoutes.getSpamUsers;
-        this.postSpamApi = window.apiRoutes.removeSpamUser;
+        this.getSpamApi = apiRoutes.getSpamUsers;
+        this.postSpamApi = apiRoutes.removeSpamUser;
         this.getSpamUsers();
       } else if(this.removerole == "admin"){
-        this.getSpamApi = window.apiRoutes.getSpamAdmins;
-        this.postSpamApi = window.apiRoutes.removeSpamAdmin;
+        this.getSpamApi = apiRoutes.getSpamAdmins;
+        this.postSpamApi = apiRoutes.removeSpamAdmin;
         this.getSpamUsers();
       } else if(this.removerole == "superadmin"){
-        this.getSpamApi = window.apiRoutes.getSpamSuperadmins;
-        this.postSpamApi = window.apiRoutes.removeSpamSuperadmin
+        this.getSpamApi = apiRoutes.getSpamSuperadmins;
+        this.postSpamApi = apiRoutes.removeSpamSuperadmin
         this.getSpamUsers();
       }
     },

@@ -193,6 +193,7 @@ import {
   initializeUser,
   getgds,
 } from "@utils/localUtils";
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
@@ -245,7 +246,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                         name: this.user.name,
                         email: this.user.email,
                         message: this.message,
-                  })
+                  }, backendHeaders(this.token.token))
                   .then(response => {
                       if(response){
                         if(response.data.auth && response.data.registered){
@@ -301,7 +302,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         beforeMount() {
           this.loading = true;
-          this.$http.post(window.apiRoutes.getSiteSettings).then(response => {
+          this.$http.post(apiRoutes.getSiteSettings).then(response => {
             if(response.data.auth && response.data.registered){
               if(response.data.data.adminRequests){
                 this.loading = false;
@@ -336,10 +337,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         mounted(){
           this.loading = true;
           if(!this.admin && !this.superadmin){
-            this.apiurl = window.apiRoutes.requestadminroute;
+            this.apiurl = apiRoutes.requestadminroute;
             this.role = 'admin', this.loading = false;
           } else if(this.admin && !this.superadmin) {
-            this.apiurl = window.apiRoutes.requestsuperadminroute;
+            this.apiurl = apiRoutes.requestsuperadminroute;
             this.role = "superadmin", this.loading = false;
           } else {
             this.loading = false;

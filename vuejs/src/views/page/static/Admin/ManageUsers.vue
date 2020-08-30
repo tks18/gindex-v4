@@ -185,6 +185,7 @@ import {
   initializeUser,
   getgds,
 } from "@utils/localUtils";
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import Loading from 'vue-loading-overlay';
 export default {
   components: {
@@ -213,10 +214,10 @@ export default {
       deletePassword: "",
       errorMessage: false,
       successMessage: false,
-      inviteAdmin: window.apiRoutes.inviteAdmin,
-      inviteSuperAdmin:  window.apiRoutes.inviteSuperAdmin,
-      deleteUser: window.apiRoutes.deleteUser,
-      deleteAdmin: window.apiRoutes.deleteAdmin,
+      inviteAdmin: apiRoutes.inviteAdmin,
+      inviteSuperAdmin:  apiRoutes.inviteSuperAdmin,
+      deleteUser: apiRoutes.deleteUser,
+      deleteAdmin: apiRoutes.deleteAdmin,
       inviteInput: false,
       deleteInput: false,
       inviteApi: "",
@@ -240,7 +241,7 @@ export default {
       if(this.apiurl.length > 0){
         this.$http.post(this.apiurl, {
             email: this.user.email,
-        }).then(response => {
+        }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
             this.loading = false;
             this.metatitle = "Success...";
@@ -276,7 +277,7 @@ export default {
             email: user.email,
             adminpass: this.deletePassword,
             adminuseremail: this.user.email,
-      }).then(response => {
+      }, backendHeaders(this.token.token)).then(response => {
         if(action == "delete"){
           if(response.data.auth && response.data.registered && response.data.deleted){
             this.usermodal = false;
@@ -313,7 +314,7 @@ export default {
               email: user.email,
               message: this.inviteMessage,
               adminuseremail: this.user.email,
-        }).then(response => {
+        }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
             this.successMessage = true;
             this.metatitle = "Invite Sent...";
@@ -342,16 +343,15 @@ export default {
       this.metatitle = "Handling the Changes...";
       let route = "";
       if(user.role == "User"){
-        route = window.apiRoutes.getPendingAdmins;
+        route = apiRoutes.getPendingAdmins;
       } else if(user.role == "Admin"){
-        route = window.apiRoutes.getPendingSuperAdmins;
+        route = apiRoutes.getPendingSuperAdmins;
       }
-      console.log(route);
       if(user.role == "User" || user.role == "Admin"){
         this.loading = true;
         this.$http.post(route, {
               adminuseremail: this.user.email,
-        }).then(response => {
+        }, backendHeaders(this.token.token)).then(response => {
           if(response){
             console.log(response);
             if(response.data.auth && response.data.registered){
@@ -427,10 +427,10 @@ export default {
   mounted() {
     if(this.admin && this.superadmin){
       this.loading = false;
-      this.apiurl = window.apiRoutes.getAll;
+      this.apiurl = apiRoutes.getAll;
     } else if(this.admin && !this.superadmin) {
       this.loading = false;
-      this.apiurl = window.apiRoutes.getUsers;
+      this.apiurl = apiRoutes.getUsers;
     } else {
       this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", data: "UnAuthorized Route.", redirectUrl: "/", tocmd: 'home' } })
     }

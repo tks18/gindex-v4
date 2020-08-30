@@ -856,22 +856,28 @@ th {
 }
 
 .trending-block {
-  overflow-x: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: wrap;
+  white-space: wrap;
   .trend-link {
     display: inline-block;
     box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    width: 24.2%;
     height: 175px;
     padding: 14px;
     margin: 3px;
   }
   .trend-link:hover {
     box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
+  }
+}
+@media only screen and (max-width: 600px){
+  .trending-block {
+    .trend-link {
+      width: 48%;
+      height: 97px;
+      padding: 5px;
+      margin: 3px;
+    }
   }
 }
 

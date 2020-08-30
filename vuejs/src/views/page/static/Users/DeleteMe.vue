@@ -39,6 +39,7 @@
     </div>
 </template>
 <script>
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
 import { removeItem } from "@utils/encryptUtils";
 import Loading from 'vue-loading-overlay';
@@ -81,11 +82,11 @@ export default {
                 e.preventDefault()
                 if (this.password && this.password.length > 0)
                 {
-                    let url = window.apiRoutes.deleteMe
+                    let url = apiRoutes.deleteMe
                     this.$http.post(url, {
                           email: this.user.email,
                           pass: this.password,
-                    })
+                    }, backendHeaders(this.token.token))
                     .then(response => {
                         if(response){
                           if(response.data.auth && response.data.registered && response.data.deleted){

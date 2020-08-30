@@ -110,6 +110,7 @@ import {
   decode64,
 } from "@utils/AcrouUtil";
 import 'aplayer/dist/APlayer.min.css';
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import aplayer from 'aplayer';
 import { initializeUser, getgds } from "@utils/localUtils";
 import { mapState } from "vuex";
@@ -183,10 +184,10 @@ export default {
       } else {
         this.logged = userData.data.logged;
       }
-      await this.$http.post(window.apiRoutes.mediaTokenTransmitter, {
+      await this.$http.post(apiRoutes.mediaTokenTransmitter, {
         email: userData.data.user.email,
         token: userData.data.token.token,
-      }).then(response => {
+      }, backendHeaders(this.token.token)).then(response => {
         if(response.data.auth && response.data.registered && response.data.token){
           this.mediaToken = response.data.token;
         } else {

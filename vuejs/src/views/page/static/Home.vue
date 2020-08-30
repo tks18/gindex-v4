@@ -58,28 +58,7 @@
            <div :class=" ismobile ? 'column is-full mt-2 mr-0'  : 'column is-full ml-2 mr-0 pl-4 pr-0'">
              <div class="columns is-mobile">
                <div class="column is-half">
-                 <h2 class="subtitle has-text-white has-text-weight-bold">
-                   Top Trending
-                 </h2>
-               </div>
-               <div class="column pr-4 mr-4 is-half has-text-centered">
-                 <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
-                   <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('trend')"></i>
-                 </span>
-                 <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
-                   <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('trend')"></i>
-                 </span>
-               </div>
-             </div>
-             <div class="trending-block" ref="trend">
-               <div v-for="(trend, index) in trending" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
-               </div>
-             </div>
-           </div>
-           <div :class=" ismobile ? 'column is-full mt-2 mr-0'  : 'column is-full ml-2 mr-0 pl-4 pr-0'">
-             <div class="columns is-mobile">
-               <div class="column is-half">
-                 <h2 class="subtitle has-text-white has-text-weight-bold">
+                 <h2 class="subtitle has-text-netflix-only has-text-weight-bold">
                    Categories
                  </h2>
                </div>
@@ -97,6 +76,19 @@
                  <h1 class="title is-4 has-text-centered has-text-white has-text-weight-bold" style="display: flex;align-items: baseline;">
                    {{ cat.name }}
                  </h1>
+               </div>
+             </div>
+           </div>
+           <div :class=" ismobile ? 'column is-full mt-2 mr-0'  : 'column is-full ml-2 mr-0 pl-4 pr-0'">
+             <div class="columns is-mobile">
+               <div class="column is-half">
+                 <h2 class="subtitle has-text-netflix-only has-text-weight-bold">
+                   Top Trending
+                 </h2>
+               </div>
+             </div>
+             <div class="trending-block" ref="trend">
+               <div v-for="(trend, index) in trending" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
                </div>
              </div>
            </div>
@@ -237,6 +229,7 @@ import {
   scrollTo,
   shuffle
 } from "@utils/localUtils";
+import { apiRoutes } from "@/utils/backendUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
     export default {
@@ -320,7 +313,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
             this.loading = true;
             e.preventDefault();
             if(this.email.length > 0){
-              this.$http.post(window.apiRoutes.checkEmail, {
+              this.$http.post(apiRoutes.checkEmail, {
                   email: this.email,
               }).then(response => {
                 if(response.data.auth && response.data.user && response.data.status == "User Present & Verified"){

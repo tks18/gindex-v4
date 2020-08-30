@@ -272,6 +272,7 @@ import {
   initializeUser,
   getgds,
 } from "@utils/localUtils";
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
@@ -323,9 +324,9 @@ export default {
                 columnVisibility: false,
                 loading: false,
                 fullpage: true,
-                pendingadmin: window.apiRoutes.getPendingAdmins,
-                pendingsuperadmin: window.apiRoutes.getPendingSuperAdmins,
-                pendingusers: window.apiRoutes.getPendingUsers,
+                pendingadmin: apiRoutes.getPendingAdmins,
+                pendingsuperadmin: apiRoutes.getPendingSuperAdmins,
+                pendingusers: apiRoutes.getPendingUsers,
                 pendingUserList: [],
                 listname: "",
             }
@@ -342,7 +343,7 @@ export default {
                         email: this.email,
                         adminpass: this.password,
                         adminuseremail: this.user.email,
-                  })
+                  }, backendHeaders(this.token.token))
                   .then(response => {
                       if(response){
                         if(response.data.auth && response.data.registered){
@@ -386,7 +387,7 @@ export default {
               this.loading = true;
               this.$http.post(route, {
                     adminuseremail: this.user.email,
-              }).then(response => {
+              }, backendHeaders(this.token.token)).then(response => {
                 if(response){
                   if(response.data.auth && response.data.registered){
                     this.loading = false;
@@ -432,10 +433,10 @@ export default {
             async handleSpam(post, user) {
               this.loading = true;
               this.metatitle = "Adding Spammers...";
-              await this.$http.post(window.apiRoutes.quickaddSpam, {
+              await this.$http.post(apiRoutes.quickaddSpam, {
                 email: user.email,
                 adminuseremail: this.user.email
-              }).then(response => {
+              }, backendHeaders(this.token.token)).then(response => {
                 if(response){
                   if(response.data.auth && response.data.registered){
                     this.handleDelete(post, user);
@@ -455,19 +456,19 @@ export default {
               let route = "";
               let reloadRoute = "";
               if(post == "user"){
-                route = window.apiRoutes.deletePendingUsers;
+                route = apiRoutes.deletePendingUsers;
                 reloadRoute = this.pendingusers;
               } else if(post == "admin"){
-                route = window.apiRoutes.deletePendingAdmins;
+                route = apiRoutes.deletePendingAdmins;
                 reloadRoute = this.pendingadmin;
               } else if(post == "superadmin"){
                 reloadRoute = this.pendingsuperadmin;
-                route = window.apiRoutes.deletePendingSuperAdmins;
+                route = apiRoutes.deletePendingSuperAdmins;
               }
               this.$http.post(route, {
                 email: user.email,
                 adminuseremail: this.user.email
-              }).then(response => {
+              }, backendHeaders(this.token.token)).then(response => {
                 if(response){
                   if(response.data.auth && response.data.removed){
                     this.pendingUserList = [];
@@ -540,15 +541,15 @@ export default {
             if(this.role == "admin"){
               this.namedisabled = true;
               this.validateData();
-              this.apiurl = window.apiRoutes.upgradeAdmin
+              this.apiurl = apiRoutes.upgradeAdmin
             } else if(this.role == "superadmin"){
               this.namedisabled = true;
               this.validateData();
-              this.apiurl = window.apiRoutes.upgradeSuperAdmin
+              this.apiurl = apiRoutes.upgradeSuperAdmin
             } else {
               this.namedisabled = false;
               this.validateData();
-              this.apiurl = window.apiRoutes.registerRoute
+              this.apiurl = apiRoutes.registerRoute
             }
           },
           name: "validateData",

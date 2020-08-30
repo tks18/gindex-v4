@@ -66,6 +66,7 @@ import {
   initializeUser,
   getgds,
 } from "@utils/localUtils";
+import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
   export default {
@@ -119,7 +120,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
       getSiteSettings(){
         this.loading = true;
-        this.$http.post(window.apiRoutes.getSiteSettings).then(response => {
+        this.$http.post(apiRoutes.getSiteSettings).then(response => {
           if(response.data.auth && response.data.registered){
             this.request = response.data.data.requests;
             this.adminreqs = response.data.data.adminRequests;
@@ -144,11 +145,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
       handleSavePrefs(){
         this.loading = true;
-        this.$http.post(window.apiRoutes.setSiteSettings, {
+        this.$http.post(apiRoutes.setSiteSettings, {
           email: this.user.email,
           requests: this.request,
           adminrequests: this.adminreqs
-        }).then(async response => {
+        }, backendHeaders(this.token.token)).then(async response => {
           this.loading = false;
           if(response.data.auth && response.data.registered && response.data.changed){
             await this.getSiteSettings();
