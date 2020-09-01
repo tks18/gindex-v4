@@ -221,6 +221,61 @@ const frameIn = [{
       }
   },
   {
+      path: '/:id(\\d+)::cmd(admin)/posteriors',
+      name: 'manageposteriors',
+      component: _import("page/static/Admin/MainManagePostPage"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          hybrid: false,
+      },
+  },
+  {
+      path: '/:id(\\d+)::cmd(admin)/posteriors/quicklinks',
+      name: 'manageposteriors_quicklinks',
+      component: _import("page/static/Admin/ManagePosts/ManageQuickLinks"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          hybrid: false,
+      },
+  },
+  {
+      path: '/:id(\\d+)::cmd(admin)/posteriors/categories',
+      name: 'manageposteriors_categories',
+      component: _import("page/static/Admin/ManagePosts/ManageCategories"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          hybrid: false,
+      },
+  },
+  {
+      path: '/:id(\\d+)::cmd(admin)/posteriors/heros',
+      name: 'manageposteriors_heros',
+      component: _import("page/static/Admin/ManagePosts/ManageHeros"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          hybrid: false,
+      },
+  },
+  {
+      path: '/:id(\\d+)::cmd(admin)/posteriors/trending',
+      name: 'manageposteriors_trending',
+      component: _import("page/static/Admin/ManagePosts/ManageTrendingPosts"),
+      meta: {
+          ...meta,
+          requiresAuth: true,
+          admin: true,
+          hybrid: false,
+      },
+  },
+  {
       path: '/:id(\\d+)::cmd(admin)/settings',
       name: 'sitesettings',
       component: _import("page/static/Admin/SiteSettings"),

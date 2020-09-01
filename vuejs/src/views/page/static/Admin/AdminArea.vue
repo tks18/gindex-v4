@@ -15,7 +15,7 @@
                   <p class="subtitle has-text-weight-bold">Add a User</p>
                 </div>
                 <div class="column has-text-centered is-one-third">
-                  <button class="button is-rounded is-danger" @click="gotoPage('/', 'register')">
+                  <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
                     <span class="icon is-small">
                       <i class="fas fa-user-plus"></i>
                     </span>
@@ -26,7 +26,7 @@
                   <p class="subtitle has-text-weight-bold">Invite Users</p>
                 </div>
                 <div class="column has-text-centered is-one-third">
-                  <button class="button is-rounded is-danger" @click="gotoPage('/', 'invite')">
+                  <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'invite')">
                     <span class="icon is-small">
                       <i class="fas fa-user-plus"></i>
                     </span>
@@ -46,7 +46,7 @@
               <p class="subtitle has-text-weight-bold">Manage Existing Users</p>
             </div>
             <div class="column has-text-centered is-one-third">
-              <button class="button is-rounded is-danger" @click="gotoPage('/manage', 'admin')">
+              <button class="button is-rounded is-netflix-red" @click="gotoPage('/manage', 'admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-plus"></i>
                 </span>
@@ -57,7 +57,7 @@
               <p class="subtitle has-text-weight-bold">Manage Spam Users</p>
             </div>
             <div class="column has-text-centered is-one-third">
-              <button class="button is-rounded is-danger" @click="gotoPage('/spam', 'admin')">
+              <button class="button is-rounded is-netflix-red" @click="gotoPage('/spam', 'admin')">
                 <span class="icon is-small">
                   <i class="fas fa-hand-paper"></i>
                 </span>
@@ -75,7 +75,18 @@
               <p class="subtitle has-text-weight-bold">Go to Settings</p>
             </div>
             <div class="column has-text-centered is-one-third">
-              <button class="button is-rounded is-danger" @click="gotoPage('/settings', 'admin')">
+              <button class="button is-rounded is-netflix-red" @click="gotoPage('/settings', 'admin')">
+                <span class="icon is-small">
+                  <i class="fas fa-user-cog"></i>
+                </span>
+                <span>Settings</span>
+              </button>
+            </div>
+            <div class="column is-two-thirds">
+              <p class="subtitle has-text-weight-bold">Manage Posteriors</p>
+            </div>
+            <div class="column has-text-centered is-one-third">
+              <button class="button is-rounded is-netflix-red" @click="gotoPage('/posteriors', 'admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-cog"></i>
                 </span>
@@ -127,7 +138,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         methods: {
           gotoPage: function(url, cmd){
-            this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.siteName,eventLabel: "Admin Area"})
             if(cmd){
               this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
             } else {
@@ -155,12 +165,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Admin Area",nonInteraction: true})
               this.user = userData.data.user;
               this.logged = userData.data.logged;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Admin Area",nonInteraction: true})
               this.user = userData.data.user;
               this.token = userData.data.token;
               this.logged = userData.data.logged;
@@ -177,11 +185,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
-          this.$ga.page({
-            page: this.$route.path,
-            title: "Admin Area"+" - "+this.siteName,
-            location: window.location.href
-          });
         }
       }
 </script>

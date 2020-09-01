@@ -43,6 +43,19 @@ export const apiRoutes = {
   getSuperAdmins: backendBaseUrl+'/get/superadmins',
   setSiteSettings: backendBaseUrl+'/settings/set',
   getSiteSettings: backendBaseUrl+'/settings/get',
+  getallPosters: backendBaseUrl+'/posters/all',
+  getCatPosters: backendBaseUrl+'/posters/categories/get',
+  gettrendPosters: backendBaseUrl+'/posters/trending/get',
+  getheroPosters: backendBaseUrl+'/posters/hero/get',
+  getquickLinks: backendBaseUrl+'/posters/quicklinks/get',
+  setCatPosters: backendBaseUrl+'/posters/categories/set',
+  settrendPosters: backendBaseUrl+'/posters/trending/set',
+  setheroPosters: backendBaseUrl+'/posters/hero/set',
+  setquickLinks: backendBaseUrl+'/posters/quicklinks/set',
+  deleteCatPosters: backendBaseUrl+'/posters/categories/delete',
+  deletetrendPosters: backendBaseUrl+'/posters/trending/delete',
+  deleteheroPosters: backendBaseUrl+'/posters/hero/delete',
+  deletequickLinks: backendBaseUrl+'/posters/quicklinks/delete',
 }
 
 export function backendHeaders(token){

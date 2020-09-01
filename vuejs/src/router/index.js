@@ -157,10 +157,6 @@ router.beforeEach( (to, from, next) => {
 
 router.afterEach((to) => {
   NProgress.done();
-  if (process.env.NODE_ENV === "development") {
-    console.log("after:");
-    console.log(to);
-  }
 });
 
 export default router;

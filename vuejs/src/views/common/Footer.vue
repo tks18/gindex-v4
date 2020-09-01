@@ -50,12 +50,6 @@ export default {
     this.sitename = document.getElementsByTagName("title")[0].innerText;
   },
   mounted() {
-    this.$ga.page({
-      page: this.$route.path,
-      title: "Foot",
-      location: window.location.href
-    });
-    this.$ga.event({eventCategory: "Site Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Foot",nonInteraction: true})
     this.copyright = window.themeOptions.footer_data.copyright;
     this.disclaimer = window.themeOptions.footer_data.disclaimer;
     this.license = window.themeOptions.footer_data.license;
@@ -67,10 +61,5 @@ export default {
       this.footerLogoLink = "";
     }
   },
-  watch: {
-    "$route": function() {
-      this.$ga.event({eventCategory: "Route Change",eventAction: "Normal - "+this.siteName,eventLabel: "Foot",nonInteraction: true})
-    }
-  }
 };
 </script>

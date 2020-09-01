@@ -110,13 +110,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                         this.loading = false;
                         this.metatitle = "Success...";
                         this.$bus.$emit("logout", "User Logged Out");
-                        this.$ga.event({eventCategory: "Password Change",eventAction: "Success"+" - "+this.siteName,eventLabel: "Change Password"});
                         this.$router.push({ name: 'results', params: { id: this.currgd.id, cmd: "result", success: true, redirectUrl: '/', tocmd: 'login', data: `response.data.message. You have to Relogin with new Password` } })
                       } else {
                         this.errorMessage = true
                         this.loading = false;
                         this.metatitle = "Failed...";
-                        this.$ga.event({eventCategory: "Password Change",eventAction: "Fail"+" - "+this.siteName,eventLabel: "Change Password"});
                         this.resultmessage = response.data.message;
                       }
                     });
@@ -157,11 +155,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Change Password",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Change Password",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             }
@@ -173,11 +169,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
-          this.$ga.page({
-            page: this.$route.path,
-            title: "Change Password"+" - "+this.siteName,
-            location: window.location.href
-          });
         },
         watch: {
           oldpassword: "validateData",

@@ -1,14 +1,14 @@
 <template>
   <div class="g2-grid-view">
-    <div class="columns is-multiline">
+    <div class="columns is-multiline is-mobile mx-1">
       <div
-        class="column is-2"
+        :class="ismobile ? 'column is-half' : 'column is-2'"
         v-for="(file, index) in folders"
         :key="'folder_' + index"
         @click="action(file)"
       >
-        <div class="card g2-grid-view-card g2-grid-view-folder">
-          <div class="media">
+        <div class="card g2-grid-view-card">
+          <div class="media g2-grid-view-file">
             <div class="content" :title="file.name">
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
@@ -19,9 +19,9 @@
         </div>
       </div>
     </div>
-    <div class="columns is-multiline">
+    <div class="columns is-multiline is-mobile mx-1">
       <div
-        class="column is-2"
+        :class="ismobile ? 'column is-half' : 'column is-2'"
         v-for="(file, index) in files"
         :key="'file_' + index"
         @click="action(file, 'view')"
@@ -88,6 +88,14 @@ export default {
     },
     files () {
       return this.data.filter((item) => !item.isFolder);
+    },
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if(width > 966){
+        return false
+      } else {
+        return true
+      }
     },
   },
   methods: {},

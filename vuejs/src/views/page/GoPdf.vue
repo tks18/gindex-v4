@@ -128,10 +128,8 @@ export default {
     if(userData.isThere){
       if(userData.type == "hybrid"){
         this.user = userData.data.user;
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "PDF",nonInteraction: true})
         this.logged = userData.data.logged;
       } else if(userData.type == "normal"){
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "PDF",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -161,11 +159,6 @@ export default {
     let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
-    this.$ga.page({
-      page: "/PDF/"+this.url.split('/').pop()+"/",
-      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.siteName,
-      location: window.location.href
-    });
   },
   watch: {
     screenWidth: function() {
