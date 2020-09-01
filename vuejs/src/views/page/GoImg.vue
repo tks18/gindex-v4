@@ -90,14 +90,15 @@ export default {
   async beforeMount() {
     this.checkMobile();
     this.mainload = true;
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
     var userData = await initializeUser();
     if(userData.isThere){
       if(userData.type == "hybrid"){
         this.user = userData.data.user;
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Image",nonInteraction: true})
         this.logged = userData.data.logged;
       } else if(userData.type == "normal"){
-        this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Image",nonInteraction: true})
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -122,16 +123,6 @@ export default {
       this.mainLoad = false;
       this.mediaToken = "";
     })
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-    this.$ga.page({
-      page: "/Image/"+this.url.split('/').pop()+"/",
-      title: this.url.split('/').pop().split('.').slice(0,-1).join('.')+" - "+this.siteName,
-      location: window.location.href
-    });
   },
   watch: {
     screenWidth: function() {

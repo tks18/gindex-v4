@@ -111,7 +111,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
     },
     methods: {
       gotoPage: function(url, cmd){
-        this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.siteName,eventLabel: "Admin Area"})
         if(cmd){
           this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
         } else {
@@ -189,12 +188,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       var userData = initializeUser();
       if(userData.isThere){
         if(userData.type == "hybrid"){
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Site Settings",nonInteraction: true})
           this.user = userData.data.user;
           this.logged = userData.data.logged;
           this.loading = userData.data.loading;
         } else if(userData.type == "normal"){
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Site Settings",nonInteraction: true})
           this.user = userData.data.user;
           this.token = userData.data.token;
           this.logged = userData.data.logged;
@@ -214,11 +211,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       let gddata = getgds(this.$route.params.id);
       this.gds = gddata.gds;
       this.currgd = gddata.current;
-      this.$ga.page({
-        page: this.$route.path,
-        title: "Admin Area"+" - "+this.siteName,
-        location: window.location.href
-      });
     },
     watch: {
       request: "checkButtonDisability",

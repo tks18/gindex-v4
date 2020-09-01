@@ -286,10 +286,8 @@ export default {
       if(userData.isThere){
         if(userData.type == "hybrid"){
           this.user = userData.data.user;
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Video Page",nonInteraction: true})
           this.logged = userData.data.logged;
         } else if(userData.type == "normal"){
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Video Page",nonInteraction: true})
           this.user = userData.data.user;
           this.token = userData.data.token;
           this.logged = userData.data.logged;
@@ -550,7 +548,6 @@ export default {
         message: "Generating Links and Downloading",
         type: "success",
       })
-      this.$ga.event({eventCategory: "Video Download",eventAction: "Download - "+this.siteName,eventLabel: "Video Page",nonInteraction: true})
       location.href = this.downloadUrl;
       return;
     },
@@ -660,6 +657,11 @@ export default {
           scheme: "vlc://" + this.externalUrl,
         },
         {
+          name: "Cast2Tv",
+          icon: "https://assets.materialup.com/uploads/b8e5d402-cd36-4774-bf10-0985e993a33e/preview",
+          scheme: "intent:#Intent;action=android.intent.action.ACTION_VIEW;package=com.instantbits.cast.webvideo;type=video/*;data="+this.externalUrl+";S.android.intent.extra.title="+this.videoname+";end",
+        },
+        {
           name: "Thunder",
           icon: this.$cdnpath("images/player/thunder.png"),
           scheme: "thunder://" + this.getThunder,
@@ -713,11 +715,6 @@ export default {
     let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
-    this.$ga.page({
-      page: "/Video/"+this.url.split('/').pop()+"/",
-      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.siteName,
-      location: window.location.href
-    });
   },
   watch: {
     searchBarTerm: function() {
@@ -751,12 +748,7 @@ export default {
         this.playicon="fas fa-glasses";
         this.playtext="Let's Party"
       });
-      this.player.on('loadstart', () => {
-        this.playicon = "fas fa-spinner fa-pulse";
-        this.playtext = "Loading Awesomeness..";
-      })
-      this.player.on('play', () => {
-        this.$ga.event({eventCategory: this.videoname,eventAction: "Started Playing"+" - "+this.siteName,eventLabel: "Video Page"})
+      this.player.on('playing', () => {
         this.playicon="fas fa-spin fa-compact-disc";
         this.metatitle = "Playing"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playtext="Playing"

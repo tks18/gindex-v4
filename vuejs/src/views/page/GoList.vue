@@ -165,11 +165,6 @@ export default {
     let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
-    this.$ga.page({
-      page: this.$route.path,
-      title: this.$route.name+" - "+this.siteName,
-      location: window.location.href
-    });
   },
   methods: {
     infiniteHandler($state) {
@@ -279,9 +274,7 @@ export default {
       if(userData.isThere){
         if(userData.type == "hybrid"){
           this.user = userData.data.user;
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
         } else if(userData.type == "normal"){
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
           this.user = userData.data.user;
           this.token = userData.data.token;
         }
@@ -296,7 +289,6 @@ export default {
       this.$viewer = viewer;
     },
     action(file, target) {
-      this.$ga.event({eventCategory: "File Navigation",eventAction: file.name+" - "+this.siteName,eventLabel: "Files",nonInteraction: true})
       let cmd = this.$route.params.cmd;
       if (file.mimeType === "application/vnd.google-apps.shortcut") {
         this.$notify({
@@ -312,7 +304,6 @@ export default {
       }
       if (file.mimeType.startsWith("image/") && target === "view") {
        this.viewer = true;
-       console.log(this.user.email);
        this.$nextTick(() => {
          let index = this.images.findIndex((item) => item.path === file.path);
          this.$viewer.view(index);

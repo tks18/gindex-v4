@@ -9,9 +9,7 @@ import VueAxios from "vue-axios";
 import router from "./router";
 import Clipboard from "@/plugin/clipboard";
 import vSelect from 'vue-select';
-import vea from './vea';
 import EventBus from "./EventBus";
-import secret from "../secret";
 import i18n from "./i18n";
 import store from "@/store/index";
 import VueLazyload from "vue-lazyload";
@@ -37,24 +35,6 @@ Vue.use(VTooltip);
 Vue.use(VueAxios, axios);
 Vue.use(Meta)
 Vue.use(Clipboard);
-Vue.use(vea, {
-  id: secret.uid,
-  autoTracking: {
-    transformQueryString: false,
-    screenview: true,
-    pageviewTemplate (route) {
-      return {
-        page: route.path,
-        title: document.title,
-        location: window.location.href
-      }
-    }
-  },
-  debug: {
-    enabled: false,
-    sendHitTask: true,
-  }
-})
 Vue.component('v-select', vSelect)
 Vue.use(require('vue-moment'));
 Vue.use(VueLazyload, {

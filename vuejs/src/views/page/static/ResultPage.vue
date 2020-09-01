@@ -65,11 +65,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         mounted: function() {
           if(this.$audio.player() != undefined) this.$audio.destroy();
-          this.$ga.page({
-            page: this.$route.path,
-            title: "Temp"+" - "+this.siteName,
-            location: window.location.href
-          });
           if(this.$route.params.data && this.$route.params.noredirect){
             this.data = this.$route.params.data;
             this.success = this.$route.params.success;

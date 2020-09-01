@@ -185,14 +185,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             this.errormessageVisibility = false;
                             this.loading = false;
                             this.metatitle = "Success Requesting...";
-                            this.$ga.event({eventCategory: "User Request",eventAction: "Success - "+" - "+this.siteName,eventLabel: "Request Access"})
                             this.resultmessage = response.data.message
                           } else {
                             this.successmessageVisibility = false;
                             this.errormessageVisibility = true;
                             this.loading = false;
                             this.metatitle = "Request Failed...";
-                            this.$ga.event({eventCategory: "User Request",eventAction: "Failed - "+" - "+this.siteName,eventLabel: "Request Access"})
                             this.resultmessage = response.data.message
                           }
                         }
@@ -267,11 +265,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
-          this.$ga.page({
-            page: this.$route.path,
-            title: "Request Access"+" - "+this.siteName,
-            location: window.location.href
-          });
         },
         watch: {
           name: "validateData",

@@ -173,10 +173,8 @@ export default {
       if(userData.isThere){
         if(userData.type == "hybrid"){
           this.user = userData.data.user;
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
           this.logged = userData.data.logged;
         } else if(userData.type == "normal"){
-          this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
           this.user = userData.data.user;
           this.token = userData.data.token;
           this.logged = userData.data.logged;
@@ -336,7 +334,6 @@ export default {
       this.mainLoad = false;
     },
     downloadButton() {
-      this.$ga.event({eventCategory: "Audio Download",eventAction: "Download - "+this.siteName,eventLabel: "Audio Page",nonInteraction: true})
       location.href = this.downloadUrl;
     },
     getFilteredFiles(rawFiles, nofill) {
@@ -404,6 +401,11 @@ export default {
           scheme: "vlc://" + this.externalUrl,
         },
         {
+          name: "Cast2Tv",
+          icon: "https://assets.materialup.com/uploads/b8e5d402-cd36-4774-bf10-0985e993a33e/preview",
+          scheme: "intent:#Intent;action=android.intent.action.ACTION_VIEW;package=com.instantbits.cast.webvideo;type=video/*;data="+this.externalUrl+";S.android.intent.extra.title="+this.audioname+";end",
+        },
+        {
           name: "Thunder",
           icon: this.$cdnpath("images/player/thunder.png"),
           scheme: "thunder://" + this.getThunder,
@@ -445,17 +447,10 @@ export default {
     },
   },
   mounted() {
-    this.initializePage();
-  },
-  created() {
     let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
-    this.$ga.page({
-      page: "/Audio/"+this.url.split('/').pop()+"/",
-      title: decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))+" - "+this.siteName,
-      location: window.location.href
-    });
+    this.initializePage();
   },
   watch: {
     screenWidth: function() {
@@ -475,18 +470,16 @@ export default {
       }
     },
     player: function(){
-      this.player.on('loadstart', () => {
+      this.player.on('ready', () => {
         this.playicon = "fas fa-spinner fa-pulse";
         this.playtext = "Loading Awesomeness..";
       })
-      this.player.on('play', () => {
-        this.$ga.event({eventCategory: this.audioname,eventAction: "Started Playing"+" - "+this.siteName,eventLabel: "Audio Page"})
+      this.player.on('playing', () => {
         this.metatitle = "Playing"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playicon="fas fa-spin fa-compact-disc";
         this.playtext="Playing"
       });
       this.player.on('pause', () => {
-        this.$ga.event({eventCategory: this.audioname,eventAction: "Paused"+" - "+this.siteName,eventLabel: "Audio Page"})
         this.metatitle = "Paused"+"-"+decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
         this.playicon="fas fa-pause",
         this.playtext="Paused"

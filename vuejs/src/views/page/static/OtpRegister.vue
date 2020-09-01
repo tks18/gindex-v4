@@ -167,14 +167,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                           this.successmessageVisibility = true;
                           this.loading = false;
                           this.metatitle = "Success Verifying";
-                          this.$ga.event({eventCategory: "User Verification",eventAction: "User Registered - "+" - "+this.siteName,eventLabel: "OTP Register"})
                           this.resultmessage = response.data.message + "Now You can Login with Your Email and Password";
                         } else {
                           this.errormessageVisibility = true;
                           this.successmessageVisibility = false;
                           this.loading = false;
                           this.metatitle = "Failed Verifying";
-                          this.$ga.event({eventCategory: "User Verification",eventAction: "Failed - "+" - "+this.siteName,eventLabel: "OTP Register"})
                           this.resultmessage = response.data.message;
                       }
                     });
@@ -188,7 +186,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 }
             },
             gotoPage(url, cmd) {
-              this.$ga.event({eventCategory: "Page Navigation",eventAction: url+" - "+this.siteName,eventLabel: "OTP Register"})
               if(cmd){
                 this.$router.push({ path: '/'+ this.currgd.id + ':' + cmd + url })
               } else {
@@ -230,11 +227,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
-          this.$ga.page({
-            page: this.$route.path,
-            title: "OTP Register"+" - "+this.siteName,
-            location: window.location.href
-          });
         },
         watch: {
           otp: "validateData",

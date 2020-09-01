@@ -92,7 +92,6 @@ export default {
                           if(response.data.auth && response.data.registered && response.data.deleted){
                             this.metatitle = "Deletion Success";
                             this.resultmessage = response.data.message
-                            this.$ga.event({eventCategory: "Delete Personal",eventAction: "Success"+" - "+this.siteName,eventLabel: "Delete Me"})
                             removeItem('userdata');
                             removeItem('tokendata');
                             setTimeout(() => {
@@ -104,7 +103,6 @@ export default {
                             this.metatitle = "Deletion Failed";
                             this.errorMessage = true;
                             this.loading = false;
-                            this.$ga.event({eventCategory: "Delete Personal",eventAction: "Fail"+" - "+this.siteName,eventLabel: "Delete Me"})
                             this.resultmessage = response.data.message
                           }
                         }
@@ -141,11 +139,9 @@ export default {
           var userData = initializeUser();
           if(userData.isThere){
             if(userData.type == "hybrid"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Hybrid - "+this.siteName,eventLabel: "Delete Personal",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             } else if(userData.type == "normal"){
-              this.$ga.event({eventCategory: "User Initialized",eventAction: "Normal - "+this.siteName,eventLabel: "Delete Personal",nonInteraction: true})
               this.user = userData.data.user;
               this.loading = userData.data.loading;
             }
@@ -157,11 +153,6 @@ export default {
           let gddata = getgds(this.$route.params.id);
           this.gds = gddata.gds;
           this.currgd = gddata.current;
-          this.$ga.page({
-            page: this.$route.path,
-            title: "Delete Me"+" - "+this.siteName,
-            location: window.location.href
-          });
         },
         watch: {
           password: function() {
