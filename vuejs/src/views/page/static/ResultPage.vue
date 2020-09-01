@@ -72,7 +72,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           } else if(this.$route.params.data && this.$route.params.redirectUrl){
               this.data = this.$route.params.data;
               this.success = this.$route.params.success;
-              this.$ga.event({eventCategory: "Page Routing",eventAction: "To - "+this.$route.params.redirectUrl+" - "+this.siteName,eventLabel: "Temp"})
               if(this.$route.params.tocmd){
                 setTimeout(() => {
                     this.$router.replace({ path: '/'+ this.currgd.id+ ':' + this.$route.params.tocmd+ this.$route.params.redirectUrl })
@@ -85,7 +84,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           } else {
             this.success = false;
             this.data = "Nothing Here!...You will be Redirected"
-            this.$ga.event({eventCategory: "Page Routing",eventAction: "To - Home"+" - "+this.siteName,eventLabel: "Temp"})
             setTimeout(() => {
               this.$router.replace({ path: '/'+this.currgd.id+':home/' })
             }, 1000)

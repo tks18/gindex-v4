@@ -155,7 +155,7 @@ router.beforeEach( (to, from, next) => {
   }
 });
 
-router.afterEach((to) => {
+router.afterEach(() => {
   NProgress.done();
 });
 

@@ -269,6 +269,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.loading = false
               }
             })
+            this.$bus.$emit("load", "Load Finish");
           },
           verifyEmail(e) {
             this.loading = true;
