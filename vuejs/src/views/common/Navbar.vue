@@ -56,7 +56,7 @@
           </a>
           <a
             class="navbar-item"
-            v-show="logged && quicklinks.length > 0"
+            v-show="logged"
             v-for="(link, index) in quicklinks.slice(0,3)"
             v-tooltip.bottom-start="link.title"
             v-bind:key="index"
@@ -209,6 +209,9 @@ export default {
     this.$bus.$on('logged', () => {
       this.loginorout();
       this.changeNavbarStyle()
+    })
+    this.$bus.$on('load', () => {
+      this.getallPosts(this.$route.params.id)
     })
     this.$bus.$on('logout', () => {
       this.loginorout();
@@ -418,7 +421,7 @@ export default {
         this.navbarStyle = "black";
         this.backgroundClass = "none";
       }
-    }
+    },
   },
 };
 </script>

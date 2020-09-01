@@ -285,8 +285,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.errormessageVisibility = false;
                   this.successmessageVisibility = true;
                   this.resultmessage = `Logged in Successfully as Guest User.You will Log Out after this Browser Session.`;
-                  this.$bus.$emit('logged', 'User Logged');
                   setTimeout(() => {
+                    this.$bus.$emit('logged', 'User Logged');
                     this.$router.push({name: "results", params: { id: this.currgd.id, cmd: "result", success: true, tocmd: 'home', data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/' }})
                   }, 500)
                 } else {
