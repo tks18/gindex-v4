@@ -659,7 +659,7 @@ export default {
         {
           name: "Cast2Tv",
           icon: "https://assets.materialup.com/uploads/b8e5d402-cd36-4774-bf10-0985e993a33e/preview",
-          scheme: "intent:"+this.externalUrl.replace(/(http:|https:)/,"")+"#Intent;scheme=https;scheme=http;package=com.instantbits.cast.webvideo;action=android.intent.action.VIEW;category=android.intent.category.DEFAULT;category=android.intent.category.BROWSABLE;type=video/*;data="+this.externalUrl+"S.title="+this.videoname+";end",
+          scheme: "intent:"+this.externalUrl+"#Intent;scheme=https;scheme=http;package=com.instantbits.cast.webvideo;action=android.intent.action.VIEW;category=android.intent.category.DEFAULT;category=android.intent.category.BROWSABLE;type=video/*;data="+this.externalUrl+"S.title="+this.videoname+";end",
         },
         {
           name: "Thunder",
