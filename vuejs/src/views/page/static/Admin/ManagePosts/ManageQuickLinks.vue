@@ -196,7 +196,7 @@ export default {
     getPosts(){
       this.loading = true;
       if(Number.isInteger(this.drive)){
-        this.$http.post(apiRoutes.getquickLinks, {
+        this.$backend.post(apiRoutes.getquickLinks, {
           email: this.user.email,
           root: this.drive
         }, backendHeaders(this.token.token)).then(response => {
@@ -228,7 +228,7 @@ export default {
     },
     editPosts(postId, post){
       this.loading = true;
-      this.$http.post(apiRoutes.setquickLinks, {
+      this.$backend.post(apiRoutes.setquickLinks, {
         email: this.user.email,
         root: this.drive,
         postId: postId,
@@ -254,7 +254,7 @@ export default {
       this.loading = true;
       if(Number.isInteger(this.drive)){
         post.root = this.drive;
-        this.$http.post(apiRoutes.setquickLinks, {
+        this.$backend.post(apiRoutes.setquickLinks, {
           email: this.user.email,
           root: this.drive,
           post: post
@@ -283,7 +283,7 @@ export default {
     },
     deletePost(postId){
       this.loading = true;
-      this.$http.post(apiRoutes.deletequickLinks, {
+      this.$backend.post(apiRoutes.deletequickLinks, {
         root: this.drive,
         email: this.user.email,
         postId: postId

@@ -307,7 +307,7 @@ export default {
                 e.preventDefault()
                 if (this.name.length > 0 && this.email.length > 0 && this.role.length > 0)
                 {
-                  this.$http.post(this.apiurl, {
+                  this.$backend.post(this.apiurl, {
                         name: this.name,
                         email: this.email,
                         adminuseremail: this.user.email,
@@ -350,7 +350,7 @@ export default {
               this.metatitle = "Getting Pending List";
               this.modal = true;
               this.loading = true;
-              this.$http.post(route, {
+              this.$backend.post(route, {
                     adminuseremail: this.user.email,
               }, backendHeaders(this.token.token)).then(response => {
                 if(response){
@@ -397,7 +397,7 @@ export default {
             async handleSpam(post, user) {
               this.loading = true;
               this.metatitle = "Adding Spammers...";
-              await this.$http.post(apiRoutes.quickaddSpam, {
+              await this.$backend.post(apiRoutes.quickaddSpam, {
                 email: user.email,
                 adminuseremail: this.user.email
               }, backendHeaders(this.token.token)).then(response => {
@@ -427,7 +427,7 @@ export default {
                 reloadRoute = this.pendingsuperadmin;
                 route = apiRoutes.deletePendingSuperAdmins;
               }
-              this.$http.post(route, {
+              this.$backend.post(route, {
                 email: user.email,
                 adminuseremail: this.user.email
               }, backendHeaders(this.token.token)).then(response => {

@@ -172,7 +172,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 if(this.checked){
                   if(this.codechecked){
                     let url = apiRoutes.requestRoute
-                    this.$http.post(url, {
+                    this.$backend.post(url, {
                           name: this.name,
                           email: this.email,
                           drives: this.drive,
@@ -244,7 +244,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         beforeMount(){
           this.loading = true;
-          this.$http.post(apiRoutes.getSiteSettings).then(response => {
+          this.$backend.post(apiRoutes.getSiteSettings).then(response => {
             if(response.data.auth && response.data.registered){
               if(response.data.data.requests){
                 this.loading = false;

@@ -83,7 +83,7 @@ export default {
                 if (this.password && this.password.length > 0)
                 {
                     let url = apiRoutes.deleteMe
-                    this.$http.post(url, {
+                    this.$backend.post(url, {
                           email: this.user.email,
                           pass: this.password,
                     }, backendHeaders(this.token.token))

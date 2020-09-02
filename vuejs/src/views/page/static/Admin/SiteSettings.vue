@@ -119,7 +119,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
       getSiteSettings(){
         this.loading = true;
-        this.$http.post(apiRoutes.getSiteSettings).then(response => {
+        this.$backend.post(apiRoutes.getSiteSettings).then(response => {
           if(response.data.auth && response.data.registered){
             this.request = response.data.data.requests;
             this.adminreqs = response.data.data.adminRequests;
@@ -144,7 +144,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
       },
       handleSavePrefs(){
         this.loading = true;
-        this.$http.post(apiRoutes.setSiteSettings, {
+        this.$backend.post(apiRoutes.setSiteSettings, {
           email: this.user.email,
           requests: this.request,
           adminrequests: this.adminreqs

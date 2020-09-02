@@ -173,7 +173,7 @@ export default {
       this.metatitle = "Getting Users...";
       this.loading = true;
       if(this.getUserApi.length > 0){
-        this.$http.post(this.getUserApi, {
+        this.$backend.post(this.getUserApi, {
           email: this.user.email
         }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
@@ -196,7 +196,7 @@ export default {
       this.metatitle = "Getting Spammers...";
       this.loading = true;
       if(this.getUserApi.length > 0){
-        this.$http.post(this.getSpamApi, {
+        this.$backend.post(this.getSpamApi, {
           adminuseremail: this.user.email
         }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
@@ -219,7 +219,7 @@ export default {
       this.metatitle = "Adding Spammers...";
       this.loading = true;
       if(this.addUserEmail.length > 0 && this.addpassword.length > 0){
-        this.$http.post(this.postAddSpam, {
+        this.$backend.post(this.postAddSpam, {
           email: this.addUserEmail,
           message: this.addmessage,
           adminuseremail: this.user.email,
@@ -245,7 +245,7 @@ export default {
       this.metatitle = "Removing Spammers...";
       this.loading = true;
       if(this.removeUserEmail.length > 0 && this.removepassword.length > 0){
-        this.$http.post(this.postSpamApi, {
+        this.$backend.post(this.postSpamApi, {
           email: this.removeUserEmail,
           adminuseremail: this.user.email,
           password: this.removepassword

@@ -5,6 +5,7 @@ import "element-ui/lib/theme-chalk/icon.css";
 import "element-ui/lib/theme-chalk/notification.css";
 import "element-ui/lib/theme-chalk/loading.css";
 import axios from "@/plugin/axios";
+import rawAxios from "axios";
 import VueAxios from "vue-axios";
 import router from "./router";
 import Clipboard from "@/plugin/clipboard";
@@ -24,6 +25,7 @@ import "@/assets/style/theme/register.scss";
 
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
+Vue.prototype.$backend = rawAxios;
 Vue.prototype.$bus = EventBus;
 Vue.prototype.$audio = {
   createPlayer: createPlayer,

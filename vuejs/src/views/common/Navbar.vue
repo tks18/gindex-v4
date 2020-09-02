@@ -210,9 +210,6 @@ export default {
       this.loginorout();
       this.changeNavbarStyle()
     })
-    this.$bus.$on('load', () => {
-      this.getallPosts(this.$route.params.id)
-    })
     this.$bus.$on('logout', () => {
       this.loginorout();
       this.changeNavbarStyle()
@@ -275,6 +272,7 @@ export default {
       if (this.gds && this.gds.length >= index) {
         this.currgd = this.gds[index];
         this.gdindex = this.gds[index].index;
+        this.getallPosts(this.$route.params.id);
       }
     },
     changeItem(item) {
@@ -301,7 +299,7 @@ export default {
     },
     getallPosts(id){
       this.loading = true;
-      this.$http.post(apiRoutes.getallPosters, {
+      this.$backend.post(apiRoutes.getallPosters, {
         email: this.user.email,
         root: id
       }, backendHeaders(this.token.token)).then(response => {
@@ -335,6 +333,7 @@ export default {
         this.logged = userData.data.logged;
         this.loading = userData.data.loading;
       }
+      this.getallPosts(this.$route.params.id);
     },
     homeroute() {
       this.$router.push({ path: '/'+ this.gdindex + ':' + 'home/' })
@@ -409,7 +408,6 @@ export default {
   mounted() {
     this.netflix_black = window.themeOptions.prefer_netflix_black
     this.changeNavbarStyle();
-    this.getallPosts(this.gdindex);
   },
   watch: {
     "$route.params.id": "chooseGD",

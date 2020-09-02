@@ -43,7 +43,7 @@ export default {
     },
     checkVersion() {
       let appVersion = window.version;
-      this.$http.get("https://api.github.com/repos/tks18/gindex-v4/releases/latest").then(response => {
+      this.$backend.get("https://api.github.com/repos/tks18/gindex-v4/releases/latest").then(response => {
         if(response.data.name){
           let latestVersion = response.data.name;
           if(appVersion != latestVersion){

@@ -53,6 +53,9 @@
         </div>
       </div>
     </div>
+    <feb-alive>
+        <router-view ></router-view>
+    </feb-alive>
   </div>
 </template>
 <script>

@@ -98,7 +98,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.newpassword && this.newpassword.length > 0) {
-                    this.$http.post(apiRoutes.changePasswordRoute, {
+                    this.$backend.post(apiRoutes.changePasswordRoute, {
                         email: this.user.email,
                         oldpassword: this.oldpassword,
                         newpassword: this.newpassword,

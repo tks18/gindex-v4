@@ -148,7 +148,7 @@ export default {
           this.loading = true;
             e.preventDefault()
             if(this.checked && this.codechecked && this.name.length > 0 && this.email.length > 0 && this.message.length > 0){
-              this.$http.post(this.apiurl, {
+              this.$backend.post(this.apiurl, {
                     name: this.name,
                     email: this.email,
                     message: this.message,
