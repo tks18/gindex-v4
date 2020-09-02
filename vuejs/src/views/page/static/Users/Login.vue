@@ -242,6 +242,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             this.successmessageVisibility = true;
                             this.resultmessage = `Logged in Successfully as ${userData.name}. Your token will expire at ${ this.$moment(tokenData.expirydate).format("dddd, MMMM Do YYYY [at] hh:mm A")}.`;
                             this.$bus.$emit('logged', 'User Logged')
+                            this.$notify({
+                              title: "Success",
+                              message: "Successfully Logged in",
+                              type: "success",
+                            })
                             setTimeout(() => {
                               if(this.$route.params.nextUrl != null){
                                 this.$router.push({name: "results", params: { id: this.currgd.id, cmd: "result", success: true, data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: this.$route.params.nextUrl }});
@@ -252,6 +257,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                             }, 500)
                           }
                       } else {
+                        this.$notify({
+                          title: "Failed",
+                          message: "Authentication Failed",
+                          type: "error",
+                        })
                         this.metatitle = "Failed...";
                         this.errormessageVisibility = true;
                         this.successmessageVisibility = false;
@@ -286,6 +296,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.successmessageVisibility = true;
                   this.resultmessage = `Logged in Successfully as Guest User.You will Log Out after this Browser Session.`;
                   this.$bus.$emit('logged', 'User Logged');
+                  this.$notify({
+                    title: "Success",
+                    message: "Successfully Logged in",
+                    type: "success",
+                  })
                   setTimeout(() => {
                     this.$router.push({name: "results", params: { id: this.currgd.id, cmd: "result", success: true, tocmd: 'home', data: "Log in Successfull. You Will be Redirected Through a Secure Channel.", redirectUrl: '/' }})
                   }, 500)
@@ -297,6 +312,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                   this.resultmessage = `Hybrid Password is Wrong`;
                 }
               } else {
+                this.$notify({
+                  title: "Failed",
+                  message: "Authentication Failed",
+                  type: "error",
+                })
                 this.metatitle = "Failed...";
                 this.loading = false;
                 this.errormessageVisibility = true;
@@ -341,10 +361,20 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                     this.loading = false;
                     this.forgotSuccessMessage = true;
                     this.forgotErrorMessage = false;
+                    this.$notify({
+                      title: "Success",
+                      message: "Password Reset Success",
+                      type: "success",
+                    })
                     this.metatitle = "Password Reset Success";
                     this.forgotMessage = response.data.message
                   } else {
                     this.loading = false;
+                    this.$notify({
+                      title: "Failed",
+                      message: "Password Reset Failed",
+                      type: "error",
+                    })
                     this.forgotSuccessMessage = false;
                     this.forgotErrorMessage = true;
                     this.metatitle = "Password Reset Failed";
