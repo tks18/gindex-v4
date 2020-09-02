@@ -156,7 +156,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
                 e.preventDefault();
                 if (this.confirmpassword === this.password && this.password.length > 0) {
-                    this.$http.post(apiRoutes.otpRegister, {
+                    this.$backend.post(apiRoutes.otpRegister, {
                         email: this.email,
                         otp: this.otp,
                         newpassword: this.password,

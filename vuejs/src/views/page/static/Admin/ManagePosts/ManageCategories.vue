@@ -213,7 +213,7 @@ export default {
     getPosts(){
       this.loading = true;
       if(Number.isInteger(this.drive)){
-        this.$http.post(apiRoutes.getCatPosters, {
+        this.$backend.post(apiRoutes.getCatPosters, {
           email: this.user.email,
           root: this.drive
         }, backendHeaders(this.token.token)).then(response => {
@@ -245,7 +245,7 @@ export default {
     },
     editPosts(postId, post){
       this.loading = true;
-      this.$http.post(apiRoutes.setCatPosters, {
+      this.$backend.post(apiRoutes.setCatPosters, {
         email: this.user.email,
         root: this.drive,
         postId: postId,
@@ -271,7 +271,7 @@ export default {
       this.loading = true;
       if(Number.isInteger(this.drive)){
         post.root = this.drive;
-        this.$http.post(apiRoutes.setCatPosters, {
+        this.$backend.post(apiRoutes.setCatPosters, {
           email: this.user.email,
           root: this.drive,
           post: post
@@ -300,7 +300,7 @@ export default {
     },
     deletePost(postId){
       this.loading = true;
-      this.$http.post(apiRoutes.deleteCatPosters, {
+      this.$backend.post(apiRoutes.deleteCatPosters, {
         root: this.drive,
         email: this.user.email,
         postId: postId

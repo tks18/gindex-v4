@@ -246,7 +246,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           getallPosts(id){
             this.load = true;
             this.loading = true;
-            this.$http.post(apiRoutes.getallPosters, {
+            this.$backend.post(apiRoutes.getallPosters, {
               email: this.user.email,
               root: id
             }, backendHeaders(this.token.token)).then(response => {
@@ -269,13 +269,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                 this.loading = false
               }
             })
-            this.$bus.$emit("load", "Load Finish");
           },
           verifyEmail(e) {
             this.loading = true;
             e.preventDefault();
             if(this.email.length > 0){
-              this.$http.post(apiRoutes.checkEmail, {
+              this.$backend.post(apiRoutes.checkEmail, {
                   email: this.email,
               }).then(response => {
                 if(response.data.auth && response.data.user && response.data.status == "User Present & Verified"){

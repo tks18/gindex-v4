@@ -182,7 +182,7 @@ export default {
       } else {
         this.logged = userData.data.logged;
       }
-      await this.$http.post(apiRoutes.mediaTokenTransmitter, {
+      await this.$backend.post(apiRoutes.mediaTokenTransmitter, {
         email: userData.data.user.email,
         token: userData.data.token.token,
       }, backendHeaders(this.token.token)).then(response => {

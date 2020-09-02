@@ -239,7 +239,7 @@ export default {
       this.metatitle = "Refreshing...";
       this.loading = true;
       if(this.apiurl.length > 0){
-        this.$http.post(this.apiurl, {
+        this.$backend.post(this.apiurl, {
             email: this.user.email,
         }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
@@ -272,7 +272,7 @@ export default {
           route = this.deleteAdmin;
         }
       }
-      this.$http.post(route, {
+      this.$backend.post(route, {
             email: user.email,
             adminpass: this.deletePassword,
             adminuseremail: this.user.email,
@@ -309,7 +309,7 @@ export default {
         route = this.inviteSuperAdmin;
       }
       if(user.role == "Admin" || user.role == "User" && this.inviteMessage.length >0){
-        this.$http.post(route, {
+        this.$backend.post(route, {
               email: user.email,
               message: this.inviteMessage,
               adminuseremail: this.user.email,
@@ -346,7 +346,7 @@ export default {
       }
       if(user.role == "User" || user.role == "Admin"){
         this.loading = true;
-        this.$http.post(route, {
+        this.$backend.post(route, {
               adminuseremail: this.user.email,
         }, backendHeaders(this.token.token)).then(response => {
           if(response){

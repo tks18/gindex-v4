@@ -242,7 +242,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
               this.loading = true;
                 e.preventDefault()
                 if(this.checked && this.codechecked){
-                  this.$http.post(this.apiurl, {
+                  this.$backend.post(this.apiurl, {
                         name: this.user.name,
                         email: this.user.email,
                         message: this.message,
@@ -300,7 +300,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         },
         beforeMount() {
           this.loading = true;
-          this.$http.post(apiRoutes.getSiteSettings).then(response => {
+          this.$backend.post(apiRoutes.getSiteSettings).then(response => {
             if(response.data.auth && response.data.registered){
               if(response.data.data.adminRequests){
                 this.loading = false;

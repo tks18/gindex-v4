@@ -295,7 +295,7 @@ export default {
       } else {
         this.logged = userData.data.logged;
       }
-      await this.$http.post(apiRoutes.mediaTokenTransmitter, {
+      await this.$backend.post(apiRoutes.mediaTokenTransmitter, {
         email: userData.data.user.email,
         token: userData.data.token.token,
       }, backendHeaders(userData.data.token.token)).then(response => {
@@ -451,7 +451,7 @@ export default {
     },
     async getSrtFile(url) {
       try {
-        const srt = await this.$http.get(url);
+        const srt = await this.$backend.get(url);
         const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' })
         var srtBlob = URL.createObjectURL(blob);
         return {
@@ -659,7 +659,7 @@ export default {
         {
           name: "Cast2Tv",
           icon: "https://assets.materialup.com/uploads/b8e5d402-cd36-4774-bf10-0985e993a33e/preview",
-          scheme: "intent:"+this.externalUrl+"#Intent;action=android.intent.action.ACTION_VIEW;package=com.instantbits.cast.webvideo;type=video/*;S.android.intent.extra.title="+this.videoname+";end",
+          scheme: "intent:"+this.externalUrl.replace(/(http:|https:)/,"")+"#Intent;scheme=https;scheme=http;package=com.instantbits.cast.webvideo;action=android.intent.action.VIEW;category=android.intent.category.DEFAULT;category=android.intent.category.BROWSABLE;type=video/*;data="+this.externalUrl+"S.title="+this.videoname+";end",
         },
         {
           name: "Thunder",
