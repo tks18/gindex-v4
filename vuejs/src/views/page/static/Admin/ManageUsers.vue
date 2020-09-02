@@ -69,27 +69,27 @@
                     </div>
                   </article>
                 </div>
-                <div v-show="!inviteInput && !deleteInput" :class="admin && superadmin ? currentUser.admin && currentUser.superadmin && !currentUser.pending ? 'column has-text-centered is-half' : 'column has-text-right is-quarter' : 'column has-text-centered is-half' ">
-                  <button class="button is-rounded is-danger" @click="deleteInput = true;">
+                <div v-show="!inviteInput" :class="admin && superadmin ? currentUser.admin && currentUser.superadmin && !currentUser.pending ? 'column has-text-centered is-half' : 'column has-text-right is-quarter' : 'column has-text-centered is-half' ">
+                  <button class="button is-rounded is-danger" @click="handleUpgradeDelete(currentUser, 'delete')">
                     Delete
                   </button>
                 </div>
-                <div v-show="!inviteInput && !deleteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
+                <div v-show="!inviteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
                   <button class="button is-rounded is-primary" @click="inviteInput = true;">
                     Invite as Admin
                   </button>
                 </div>
-                <div v-show="!inviteInput && !deleteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
+                <div v-show="!inviteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
                   <button class="button is-rounded is-primary" @click="inviteInput = true;">
                     Invite as Superadmin
                   </button>
                 </div>
-                <div v-show="!inviteInput && !deleteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
+                <div v-show="!inviteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
                   <button class="button is-rounded is-primary" @click="gotoPage('/', 'register')">
                     Grant Admin
                   </button>
                 </div>
-                <div v-show="!inviteInput && !deleteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
+                <div v-show="!inviteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
                   <button class="button is-rounded is-primary" @click="gotoPage('/', 'register')">
                     Grant Superadmin
                   </button>
@@ -109,30 +109,6 @@
                       </button>
                     </div>
                     <div class="column has-text-left is-half" @click="inviteInput = false;errorMessage = false;">
-                      <button class="button is-rounded is-success" >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="deleteInput" class="column is-full">
-                  <div class="columns is-mobile is-multiline is-centered">
-                    <div class="column is-full">
-                      <div class="field">
-                        <p class="control has-icons-left">
-                          <input class="input is-rounded is-danger" @keyup.enter="handleUpgradeDelete(currentUser, 'delete')" id="deletePassword" type="password" placeholder="Enter Your Admin Password" v-model="deletePassword">
-                          <span class="icon is-small is-left">
-                            <i class="fas fa-lock"></i>
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="column has-text-right is-half">
-                      <button class="button is-rounded is-danger"  @click="handleUpgradeDelete(currentUser, 'delete')">
-                        Delete
-                      </button>
-                    </div>
-                    <div class="column has-text-left is-half" @click="deleteInput = false;errorMessage = false;">
                       <button class="button is-rounded is-success" >
                         Cancel
                       </button>
@@ -211,7 +187,6 @@ export default {
       users: [],
       gds: [],
       currgd: {},
-      deletePassword: "",
       errorMessage: false,
       successMessage: false,
       inviteAdmin: apiRoutes.inviteAdmin,
@@ -219,7 +194,6 @@ export default {
       deleteUser: apiRoutes.deleteUser,
       deleteAdmin: apiRoutes.deleteAdmin,
       inviteInput: false,
-      deleteInput: false,
       inviteApi: "",
       inviteMessage: "",
       resultmessage: "",
@@ -274,7 +248,6 @@ export default {
       }
       this.$backend.post(route, {
             email: user.email,
-            adminpass: this.deletePassword,
             adminuseremail: this.user.email,
       }, backendHeaders(this.token.token)).then(response => {
         if(action == "delete"){
@@ -285,8 +258,6 @@ export default {
             this.errorMessage = false;
             this.successMessage = false;
             this.inviteInput = false;
-            this.deleteInput = false;
-            this.deletePassword = "";
             this.loading = false;
             this.handleRefresh();
           } else {
@@ -387,8 +358,6 @@ export default {
       this.errorMessage = false;
       this.successMessage = false;
       this.inviteInput = false;
-      this.deleteInput = false;
-      this.deletePassword = "";
     }
   },
   beforeMount() {

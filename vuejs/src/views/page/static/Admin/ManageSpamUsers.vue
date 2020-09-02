@@ -58,14 +58,6 @@
               <textarea class="textarea is-success is-rounded" placeholder="Reason for Adding Him" id="message" rows="3" v-model="addmessage" required></textarea>
             </div>
           </div>
-          <div class="field">
-            <p class="control has-icons-left">
-              <input class="input is-rounded" id="addpassword" type="password" placeholder="Password" v-model="addpassword" required>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
-            </p>
-          </div>
           <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'">
             <span class="icon is-medium">
               <i class="fas fa-user-minus"></i>
@@ -95,14 +87,6 @@
                 </select>
               </div>
             </div>
-          </div>
-          <div class="field">
-            <p class="control has-icons-left">
-              <input class="input is-rounded" id="removepassword" type="password" placeholder="Password" v-model="removepassword" required>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
-            </p>
           </div>
           <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'">
             <span class="icon is-medium">
@@ -147,11 +131,9 @@ export default {
       roledisabled: true,
       loading: false,
       addrole: "",
-      addpassword: "",
       addmessage: "",
       removerole: "",
       removeUserEmail: "",
-      removepassword: "",
       users: [],
       spamUsers: [],
       getUserApi: "",
@@ -218,12 +200,11 @@ export default {
     handleAddSpam() {
       this.metatitle = "Adding Spammers...";
       this.loading = true;
-      if(this.addUserEmail.length > 0 && this.addpassword.length > 0){
+      if(this.addUserEmail.length > 0){
         this.$backend.post(this.postAddSpam, {
           email: this.addUserEmail,
           message: this.addmessage,
           adminuseremail: this.user.email,
-          adminpass: this.addpassword,
         }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered){
             this.successmessageVisibility = true;
@@ -244,11 +225,10 @@ export default {
     handleRemoveSpam() {
       this.metatitle = "Removing Spammers...";
       this.loading = true;
-      if(this.removeUserEmail.length > 0 && this.removepassword.length > 0){
+      if(this.removeUserEmail.length > 0){
         this.$backend.post(this.postSpamApi, {
           email: this.removeUserEmail,
           adminuseremail: this.user.email,
-          password: this.removepassword
         }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.deleted){
             this.successmessageVisibility = true;

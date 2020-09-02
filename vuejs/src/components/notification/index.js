@@ -6,7 +6,7 @@ Notification({
   title: title,
   message: message,
   type: type,
-  duration: duration,
+  duration: duration ? duration : 2500,
 });
 };
 
