@@ -8,7 +8,7 @@
         <img width="150" height="75" class="gloryimage" :src="footerLogoLink">
       </div>
       <div class="footpad footicons">
-        Github - <a class="icon-tag" href="https://github.com/tks18/gindex-v4">Shan.tk</a> | Support Me!
+        Github - <a class="icon-tag" href="https://github.com/IamArjun078/gindex-v4">IamArjun078</a> | Support Me!
       </div>
       <div v-if="copyright" class="footpad footer-copyright">
         Copyright&nbsp;<i class="fas fa-copyright"></i> {{ Date.now() | moment("YYYY") }} | &nbsp;{{ siteTitle }}
