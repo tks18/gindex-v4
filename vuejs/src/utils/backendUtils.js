@@ -56,6 +56,7 @@ export const apiRoutes = {
   deletetrendPosters: backendBaseUrl+'/posters/trending/delete',
   deleteheroPosters: backendBaseUrl+'/posters/hero/delete',
   deletequickLinks: backendBaseUrl+'/posters/quicklinks/delete',
+  getMediaData: backendBaseUrl+'/media/data',
 }
 
 export function backendHeaders(token){

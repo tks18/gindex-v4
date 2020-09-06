@@ -1,191 +1,431 @@
 <template>
-  <div :class="ismobile ? 'content nopad mt-2 mx-1 px-1 mt-2' : 'content nopad mt-2 mt-2 ml-5 mr-5'">
-    <div class="loading">
-      <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
-    </div>
-    <div class="columns is-multiline is-centered">
-      <div :class="ismobile ? 'column is-full mx-0 px-1' : 'column is-two-thirds'">
-        <div class="columns is-desktop is-multiline is-centered">
-          <div class="column is-full">
-            <div class="has-text-right is-small">
-              <span class="icon has-text-netflix-only is-medium">
-                <i :class="playicon"></i>
-              </span>
-              <span class="subtitle has-text-netflix-only">{{ playtext }}</span>
+  <transition name="slide-fade" mode="out-in">
+    <div v-bind:key="infoChange" :class="ismobile ? 'content nopad mt-2 mx-2 px-2 mt-2' : 'content nopad mt-2 mt-2 ml-5 mr-5'">
+      <div class="loading">
+        <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
+      </div>
+      <div v-show="!infoPanel" class="columns is-multiline is-centered">
+        <div :class="ismobile ? 'column is-full mx-0 px-1' : 'column is-two-thirds'">
+          <div class="columns is-desktop is-multiline is-centered">
+            <div class="column is-full">
+              <div class="columns is-multiline is-desktop is-vcentered">
+                <div class="column is-full mb-0 pb-0">
+                  <div class="has-text-right is-small">
+                    <span class="icon has-text-netflix-only is-medium">
+                      <i :class="playicon"></i>
+                    </span>
+                    <span class="subtitle has-text-netflix-only">{{ playtext }}</span>
+                  </div>
+                </div>
+                <div class="column is-full mt-0 pt-1">
+                  <vue-plyr ref="plyr" v-bind:key="videokey" class="my-2" :options="options">
+                    <video :poster="poster" :src="apiurl" class="video-content">
+                      <source :src="apiurl" type="video/mp4" size="Original Format">
+                      <track v-for="(sub, index) in suburl" kind="captions" :label="sub.label" :src="sub.url" :srclang="sub.label" v-bind:key="index">
+                    </video>
+                  </vue-plyr>
+                </div>
+                <div class="column is-full mx-3 px-3">
+                  <div class="columns is-desktop is-vcentered is-multiline is-mobile">
+                    <div :class="ismobile ? 'column is-full my-1 py-0' : 'column is-10 my-1 py-0'">
+                        <div class="columns is-mobile is-vcentered py-0 my-0">
+                          <div v-if="!ismobile" class="column is-3 mx-0 py-0 my-0">
+                            <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
+                              <div class="column mx-0 px-0 py-0 my-0 is-full">
+                                <figure class="image is-100x150">
+                                  <img :src="videoData.poster_path">
+                                </figure>
+                              </div>
+                            </div>
+                          </div>
+                          <div :class="ismobile ? 'column is-full' : 'column is-9'">
+                            <div class="columns is-desktop is-multiline is-vcentered py-1 my-1">
+                              <div class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Playing:
+                                      <span class="is-small has-text-white">
+                                        {{ videoData.title || videoData.original_title || videoData.name || videoData.original_name || decodeURIComponent(this.videoname.split('.').slice(0,-1).join('.')) }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div v-if="videoData.tagline" class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Tagline:
+                                      <span class="is-small has-text-white">
+                                        <span class="has-text-netflix-only">" </span>
+                                        <i>{{ videoData.tagline }}</i>
+                                        <span class="has-text-netflix-only"> "</span>
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div v-if="videoData.status" class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Status:
+                                      <span class="is-small has-text-white">
+                                        {{ videoData.status }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Initial/Release:
+                                      <span class="is-small has-text-white">
+                                        {{ videoData.release_date || videoData.first_air_date | moment("DD/MM/YY") }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div v-if="videoData.genres" class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Genre:
+                                      <span class="is-small has-text-white">
+                                        {{ videoData.genres[0].name }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div v-if="videoData.created_by" class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Created by:
+                                      <span class="is-small has-text-white">
+                                        {{ videoData.created_by[0].name }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div v-if="videoData.origin_country" class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Origin Country:
+                                      <span class="is-small has-text-white">
+                                        {{ videoData.origin_country[0] }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div v-if="videoData.homepage" class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Official Website:
+                                      <a :href="videoData.homepage" target="_blank">
+                                        <span class="is-small has-text-netflix-only">
+                                          Homepage
+                                        </span>
+                                      </a>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div :class="ismobile ? 'column is-full' : 'column is-2'">
+                      <div class="columns is-multiline is-mobile is-centered has-text-centered is-vcentered">
+                        <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                          <button class="button is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
+                            <span class="icon">
+                              <i class="fas fa-external-link-square-alt fontonly"></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                          <button class="button is-netflix-red" @click="copy" v-tooltip.bottom-start="'Copy Link'">
+                            <span class="icon">
+                              <i class="fa fa-copy fontonly"></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                          <button class="button is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
+                            <span class="icon">
+                              <i class="fas fa-download fontonly"></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                          <button class="button is-netflix-red" @click="subModal=true;" v-tooltip.bottom-start="'Load Custom Subtitles..'">
+                            <span class="icon">
+                              <i class="fas fa-closed-captioning fontonly"></i>
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <vue-plyr ref="plyr" v-bind:key="videokey" :options="options">
-              <video :poster="poster" :src="apiurl" class="video-content">
-                <source :src="apiurl" type="video/mp4" size="Original Format">
-                <track v-for="(sub, index) in suburl" kind="captions" :label="sub.label" :src="sub.url" :srclang="sub.label" v-bind:key="index">
-              </video>
-            </vue-plyr>
-            <div class="box has-background-black">
-              <div class="columns is-desktop is-vcentered is-multiline is-mobile">
-                <div :class="ismobile ? 'column is-full' : 'column is-8'">
-                    <p class="subtitle has-text-white has-text-weight-bold"> {{ decodeURIComponent(videoname.split('.').slice(0,-1).join('.')) }}</p>
-                </div>
-                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
-                  <button class="button is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
-                    <span class="icon">
-                      <i class="fas fa-external-link-square-alt fontonly"></i>
+            <div :class=" modal ? 'modal is-active' : 'modal' ">
+              <div class="modal-background"></div>
+              <div class="modal-card">
+                <header class="modal-card-head">
+                  <p class="modal-card-title has-text-centered">External Players</p>
+                  <button class="delete" @click="modal = false;" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                  <div class="columns is-centered is-mobile" v-for="(item, index) in players" v-bind:key="index">
+                    <div class="column is-3">
+                      <figure class="image is-48x48" style="margin: 0 auto;">
+                        <img class="icon" :src="item.icon" />
+                      </figure>
+                    </div>
+                    <div class="column is-5">
+                      <p class>{{ item.name }}</p>
+                    </div>
+                    <div class="column is-4">
+                      <a class="button is-danger is-rounded" @click="modal = false;" :href="item.scheme">
+                        <span class="icon is-small">
+                          <i class="fas fa-play"></i>
+                        </span>
+                        <span>Play</span>
+                      </a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+            <div :class="subModal ? 'modal is-active' : 'modal'">
+              <div class="modal-background"></div>
+              <div class="modal-card">
+                <header class="modal-card-head">
+                  <p class="modal-card-title">Load Subtitle File</p>
+                  <button class="delete" @click="subModal = false;" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                  <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
+                    <div class="message-body">
+                      <button class="delete" @click="successMessage = false" aria-label="delete"></button>
+                      {{ resultmessage }}
+                    </div>
+                  </article>
+                  <div class="field">
+                    <div class="control">
+                      <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <p class="control">
+                      <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " placeholder="Label for Subtitle File" id="sublabel" type="text" v-model="custsublabel" required>
+                    </p>
+                  </div>
+                  <div class="content">
+                    <li>Note: Only Give Valid Url's otherwise this page will get Hanged on Sent Back.</li>
+                    <li>If You Want to Give drive Path, Give in this Format: <b><i>folder/sub-folder1/sub-folder2</i></b> from Root Folder.</li>
+                  </div>
+                </section>
+                <footer class="modal-card-foot">
+                  <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl, custsublabel)">Save changes</button>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div :class="ismobile ? 'column is-centered is-vcentered is-one-third is-desktop golist' : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'" v-loading="loading">
+          <div class="column is-full">
+            <div class="columns is-mobile is-multiline is-centered is-vcentered">
+              <div :class="ismobile ? 'column is-full mx-0 my-0 py-1 px-0' : 'column is-two-thirds mx-0 px-0'">
+                <div class="field has-addons is-grouped">
+                  <div class="control is-expanded has-icons-right is-dark">
+                    <input class="input is-rounded searchbar-input"  type="search" v-tooltip.bottom-start="'Filter Videos'" v-model="searchBarTerm" placeholder="Continue Your Binge / Search Videos Here..">
+                    <span class="icon has-text-netflix-only is-small is-right" style="padding:0 5px;">
+                      <i class="fas fa-search"></i>
                     </span>
-                  </button>
+                  </div>
                 </div>
-                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
-                  <button class="button is-netflix-red" @click="copy" v-tooltip.bottom-start="'Copy Link'">
-                    <span class="icon">
-                      <i class="fa fa-copy fontonly"></i>
-                    </span>
-                  </button>
-                </div>
-                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
-                  <button class="button is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
-                    <span class="icon">
-                      <i class="fas fa-download fontonly"></i>
-                    </span>
-                  </button>
-                </div>
-                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
-                  <button class="button is-netflix-red" @click="subModal=true;" v-tooltip.bottom-start="'Load Custom Subtitles..'">
-                    <span class="icon">
-                      <i class="fas fa-closed-captioning fontonly"></i>
-                    </span>
-                  </button>
+              </div>
+              <div :class="ismobile ? 'column is-full mx-0 my-0 px-0 py-1' : 'column is-one-third mx-0 px-0'">
+                <h6 class="has-text-right has-text-grey">Found {{ files ? files.length : "0" }} Results</h6>
+              </div>
+            </div>
+          </div>
+          <div class="column is-full">
+            <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in files" v-bind:key="index" @click="action(file,'view')">
+              <div class="column is-2">
+                <svg class="iconfont" style="font-size: 20px">
+                  <use :xlink:href="getIcon(file.mimeType)" />
+                </svg>
+              </div>
+              <div class="column is-10">
+                <div class="columns is-desktop is-multiline">
+                  <div class="column is-full">
+                    <p class="is-small is-clipped has-text-white">{{ file.name }}</p>
+                  </div>
+                  <div class="column is-full">
+                    <div class="columns is-mobile is-multiline">
+                      <div :class="ismobile ? 'column has-text-left is-12' : 'column has-text-left is-8'">
+                        <p class="is-small is-clipped has-text-grey">
+                          {{ file.modifiedTime }}
+                        </p>
+                      </div>
+                      <div :class="ismobile ? 'column is-hidden has-text-right is-4' : 'column has-text-right is-4'">
+                        <p class="is-small is-clipped has-text-grey">
+                          {{ file.size }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div :class=" modal ? 'modal is-active' : 'modal' ">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title has-text-centered">External Players</p>
-                <button class="delete" @click="modal = false;" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="columns is-centered is-mobile" v-for="(item, index) in players" v-bind:key="index">
-                  <div class="column is-3">
-                    <figure class="image is-48x48" style="margin: 0 auto;">
-                      <img class="icon" :src="item.icon" />
-                    </figure>
-                  </div>
-                  <div class="column is-5">
-                    <p class>{{ item.name }}</p>
-                  </div>
-                  <div class="column is-4">
-                    <a class="button is-danger is-rounded" @click="modal = false;" :href="item.scheme">
-                      <span class="icon is-small">
-                        <i class="fas fa-play"></i>
-                      </span>
-                      <span>Play</span>
-                    </a>
-                  </div>
-                </div>
-              </section>
-            </div>
+          <infinite-loading
+            v-show="!loading"
+            ref="infinite"
+            spinner="bubbles"
+            @infinite="infiniteHandler"
+          >
+            <div slot="no-more"></div>
+            <div slot="no-results"></div>
+          </infinite-loading>
+          <div
+            v-show="loading"
+            class="has-text-centered no-content"
+            :style="'background: url('+loadImage+') no-repeat 50% 50%;height: 240px;line-height: 240px;text-align: center;margin-top: 20px;'"
+            >
           </div>
-          <div :class="subModal ? 'modal is-active' : 'modal'">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Load Subtitle File</p>
-                <button class="delete" @click="subModal = false;" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
-                  <div class="message-body">
-                    <button class="delete" @click="successMessage = false" aria-label="delete"></button>
-                    {{ resultmessage }}
-                  </div>
-                </article>
-                <div class="field">
-                  <div class="control">
-                    <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
+        </div>
+      </div>
+      <div :class="videomodal ? 'modal is-active' : 'modal'">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <figure class="image is-16by9">
+            <iframe class="has-ratio" width="640" height="360" :src="modalVideo" frameborder="0"></iframe>
+          </figure>
+        </div>
+        <button class="modal-close is-large" @click="videomodal = false;modalVideo = '';" aria-label="close"></button>
+      </div>
+      <div v-show="infoPanel" class="columns is-multiline is-centered is-vcentered">
+        <div v-if="dataPresent" class="column is-full">
+          <div class="columns is-multiline is-vcentered">
+            <div class="column is-half">
+              <div class="columns is-multiline is-desktop is-centered is-vcentered">
+                <div class="column is-two-thirds">
+                  <figure class="image is-100x150">
+                    <img :src="videoData.poster_path">
+                  </figure>
+                </div>
+                <div v-if="ismobile" class="column has-text-centered is-full">
+                  <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
+                    <span class="icon">
+                      <i class="fas fa-play"></i>
+                    </span>
+                    <span>Play Now</span>
+                  </button>
+                  <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
+                    <span class="icon">
+                      <i class="fas fa-tv"></i>
+                    </span>
+                    <span>Watch Trailer</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="columns is-multiline is-desktop is-mobile is-vcentered">
+                <div class="column is-full mt-6 py-0 my-1">
+                  <h1 class="title has-text-white has-text-bold">
+                    {{ videoData.title || videoData.original_title || videoData.name || videoData.original_name || videoname }}
+                  </h1>
+                </div>
+                <div v-if="videoData.runtime || videoData.episode_run_time" class="column is-full my-0">
+                  <div class="columns is-mobile is-multiline is-desktop">
+                    <div class="column is-one-third">
+                      <p class="subtitle has-text-netflix-only has-text-weight-bold">
+                        <span class="icon has-text-success">
+                          <i class="fas fa-clock"></i>
+                        </span>
+                        {{ videoData.runtime || videoData.episode_run_time[0] }}{{ videoData.runtime ? " Minutes" : videoData.episode_run_time[0] ? " Avg. Minutes" : " " }}
+                      </p>
+                    </div>
+                    <div class="column is-one-third">
+                      <p class="subtitle has-text-netflix-only has-text-weight-bold">
+                        <span class="icon has-text-warning">
+                          <i class="fab fa-imdb"></i>
+                        </span>
+                        {{ videoData.vote_average }}<span class="has-text-grey">/</span>10
+                      </p>
+                    </div>
+                    <div class="column is-one-third">
+                      <p class="subtitle has-text-netflix-only has-text-weight-bold">
+                        <span class="icon has-text-primary">
+                          <i class="fas fa-poll"></i>
+                        </span>
+                        {{ videoData.vote_count }} Votes
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div class="field">
-                  <p class="control">
-                    <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " placeholder="Label for Subtitle File" id="sublabel" type="text" v-model="custsublabel" required>
+                <div class="column is-full my-0 py-0">
+                  <h6 class="subtitle has-text-grey has-text-bold">
+                    Overview
+                  </h6>
+                </div>
+                <div class="column is-full mt-1 mb-2 pt-0 px-3">
+                  <p class="subtitle has-text-light is-6">
+                    {{ videoData.overview }}
                   </p>
                 </div>
-                <div class="content">
-                  <li>Note: Only Give Valid Url's otherwise this page will get Hanged on Sent Back.</li>
-                  <li>If You Want to Give drive Path, Give in this Format: <b><i>folder/sub-folder1/sub-folder2</i></b> from Root Folder.</li>
-                </div>
-              </section>
-              <footer class="modal-card-foot">
-                <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl, custsublabel)">Save changes</button>
-              </footer>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div :class="ismobile ? 'column is-centered is-vcentered is-one-third is-desktop golist' : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'" v-loading="loading">
-        <div class="column is-full">
-          <div class="columns is-mobile is-multiline is-centered is-vcentered">
-            <div :class="ismobile ? 'column is-full mx-0 my-0 py-1 px-0' : 'column is-two-thirds mx-0 px-0'">
-              <div class="field has-addons is-grouped">
-                <div class="control is-expanded has-icons-right is-dark">
-                  <input class="input is-rounded searchbar-input"  type="search" v-tooltip.bottom-start="'Filter Videos'" v-model="searchBarTerm" placeholder="Continue Your Binge / Search Videos Here..">
-                  <span class="icon has-text-netflix-only is-small is-right" style="padding:0 5px;">
-                    <i class="fas fa-search"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div :class="ismobile ? 'column is-full mx-0 my-0 px-0 py-1' : 'column is-one-third mx-0 px-0'">
-              <h6 class="has-text-right has-text-grey">Found {{ files ? files.length : "0" }} Results</h6>
-            </div>
-          </div>
-        </div>
-        <div class="column is-full">
-          <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in files" v-bind:key="index" @click="action(file,'view')">
-            <div class="column is-2">
-              <svg class="iconfont" style="font-size: 20px">
-                <use :xlink:href="getIcon(file.mimeType)" />
-              </svg>
-            </div>
-            <div class="column is-10">
-              <div class="columns is-desktop is-multiline">
-                <div class="column is-full">
-                  <p class="is-small is-clipped has-text-white">{{ file.name }}</p>
-                </div>
-                <div class="column is-full">
-                  <div class="columns is-mobile is-multiline">
-                    <div :class="ismobile ? 'column has-text-left is-12' : 'column has-text-left is-8'">
-                      <p class="is-small is-clipped has-text-grey">
-                        {{ file.modifiedTime }}
-                      </p>
+                <div class="column is-full mt-2 pt-0 px-3">
+                  <div class="columns is-desktop is-mobile is-multiline is-vcentered">
+                    <div class="column is-full my-0 mb-0 py-0">
+                      <h6 class="subtitle has-text-grey has-text-bold">
+                        Genres
+                      </h6>
                     </div>
-                    <div :class="ismobile ? 'column is-hidden has-text-right is-4' : 'column has-text-right is-4'">
-                      <p class="is-small is-clipped has-text-grey">
-                        {{ file.size }}
-                      </p>
+                    <div class="column is-full my-0 py-1">
+                      <span v-for="(genre, index) in videoData.genres" v-bind:key="index" class="has-text-netflix-only">{{ index == videoData.genres.length -1 ? genre.name : genre.name+", " }}</span>
                     </div>
                   </div>
                 </div>
+                <div v-if="!ismobile" class="column is-full">
+                  <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
+                    <span class="icon">
+                      <i class="fas fa-play"></i>
+                    </span>
+                    <span>Play Now</span>
+                  </button>
+                  <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
+                    <span class="icon">
+                      <i class="fas fa-tv"></i>
+                    </span>
+                    <span>Watch Trailer</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <infinite-loading
-          v-show="!loading"
-          ref="infinite"
-          spinner="bubbles"
-          @infinite="infiniteHandler"
-        >
-          <div slot="no-more"></div>
-          <div slot="no-results"></div>
-        </infinite-loading>
-        <div
-          v-show="loading"
-          class="has-text-centered no-content"
-          :style="'background: url('+loadImage+') no-repeat 50% 50%;height: 240px;line-height: 240px;text-align: center;margin-top: 20px;'"
-          >
+        <div v-else class="column is-full">
+          <h5 class="subtitle has-text-white has-text-centered">Wait till the Data is getting Retrieved</h5>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -248,12 +488,18 @@ export default {
       subModal: false,
       subButLoad: false,
       subripurl: "",
+      videoData: {},
+      dataPresent: false,
+      infoPanel: true,
+      infoChange: 0,
       custsublabel: "",
       successMessage: false,
       resultmessage: "",
       playicon: "fas fa-spinner fa-pulse",
       playtext: "Loading Stuffs....",
       videoname: "",
+      videomodal: false,
+      modalVideo: "",
       loadImage: "",
       gds: [],
       currgd: {},
@@ -317,7 +563,6 @@ export default {
       await this.getVideourl();
       this.checkMobile();
       this.mainLoad = false;
-      this.player.play();
     },
     getFiles($state){
       this.metatitle = "Loading...";
@@ -449,6 +694,21 @@ export default {
          }
       });
     },
+    getVideoData(title){
+      this.$backend.post(apiRoutes.getMediaData, {
+        email: this.user.email,
+        title: title
+      }, backendHeaders(this.token.token)).then(response => {
+        console.log(response);
+        if(response.data.auth && response.data.registered && response.data.data){
+          this.dataPresent = true;
+          this.videoData = response.data.result;
+        } else {
+          this.dataPresent = false;
+          this.videoData = {};
+        }
+      })
+    },
     async getSrtFile(url) {
       try {
         const srt = await this.$backend.get(url);
@@ -513,23 +773,6 @@ export default {
         }
       }
     },
-    loadHls(options) {
-      import("@/plugin/video-plugins/hls").then((res) => {
-        var Hls = res.default;
-        Hls({
-          ...options,
-          callback: (hls) => {
-            // Handle changing captions
-            this.player.on("languagechange", () => {
-              setTimeout(
-                () => (hls.subtitleTrack = this.player.currentTrack),
-                50
-              );
-            });
-          },
-        });
-      });
-    },
     loadFlv(options) {
       import("@/plugin/video-plugins/flv").then((res) => {
         var Flv = res.default;
@@ -560,21 +803,24 @@ export default {
       this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
       this.externalUrl = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
       this.downloadUrl = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.getVideoData(decodeURIComponent(this.videoname.split('.').slice(0,-1).join('.')))
       let options = {
         src: this.apiurl,
         autoplay: true,
         media: this.player.media,
       };
-      if (suffix === "m3u8") {
-        this.loadHls(options);
-      } else if (suffix === "flv") {
+      if(suffix === "flv") {
         this.loadFlv(options);
       }
-      this.$notify({
-        title: "Video Loaded",
-        message: "Done",
-        type: "success",
-      })
+    },
+    tapPlay(){
+      this.infoChange++;
+      this.infoPanel = false;
+      this.player.play();
+    },
+    playOutside(link){
+      this.modalVideo = link.replace("/watch?v=", "/embed/");
+      this.videomodal = true;
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
