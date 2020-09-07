@@ -901,6 +901,21 @@ th {
   }
 }
 
+.scroll-block {
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  .scroll-link {
+    display: inline-block;
+  }
+  .scroll-text {
+    overflow-wrap: break-word;
+  }
+}
+
 .playbuttons, .playbuttons:visited,  {
   border: none;
   background: transparent;

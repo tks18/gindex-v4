@@ -52,6 +52,18 @@
                                   </div>
                                 </div>
                               </div>
+                              <div v-if="parsedData.season" class="column is-full py-0 my-0">
+                                <div class="columns is-mobile is-vcentered">
+                                  <div class="column is-full">
+                                    <p class="is-small has-text-grey">
+                                      Season/Epiode:
+                                      <span class="is-small has-text-white">
+                                        S{{ parsedData.season }} | E{{ parsedData.episode }}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
                               <div v-if="videoData.tagline" class="column is-full py-0 my-0">
                                 <div class="columns is-mobile is-vcentered">
                                   <div class="column is-full">
@@ -102,13 +114,13 @@
                                   </div>
                                 </div>
                               </div>
-                              <div v-if="videoData.created_by" class="column is-full py-0 my-0">
+                              <div v-if="videoData.created_by && videoData.created_by.length != 0" class="column is-full py-0 my-0">
                                 <div class="columns is-mobile is-vcentered">
                                   <div class="column is-full">
                                     <p class="is-small has-text-grey">
                                       Created by:
                                       <span class="is-small has-text-white">
-                                        {{ videoData.created_by[0].name }}
+                                        {{ videoData.created_by[0].name || "NA" }}
                                       </span>
                                     </p>
                                   </div>
@@ -179,70 +191,405 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div :class=" modal ? 'modal is-active' : 'modal' ">
-              <div class="modal-background"></div>
-              <div class="modal-card">
-                <header class="modal-card-head">
-                  <p class="modal-card-title has-text-centered">External Players</p>
-                  <button class="delete" @click="modal = false;" aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                  <div class="columns is-centered is-mobile" v-for="(item, index) in players" v-bind:key="index">
-                    <div class="column is-3">
-                      <figure class="image is-48x48" style="margin: 0 auto;">
-                        <img class="icon" :src="item.icon" />
-                      </figure>
-                    </div>
-                    <div class="column is-5">
-                      <p class>{{ item.name }}</p>
-                    </div>
-                    <div class="column is-4">
-                      <a class="button is-danger is-rounded" @click="modal = false;" :href="item.scheme">
-                        <span class="icon is-small">
-                          <i class="fas fa-play"></i>
-                        </span>
-                        <span>Play</span>
-                      </a>
+              <div v-if="videoData" class="column is-full mx-3 my-0 px-3">
+                <div class="columns is-multiline is-desktop is-vcentered py-0 my-0">
+                  <div v-if="videoData.seasons && videoData.seasons.length != 0" class="column is-full py-0 my-0">
+                    <div v-for="(season, index) in videoData.seasons" v-bind:key="index" class="columns is-vcentered is-mobile">
+                      <div v-if="season.season_number == parsedData.season" :class="ismobile ? 'column is-full' : 'column is-9'">
+                        <p class="is-small has-text-grey">
+                          About this Season:<span class="has-text-netflix-only"> Season {{ season.season_number }}</span><br>
+                          <span class="is-small has-text-white">
+                            {{ season.overview }}
+                          </span>
+                        </p>
+                      </div>
+                      <div v-if="!ismobile && season.season_number === parsedData.season && videoData.images.posters && videoData.images.posters.length != 0" class="column is-3">
+                        <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
+                          <div class="column mx-0 px-0 py-0 my-0 is-full">
+                            <figure class="image is-4by3">
+                              <img class="is-rounded" :src="videoData.images.posters[0].file_path">
+                            </figure>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </section>
-              </div>
-            </div>
-            <div :class="subModal ? 'modal is-active' : 'modal'">
-              <div class="modal-background"></div>
-              <div class="modal-card">
-                <header class="modal-card-head">
-                  <p class="modal-card-title">Load Subtitle File</p>
-                  <button class="delete" @click="subModal = false;" aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                  <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
-                    <div class="message-body">
-                      <button class="delete" @click="successMessage = false" aria-label="delete"></button>
-                      {{ resultmessage }}
-                    </div>
-                  </article>
-                  <div class="field">
-                    <div class="control">
-                      <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
-                    </div>
-                  </div>
-                  <div class="field">
-                    <p class="control">
-                      <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " placeholder="Label for Subtitle File" id="sublabel" type="text" v-model="custsublabel" required>
+                  <div v-if="!videoData.seasons && videoData.overview" class="column is-full py-1 my-1">
+                    <p class="is-small has-text-grey">
+                      About:<br>
+                      <span class="is-small has-text-white">
+                        {{ videoData.overview }}
+                      </span>
                     </p>
                   </div>
-                  <div class="content">
-                    <li>Note: Only Give Valid Url's otherwise this page will get Hanged on Sent Back.</li>
-                    <li>If You Want to Give drive Path, Give in this Format: <b><i>folder/sub-folder1/sub-folder2</i></b> from Root Folder.</li>
+                  <div class="column is-full mx-4 px-4 py-4 my-5">
+                    <div class="columns is-multiline is-mobile is-vcentered">
+                      <div :class="ismobile ? 'columns is-full' : 'column is-two-fifths'">
+                        <div class="columns is-multiline is-vcentered">
+                          <div class="column is-full py-0 my-0">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column has-text-centered is-full">
+                                <p class="subtitle has-text-weight-bold has-text-white">
+                                  General Details
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="column is-full py-0 my-0">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Original Title:
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.original_title || videoData.original_name || videoData.name }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.release_date" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Release Date:
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.release_date || videoData.first_air_date | moment("DD/MM/YY") }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.runtime || videoData.episode_run_time && videoData.episode_run_time.length != 0" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  {{ videoData.runtime ? "Total Runtime: " : "Average Episode Runtime: " }}
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.runtime || videoData.episode_run_time[0] }}{{ videoData.runtime ? " Minutes" : videoData.episode_run_time[0] ? " Avg. Minutes" : " " }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.genres && videoData.genres.length != 0" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Genres:
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span v-for="(genre, index) in videoData.genres" v-bind:key="index" class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ index == videoData.genres.length - 1 ? genre.name : genre.name+", " }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.seasons && videoData.seasons.length != 0" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Total Seasons:
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.seasons.length }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.popularity" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Popularity Score (TMDB):
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.popularity }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.vote_average" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Ratings(IMDB):
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.vote_average }} / 10
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.budget" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Total Budget:
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.budget }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.revenue" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Gross Revenue:
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ videoData.revenue }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="videoData.spoken_languages && videoData.spoken_languages.length != 0" class="column is-full py-0 my-1">
+                            <div class="columns is-mulitline is-mobile is-vcentered">
+                              <div class="column is-half">
+                                <p class="is-small has-text-white">
+                                  Released Languages:
+                                </p>
+                              </div>
+                              <div class="column is-half">
+                                <span v-for="(langs, index) in videoData.spoken_languages" v-bind:key="index" class="subtitle has-text-weight-bold has-text-netflix-only">
+                                  {{ index == videoData.spoken_languages.length - 1 ? langs.name : langs.name+", " }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-if="!ismobile && videoData.images && videoData.images.backdrops.length != 0" class="column is-three-fifths">
+                        <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
+                          <div class="column mx-0 px-0 py-0 my-0 is-full">
+                            <figure class="image">
+                              <img :src="videoData.images.backdrops[0].file_path">
+                            </figure>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </section>
-                <footer class="modal-card-foot">
-                  <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl, custsublabel)">Save changes</button>
-                </footer>
+                  <div v-if="videoData.credits && videoData.credits.cast.length != 0" class="column is-full mx-1">
+                    <div class="columns is-multiline is-desktop is-vcentered">
+                      <div class="column is-full">
+                        <p class="is-small has-text-grey">
+                        Cast:
+                        </p>
+                      </div>
+                      <div class="column is-full">
+                        <div class="columns is-mobile is-vcentered scroll-block">
+                          <div v-for="(people, index) in videoData.credits.cast" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                            <div class="columns is-desktop is-centered is-vcentered is-multiline">
+                              <div v-if="people.profile_path != null" class="column mx-1 px-1 is-full">
+                                <figure class="image">
+                                  <img :src="people.profile_path">
+                                </figure>
+                              </div>
+                              <div class="column has-text-centered is-full">
+                                <p class="is-small has-text-white scroll-text">
+                                  {{ people.name }}<br>
+                                  <span class="is-small has-text-grey scroll-text">
+                                    (as {{ people.character }})
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="videoData.credits && videoData.credits.crew.length != 0" class="column is-full mx-1">
+                    <div class="columns is-multiline is-desktop is-vcentered">
+                      <div class="column is-full">
+                        <p class="is-small has-text-grey">
+                        Crew:
+                        </p>
+                      </div>
+                      <div class="column is-full">
+                        <div class="columns is-mobile is-vcentered scroll-block">
+                          <div v-for="(people, index) in videoData.credits.crew" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                            <div class="columns is-desktop is-centered is-vcentered is-multiline">
+                              <div v-if="people.profile_path != null" class="column mx-1 px-1 is-full">
+                                <figure class="image">
+                                  <img :src="people.profile_path">
+                                </figure>
+                              </div>
+                              <div class="column has-text-centered is-full">
+                                <p class="is-small has-text-white scroll-text">
+                                  {{ people.name }}<br>
+                                  <span class="is-small has-text-grey scroll-text">
+                                    (as {{ people.job }})
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="videoData.production_companies && videoData.production_companies.length != 0" class="column is-full mx-1">
+                    <div class="columns is-multiline is-desktop is-vcentered">
+                      <div class="column is-full">
+                        <p class="is-small has-text-grey">
+                          Produced By:
+                        </p>
+                      </div>
+                      <div class="column is-full">
+                        <div class="columns is-mobile is-vcentered scroll-block">
+                          <div v-for="(company, index) in videoData.production_companies" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                            <div class="columns is-desktop is-centered is-vcentered is-multiline">
+                              <div v-if="company.logo_path != null" class="column is-full">
+                                <figure class="image">
+                                  <img :src="company.logo_path">
+                                </figure>
+                              </div>
+                              <div class="column has-text-centered is-full">
+                                <p class="is-small has-text-white scroll-text">
+                                  {{ company.name }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="videoData.networks && videoData.networks.length != 0" class="column is-full mx-1">
+                    <div class="columns is-multiline is-desktop is-vcentered">
+                      <div class="column is-full">
+                        <p class="is-small has-text-grey">
+                        Networking Partners:
+                        </p>
+                      </div>
+                      <div class="column is-full">
+                        <div class="columns is-mobile is-vcentered scroll-block">
+                          <div v-for="(network, index) in videoData.networks" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                            <div class="columns is-desktop is-centered is-vcentered is-multiline">
+                              <div v-if="network.logo_path != null" class="column is-full">
+                                <figure class="image">
+                                  <img :src="network.logo_path">
+                                </figure>
+                              </div>
+                              <div class="column has-text-centered is-full">
+                                <p class="is-small has-text-white scroll-text">
+                                  {{ network.name }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="videoData.videos && videoData.videos.results.length != 0" class="column is-full mx-1">
+                    <div class="columns is-multiline is-desktop is-vcentered">
+                      <div class="column is-full">
+                        <p class="is-small has-text-grey">
+                        Related Videos:
+                        </p>
+                      </div>
+                      <div class="column is-full">
+                        <div class="columns is-mobile is-vcentered scroll-block">
+                          <div v-for="(video, index) in videoData.videos.results" v-bind:key="index" :class="ismobile ? 'column is-full mx-0 px-0 scroll-link' : 'column is-5 mx-1 px-1 scroll-link'">
+                            <div class="columns is-desktop is-centered is-vcentered is-multiline">
+                              <div class="column is-full">
+                                <figure class="image is-16by9">
+                                  <iframe class="has-ratio" width="640" height="360" :src="video.key.replace('/watch?v=', '/embed/')" frameborder="0" allowfullscreen></iframe>
+                                </figure>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div :class=" modal ? 'modal is-active' : 'modal' ">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title has-text-centered">External Players</p>
+              <button class="delete" @click="modal = false;" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              <div class="columns is-centered is-mobile" v-for="(item, index) in players" v-bind:key="index">
+                <div class="column is-3">
+                  <figure class="image is-48x48" style="margin: 0 auto;">
+                    <img class="icon" :src="item.icon" />
+                  </figure>
+                </div>
+                <div class="column is-5">
+                  <p class>{{ item.name }}</p>
+                </div>
+                <div class="column is-4">
+                  <a class="button is-danger is-rounded" @click="modal = false;" :href="item.scheme">
+                    <span class="icon is-small">
+                      <i class="fas fa-play"></i>
+                    </span>
+                    <span>Play</span>
+                  </a>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div :class="subModal ? 'modal is-active' : 'modal'">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Load Subtitle File</p>
+              <button class="delete" @click="subModal = false;" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              <article :class=" successMessage ? 'message is-success' : 'message is-hidden is-success'">
+                <div class="message-body">
+                  <button class="delete" @click="successMessage = false" aria-label="delete"></button>
+                  {{ resultmessage }}
+                </div>
+              </article>
+              <div class="field">
+                <div class="control">
+                  <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " v-model="subripurl" type="text" :placeholder="'Enter Any Url or Give Path from Drive'">
+                </div>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <input :class=" subButLoad ? 'input is-rounded is-success is-loading' : 'input is-rounded is-success' " placeholder="Label for Subtitle File" id="sublabel" type="text" v-model="custsublabel" required>
+                </p>
+              </div>
+              <div class="content">
+                <li>Note: Only Give Valid Url's otherwise this page will get Hanged on Sent Back.</li>
+                <li>If You Want to Give drive Path, Give in this Format: <b><i>folder/sub-folder1/sub-folder2</i></b> from Root Folder.</li>
+              </div>
+            </section>
+            <footer class="modal-card-foot">
+              <button :class=" subButLoad ? 'button is-loading is-success' : 'button is-success' " @click="loadCustomSub(subripurl, custsublabel)">Save changes</button>
+            </footer>
           </div>
         </div>
         <div :class="ismobile ? 'column is-centered is-vcentered is-one-third is-desktop golist' : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'" v-loading="loading">
@@ -430,7 +777,11 @@
 
 <script>
 import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
-import { initializeUser, getgds } from "@utils/localUtils";
+import {
+  initializeUser,
+  getgds,
+  scrollTo,
+} from "@utils/localUtils";
 import {
   formatDate,
   formatFileSize,
@@ -489,6 +840,7 @@ export default {
       subButLoad: false,
       subripurl: "",
       videoData: {},
+      parsedData: {},
       dataPresent: false,
       infoPanel: true,
       infoChange: 0,
@@ -703,6 +1055,7 @@ export default {
         if(response.data.auth && response.data.registered && response.data.data){
           this.dataPresent = true;
           this.videoData = response.data.result;
+          this.parsedData = response.data.parsedData;
         } else {
           this.dataPresent = false;
           this.videoData = {};
