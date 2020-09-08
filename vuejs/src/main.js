@@ -40,7 +40,7 @@ Vue.use(Clipboard);
 Vue.component('v-select', vSelect)
 Vue.use(require('vue-moment'));
 Vue.use(VueLazyload, {
-  loading: cdnpath("images/airplane.gif"),
+  loading: "https://i.pinimg.com/originals/4d/a1/a6/4da1a6911fdbc6f21fdd14d2140b2d61.gif",
 });
 Vue.use(Viewer);
 

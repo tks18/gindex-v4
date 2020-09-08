@@ -7,7 +7,7 @@
 <script>
 import util from "@/libs/util";
 import Layout from "./views/Layout";
-
+import { removeItem } from '@utils/encryptUtils';
 export default {
   name: "App",
   components: {
@@ -37,8 +37,9 @@ export default {
     },
     delTemps() {
       window.addEventListener('beforeunload', () => {
-        localStorage.removeItem("hybridToken");
-        localStorage.removeItem("sessionStore");
+        removeItem("hybridToken");
+        removeItem("sessionStore");
+        removeItem("prev");
       });
     },
     checkVersion() {

@@ -33,7 +33,7 @@
                             <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
                               <div class="column mx-0 px-0 py-0 my-0 is-full">
                                 <figure class="image is-100x150">
-                                  <img :src="videoData.poster_path">
+                                  <img :src="videoData.poster_path || 'https://img.icons8.com/cotton/2x/video-file--v1.png'">
                                 </figure>
                               </div>
                             </div>
@@ -90,7 +90,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="column is-full py-0 my-0">
+                              <div v-if="videoData.runtime || videoData.episode_run_time && videoData.episode_run_time.length != 0" class="column is-full py-0 my-0">
                                 <div class="columns is-mobile is-vcentered">
                                   <div class="column is-full">
                                     <p class="is-small has-text-grey">
@@ -191,7 +191,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="videoData" class="column is-full mx-3 my-0 px-3">
+              <div v-if="dataPresent" class="column is-full mx-3 my-0 px-3">
                 <div class="columns is-multiline is-desktop is-vcentered py-0 my-0">
                   <div v-if="videoData.seasons && videoData.seasons.length != 0" class="column is-full py-0 my-0">
                     <div v-for="(season, index) in videoData.seasons" v-bind:key="index" class="columns is-vcentered is-mobile">
@@ -207,14 +207,14 @@
                         <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
                           <div class="column mx-0 px-0 py-0 my-0 is-full">
                             <figure class="image is-4by3">
-                              <img class="is-rounded" :src="videoData.images.posters[0].file_path">
+                              <img class="is-rounded" v-lazy="videoData.images.posters[0].file_path">
                             </figure>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div v-if="!videoData.seasons && videoData.overview" class="column is-full py-1 my-1">
+                  <div v-if="dataPresent && !videoData.seasons && videoData.overview" class="column is-full py-1 my-1">
                     <p class="is-small has-text-grey">
                       About:<br>
                       <span class="is-small has-text-white">
@@ -222,7 +222,7 @@
                       </span>
                     </p>
                   </div>
-                  <div class="column is-full mx-4 px-4 py-4 my-5">
+                  <div v-if="dataPresent" class="column is-full mx-4 px-4 py-4 my-5">
                     <div class="columns is-multiline is-mobile is-vcentered">
                       <div :class="ismobile ? 'columns is-full' : 'column is-two-fifths'">
                         <div class="columns is-multiline is-vcentered">
@@ -244,7 +244,7 @@
                               </div>
                               <div class="column is-half">
                                 <span class="subtitle has-text-weight-bold has-text-netflix-only">
-                                  {{ videoData.original_title || videoData.original_name || videoData.name }}
+                                  {{ videoData.original_title || videoData.original_name || videoData.name || decodeURIComponent(this.videoname.split('.').slice(0,-1).join('.')) }}
                                 </span>
                               </div>
                             </div>
@@ -381,7 +381,7 @@
                         <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
                           <div class="column mx-0 px-0 py-0 my-0 is-full">
                             <figure class="image">
-                              <img :src="videoData.images.backdrops[0].file_path">
+                              <img v-lazy="videoData.images.backdrops[0].file_path">
                             </figure>
                           </div>
                         </div>
@@ -391,24 +391,42 @@
                   <div v-if="videoData.credits && videoData.credits.cast.length != 0" class="column is-full mx-1">
                     <div class="columns is-multiline is-desktop is-vcentered">
                       <div class="column is-full">
-                        <p class="is-small has-text-grey">
-                        Cast:
-                        </p>
+                        <div class="level is-mobile">
+                          <div class="level-left">
+                            <div class="level-item">
+                              <p class="is-small has-text-grey">
+                                Cast:
+                              </p>
+                            </div>
+                          </div>
+                          <div class="level-right">
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('cast')"></i>
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('cast')"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="column is-full">
-                        <div class="columns is-mobile is-vcentered scroll-block">
-                          <div v-for="(people, index) in videoData.credits.cast" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                        <div class="columns is-mobile is-vcentered scroll-block" ref="cast">
+                          <div v-for="(people, index) in videoData.credits.cast" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                             <div class="columns is-desktop is-centered is-vcentered is-multiline">
                               <div v-if="people.profile_path != null" class="column mx-1 px-1 is-full">
                                 <figure class="image">
-                                  <img :src="people.profile_path">
+                                  <img v-lazy="people.profile_path">
                                 </figure>
                               </div>
                               <div class="column has-text-centered is-full">
                                 <p class="is-small has-text-white scroll-text">
-                                  {{ people.name }}<br>
+                                  {{ people.name.length > 15 ? people.name.slice(0,15)+"..." : people.name }}<br>
                                   <span class="is-small has-text-grey scroll-text">
-                                    (as {{ people.character }})
+                                    (as {{ people.character.length > 15 ? people.character.slice(0, 15)+"..." : people.character }})
                                   </span>
                                 </p>
                               </div>
@@ -421,24 +439,42 @@
                   <div v-if="videoData.credits && videoData.credits.crew.length != 0" class="column is-full mx-1">
                     <div class="columns is-multiline is-desktop is-vcentered">
                       <div class="column is-full">
-                        <p class="is-small has-text-grey">
-                        Crew:
-                        </p>
+                        <div class="level is-mobile">
+                          <div class="level-left">
+                            <div class="level-item">
+                              <p class="is-small has-text-grey">
+                                Crew:
+                              </p>
+                            </div>
+                          </div>
+                          <div class="level-right">
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('crew')"></i>
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('crew')"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="column is-full">
-                        <div class="columns is-mobile is-vcentered scroll-block">
-                          <div v-for="(people, index) in videoData.credits.crew" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                        <div class="columns is-mobile is-vcentered scroll-block" ref="crew">
+                          <div v-for="(people, index) in videoData.credits.crew" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                             <div class="columns is-desktop is-centered is-vcentered is-multiline">
                               <div v-if="people.profile_path != null" class="column mx-1 px-1 is-full">
                                 <figure class="image">
-                                  <img :src="people.profile_path">
+                                  <img v-lazy="people.profile_path">
                                 </figure>
                               </div>
                               <div class="column has-text-centered is-full">
                                 <p class="is-small has-text-white scroll-text">
-                                  {{ people.name }}<br>
+                                  {{ people.name.length > 15 ? people.name.slice(0,15)+"..." : people.name }}<br>
                                   <span class="is-small has-text-grey scroll-text">
-                                    (as {{ people.job }})
+                                    ({{ people.job.length > 15 ? people.job.slice(0,15)+"..." : people.job }})
                                   </span>
                                 </p>
                               </div>
@@ -451,17 +487,35 @@
                   <div v-if="videoData.production_companies && videoData.production_companies.length != 0" class="column is-full mx-1">
                     <div class="columns is-multiline is-desktop is-vcentered">
                       <div class="column is-full">
-                        <p class="is-small has-text-grey">
-                          Produced By:
-                        </p>
+                        <div class="level is-mobile">
+                          <div class="level-left">
+                            <div class="level-item">
+                              <p class="is-small has-text-grey">
+                                Produced by:
+                              </p>
+                            </div>
+                          </div>
+                          <div class="level-right">
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('production')"></i>
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('production')"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="column is-full">
-                        <div class="columns is-mobile is-vcentered scroll-block">
+                        <div class="columns is-mobile is-vcentered scroll-block" ref="production">
                           <div v-for="(company, index) in videoData.production_companies" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
                             <div class="columns is-desktop is-centered is-vcentered is-multiline">
                               <div v-if="company.logo_path != null" class="column is-full">
                                 <figure class="image">
-                                  <img :src="company.logo_path">
+                                  <img v-lazy="company.logo_path">
                                 </figure>
                               </div>
                               <div class="column has-text-centered is-full">
@@ -478,17 +532,35 @@
                   <div v-if="videoData.networks && videoData.networks.length != 0" class="column is-full mx-1">
                     <div class="columns is-multiline is-desktop is-vcentered">
                       <div class="column is-full">
-                        <p class="is-small has-text-grey">
-                        Networking Partners:
-                        </p>
+                        <div class="level is-mobile">
+                          <div class="level-left">
+                            <div class="level-item">
+                              <p class="is-small has-text-grey">
+                                Networking Partners:
+                              </p>
+                            </div>
+                          </div>
+                          <div class="level-right">
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('network')"></i>
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('network')"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="column is-full">
-                        <div class="columns is-mobile is-vcentered scroll-block">
+                        <div class="columns is-mobile is-vcentered scroll-block" ref="network">
                           <div v-for="(network, index) in videoData.networks" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
                             <div class="columns is-desktop is-centered is-vcentered is-multiline">
                               <div v-if="network.logo_path != null" class="column is-full">
                                 <figure class="image">
-                                  <img :src="network.logo_path">
+                                  <img v-lazy="network.logo_path">
                                 </figure>
                               </div>
                               <div class="column has-text-centered is-full">
@@ -505,12 +577,30 @@
                   <div v-if="videoData.videos && videoData.videos.results.length != 0" class="column is-full mx-1">
                     <div class="columns is-multiline is-desktop is-vcentered">
                       <div class="column is-full">
-                        <p class="is-small has-text-grey">
-                        Related Videos:
-                        </p>
+                        <div class="level is-mobile">
+                          <div class="level-left">
+                            <div class="level-item">
+                              <p class="is-small has-text-grey">
+                                Related Videos:
+                              </p>
+                            </div>
+                          </div>
+                          <div class="level-right">
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-left" @click="swipeLeft('related')"></i>
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <span class="icon has-text-weight-bold has-text-netflix" style="cursor: pointer;font-size:18px;">
+                                <i class="fas fa-arrow-alt-circle-right" @click="swipeRight('related')"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="column is-full">
-                        <div class="columns is-mobile is-vcentered scroll-block">
+                        <div class="columns is-mobile is-vcentered scroll-block" ref="related">
                           <div v-for="(video, index) in videoData.videos.results" v-bind:key="index" :class="ismobile ? 'column is-full mx-0 px-0 scroll-link' : 'column is-5 mx-1 px-1 scroll-link'">
                             <div class="columns is-desktop is-centered is-vcentered is-multiline">
                               <div class="column is-full">
@@ -640,15 +730,6 @@
               </div>
             </div>
           </div>
-          <infinite-loading
-            v-show="!loading"
-            ref="infinite"
-            spinner="bubbles"
-            @infinite="infiniteHandler"
-          >
-            <div slot="no-more"></div>
-            <div slot="no-results"></div>
-          </infinite-loading>
           <div
             v-show="loading"
             class="has-text-centered no-content"
@@ -673,7 +754,7 @@
               <div class="columns is-multiline is-desktop is-centered is-vcentered">
                 <div class="column is-two-thirds">
                   <figure class="image is-100x150">
-                    <img :src="videoData.poster_path">
+                    <img v-lazy="videoData.poster_path">
                   </figure>
                 </div>
                 <div v-if="ismobile" class="column has-text-centered is-full">
@@ -777,6 +858,7 @@
 
 <script>
 import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
+import { getItem } from '@utils/encryptUtils';
 import {
   initializeUser,
   getgds,
@@ -789,14 +871,12 @@ import {
   checkView,
 } from "@utils/AcrouUtil";
 import Loading from 'vue-loading-overlay';
-import InfiniteLoading from "vue-infinite-loading";
 import { mapState } from "vuex";
 import { decode64 } from "@utils/AcrouUtil";
 import { srt2vtt } from "@utils/playUtils";
 import VuePlyr from "vue-plyr";
 export default {
   components: {
-    InfiniteLoading,
     Loading,
     VuePlyr
   },
@@ -841,6 +921,7 @@ export default {
       subripurl: "",
       videoData: {},
       parsedData: {},
+      prevRoute: getItem("prev"),
       dataPresent: false,
       infoPanel: true,
       infoChange: 0,
@@ -910,11 +991,13 @@ export default {
     async render($state) {
       this.mainLoad = true;
       await this.initializeUser();
-      this.player = this.$refs.plyr.player
       await this.getFiles($state);
       await this.getVideourl();
       this.checkMobile();
       this.mainLoad = false;
+      if(!this.infoPanel){
+        this.player.play();
+      }
     },
     getFiles($state){
       this.metatitle = "Loading...";
@@ -1047,18 +1130,25 @@ export default {
       });
     },
     getVideoData(title){
+      if(this.prevRoute == "video"){
+        this.dataPresent = false;
+        this.infoChange++;
+        this.infoPanel = false;
+        this.player.play();
+      }
       this.$backend.post(apiRoutes.getMediaData, {
         email: this.user.email,
         title: title
       }, backendHeaders(this.token.token)).then(response => {
-        console.log(response);
         if(response.data.auth && response.data.registered && response.data.data){
           this.dataPresent = true;
           this.videoData = response.data.result;
           this.parsedData = response.data.parsedData;
         } else {
+          this.player.play();
           this.dataPresent = false;
-          this.videoData = {};
+          this.infoChange++;
+          this.infoPanel = false;
         }
       })
     },
@@ -1184,6 +1274,14 @@ export default {
       })[0].thumbnailLink;
       this.poster = data;
     },
+    swipeLeft(func) {
+      const content = "this.$refs."+func;
+      scrollTo(eval(content), -300, 400);
+    },
+    swipeRight(func) {
+      const content = "this.$refs."+func;
+      scrollTo(eval(content), 300, 400);
+    },
     action(file, target) {
       let path = file.path;
       if (target === "view") {
@@ -1302,6 +1400,7 @@ export default {
     },
   },
   mounted() {
+    this.player = this.$refs.plyr.player
     if(this.$audio.player() != undefined) this.$audio.destroy();
     if(window.themeOptions.loading_image){
       this.loadImage = window.themeOptions.loading_image;

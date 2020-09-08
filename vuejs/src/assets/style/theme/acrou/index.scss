@@ -909,10 +909,8 @@ th {
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
   .scroll-link {
+    text-overflow: ellipsis;
     display: inline-block;
-  }
-  .scroll-text {
-    overflow-wrap: break-word;
   }
 }
 
