@@ -22,7 +22,7 @@ import '@/components'
 import Meta from 'vue-meta'
 import "viewerjs/dist/viewer.css";
 import "@/assets/style/theme/register.scss";
-
+import VuePlyr from "vue-plyr";
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$backend = rawAxios;
@@ -32,6 +32,25 @@ Vue.prototype.$audio = {
   player: globalPlayer,
   destroy: destroyPlayer,
 }
+Vue.use(VuePlyr, {
+  invertTime: false,
+  settings: ["quality", "speed", "loop", "captions"],
+  controls: [
+    "play-large",
+    "restart",
+    "play",
+    "progress",
+    "current-time",
+    "duration",
+    "mute",
+    "volume",
+    "captions",
+    "settings",
+    "pip",
+    "airplay",
+    "fullscreen",
+  ],
+})
 Vue.use(Loading);
 Vue.use(VTooltip);
 Vue.use(VueAxios, axios);
