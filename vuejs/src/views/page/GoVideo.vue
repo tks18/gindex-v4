@@ -848,7 +848,12 @@
         </div>
       </div>
       <div v-else class="column is-full">
-        <h5 class="subtitle has-text-white has-text-centered">Wait till the Data is getting Retrieved</h5>
+        <h5 class="subtitle has-text-white has-text-centered">
+          Wait till the Data is Being Retrieved
+          <span class="icon is-large">
+            <i class="fas fa-spinner fa-pulse"></i>
+          </span>
+        </h5>
       </div>
     </div>
   </div>
@@ -1209,7 +1214,30 @@ export default {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
     copy() {
-      this.$copyText(this.externalUrl);
+      this.$notify({
+        title: "Processing",
+        message: "Generating Streaming Links",
+        type: "info",
+      })
+      this.mainLoad = true;
+      this.$backend.post(apiRoutes.mediaTokenTransmitter, {
+        email: this.user.email,
+        token: this.token.token,
+      }, backendHeaders(this.token.token)).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          let link = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+response.data.token;
+          this.mainLoad = false;
+          this.$copyText(link);
+          return;
+        } else {
+          this.mainLoad = false;
+          return;
+        }
+      }).catch(e => {
+        console.log(e);
+        this.mainLoad = false;
+        return;
+      })
     },
     handleExternalPlay(name){
       this.$notify({
