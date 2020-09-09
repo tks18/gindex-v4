@@ -4,31 +4,16 @@
       <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
     </div>
     <div class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
-      <div class="column has-text-white is-full has-text-centered mx-0 px-0">
-        {{currentPage}} / {{pageCount}}
-      </div>
-      <div class="column is-half has-text-centered mx-0 px-0">
-        <div class="columns is-mobile is-centered is-vcentered">
-          <div class="column is-half">
-            <button class="button is-netflix-red is-rounded" @click="previousPage">
-              Previous
-            </button>
-          </div>
-          <div class="column is-half">
-            <button class="button is-netflix-red is-rounded" @click="nextPage">
-              Next Page
-            </button>
-          </div>
-        </div>
-      </div>
       <div class="column is-full mx-0 px-0">
         <div class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
           <div class="column is-half mx-0 px-0" >
             <pdf
-                :src="mediaUrl"
-                :page="page"
-                @num-pages="pageCount = $event"
-                @page-loaded="currentPage = $event"
+              v-for="i in numPages"
+              :key="i"
+              ref="pdf"
+              :src="src"
+              :page="i"
+              class="mx-1 my-2"
             ></pdf>
           </div>
         </div>
@@ -40,7 +25,7 @@
 <script>
 import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
-import pdf from "vue-pdf-modified/src/vuePdfNoSssNoWorker";
+import pdf from "vue-pdf-modified/src/vuePdfNoSss";
 import Loading from 'vue-loading-overlay';
 import { decode64 } from "@utils/AcrouUtil";
 export default {
@@ -58,6 +43,7 @@ export default {
   },
   data: function() {
     return {
+      show: true,
       user: {},
       token: {},
       mediaUrl: "",
@@ -70,9 +56,11 @@ export default {
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       ismobile: false,
-      currentPage: 0,
-      pageCount: 0,
+      src:'',
+      loadedRatio: 0,
       page: 1,
+      numPages: 0,
+      rotate: 0,
     };
   },
   components: {
@@ -103,8 +91,11 @@ export default {
       }
     },
     getUrl(){
-      this.mediaUrl = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.src = "https://raw.githubusercontent.com/mozilla/pdf.js/master/web/compressed.tracemonkey-pldi-09.pdf";
       this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
+      pdf.createLoadingTask(this.src).promise.then(pdf => {
+        this.numPages = pdf.numPages;
+      })
     },
     previousPage() {
       if(this.page == 1){

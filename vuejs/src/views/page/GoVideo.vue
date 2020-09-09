@@ -636,12 +636,12 @@
                 <p class>{{ item.name }}</p>
               </div>
               <div class="column is-4">
-                <a class="button is-danger is-rounded" @click="modal = false;" :href="item.scheme">
+                <button class="button is-netflix-red is-rounded" @click="modal = false;handleExternalPlay(item.name)">
                   <span class="icon is-small">
                     <i class="fas fa-play"></i>
                   </span>
                   <span>Play</span>
-                </a>
+                </button>
               </div>
             </div>
           </section>
@@ -871,7 +871,7 @@ import {
 import Loading from 'vue-loading-overlay';
 import { mapState } from "vuex";
 import { decode64 } from "@utils/AcrouUtil";
-import { srt2vtt } from "@utils/playUtils";
+import { srt2vtt, players } from "@utils/playUtils";
 
 export default {
   components: {
@@ -971,25 +971,12 @@ export default {
       } else {
         this.logged = userData.data.logged;
       }
-      this.$backend.post(apiRoutes.mediaTokenTransmitter, {
-        email: userData.data.user.email,
-        token: userData.data.token.token,
-      }, backendHeaders(userData.data.token.token)).then(response => {
-        if(response.data.auth && response.data.registered && response.data.token){
-          this.mediaToken = response.data.token;
-        } else {
-          this.mediaToken = "";
-        }
-      }).catch(e => {
-        console.log(e);
-        this.mediaToken = "";
-      })
+      this.getVideourl();
     },
     render($state) {
       this.player = this.$refs.plyr.player
       this.mainLoad = true;
       this.initializeUser();
-      this.getVideourl();
       this.getFiles($state);
       this.getVideoData(decodeURIComponent(this.videoname.split('.').slice(0,-1).join('.')));
       this.checkMobile();
@@ -1224,21 +1211,65 @@ export default {
     copy() {
       this.$copyText(this.externalUrl);
     },
+    handleExternalPlay(name){
+      this.$notify({
+        title: "Playing Externally",
+        message: "Generating Streaming Link",
+        type: "success",
+      })
+      this.mainLoad = true;
+      this.$backend.post(apiRoutes.mediaTokenTransmitter, {
+        email: this.user.email,
+        token: this.token.token,
+      }, backendHeaders(this.token.token)).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          let link = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+response.data.token;
+          var curplay = players(link, this.videoname).filter((player) => {
+            return player.name == name;
+          })[0];
+          this.mainLoad = false;
+          location.href=curplay.scheme
+          return;
+        } else {
+          this.mainLoad = false;
+          return;
+        }
+      }).catch(e => {
+        console.log(e);
+        this.mainLoad = false;
+        return;
+      })
+    },
     downloadButton() {
       this.$notify({
         title: "Downloading Now",
         message: "Generating Links and Downloading",
         type: "success",
       })
-      location.href = this.downloadUrl;
-      return;
+      this.mainLoad = true;
+      this.$backend.post(apiRoutes.mediaTokenTransmitter, {
+        email: this.user.email,
+        token: this.token.token,
+      }, backendHeaders(this.token.token)).then(response => {
+        if(response.data.auth && response.data.registered && response.data.token){
+          let link = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+response.data.token;
+          this.mainLoad = false;
+          location.href=link;
+          return;
+        } else {
+          this.mainLoad = false;
+          return;
+        }
+      }).catch(e => {
+        console.log(e);
+        this.mainLoad = false;
+        return;
+      })
     },
     getVideourl() {
       this.videoname = this.url.split('/').pop();
       this.videourl = window.location.origin + encodeURI(this.url);
       this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
-      this.externalUrl = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
-      this.downloadUrl = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
     },
     tapPlay(){
       this.infoPanel = false;
@@ -1297,66 +1328,12 @@ export default {
     },
     ...mapState("acrou/view", ["mode"]),
     players() {
-      return [
-        {
-          name: "IINA",
-          icon: this.$cdnpath("images/player/iina.png"),
-          scheme: "iina://weblink?url=" + this.externalUrl,
-        },
-        {
-          name: "PotPlayer",
-          icon: this.$cdnpath("images/player/potplayer.png"),
-          scheme: "potplayer://" + this.externalUrl,
-        },
-        {
-          name: "VLC",
-          icon: this.$cdnpath("images/player/vlc.png"),
-          scheme: "vlc://" + this.externalUrl,
-        },
-        {
-          name: "Cast2Tv",
-          icon: "https://assets.materialup.com/uploads/b8e5d402-cd36-4774-bf10-0985e993a33e/preview",
-          scheme: "intent:"+this.externalUrl+"#Intent;package=com.instantbits.cast.webvideo;S.title="+this.videoname+";end",
-        },
-        {
-          name: "Thunder",
-          icon: this.$cdnpath("images/player/thunder.png"),
-          scheme: "thunder://" + this.getThunder,
-        },
-        {
-          name: "Aria2",
-          icon: this.$cdnpath("images/player/aria2.png"),
-          scheme: 'javascript:alert("Not Yet Supported")',
-        },
-        {
-          name: "nPlayer",
-          icon: this.$cdnpath("images/player/nplayer.png"),
-          scheme: "nplayer-" + this.externalUrl,
-        },
-        {
-          name: "MXPlayer(Free)",
-          icon: this.$cdnpath("images/player/mxplayer.png"),
-          scheme:
-            "intent:" +
-            this.externalUrl +
-            "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
-            this.title +
-            ";end",
-        },
-        {
-          name: "MXPlayer(Pro)",
-          icon: this.$cdnpath("images/player/mxplayer.png"),
-          scheme:
-            "intent:" +
-            this.externalUrl +
-            "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
-            this.title +
-            ";end",
-        },
-      ];
-    },
-    getThunder() {
-      return Buffer.from("AA" + this.externalUrl + "ZZ").toString("base64");
+      return players().map((player) => {
+        return {
+          name: player.name,
+          icon: player.icon
+        }
+      })
     },
   },
   mounted() {
