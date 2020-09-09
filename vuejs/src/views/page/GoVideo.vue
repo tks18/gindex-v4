@@ -3,6 +3,116 @@
     <div class="loading">
       <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
     </div>
+    <div v-show="infoPanel" class="columns is-multiline is-centered is-vcentered">
+      <div v-if="dataPresent" class="column is-full">
+        <div class="columns is-multiline is-vcentered">
+          <div class="column is-half">
+            <div class="columns is-multiline is-desktop is-centered is-vcentered">
+              <div class="column is-two-thirds">
+                <figure class="image is-100x150">
+                  <img v-lazy="videoData.poster_path">
+                </figure>
+              </div>
+              <div v-if="ismobile" class="column has-text-centered is-full">
+                <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
+                  <span class="icon">
+                    <i class="fas fa-play"></i>
+                  </span>
+                  <span>Play Now</span>
+                </button>
+                <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
+                  <span class="icon">
+                    <i class="fas fa-tv"></i>
+                  </span>
+                  <span>Watch Trailer</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="columns is-multiline is-desktop is-mobile is-vcentered">
+              <div class="column is-full mt-6 py-0 my-1">
+                <h1 class="title has-text-white has-text-bold">
+                  {{ videoData.title || videoData.original_title || videoData.name || videoData.original_name || videoname }}
+                </h1>
+              </div>
+              <div v-if="videoData.runtime || videoData.episode_run_time" class="column is-full my-0">
+                <div class="columns is-mobile is-multiline is-desktop">
+                  <div class="column is-one-third">
+                    <p class="subtitle has-text-netflix-only has-text-weight-bold">
+                      <span class="icon has-text-success">
+                        <i class="fas fa-clock"></i>
+                      </span>
+                      {{ videoData.runtime || videoData.episode_run_time[0] }}{{ videoData.runtime ? " Minutes" : videoData.episode_run_time[0] ? " Avg. Minutes" : " " }}
+                    </p>
+                  </div>
+                  <div class="column is-one-third">
+                    <p class="subtitle has-text-netflix-only has-text-weight-bold">
+                      <span class="icon has-text-warning">
+                        <i class="fab fa-imdb"></i>
+                      </span>
+                      {{ videoData.vote_average }}<span class="has-text-grey">/</span>10
+                    </p>
+                  </div>
+                  <div class="column is-one-third">
+                    <p class="subtitle has-text-netflix-only has-text-weight-bold">
+                      <span class="icon has-text-primary">
+                        <i class="fas fa-poll"></i>
+                      </span>
+                      {{ videoData.vote_count }} Votes
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-full my-0 py-0">
+                <h6 class="subtitle has-text-grey has-text-bold">
+                  Overview
+                </h6>
+              </div>
+              <div class="column is-full mt-1 mb-2 pt-0 px-3">
+                <p class="subtitle has-text-light is-6">
+                  {{ videoData.overview }}
+                </p>
+              </div>
+              <div class="column is-full mt-2 pt-0 px-3">
+                <div class="columns is-desktop is-mobile is-multiline is-vcentered">
+                  <div class="column is-full my-0 mb-0 py-0">
+                    <h6 class="subtitle has-text-grey has-text-bold">
+                      Genres
+                    </h6>
+                  </div>
+                  <div class="column is-full my-0 py-1">
+                    <span v-for="(genre, index) in videoData.genres" v-bind:key="index" class="has-text-netflix-only">{{ index == videoData.genres.length -1 ? genre.name : genre.name+", " }}</span>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!ismobile" class="column is-full">
+                <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
+                  <span class="icon">
+                    <i class="fas fa-play"></i>
+                  </span>
+                  <span>Play Now</span>
+                </button>
+                <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
+                  <span class="icon">
+                    <i class="fas fa-tv"></i>
+                  </span>
+                  <span>Watch Trailer</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="column is-full">
+        <h5 class="subtitle has-text-white has-text-centered">
+          Wait till the Data is Being Retrieved
+          <span class="icon is-large">
+            <i class="fas fa-spinner fa-pulse"></i>
+          </span>
+        </h5>
+      </div>
+    </div>
     <div v-show="!infoPanel" class="columns is-multiline is-centered">
       <div :class="ismobile ? 'column is-full mx-0 px-1' : 'column is-two-thirds'">
         <div class="columns is-desktop is-multiline is-centered">
@@ -746,116 +856,6 @@
       </div>
       <button class="modal-close is-large" @click="videomodal = false;modalVideo = '';" aria-label="close"></button>
     </div>
-    <div v-show="infoPanel" class="columns is-multiline is-centered is-vcentered">
-      <div v-if="dataPresent" class="column is-full">
-        <div class="columns is-multiline is-vcentered">
-          <div class="column is-half">
-            <div class="columns is-multiline is-desktop is-centered is-vcentered">
-              <div class="column is-two-thirds">
-                <figure class="image is-100x150">
-                  <img v-lazy="videoData.poster_path">
-                </figure>
-              </div>
-              <div v-if="ismobile" class="column has-text-centered is-full">
-                <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
-                  <span class="icon">
-                    <i class="fas fa-play"></i>
-                  </span>
-                  <span>Play Now</span>
-                </button>
-                <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
-                  <span class="icon">
-                    <i class="fas fa-tv"></i>
-                  </span>
-                  <span>Watch Trailer</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="column is-half">
-            <div class="columns is-multiline is-desktop is-mobile is-vcentered">
-              <div class="column is-full mt-6 py-0 my-1">
-                <h1 class="title has-text-white has-text-bold">
-                  {{ videoData.title || videoData.original_title || videoData.name || videoData.original_name || videoname }}
-                </h1>
-              </div>
-              <div v-if="videoData.runtime || videoData.episode_run_time" class="column is-full my-0">
-                <div class="columns is-mobile is-multiline is-desktop">
-                  <div class="column is-one-third">
-                    <p class="subtitle has-text-netflix-only has-text-weight-bold">
-                      <span class="icon has-text-success">
-                        <i class="fas fa-clock"></i>
-                      </span>
-                      {{ videoData.runtime || videoData.episode_run_time[0] }}{{ videoData.runtime ? " Minutes" : videoData.episode_run_time[0] ? " Avg. Minutes" : " " }}
-                    </p>
-                  </div>
-                  <div class="column is-one-third">
-                    <p class="subtitle has-text-netflix-only has-text-weight-bold">
-                      <span class="icon has-text-warning">
-                        <i class="fab fa-imdb"></i>
-                      </span>
-                      {{ videoData.vote_average }}<span class="has-text-grey">/</span>10
-                    </p>
-                  </div>
-                  <div class="column is-one-third">
-                    <p class="subtitle has-text-netflix-only has-text-weight-bold">
-                      <span class="icon has-text-primary">
-                        <i class="fas fa-poll"></i>
-                      </span>
-                      {{ videoData.vote_count }} Votes
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="column is-full my-0 py-0">
-                <h6 class="subtitle has-text-grey has-text-bold">
-                  Overview
-                </h6>
-              </div>
-              <div class="column is-full mt-1 mb-2 pt-0 px-3">
-                <p class="subtitle has-text-light is-6">
-                  {{ videoData.overview }}
-                </p>
-              </div>
-              <div class="column is-full mt-2 pt-0 px-3">
-                <div class="columns is-desktop is-mobile is-multiline is-vcentered">
-                  <div class="column is-full my-0 mb-0 py-0">
-                    <h6 class="subtitle has-text-grey has-text-bold">
-                      Genres
-                    </h6>
-                  </div>
-                  <div class="column is-full my-0 py-1">
-                    <span v-for="(genre, index) in videoData.genres" v-bind:key="index" class="has-text-netflix-only">{{ index == videoData.genres.length -1 ? genre.name : genre.name+", " }}</span>
-                  </div>
-                </div>
-              </div>
-              <div v-if="!ismobile" class="column is-full">
-                <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
-                  <span class="icon">
-                    <i class="fas fa-play"></i>
-                  </span>
-                  <span>Play Now</span>
-                </button>
-                <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
-                  <span class="icon">
-                    <i class="fas fa-tv"></i>
-                  </span>
-                  <span>Watch Trailer</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-else class="column is-full">
-        <h5 class="subtitle has-text-white has-text-centered">
-          Wait till the Data is Being Retrieved
-          <span class="icon is-large">
-            <i class="fas fa-spinner fa-pulse"></i>
-          </span>
-        </h5>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -877,7 +877,7 @@ import Loading from 'vue-loading-overlay';
 import { mapState } from "vuex";
 import { decode64 } from "@utils/AcrouUtil";
 import { srt2vtt, players } from "@utils/playUtils";
-
+import notify from "@/components/notification";
 export default {
   components: {
     Loading,
@@ -1127,7 +1127,6 @@ export default {
         email: this.user.email,
         title: title
       }, backendHeaders(this.token.token)).then(response => {
-        console.log(response);
         if(response.data.auth && response.data.registered && response.data.data){
           this.dataPresent = true;
           this.videoData = response.data.result;
@@ -1227,7 +1226,19 @@ export default {
         if(response.data.auth && response.data.registered && response.data.token){
           let link = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+response.data.token;
           this.mainLoad = false;
-          this.$copyText(link);
+          navigator.clipboard.writeText(link).then(function() {
+            notify({
+              title: "Copied !!",
+              message: "Successfully Copied.",
+              type: "success",
+            })
+          }, function(err) {
+            notify({
+              title: "Failed",
+              message: "Failed to Copied - "+err,
+              type: "error",
+            })
+          });
           return;
         } else {
           this.mainLoad = false;

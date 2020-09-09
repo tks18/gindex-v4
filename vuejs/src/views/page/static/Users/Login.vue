@@ -5,57 +5,38 @@
       </div>
         <div class="columns is-vcentered is-centered is-multiline">
           <div class="column is-half">
-            <section class="hero is-black is-medium">
-              <div class="hero-body">
-                <div class="container">
-                  <div class="tile is-ancestor">
-                    <div class="tile is-parent">
-                      <article class="tile has-text-centered is-child notification is-primary">
-                        <p class="title has-text-dark">
-                          <span class="icon">
-                            <i class="fab fa-superpowers"></i>
-                          </span>
-                          <span> Ahh!! Perfect !</span>
-                        </p>
-                        <p class="subtitle">Login</p>
-                        <div class="content">
-                            <p class="has-text-dark has-text-weight-semibold">Login to this Website to Continue.</p>
-                            <p class="has-text-dark">You are Just a Page from Experiencing the Glory.</p>
-                            <button class="button mb-3" @click="hyInput = !hyInput">
-                              <span class="icon">
-                                <i class="fas fa-dolly"></i>
-                              </span>
-                              <span>Hybrid Login</span>
-                            </button>
-                            <form @submit.prevent="handleHybrid" v-show="hyInput">
-                              <div class="columns is-mobile is-centered is-multiline is-vcentered">
-                                <div class="column is-four-fifths">
-                                  <div class="field">
-                                    <p class="control has-icons-left">
-                                      <input class="input is-rounded" id="hypassword" autocomplete="hy-password" type="password" placeholder="Enter Your Hybrid Password" v-model="hypassword" required>
-                                      <span class="icon is-small is-left">
-                                        <i class="fas fa-lock"></i>
-                                      </span>
-                                    </p>
-                                  </div>
-                                </div>
-                                <div class="column is-one-fifth">
-                                  <button class="button is-danger">
-                                    <span class="icon">
-                                      <i class="fas fa-sign-in-alt"></i>
-                                    </span>
-                                    <span class="is-hidden-mobile">Login</span>
-                                  </button>
-                                </div>
-                              </div>
-                            </form>
-                        </div>
-                      </article>
+            <div class="content has-text-white has-text-centered">
+              <p class="has-text-weight-semibold">Login to this Website to Continue.</p>
+              <p>You are Just a Page from Experiencing the Glory.</p>
+              <button class="button mb-3" @click="hyInput = !hyInput">
+                <span class="icon">
+                  <i class="fas fa-dolly"></i>
+                </span>
+                <span>Hybrid Login</span>
+              </button>
+              <form @submit.prevent="handleHybrid" v-show="hyInput">
+                <div class="columns is-mobile is-centered is-multiline is-vcentered">
+                  <div class="column is-four-fifths">
+                    <div class="field">
+                      <p class="control has-icons-left">
+                        <input class="input is-rounded" id="hypassword" autocomplete="hy-password" type="password" placeholder="Enter Your Hybrid Password" v-model="hypassword" required>
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-lock"></i>
+                        </span>
+                      </p>
                     </div>
                   </div>
+                  <div class="column is-one-fifth">
+                    <button class="button is-danger">
+                      <span class="icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                      </span>
+                      <span class="is-hidden-mobile">Login</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </section>
+              </form>
+            </div>
           </div>
           <div :class=" modal ? 'modal is-active' : 'modal' ">
             <div class="modal-background"></div>

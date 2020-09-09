@@ -8,10 +8,10 @@ import axios from "@/plugin/axios";
 import rawAxios from "axios";
 import VueAxios from "vue-axios";
 import router from "./router";
-import Clipboard from "@/plugin/clipboard";
 import vSelect from 'vue-select';
 import EventBus from "./EventBus";
 import i18n from "./i18n";
+import Vclipboard2 from "vue-clipboard2";
 import store from "@/store/index";
 import VueLazyload from "vue-lazyload";
 import VTooltip from 'v-tooltip'
@@ -54,8 +54,9 @@ Vue.use(VuePlyr, {
 Vue.use(Loading);
 Vue.use(VTooltip);
 Vue.use(VueAxios, axios);
-Vue.use(Meta)
-Vue.use(Clipboard);
+Vue.use(Meta);
+Vclipboard2.config.autoSetContainer = true
+Vue.use(Vclipboard2);
 Vue.component('v-select', vSelect)
 Vue.use(require('vue-moment'));
 Vue.use(VueLazyload, {

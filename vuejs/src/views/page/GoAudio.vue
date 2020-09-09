@@ -326,7 +326,6 @@ export default {
       this.poster = window.themeOptions.audio.default_poster;
       await this.initializeUser();
       await this.getAudioUrl();
-      console.log(this.apiurl);
       await this.createPlayer();
       await this.checkMobile();
       await this.getFiles();
