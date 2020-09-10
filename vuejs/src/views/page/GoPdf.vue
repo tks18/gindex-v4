@@ -4,6 +4,13 @@
       <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
     </div>
     <div class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
+      <div class="column is-full has-text-right">
+        <button class="button is-netflix-red is-rounded" @click="download">
+          <span class="icon">
+            <i class="fas fa-download fontonly"></i>
+          </span>
+        </button>
+      </div>
       <div class="column is-full mx-0 px-0">
         <div class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
           <div v-for="i in numPages" v-bind:key="i" class="column is-half mx-0 my-1 py-1 px-0" >
@@ -111,6 +118,10 @@ export default {
       } else {
         this.page++;
       }
+    },
+    download(){
+      location.href = this.src;
+      return;
     }
   },
   async beforeMount() {

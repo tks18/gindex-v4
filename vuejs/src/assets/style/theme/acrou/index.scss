@@ -98,6 +98,8 @@ html {
 
 .navbar-dropdown{
   background-color: black;
+  max-height: 18em;
+  overflow: auto;
 }
 
 .navbar-active {

@@ -295,6 +295,11 @@
                           </span>
                         </button>
                       </div>
+                      <div v-if="currVdInfo.size" :class="ismobile ? 'column is-full has-text-right' : 'column is-full has-text-centered' ">
+                        <p class="is-small has-text-white">
+                          Size: <span class="has-text-netflix-only">{{ currVdInfo.size }}</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -331,7 +336,10 @@
                     </span>
                   </p>
                 </div>
-                <div v-if="dataPresent" class="column is-full mx-4 px-4 py-4 my-5">
+                <div class="column is-full py-1 my-1">
+                  <a class="subtitle has-text-netflix" @click="desc = !desc">{{ desc ? 'Hide Info..' : 'Click Here for Cast, Crew & Other Info..' }}</a>
+                </div>
+                <div v-if="dataPresent && desc" class="column is-full mx-4 px-4 py-4 my-5">
                   <div class="columns is-multiline is-mobile is-vcentered">
                     <div :class="ismobile ? 'columns is-full' : 'column is-two-fifths'">
                       <div class="columns is-multiline is-vcentered">
@@ -497,7 +505,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="videoData.credits && videoData.credits.cast.length != 0" class="column is-full mx-1">
+                <div v-if="desc && videoData.credits && videoData.credits.cast.length != 0" class="column is-full mx-1">
                   <div class="columns is-multiline is-desktop is-vcentered">
                     <div class="column is-full">
                       <div class="level is-mobile">
@@ -526,9 +534,9 @@
                       <div class="columns is-mobile is-vcentered scroll-block" ref="cast">
                         <div v-for="(people, index) in videoData.credits.cast" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                           <div class="columns is-desktop is-centered is-vcentered is-multiline">
-                            <div v-if="people.profile_path != null" class="column mx-1 px-1 is-full">
+                            <div class="column mx-1 px-1 is-full">
                               <figure class="image">
-                                <img v-lazy="people.profile_path">
+                                <img v-lazy="people.profile_path == null ? people.gender == 0 ? 'https://i.ibb.co/tPTLybZ/Blank-Person-462x600.jpg' : 'https://i.ibb.co/SR5L4Dy/avatar-female-tall.jpg' : people.profile_path">
                               </figure>
                             </div>
                             <div class="column has-text-centered is-full">
@@ -545,7 +553,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="videoData.credits && videoData.credits.crew.length != 0" class="column is-full mx-1">
+                <div v-if="desc && videoData.credits && videoData.credits.crew.length != 0" class="column is-full mx-1">
                   <div class="columns is-multiline is-desktop is-vcentered">
                     <div class="column is-full">
                       <div class="level is-mobile">
@@ -574,9 +582,9 @@
                       <div class="columns is-mobile is-vcentered scroll-block" ref="crew">
                         <div v-for="(people, index) in videoData.credits.crew" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                           <div class="columns is-desktop is-centered is-vcentered is-multiline">
-                            <div v-if="people.profile_path != null" class="column mx-1 px-1 is-full">
+                            <div class="column mx-1 px-1 is-full">
                               <figure class="image">
-                                <img v-lazy="people.profile_path">
+                                <img v-lazy="people.profile_path == null ? people.gender == 0 ? 'https://i.ibb.co/tPTLybZ/Blank-Person-462x600.jpg' : 'https://i.ibb.co/SR5L4Dy/avatar-female-tall.jpg' : people.profile_path">
                               </figure>
                             </div>
                             <div class="column has-text-centered is-full">
@@ -593,7 +601,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="videoData.production_companies && videoData.production_companies.length != 0" class="column is-full mx-1">
+                <div v-if="desc && videoData.production_companies && videoData.production_companies.length != 0" class="column is-full mx-1">
                   <div class="columns is-multiline is-desktop is-vcentered">
                     <div class="column is-full">
                       <div class="level is-mobile">
@@ -620,16 +628,16 @@
                     </div>
                     <div class="column is-full">
                       <div class="columns is-mobile is-vcentered scroll-block" ref="production">
-                        <div v-for="(company, index) in videoData.production_companies" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                        <div v-for="(company, index) in videoData.production_companies" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                           <div class="columns is-desktop is-centered is-vcentered is-multiline">
-                            <div v-if="company.logo_path != null" class="column is-full">
+                            <div class="column is-full">
                               <figure class="image">
-                                <img v-lazy="company.logo_path">
+                                <img v-lazy="company.logo_path == null ? 'https://i.ibb.co/Hqkdh46/movie-people-production-24908-58149.jpg' : company.logo_path">
                               </figure>
                             </div>
                             <div class="column has-text-centered is-full">
                               <p class="is-small has-text-white scroll-text">
-                                {{ company.name }}
+                                {{ company.name.length > 15 ? company.name.slice(0,15) : company.name }}
                               </p>
                             </div>
                           </div>
@@ -638,7 +646,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="videoData.networks && videoData.networks.length != 0" class="column is-full mx-1">
+                <div v-if="desc && videoData.networks && videoData.networks.length != 0" class="column is-full mx-1">
                   <div class="columns is-multiline is-desktop is-vcentered">
                     <div class="column is-full">
                       <div class="level is-mobile">
@@ -665,7 +673,7 @@
                     </div>
                     <div class="column is-full">
                       <div class="columns is-mobile is-vcentered scroll-block" ref="network">
-                        <div v-for="(network, index) in videoData.networks" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-3 mx-2 px-2 scroll-link'">
+                        <div v-for="(network, index) in videoData.networks" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                           <div class="columns is-desktop is-centered is-vcentered is-multiline">
                             <div v-if="network.logo_path != null" class="column is-full">
                               <figure class="image">
@@ -674,7 +682,7 @@
                             </div>
                             <div class="column has-text-centered is-full">
                               <p class="is-small has-text-white scroll-text">
-                                {{ network.name }}
+                                {{ network.name.length > 15 ? network.name.slice(0,15) : network.name }}
                               </p>
                             </div>
                           </div>
@@ -683,7 +691,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="videoData.videos && videoData.videos.results.length != 0" class="column is-full mx-1">
+                <div v-if="desc && videoData.videos && videoData.videos.results.length != 0" class="column is-full mx-1">
                   <div class="columns is-multiline is-desktop is-vcentered">
                     <div class="column is-full">
                       <div class="level is-mobile">
@@ -713,9 +721,9 @@
                         <div v-for="(video, index) in videoData.videos.results" v-bind:key="index" :class="ismobile ? 'column is-full mx-0 px-0 scroll-link' : 'column is-5 mx-1 px-1 scroll-link'">
                           <div class="columns is-desktop is-centered is-vcentered is-multiline">
                             <div class="column is-full">
-                              <figure class="image is-16by9">
+                              <lazy-component tag="figure" class="image is-16by9">
                                 <iframe class="has-ratio" width="640" height="360" :src="video.key.replace('/watch?v=', '/embed/')" frameborder="0" allowfullscreen></iframe>
-                              </figure>
+                              </lazy-component>
                             </div>
                           </div>
                         </div>
@@ -918,11 +926,13 @@ export default {
       loading: true,
       suburl: [],
       sub: false,
+      desc: false,
       subModal: false,
       subButLoad: false,
       subripurl: "",
       videoData: {},
       parsedData: {},
+      currVdInfo: {},
       prevRoute: getItem("prev"),
       dataPresent: false,
       infoPanel: true,
@@ -1016,12 +1026,14 @@ export default {
             if ($state) {
               this.originalFiles.push(...this.buildFiles(data.files));
               this.files.push(this.getFilteredFiles(...this.buildFiles(data.files)));
+              this.currVdInfo = this.getCurrVdInfo(...this.buildFiles(data.files))[0];
               this.checkSuburl();
               this.getPoster();
             } else {
               this.originalFiles = this.buildFiles(data.files)
               this.files = this.getFilteredFiles(this.buildFiles(data.files));
               this.checkSuburl();
+              this.currVdInfo = this.getCurrVdInfo(this.buildFiles(data.files))[0];
               this.getPoster();
             }
           }
@@ -1127,6 +1139,7 @@ export default {
         email: this.user.email,
         title: title
       }, backendHeaders(this.token.token)).then(response => {
+        console.log(response);
         if(response.data.auth && response.data.registered && response.data.data){
           this.dataPresent = true;
           this.videoData = response.data.result;
@@ -1303,6 +1316,11 @@ export default {
         console.log(e);
         this.mainLoad = false;
         return;
+      })
+    },
+    getCurrVdInfo(rawFiles){
+      return rawFiles.filter(file => {
+        return file.name == this.url.split('/').pop();
       })
     },
     getVideourl() {
