@@ -9,10 +9,6 @@ Under the 4.0 licenses, a licensee automatically gets these rights back if she f
 If you apply a Creative Commons license and a user violates the license conditions, you may opt to contact the person directly to ask them to rectify the situation or consult a lawyer to act on your behalf. Creative Commons is not a law firm and cannot represent you or give you legal advice, but there are lawyers who have identified themselves as interested in representing people in CC-related matters.
 
 ##  A Vue js Based GD Index
-##### by _[Shan.tk](https://github.com/tks18)_<br>
-_Site - [Click Here](https://glorytoheaven.tk)_<br>
-Demo Site can be Seen Here - [Click Here](https://demo.gthu.workers.dev)<br>
-**Support Group can be Found Here - [Here](https://t.me/joinchat/LVLR1U5Gs_9lmHGNGqpxIw)**<br>
 Any Issues / Help Regarding Setup, Contact Through the telegram Group
 
 **Now With New UI**<br>
