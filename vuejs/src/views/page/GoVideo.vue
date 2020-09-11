@@ -46,7 +46,7 @@
                       {{ videoData.runtime || videoData.episode_run_time[0] }}{{ videoData.runtime ? " Minutes" : videoData.episode_run_time[0] ? " Avg. Minutes" : " " }}
                     </p>
                   </div>
-                  <div class="column is-one-third">
+                  <div v-if="videoData.vote_average" class="column is-one-third">
                     <p class="subtitle has-text-netflix-only has-text-weight-bold">
                       <span class="icon has-text-warning">
                         <i class="fab fa-imdb"></i>
@@ -54,7 +54,7 @@
                       {{ videoData.vote_average }}<span class="has-text-grey">/</span>10
                     </p>
                   </div>
-                  <div class="column is-one-third">
+                  <div v-if="videoData.vote_count" class="column is-one-third">
                     <p class="subtitle has-text-netflix-only has-text-weight-bold">
                       <span class="icon has-text-primary">
                         <i class="fas fa-poll"></i>
@@ -64,17 +64,17 @@
                   </div>
                 </div>
               </div>
-              <div class="column is-full my-0 py-0">
+              <div v-if="videoData.overview" class="column is-full my-0 py-0">
                 <h6 class="subtitle has-text-grey has-text-bold">
                   Overview
                 </h6>
               </div>
-              <div class="column is-full mt-1 mb-2 pt-0 px-3">
+              <div v-if="videoData.overview" class="column is-full mt-1 mb-2 pt-0 px-3">
                 <p class="subtitle has-text-light is-6">
                   {{ videoData.overview }}
                 </p>
               </div>
-              <div class="column is-full mt-2 pt-0 px-3">
+              <div v-if="videoData.genres && videoData.genres.length != 0" class="column is-full mt-2 pt-0 px-3">
                 <div class="columns is-desktop is-mobile is-multiline is-vcentered">
                   <div class="column is-full my-0 mb-0 py-0">
                     <h6 class="subtitle has-text-grey has-text-bold">
@@ -136,9 +136,9 @@
               </div>
               <div class="column is-full mx-3 px-3">
                 <div class="columns is-desktop is-vcentered is-multiline is-mobile">
-                  <div :class="ismobile ? 'column is-full my-1 py-0' : 'column is-10 my-1 py-0'">
+                  <div :class="!dataPresent ? ismobile ? 'column is-full my-1 py-0' : 'column is-8 my-1 py-0' : ismobile ? 'column is-full my-1 py-0' : 'column is-10 my-1 py-0'">
                       <div class="columns is-mobile is-vcentered py-0 my-0">
-                        <div v-if="!ismobile" class="column is-3 mx-0 py-0 my-0">
+                        <div v-if="!ismobile && dataPresent" class="column is-3 mx-0 py-0 my-0">
                           <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
                             <div class="column mx-0 px-0 py-0 my-0 is-full">
                               <figure class="image is-100x150">
@@ -211,7 +211,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div v-if="videoData.genres" class="column is-full py-0 my-0">
+                            <div v-if="videoData.genres && videoData.genres.length != 0" class="column is-full py-0 my-0">
                               <div class="columns is-mobile is-vcentered">
                                 <div class="column is-full">
                                   <p class="is-small has-text-grey">
@@ -265,30 +265,30 @@
                         </div>
                       </div>
                   </div>
-                  <div :class="ismobile ? 'column is-full' : 'column is-2'">
+                  <div :class="!dataPresent ? ismobile ? 'column is-full' : 'column is-4' : ismobile ? 'column is-full' : 'column is-2' ">
                     <div class="columns is-multiline is-mobile is-centered has-text-centered is-vcentered">
-                      <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                      <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
                         <button class="button is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
                           <span class="icon">
                             <i class="fas fa-external-link-square-alt fontonly"></i>
                           </span>
                         </button>
                       </div>
-                      <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                      <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
                         <button class="button is-netflix-red" @click="copy" v-tooltip.bottom-start="'Copy Link'">
                           <span class="icon">
                             <i class="fa fa-copy fontonly"></i>
                           </span>
                         </button>
                       </div>
-                      <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                      <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
                         <button class="button is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
                           <span class="icon">
                             <i class="fas fa-download fontonly"></i>
                           </span>
                         </button>
                       </div>
-                      <div :class="ismobile ? 'column is-quarter' : 'column is-half'">
+                      <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
                         <button class="button is-netflix-red" @click="subModal=true;" v-tooltip.bottom-start="'Load Custom Subtitles..'">
                           <span class="icon">
                             <i class="fas fa-closed-captioning fontonly"></i>
@@ -1139,7 +1139,6 @@ export default {
         email: this.user.email,
         title: title
       }, backendHeaders(this.token.token)).then(response => {
-        console.log(response);
         if(response.data.auth && response.data.registered && response.data.data){
           this.dataPresent = true;
           this.videoData = response.data.result;
@@ -1304,7 +1303,8 @@ export default {
         token: this.token.token,
       }, backendHeaders(this.token.token)).then(response => {
         if(response.data.auth && response.data.registered && response.data.token){
-          let link = this.videourl+"?player=download"+"&email="+this.user.email+"&token="+response.data.token;
+          let link = window.location.origin+encodeURI(this.url.replace(/^\/(\d+:)\//, "/$1down/"))+"?player=download"+"&email="+this.user.email+"&token="+response.data.token;
+          console.log(link);
           this.mainLoad = false;
           location.href=link;
           return;

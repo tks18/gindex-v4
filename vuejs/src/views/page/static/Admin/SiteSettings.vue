@@ -49,6 +49,17 @@
                   </label>
                 </div>
               </div>
+              <div class="column is-two-thirds">
+                <p class="subtitle has-text-weight-bold">Enable TMDB Api Support</p>
+              </div>
+              <div class="column is-one-third">
+                <div class="field">
+                  <input type="checkbox" id="tmdb" name="tmdb" v-model="tmdb" class="switch is-danger">
+                  <label for="tmdb">
+                    <span class="content">{{ tmdb ? "Allowed" : "Disallowed" }}</span>
+                  </label>
+                </div>
+              </div>
               <div class="column has-text-centered is-full">
                 <button class="button is-netflix-red" type="submit" :disabled="disabled">
                   Save Changes
@@ -99,9 +110,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         successMessage: false,
         errorMessage: false,
         adminreqs: true,
+        tmdb: false,
         defaultData: {
           request: true,
           adminreqs: true,
+          tmdb: false,
         },
         gds: [],
         currgd: {},
@@ -123,12 +136,15 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           if(response.data.auth && response.data.registered){
             this.request = response.data.data.requests;
             this.adminreqs = response.data.data.adminRequests;
+            this.tmdb = response.data.data.tmdb;
             this.defaultData.request = response.data.data.requests;
             this.defaultData.adminreqs = response.data.data.adminRequests;
+            this.defaultData.tmdb = response.data.data.tmdb;
             this.loading = false;
           } else {
             this.request = this.defaultData.request;
             this.adminreqs = this.defaultData.adminreqs;
+            this.tmdb = this.defaultData.tmdb;
             this.loading = false;
           }
         })
@@ -138,6 +154,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
           this.disabled = false;
         } else if(this.adminreqs !== this.defaultData.adminreqs) {
           this.disabled = false;
+        } else if(this.tmdb !== this.defaultData.tmdb) {
+          this.disabled = false;
         } else {
           this.disabled = true;
         }
@@ -146,8 +164,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
         this.loading = true;
         this.$backend.post(apiRoutes.setSiteSettings, {
           email: this.user.email,
-          requests: this.request,
-          adminrequests: this.adminreqs
+          settings: {
+            requests: this.request,
+            adminRequests: this.adminreqs,
+            tmdb: this.tmdb
+          }
         }, backendHeaders(this.token.token)).then(async response => {
           this.loading = false;
           if(response.data.auth && response.data.registered && response.data.changed){
@@ -214,7 +235,8 @@ import 'vue-loading-overlay/dist/vue-loading.css';
     },
     watch: {
       request: "checkButtonDisability",
-      adminreqs: "checkButtonDisability"
+      adminreqs: "checkButtonDisability",
+      tmdb: "checkButtonDisability"
     }
   }
 </script>
