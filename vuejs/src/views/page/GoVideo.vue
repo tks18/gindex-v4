@@ -147,7 +147,7 @@
                             </div>
                           </div>
                         </div>
-                        <div :class="ismobile ? 'column is-full' : 'column is-9'">
+                        <div :class="!dataPresent ? ismobile ? 'column is-full' : 'column is-12' : ismobile ? 'column is-full' : 'column is-9'">
                           <div class="columns is-desktop is-multiline is-vcentered py-1 my-1">
                             <div class="column is-full py-0 my-0">
                               <div class="columns is-mobile is-vcentered">
@@ -295,15 +295,15 @@
                           </span>
                         </button>
                       </div>
-                      <div v-if="currVdInfo.size" :class="ismobile ? 'column is-full has-text-right' : 'column is-full has-text-centered' ">
-                        <p class="is-small has-text-white">
-                          Size: <span class="has-text-netflix-only">{{ currVdInfo.size }}</span>
-                        </p>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div v-if="currVdInfo.size" class="column is-full has-text-right">
+              <p class="is-small has-text-white">
+                Size: <span class="has-text-netflix-only">{{ currVdInfo.size }}</span>
+              </p>
             </div>
             <div v-if="dataPresent" class="column is-full mx-3 my-0 px-3">
               <div class="columns is-multiline is-desktop is-vcentered py-0 my-0">
