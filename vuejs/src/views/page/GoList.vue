@@ -1,11 +1,16 @@
 <template>
   <div :class="ismobile ? 'mt-2' : 'ml-5 mt-2 mr-5 pl-5 pr-5' ">
+    <div class="loading">
+      <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
+    </div>
     <div class="golist" v-loading="loading">
       <bread-crumb ref="breadcrumb"></bread-crumb>
       <list-view
         :data="files"
+        :originalData="files"
         v-if="mode === 'list'"
         :icons="getIcon"
+        :sortIt="sortIt"
         :action="action"
       />
       <grid-view
@@ -66,8 +71,12 @@ import {
   checkoutPath,
   checkView,
 } from "@utils/AcrouUtil";
+import { orderBy, sortBy } from "lodash";
 import { initializeUser, getgds, icon } from "@utils/localUtils";
 import { mapState } from "vuex";
+import Loading from 'vue-loading-overlay';
+import notify from "@/components/notification";
+import { apiRoutes, backendHeaders } from "@utils/backendUtils";
 import BreadCrumb from "../common/BreadCrumb";
 import ListView from "./components/list";
 import GridView from "./components/grid";
@@ -82,6 +91,7 @@ export default {
     Headmd: Markdown,
     Readmemd: Markdown,
     InfiniteLoading,
+    Loading
   },
   metaInfo() {
     return {
@@ -109,11 +119,18 @@ export default {
       user: {},
       token: {},
       currgd: {},
+      sort: {
+        name: true,
+        modifiedTime: true,
+        absoluteSize: true,
+      },
       page: {
         page_token: null,
         page_index: 0,
       },
       files: [],
+      mainLoad: false,
+      fullpage: true,
       viewer: false,
       readmeLink: "",
       headLink: "",
@@ -231,7 +248,7 @@ export default {
       var path = this.$route.path;
       return !files
         ? []
-        : files
+        : sortBy(orderBy(files
             .map((item) => {
               var p = path + checkoutPath(item.name, item);
               let isFolder =
@@ -242,15 +259,13 @@ export default {
                 ...item,
                 modifiedTime: formatDate(item.modifiedTime),
                 size: size,
+                absoluteSize: item.size,
                 isFolder: isFolder,
               };
-            })
-            .sort((a, b) => {
-              if (a.isFolder && b.isFolder) {
-                return 0;
-              }
-              return a.isFolder ? -1 : 1;
-            });
+            }), ['file'], ['asc']),
+            [function(q){
+              return !q.isFolder;
+            }]);
     },
     checkPassword(path) {
       var pass = prompt(this.$t("list.auth"), "");
@@ -314,11 +329,80 @@ export default {
     },
     target(file, target) {
       let path = file.path;
-      if (target === "view") {
-        this.$router.push({
-          path: checkView(path),
-        });
-        return;
+      if (target === "_blank") {
+        if(file.mimeType == 'application/vnd.google-apps.folder'){
+          window.open(window.location.origin+path);
+          return;
+        } else {
+          window.open(window.location.origin+checkView(path));
+          return;
+        }
+      }
+      if (target === "down") {
+        this.$notify({
+          title: "Downloading Now",
+          message: "Generating Links and Downloading",
+          type: "success",
+        })
+        this.mainLoad = true;
+        this.$backend.post(apiRoutes.mediaTokenTransmitter, {
+          email: this.user.email,
+          token: this.token.token,
+        }, backendHeaders(this.token.token)).then(response => {
+          if(response.data.auth && response.data.registered && response.data.token){
+            let link = window.location.origin+encodeURI(path.replace(/^\/(\d+:)\//, "/$1down/"))+"?player=download"+"&email="+this.user.email+"&token="+response.data.token;
+            this.mainLoad = false;
+            location.href=link;
+            return;
+          } else {
+            this.mainLoad = false;
+            return;
+          }
+        }).catch(e => {
+          console.log(e);
+          this.mainLoad = false;
+          return;
+        })
+      }
+      if (target === "copy") {
+        this.$notify({
+          title: "Processing",
+          message: "Generating Links",
+          type: "info",
+        })
+        this.mainLoad = true;
+        this.$backend.post(apiRoutes.mediaTokenTransmitter, {
+          email: this.user.email,
+          token: this.token.token,
+        }, backendHeaders(this.token.token)).then(response => {
+          if(response.data.auth && response.data.registered && response.data.token){
+            let link = window.location.origin+encodeURI(path)+"?player=external"+"&email="+this.user.email+"&token="+response.data.token;
+            this.mainLoad = false;
+            navigator.clipboard.writeText(link).then(function() {
+              notify({
+                title: "Copied !!",
+                message: "Successfully Copied.",
+                type: "success",
+              })
+              return;
+            }, function(err) {
+              notify({
+                title: "Failed",
+                message: "Failed to Copied - "+err,
+                type: "error",
+              })
+              return;
+            });
+            return;
+          } else {
+            this.mainLoad = false;
+            return;
+          }
+        }).catch(e => {
+          console.log(e);
+          this.mainLoad = false;
+          return;
+        })
       }
       if (file.mimeType === "application/vnd.google-apps.folder") {
         this.$router.push({
@@ -326,6 +410,13 @@ export default {
         });
         return;
       }
+      if (target === "view") {
+        this.$router.push({
+          path: checkView(path),
+        });
+        return;
+      }
+
     },
     renderMd() {
       var cmd = this.$route.params.cmd;
@@ -347,6 +438,18 @@ export default {
           path: this.readmeLink,
         };
       }
+    },
+    sortIt(name){
+      this.sort[name] = !this.sort[name];
+      this.files = sortBy(
+        orderBy(
+          this.files,
+          [name],
+          [this.sort[name] ? 'asc' : 'desc']
+        ),
+        [function(q){
+        return !q.isFolder;
+      }])
     },
     goSearchResult(file, target) {
       this.loading = true;

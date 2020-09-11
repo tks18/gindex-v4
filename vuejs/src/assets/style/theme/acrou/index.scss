@@ -98,6 +98,8 @@ html {
 
 .navbar-dropdown{
   background-color: black;
+  max-height: 18em;
+  overflow: auto;
 }
 
 .navbar-active {
@@ -153,19 +155,24 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
+  }
 
+  .tr-search {
+    background-color: transparent;
     &:hover {
-      background-color: white;
-      color: black;
-    }
-
-    &.icon {
-      cursor: pointer;
+      background-color: transparent;
     }
   }
 
-  .td-item {
+  .tr-item {
     color: white;
+    &:hover {
+      background-color: none;
+      color: black;
+    }
+    &.icon {
+      cursor: pointer;
+    }
   }
 
   td span {
@@ -174,6 +181,22 @@ body {
 
   td .g2-file-desc {
     font-size: 12px;
+  }
+}
+
+.fillmain {
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.fillinput{
+  width: 30%;
+}
+
+@media only screen and (max-width: 700px){
+  .fillinput {
+    width: 100%;
   }
 }
 
@@ -350,27 +373,6 @@ body {
   background-color: #E50914;
 }
 
-.card-header-title {
-  color: #E50914;
-  background-color: black;
-}
-
-.card-content {
-  background-color: black;
-  color: #E50914;
-  font-weight: bold;
-}
-
-.label {
-  color: #E50914;
-}
-
-.download-link {
-  border: 1px solid #E50914;
-  background-color: black;
-  color: #E50914;
-}
-
 .mkdown-text {
   color: white;
   margin:1rem 0;
@@ -385,221 +387,6 @@ body {
   a:hover {
     color: white;
     background-color: transparent;
-  }
-}
-
-.sr-only {
-  background-color: transparent;
-}
-
-.navbar-item-image {
-  text-align: center;
-  padding-top: 10px;
-  border-radius: 100%;
-  font-size: 30px;
-  font-weight:700;
-  width: 40px;
-}
-
-#copy-url {
-  padding: 10px;
-  background-color: black;
-  border: 1px solid #E50914;
-  margin: 10px;
-  color: #E50914;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 0.5rem;
-}
-
-#copy-url:hover {
-  border: 1px solid black;
-  color: #E50914;
-}
-
-.top-buttons {
-  display: inline-block;
-}
-
-.card {
-  border: 1px solid #E50914;
-  border-radius: 0.2rem;
-}
-
-.fontonly {
-  font-size: 18px;
-}
-
-.card-header {
-  border: 1px solid #E50914;
-}
-
-.download-button {
-  padding: 10px;
-  background-color: black;
-  border: 1px solid #E50914;
-  margin: 10px;
-  color: #E50914;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 0.5rem;
-}
-
-.download-button:hover {
-  border: 1px solid black;
-  color: #E50914;
-}
-
-.videocolumn,.audiocolumn {
-  padding: 5px;
-}
-
-.videocolumn:hover,.audiocolumn:hover {
-  border: 1px solid #E50914;
-}
-
-.home {
-  color: white;
-  h1,h2,h3,h4,h5,h6 {
-    color: white;
-  }
-  p {
-    color: white;
-    font-family: monospace;
-  }
-  padding: 10px;
-  margin: 20px;
-  border: 2px solid #E50914;
-  border-radius: 0.4rem;
-}
-
-.login-page {
-  text-align: center;
-  border: 2px solid #E50914;
-  border-radius: 0.5rem;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  margin: 1px;
-  font-family: monospace;
-  .login-top-buttons {
-    margin: 5px;
-    background-color: transparent;
-    color: #E50914;
-    border: 1px solid #E50914;
-    padding: 5px;
-    border-radius: 0.5rem;
-  }
-  hr {
-    background-color: #E50914;
-  }
-  p {
-    text-overflow: clip;
-  }
-  label {
-    color: white;
-  }
-  h4 {
-    color: white;
-  }
-  input {
-    margin: 5px;
-    background-color: black;
-    border: 1px solid #E50914;
-    color: #E50914;
-    font-family: monospace;
-    font-size: 17px;
-  }
-  input:hover {
-    background-color: black;
-  }
-  .login-button {
-    background-color: #b6eb7a;
-    color: #17706e;
-    border: none;
-    padding: 5px 10px 5px 10px;
-  }
-  .login-register {
-    color: white;
-    border: none;
-    margin: 5px;
-    padding: 5px 10px 5px 10px;
-  }
-  .login-top-buttons {
-    margin: 5px;
-    background-color: transparent;
-    color: #E50914;
-    border: 1px solid #E50914;
-    padding: 5px;
-    border-radius: 0.5rem;
-  }
-  hr {
-    background-color: #E50914;
-  }
-  .login-register:hover {
-    color: #E50914;
-  }
-}
-
-.registration-page {
-  align-content: center;
-  text-align: center;
-  border: 2px solid #E50914;
-  border-radius: 0.5rem;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  margin: 1px;
-  font-family: monospace;
-  .checkbox {
-    text-align: center;
-  }
-  label {
-    color: white;
-  }
-  h4 {
-    color: white;
-  }
-  input,textarea {
-    margin: 5px;
-    background-color: black;
-    border: 1px solid #E50914;
-    color: #E50914;
-    font-family: monospace;
-    font-size: 18px;
-  }
-  input:hover,textarea:hover {
-    background-color: black;
-  }
-  .guidelines {
-    color: #E50914;
-  }
-  .guidelines:hover {
-    color: red;
-  }
-  .registration-button {
-    background-color: #fb7813;
-    color: white;
-    border: none;
-    padding: 5px 10px 5px 10px;
-  }
-  .registration-login {
-    color: white;
-    border: none;
-    margin: 5px;
-    padding: 5px 10px 5px 10px;
-  }
-  .registration-top-buttons {
-    margin: 5px;
-    background-color: #ffe8df;
-    color: black;
-    border: none;
-    padding: 5px;
-    border-radius: 0.5rem;
-  }
-  hr {
-    background-color: #E50914;
-  }
-  .registration-login:hover {
-    color: #E50914;
   }
 }
 
@@ -814,24 +601,6 @@ body {
   border: none;
 }
 
-th {
-  color: white;
-  &:hover {
-    color: black;
-  }
-}
-
-.special-email {
-  font-size: 24px;
-  border-radius: none;
-}
-
-@media only screen and (max-width: 700px){
-  .special-email {
-    font-size: 16px;
-  }
-}
-
 .just {
   background: transparent 0.1;
 }
@@ -898,6 +667,19 @@ th {
   }
   .cat-link:hover {
     box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
+  }
+}
+
+.scroll-block {
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  .scroll-link {
+    text-overflow: ellipsis;
+    display: inline-block;
   }
 }
 
@@ -1047,6 +829,24 @@ input:focus {
   }
   &:hover {
     border: 1px solid #e50914;
+  }
+}
+
+.fillsearch {
+  background-color: black;
+  border: none;
+  font-weight: bold;
+  color:#e50914;
+  &::placeholder {
+    color: #e50914;
+    font-weight: bold;
+  }
+  &:focus {
+    border: none;
+    border-bottom: 1px solid #e50914;
+  }
+  &:hover {
+    border: none;
   }
 }
 

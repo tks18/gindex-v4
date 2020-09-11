@@ -125,7 +125,7 @@
                       <div class="column has-text-right is-full">
                         <div class="field has-addons">
                           <div class="control is-expanded">
-                            <input class="input is-large is-rounded" autofocus placeholder="Enter Your Email" id="email" type="email" v-model="email" required>
+                            <input :class="ismobile ? 'input is-rounded' : 'input is-large is-rounded'" autofocus placeholder="Enter Your Email" id="email" type="email" v-model="email" required>
                           </div>
                           <div class="control">
                             <button :class="ismobile ? loading ? 'button is-loading is-rounded is-netflix-red' : 'button is-rounded is-netflix-red' : loading ? 'button is-rounded is-loading is-large is-netflix-red' : 'button is-large is-rounded is-netflix-red'" :disabled="disabled">
