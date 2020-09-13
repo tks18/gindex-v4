@@ -4,7 +4,8 @@ var authConfig = {
   hybridpass: "Copy Hybrid Password Generated from Backend",
   version: "v8.1.3",
   theme: "green",
-  //red, blue, orange, green, yellow, netflix-red, deep-orange, indigo, lime, pink, purple, red, teal are Available.
+  //Following Themes are Available for Selection.
+  //carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, konifer, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
   //All are Case Sensitive.
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",

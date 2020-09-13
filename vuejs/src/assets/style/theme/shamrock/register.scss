@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+$family-sans-serif: 'Open Sans', sans-serif;
+$widescreen-enabled: false;
+$fullhd-enabled: true;
+$link: #2EC1AC;
+$accent: #2EC1AC;
+
+$button-text: black;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+$table-row-hover-background-color: #d5f2ee;
+
+@import 'bulma';
+@import 'bulma-divider';
+@import 'cool-checkboxes-for-bulma.io';
+@import '~@/assets/style/theme/index.scss';
+@import 'vue2-animate/src/sass/vue2-animate.scss';
+@import "vue-select/src/scss/vue-select.scss";
+@import 'bulma-extensions/bulma-switch/src/sass/index.sass'
