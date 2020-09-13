@@ -6,44 +6,6 @@
       <div class="columns is-vcentered is-centered is-multiline">
         <div class="column is-half">
           <div class="columns is-desktop is-multiline is-centered">
-            <div class="column is-full">
-              <div class="box has-background-black">
-                <p class="title has-text-weight-bold has-text-white has-text-centered">Currently Logged as</p>
-                <p class="subtitle has-text-weight-bold has-text-white has-text-centered">Scroll Down to Accept Users</p>
-                <div class="columns is-vcentered is-multiline is-mobile">
-                  <div class="column is-three-fifths">
-                    <p class="subtitle has-text-black">Admin Name</p>
-                  </div>
-                  <div class="column is-two-fifths">
-                    <p class="subtitle has-text-black has-text-weight-bold">{{ user.name }}</p>
-                  </div>
-                  <div class="column is-three-fifths">
-                    <p class="subtitle has-text-black">Currently You are</p>
-                  </div>
-                  <div class="column is-two-fifths">
-                    <p class="subtitle has-text-black has-text-weight-bold">{{ user.role }}</p>
-                  </div>
-                  <div v-if="user.admin && !user.superadmin" class="column is-full">
-                    <p class="subtitle has-text-weight-bold has-text-warning-dark">
-                      Your Scope is Restricted to Adding Additional Users. Use the Below Button to get Pending User Requests.
-                    </p>
-                  </div>
-                  <div v-if="user.admin && !user.superadmin" class="column has-text-centered is-full">
-                    <button class="button is-netflix-red" @click="gotoPage('/request/', 'settings')">
-                      <span class="icon is-small">
-                        <i class="fas fa-user-shield"></i>
-                      </span>
-                      <span>Request</span>
-                    </button>
-                  </div>
-                  <div v-if="user.admin && user.superadmin" class="column is-full">
-                    <p class="subtitle has-text-weight-bold has-text-danger-dark">
-                      Your Scope is Maximum and Can Add Additional Users, Promote Users.Use the Below Buttons to get Pending User Requests.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div :class=" modal ? 'modal is-active' : 'modal' ">
               <div class="modal-background"></div>
               <div class="modal-card">
@@ -142,23 +104,6 @@
           </div>
         </div>
         <div class="column is centered has-text-centered has-text-white is-two-fifths">
-          <article :class=" warnmessageVisibility ? 'message is-warning' : 'message is-hidden is-warning'">
-            <div class="message-header">
-              <p>Important</p>
-              <button class="delete" @click="warnmessageVisibility = false" aria-label="delete"></button>
-            </div>
-            <div class="message-body">
-              <span>Only Pending User and Admin Requests can be Accepted.Use Invite Option to Invite Users.</span>
-              <div class="buttons is-centered mt-2">
-                <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'invite')">
-                  <span class="icon is-small">
-                    <i class="fas fa-user-plus"></i>
-                  </span>
-                  <span>Invite</span>
-                </button>
-              </div>
-            </div>
-          </article>
           <article :class=" errorMessage ? 'message is-danger' : 'message is-hidden is-danger'">
             <div class="message-header">
               <p>Error Proccessing</p>
