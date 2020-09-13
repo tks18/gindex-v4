@@ -16,7 +16,7 @@ process.env.VUE_APP_CDN_PATH =
   process.env.VUE_APP_CDN_PATH.replace(
     "@master",
     "@v" + process.env.VUE_APP_VERSION
-  ) || "/";
+  ).replace("THEME", process.env.VUE_APP_THEME) || "/";
 
 // Basic path Note that you need to modify this before publishing
 let publicPath = process.env.VUE_APP_CDN_PATH || "/";

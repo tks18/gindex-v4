@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation" :style=" netflix_black ? 'background-color: #222222' : 'background-color: black;'">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="loading">
         <loading :active.sync="loading" :can-cancel="false" :is-full-page="fullpage"></loading>
@@ -12,8 +12,7 @@
         </div>
         <a
           role="button"
-          style="color: #e50914;"
-          :class="'navbar-burger burger ' + (isActive ? 'navbar-active' : '')"
+          :class="'navbar-burger burger accent' + (isActive ? 'navbar-active' : '')"
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
@@ -76,7 +75,7 @@
           <div
             :class="ismobile ? gddropdown ? 'navbar-item has-dropdown is-active' : 'navbar-item has-dropdown' : 'navbar-item has-dropdown is-hoverable' "
            @click="ismobile ? gddropdown = !gddropdown : '' " v-if="!logged">
-            <a class="navbar-link" style="background-color: inherit;">Space</a>
+            <a class="navbar-link" style="background-color: inherit;">Spaces</a>
             <div class="navbar-dropdown is-boxed">
               <a
                 class="navbar-item"
@@ -93,7 +92,7 @@
           <div
             :class="ismobile ? gddropdown ? 'navbar-item has-dropdown is-active' : 'navbar-item has-dropdown' : 'navbar-item has-dropdown is-hoverable' "
            @click="ismobile ? gddropdown = !gddropdown : '' " v-if="logged">
-            <a class="navbar-link" style="background-color: inherit;">Space</a>
+            <a class="navbar-link" style="background-color: inherit;">Spaces</a>
             <div class="navbar-dropdown is-boxed">
               <a
                 class="navbar-item"

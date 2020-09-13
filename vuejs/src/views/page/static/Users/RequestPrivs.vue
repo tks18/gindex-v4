@@ -90,7 +90,7 @@
                   </div>
                 </div>
               </div>
-              <button :class=" loading ? 'button is-loading is-rounded is-warning is-medium' : 'button is-warning is-rounded is-medium' " type="submit" :disabled="disabled" >
+              <button :class=" loading ? 'button is-loading is-rounded is-netflix-red is-medium' : 'button is-netflix-red is-rounded is-medium' " type="submit" :disabled="disabled" >
                 <span class="icon">
                   <i class="fas fa-user-plus"></i>
                 </span>
@@ -162,7 +162,7 @@
                       <p class="subtitle has-text-white">For Admin Features</p>
                     </div>
                     <div v-if="!admin && !superadmin" class="column is-one-third">
-                      <button class="button is-white is-rounded" @click="adminmodal = true">
+                      <button class="button is-netflix-red is-rounded" @click="adminmodal = true">
                         <span class="icon is-small">
                           <i class="fas fa-sticky-note"></i>
                         </span>
@@ -173,7 +173,7 @@
                       <p class="subtitle has-text-white">For Superadmin Features</p>
                     </div>
                     <div v-if="admin && !superadmin" class="column is-one-third">
-                      <button class="button is-white is-rounded" @click="superadminmodal = true">
+                      <button class="button is-netflix-red is-rounded" @click="superadminmodal = true">
                         <span class="icon is-small">
                           <i class="fas fa-sticky-note"></i>
                         </span>

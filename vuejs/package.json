@@ -1,10 +1,11 @@
 {
   "name": "gindex-v4",
-  "version": "8.1.8",
-  "g2index": "8.1.8",
+  "version": "8.1.9",
+  "g2index": "8.1.9",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "theme-build": "cmd /c buildAll.bat",
     "lint": "vue-cli-service lint",
     "analyz": "npm_config_report=true npm run build",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"

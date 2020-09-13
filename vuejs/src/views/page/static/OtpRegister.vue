@@ -27,7 +27,7 @@
                   </div>
                 </div>
                 <div class="buttons is-centered">
-                  <button class="button is-rounded is-medium is-danger" @click="gotoPage('/', 'login')">
+                  <button class="button is-rounded is-medium is-netflix-red" @click="gotoPage('/', 'login')">
                     <span class="icon is-medium">
                       <i class="fas fa-shipping-fast"></i>
                     </span>
@@ -98,7 +98,7 @@
                   </span>
                 </p>
               </div>
-              <button :class=" loading ? 'button is-rounded is-loading is-success is-medium' : 'button is-rounded is-success is-medium' " :disabled="disabled">
+              <button :class=" loading ? 'button is-rounded is-loading is-netflix-red is-medium' : 'button is-rounded is-netflix-red is-medium' " :disabled="disabled">
                 <span class="icon is-medium">
                   <i class="fas fa-user-check"></i>
                 </span>

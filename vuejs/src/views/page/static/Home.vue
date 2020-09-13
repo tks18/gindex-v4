@@ -42,7 +42,7 @@
                         <h3 class="subtitle has-text-white">
                           Watch Here
                         </h3>
-                        <button class="button is-dark" @click="gotoPage('/'+mainhero.link+'/')">
+                        <button class="button is-netflix-red" @click="gotoPage('/'+mainhero.link+'/')">
                           <span class="icon">
                             <i class="fas fa-play"></i>
                           </span>

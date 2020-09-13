@@ -1,7 +1,6 @@
 <template>
   <span
-    class="icon"
-    style="color: #E50914;"
+    class="icon accent"
     v-show="$route.meta.view === 'list'"
     :title="
       mode === 'list' ? $t('list.view.gridMode') : $t('list.view.listMode')

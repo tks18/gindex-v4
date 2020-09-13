@@ -20,7 +20,7 @@
       <td>
         <div class="field has-addons is-grouped">
           <div class="control is-expanded is-dark">
-            <input class="input is-expanded fillsearch" type="search" v-tooltip.bottom-start="'Filter the List'" autofocus v-model="searchBarTerm" placeholder="Filter the Files..">
+            <input class="input is-expanded fillsearch" type="search" v-tooltip.bottom-start="'Filter the List'" v-model="searchBarTerm" placeholder="Filter the Files..">
           </div>
         </div>
       </td>
