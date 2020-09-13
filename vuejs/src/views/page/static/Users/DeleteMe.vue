@@ -27,7 +27,7 @@
                 </span>
               </p>
             </div>
-            <button :class=" loading ? 'button is-loading is-rounded is-warning' : 'button is-warning is-rounded' " type="submit" :disabled="disabled">
+            <button :class=" loading ? 'button is-loading is-rounded is-netflix-red' : 'button is-netflix-red is-rounded' " type="submit" :disabled="disabled">
               <span class="icon">
                 <i class="fas fa-user-minus"></i>
               </span>

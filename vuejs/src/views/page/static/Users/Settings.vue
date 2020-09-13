@@ -37,7 +37,7 @@
                 <p class="subtitle">Request More Scopes</p>
               </div>
               <div v-if="!admin && !superadmin || admin && !superadmin" class="column has-text-centered is-two-fifths">
-                <button class="button is-success" @click="gotoPage('/request/', 'settings')">
+                <button class="button is-netflix-red" @click="gotoPage('/request/', 'settings')">
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
                   </span>
@@ -65,14 +65,14 @@
         <div class="column is-vcentered is-one-third">
           <div class="columns is-multiline is-desktop is-centered">
             <div class="column is-full">
-              <div class="box has-background-warning">
+              <div class="box has-background-light">
                 <h3 class="title has-text-centered has-text-weight-bold">Your Preferences</h3>
                 <div class="columns is-vcentered is-centered is-multiline is-mobile">
                   <div class="column is-three-fifths">
                     <p class="subtitle">Change Your Avatar</p>
                   </div>
                   <div class="column has-text-centered is-two-fifths">
-                    <button class="button is-rounded is-primary" @click="alerts('Under Development')">
+                    <button class="button is-rounded is-netflix-red" @click="alerts('Under Development')">
                       <span class="icon is-small">
                         <i class="far fa-user-circle"></i>
                       </span>
@@ -83,7 +83,7 @@
                     <p class="subtitle">Change Your Password</p>
                   </div>
                   <div class="column has-text-centered is-two-fifths">
-                    <button class="button is-rounded is-primary" @click="gotoPage('/changepassword/', 'settings')">
+                    <button class="button is-rounded is-netflix-red" @click="gotoPage('/changepassword/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-lock"></i>
                       </span>
@@ -94,7 +94,7 @@
                     <p class="subtitle">Change Your Email</p>
                   </div>
                   <div class="column has-text-centered is-two-fifths">
-                    <button class="button is-rounded is-primary" @click="alerts('Under Development')">
+                    <button class="button is-rounded is-netflix-red" @click="alerts('Under Development')">
                       <span class="icon is-small">
                         <i class="fas fa-envelope"></i>
                       </span>

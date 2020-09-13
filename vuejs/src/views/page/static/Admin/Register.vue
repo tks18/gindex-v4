@@ -7,7 +7,7 @@
         <div class="column is-half">
           <div class="columns is-desktop is-multiline is-centered">
             <div class="column is-full">
-              <div class="box has-background-primary">
+              <div class="box has-background-black">
                 <p class="title has-text-weight-bold has-text-white has-text-centered">Currently Logged as</p>
                 <p class="subtitle has-text-weight-bold has-text-white has-text-centered">Scroll Down to Accept Users</p>
                 <div class="columns is-vcentered is-multiline is-mobile">
@@ -29,7 +29,7 @@
                     </p>
                   </div>
                   <div v-if="user.admin && !user.superadmin" class="column has-text-centered is-full">
-                    <button class="button is-white" @click="gotoPage('/request/', 'settings')">
+                    <button class="button is-netflix-red" @click="gotoPage('/request/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-user-shield"></i>
                       </span>
@@ -101,7 +101,7 @@
                         </p>
                       </div>
                       <div class="column is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';deleteApi = 'user'">
+                        <button class="button is-netflix-red" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';deleteApi = 'user'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
@@ -114,7 +114,7 @@
                         </p>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';deleteApi = 'admin'">
+                        <button class="button is-netflix-red" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';deleteApi = 'admin'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
@@ -127,7 +127,7 @@
                         </p>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-one-third">
-                        <button class="button is-success" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';deleteApi = 'superadmin';">
+                        <button class="button is-netflix-red" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';deleteApi = 'superadmin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
@@ -150,7 +150,7 @@
             <div class="message-body">
               <span>Only Pending User and Admin Requests can be Accepted.Use Invite Option to Invite Users.</span>
               <div class="buttons is-centered mt-2">
-                <button class="button is-rounded is-danger" @click="gotoPage('/', 'invite')">
+                <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'invite')">
                   <span class="icon is-small">
                     <i class="fas fa-user-plus"></i>
                   </span>
@@ -221,7 +221,7 @@
             </div>
             <p v-if="admin && !superadmin" class="help is-warning">Only Superadmin can Accept Admin & Superadmin users</p>
             <div>
-            <button :class=" loading ? 'button is-loading is-rounded is-warning' : 'button is-warning is-rounded' " type="submit" :disabled="disabled">
+            <button :class=" loading ? 'button is-loading is-rounded is-netflix-red' : 'button is-netflix-red is-rounded' " type="submit" :disabled="disabled">
               <span class="icon">
                 <i class="fas fa-user-plus"></i>
               </span>

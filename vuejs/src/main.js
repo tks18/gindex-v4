@@ -19,10 +19,11 @@ import Viewer from "v-viewer";
 import { createPlayer, globalPlayer, destroyPlayer } from "./plugin/aplayer";
 import cdnpath from "./libs/util.cdn";
 import '@/components'
-import Meta from 'vue-meta'
+import Meta from 'vue-meta';
+import themeManager from './themeManager';
 import "viewerjs/dist/viewer.css";
-import "@/assets/style/theme/register.scss";
 import VuePlyr from "vue-plyr";
+themeManager();
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$backend = rawAxios;

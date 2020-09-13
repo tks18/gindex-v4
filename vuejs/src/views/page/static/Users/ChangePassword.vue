@@ -43,7 +43,7 @@
                 </span>
               </p>
             </div>
-            <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'" :disabled="disabled">
+            <button :class=" loading ? 'button is-rounded is-loading is-netflix-red is-medium' : 'button is-rounded is-medium is-netflix-red'" :disabled="disabled">
               <span class="icon is-medium">
                 <i class="fas fa-shipping-fast"></i>
               </span>

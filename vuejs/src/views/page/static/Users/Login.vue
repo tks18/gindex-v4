@@ -27,7 +27,7 @@
                     </div>
                   </div>
                   <div class="column is-one-fifth">
-                    <button class="button is-danger">
+                    <button class="button is-netflix-red">
                       <span class="icon">
                         <i class="fas fa-sign-in-alt"></i>
                       </span>
@@ -81,7 +81,7 @@
                       </div>
                     </div>
                     <div class="column has-text-centered is-two-thirds">
-                      <button :class=" loading ? 'button is-rounded is-loading is-danger' : 'button is-rounded is-danger'">
+                      <button :class=" loading ? 'button is-rounded is-loading is-netflix-red' : 'button is-rounded is-netflix-red'">
                         <span class="icon">
                           <i class="fas fa-user-plus"></i>
                         </span>
@@ -134,7 +134,7 @@
                 </p>
               </div>
               <p class="help subtitle has-text-weight-bold forgot-pass has-text-right is-success" style="cursor: pointer;" @click="modal = true;">Forgot Password ?</p>
-              <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'" :disabled="disabled">
+              <button :class=" loading ? 'button is-rounded is-loading is-netflix-red is-medium' : 'button is-rounded is-medium is-netflix-red'" :disabled="disabled">
                 <span class="icon is-medium">
                   <i class="fas fa-shipping-fast"></i>
                 </span>

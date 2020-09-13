@@ -83,7 +83,7 @@
                 </div>
               </div>
             </div>
-            <button :class=" loading ? 'button is-loading is-rounded is-warning is-medium' : 'button is-warning is-rounded is-medium' " type="submit" :disabled="disabled" >
+            <button :class=" loading ? 'button is-loading is-rounded is-netflix-red is-medium' : 'button is-netflix-red is-rounded is-medium' " type="submit" :disabled="disabled" >
               <span class="icon">
                 <i class="fas fa-user-plus"></i>
               </span>

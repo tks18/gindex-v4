@@ -58,7 +58,7 @@
               <textarea class="textarea is-success is-rounded" placeholder="Reason for Adding Him" id="message" rows="3" v-model="addmessage" required></textarea>
             </div>
           </div>
-          <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'">
+          <button :class=" loading ? 'button is-rounded is-loading is-netflix-red is-medium' : 'button is-rounded is-medium is-netflix-red'">
             <span class="icon is-medium">
               <i class="fas fa-user-minus"></i>
             </span>
@@ -88,7 +88,7 @@
               </div>
             </div>
           </div>
-          <button :class=" loading ? 'button is-rounded is-loading is-danger is-medium' : 'button is-rounded is-medium is-danger'">
+          <button :class=" loading ? 'button is-rounded is-loading is-netflix-red is-medium' : 'button is-rounded is-medium is-netflix-red'">
             <span class="icon is-medium">
               <i class="fas fa-user-plus"></i>
             </span>

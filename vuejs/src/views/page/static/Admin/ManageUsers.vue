@@ -17,7 +17,7 @@
               </p>
             </div>
             <div class="column has-text-centered is-3">
-              <button @click="handleRefresh" :class=" loading ? 'button is-rounded is-loading is-warning' : 'button is-rounded is-warning'">
+              <button @click="handleRefresh" :class=" loading ? 'button is-rounded is-loading is-netflix-red' : 'button is-rounded is-netflix-red'">
                 <span class="icon">
                   <i class="fas fa-sync"></i>
                 </span>
@@ -70,27 +70,27 @@
                   </article>
                 </div>
                 <div v-show="!inviteInput" :class="admin && superadmin ? currentUser.admin && currentUser.superadmin && !currentUser.pending ? 'column has-text-centered is-half' : 'column has-text-right is-quarter' : 'column has-text-centered is-half' ">
-                  <button class="button is-rounded is-danger" @click="handleUpgradeDelete(currentUser, 'delete')">
+                  <button class="button is-rounded is-netflix-red" @click="handleUpgradeDelete(currentUser, 'delete')">
                     Delete
                   </button>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
-                  <button class="button is-rounded is-primary" @click="inviteInput = true;">
+                  <button class="button is-rounded is-netflix-red" @click="inviteInput = true;">
                     Invite as Admin
                   </button>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
-                  <button class="button is-rounded is-primary" @click="inviteInput = true;">
+                  <button class="button is-rounded is-netflix-red" @click="inviteInput = true;">
                     Invite as Superadmin
                   </button>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
-                  <button class="button is-rounded is-primary" @click="gotoPage('/', 'register')">
+                  <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
                     Grant Admin
                   </button>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
-                  <button class="button is-rounded is-primary" @click="gotoPage('/', 'register')">
+                  <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
                     Grant Superadmin
                   </button>
                 </div>
@@ -104,12 +104,12 @@
                       </div>
                     </div>
                     <div class="column has-text-right is-half">
-                      <button class="button is-rounded is-primary" @click="handleInvite(currentUser)">
+                      <button class="button is-rounded is-netflix-red" @click="handleInvite(currentUser)">
                         Invite
                       </button>
                     </div>
                     <div class="column has-text-left is-half" @click="inviteInput = false;errorMessage = false;">
-                      <button class="button is-rounded is-success" >
+                      <button class="button is-rounded is-netflix-red" >
                         Cancel
                       </button>
                     </div>
@@ -141,7 +141,7 @@
                 <th class="has-text-white is-hidden-mobile is-hidden-touch" >{{ user.email.slice(0,30) }}</th>
                 <th class="has-text-white is-hidden-mobile is-hidden-touch" >{{ user.role }}</th>
                 <th class="has-text-white" >
-                  <button class="button is-danger is-rounded" @click="userModal(user)">
+                  <button class="button is-netflix-red is-rounded" @click="userModal(user)">
                     View
                   </button>
                 </th>

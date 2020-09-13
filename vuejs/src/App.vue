@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="mx-0 my-0 px-0 py-0" :style=" netflix_black ? 'background-color: #222222' : 'background-color: black;'">
+  <div id="app" class="mx-0 my-0 px-0 py-0">
     <Layout ref="layout" />
   </div>
 </template>
@@ -41,23 +41,6 @@ export default {
         removeItem("sessionStore");
         removeItem("prev");
       });
-    },
-    checkVersion() {
-      let appVersion = window.version;
-      this.$backend.get("https://api.github.com/repos/tks18/gindex-v4/releases/latest").then(response => {
-        if(response.data.name){
-          let latestVersion = response.data.name;
-          if(appVersion != latestVersion){
-            this.$notify({
-              title: "Update Available",
-              dangerouslyUseHTMLString: true,
-              message: `Update to ${latestVersion} Available`,
-              duration: 0,
-              type: "warning",
-            });
-          }
-        }
-      })
     },
   },
 };
