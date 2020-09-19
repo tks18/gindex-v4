@@ -354,15 +354,17 @@ export default {
       this.isActive = !this.isActive;
       var token = getItem("tokendata")
       var user = getItem("userdata");
+      var session = getItem("sessiondata");
       var hyBridToken = getItem("hybridToken");
       if(hyBridToken && hyBridToken != null || hyBridToken != undefined){
         removeItem("hybridToken");
         this.$bus.$emit("logout", "User Logged Out");
         this.loading = false;
         this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })
-      } else if (user != null && token != null){
+      } else if (user != null && token != null && session != null){
         removeItem("tokendata");
         removeItem("userdata");
+        removeItem("sessiondata");
         this.$bus.$emit("logout", "User Logged Out");
         this.loading = false;
         this.$router.push({ name: 'results' , params: { id: this.gdindex, cmd: "result", success:true, data: "You are Being Logged Out. Please Wait", redirectUrl: '/', tocmd:'home' } })

@@ -33,7 +33,7 @@
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
 }
 
 /* Track */
@@ -49,12 +49,12 @@
 }
 
 html {
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   font-size: 14px;
 }
 
 .navbar {
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   .container {
     max-width: 95%;
   }
@@ -72,7 +72,7 @@ html {
     background: none;
   }
   .search-input {
-    background-color: hsl(0, 0%, 3%);
+    background-color: #121212;
     color: $accent;
     border: 0px;
   }
@@ -93,7 +93,7 @@ html {
 }
 
 .navbar-dropdown{
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   max-height: 18em;
   overflow: auto;
 }
@@ -103,7 +103,7 @@ html {
 }
 
 body {
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   overflow: hidden;
 }
 
@@ -165,7 +165,7 @@ body {
     color: white;
     &:hover {
       background-color: none;
-      color: hsl(0, 0%, 3%);
+      color: #121212;
     }
     &.icon {
       cursor: pointer;
@@ -240,7 +240,7 @@ body {
       color: $accent;
     }
     &a:hover {
-      color: hsl(0, 0%, 3%);
+      color: #121212;
     }
     &a:focus {
       color: $accent;
@@ -266,7 +266,7 @@ body {
 
 .video-content {
   width: 100%;
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   position: relative;
   padding-bottom: 2%;
 
@@ -282,12 +282,12 @@ body {
   text-align: center;
   width: 100%;
   padding: 5%;
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   border: 1px solid $accent;
 }
 
 .audio-card:hover {
-  border: 1px solid hsl(0, 0%, 3%);
+  border: 1px solid #121212;
 }
 
 //search bar
@@ -324,7 +324,7 @@ body {
   }
 
   .pageloader::after {
-    border: 0 solid hsl(0, 0%, 3%);
+    border: 0 solid #121212;
   }
 }
 
@@ -375,7 +375,7 @@ body {
 
 .is-divider-vertical[data-content]::after,
 .is-divider[data-content]::after {
-  color: hsl(0, 0%, 3%);
+  color: #121212;
   background-color: $accent;
 }
 
@@ -594,7 +594,7 @@ body {
   display: block !important;
   z-index: 10000;
   .tooltip-inner {
-    background: hsl(0, 0%, 3%);
+    background: #121212;
     color: white;
     border-radius: 16px;
     padding: 5px 10px 4px;
@@ -605,7 +605,7 @@ body {
     border-style: solid;
     position: absolute;
     margin: 5px;
-    border-color: hsl(0, 0%, 3%);
+    border-color: #121212;
     z-index: 1;
   }
   &[x-placement^="top"] {
@@ -677,7 +677,7 @@ body {
       color: white;
       padding: 24px;
       border-radius: 5px;
-      box-shadow: 0 5px 30px hsl(0, 0%, 3%);
+      box-shadow: 0 5px 30px #121212;
     }
     .tooltip-arrow {
       border-color: $color;
@@ -687,10 +687,10 @@ body {
     $color: #f9f9f9;
     .popover-inner {
       background: $color;
-      color: hsl(0, 0%, 3%);
+      color: #121212;
       padding: 24px;
       border-radius: 5px;
-      box-shadow: 0 5px 30px hsl(0, 0%, 3%);
+      box-shadow: 0 5px 30px #121212;
     }
     .popover-arrow {
       border-color: $color;
@@ -703,7 +703,7 @@ input:focus {
 }
 
 .searchbar-input {
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   border: 1px solid $accent;
   color:$accent;
   &::placeholder {
@@ -719,7 +719,7 @@ input:focus {
 }
 
 .fillsearch {
-  background-color: hsl(0, 0%, 3%);
+  background-color: #121212;
   border: none;
   font-weight: bold;
   color:$accent;

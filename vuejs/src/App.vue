@@ -27,7 +27,7 @@ export default {
     this.delTemps();
   },
   mounted() {
-    this.checkVersion();
+    // this.checkVersion();
     this.netflix_black = window.themeOptions.prefer_netflix_black
   },
   methods: {

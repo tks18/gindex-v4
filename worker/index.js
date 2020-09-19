@@ -5,7 +5,7 @@ var authConfig = {
   version: "v8.1.3",
   theme: "green",
   //Following Themes are Available for Selection.
-  //carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, konifer, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
+  //carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
   //All are Case Sensitive.
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
@@ -38,10 +38,6 @@ var themeOptions = {
     default_poster: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
   },
   footer_data: {
-    copyright: true,
-    disclaimer: true,
-    license: true,
-    codeofconduct: true,
     footer_logo: true,
     footer_logo_link: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
   },
@@ -53,13 +49,13 @@ var themeOptions = {
     desc: true,
   }
 }
+// =======Options END=======
+
 
 var routes = {
   loginRoute: authConfig.backendSite + '/login',
   mediaTokenVerify: authConfig.backendSite + '/media/verify',
 };
-// =======Options END=======
-
 
 /**
  * global functions
