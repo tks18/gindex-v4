@@ -213,9 +213,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
                           this.metatitle = "Success...";
                           setItem("tokendata", encodeSecret(JSON.stringify({ token: response.data.token ,issuedate: response.data.issuedat, expirydate: response.data.expiryat })));
                           setItem("userdata", encodeSecret(JSON.stringify( response.data.tokenuser )));
+                          setItem("sessiondata", encodeSecret(JSON.stringify( response.data.sessiondata )))
                           var token = getItem("tokendata");
                           var user = getItem("userdata");
-                          if(token != null && user != null){
+                          var session = getItem("sessiondata");
+                          if(token != null && user != null && session != null){
                             var tokenData = JSON.parse(decodeSecret(token));
                             var userData = JSON.parse(decodeSecret(user));
                             this.loading = false;
