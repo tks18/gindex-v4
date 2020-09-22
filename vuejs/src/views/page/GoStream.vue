@@ -6,7 +6,7 @@
         <div class="columns is-desktop is-multiline is-centered is-vcentered">
           <div :class="ismobile ? 'column is-full' : 'column is-two-thirds'">
             <vue-plyr ref="plyr" v-bind:key="videokey" class="my-2">
-              <video preload="none" :src="url" autoplay controls crossorigin class="video-content">
+              <video preload="none" :src="url" class="video-content">
               </video>
             </vue-plyr>
           </div>
@@ -120,7 +120,7 @@ export default {
       this.url = url;
       let options = {
           src: url,
-          autoplay: true,
+          autoplay: false,
           media: this.player.media,
       };
       this.metatitle = "Playing - "+url;
