@@ -8,7 +8,7 @@
         <div class="level-item">
           <ul>
             <li>
-              <a style="accent"
+              <a class="accent"
                 v-show="navs && navs.length > 0"
                 @click="go('/' + index + ':/')"
                 >{{ $t("index") }}</a
@@ -16,10 +16,10 @@
             </li>
             <li
               v-for="(item, index) in navs"
-              :class="index + 1 == navs.length ? 'is-active' : ''"
+              :class="index + 1 == navs.length ? 'is-active accent' : 'accent'"
               v-bind:key="index"
             >
-              <a class="breadcrumb-text" v-if="index + 1 == navs.length" aria-current="page" href="#">{{
+              <a class="accent" style="color:white" v-if="index + 1 == navs.length" aria-current="page" href="#">{{
                 item.title
               }}</a>
               <a class="accent" v-else @click="go(item.path)">{{ item.title }}</a>
@@ -119,7 +119,6 @@ export default {
     border-radius: 50%;
     height: 40px;
     width: 40px;
-    color: #ff9595;
     &:hover {
       cursor: pointer;
     }

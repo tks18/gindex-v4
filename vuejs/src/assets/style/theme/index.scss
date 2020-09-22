@@ -49,12 +49,17 @@
 }
 
 html {
-  background-color: #121212;
+  background-image: linear-gradient(to right bottom, $grad-start, $grad-midone, $grad-midtwo, $grad-midthree, $grad-final);
+  background-size: 150% 150%;
+  background-position: 0% 0%;
+  -webkit-animation: tweenit 10s ease 1;
+  -moz-animation: tweenit 10s ease 1;
+  animation: tweenit 10s ease 1;
   font-size: 14px;
 }
 
 .navbar {
-  background-color: #121212;
+  background-color: transparent;
   .container {
     max-width: 95%;
   }
@@ -72,7 +77,8 @@ html {
     background: none;
   }
   .search-input {
-    background-color: #121212;
+    background-color: transparent;
+    backdrop-filter: blur(200px);
     color: $accent;
     border: 0px;
   }
@@ -93,7 +99,8 @@ html {
 }
 
 .navbar-dropdown{
-  background-color: #121212;
+  background-color: transparent;
+  backdrop-filter: blur(200px);
   max-height: 18em;
   overflow: auto;
 }
@@ -103,7 +110,6 @@ html {
 }
 
 body {
-  background-color: #121212;
   overflow: hidden;
 }
 
@@ -519,7 +525,7 @@ body {
     width: 24.2%;
     height: 175px;
     padding: 14px;
-    margin: 3px;
+    margin: 2px;
   }
   .trend-link:hover {
     box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
@@ -549,7 +555,7 @@ body {
     box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
     height: 175px;
     padding: 14px;
-    margin: 5px;
+    margin: 2px;
   }
   .cat-link:hover {
     box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
@@ -588,6 +594,112 @@ body {
 
 .audioplayer {
   --plyr-color-main: $accent;
+}
+
+@-webkit-keyframes tweenit {
+  0%{
+    background-position:0% 50%;
+  }
+  10%{
+    background-position:20% 45%;
+  }
+  20%{
+    background-position:40% 40%;
+  }
+  30%{
+    background-position:60% 35%;
+  }
+  40%{
+    background-position:80% 30%;
+  }
+  50%{
+    background-position:100% 25%;
+  }
+  60%{
+    background-position:80% 20%;
+  }
+  70%{
+    background-position:60% 15%;
+  }
+  80%{
+    background-position:40% 10%;
+  }
+  90%{
+    background-position:20% 5%;
+  }
+  100%{
+    background-position:0% 0%;
+  }
+}
+@-moz-keyframes tweenit {
+  0%{
+    background-position:0% 50%;
+  }
+  10%{
+    background-position:20% 45%;
+  }
+  20%{
+    background-position:40% 40%;
+  }
+  30%{
+    background-position:60% 35%;
+  }
+  40%{
+    background-position:80% 30%;
+  }
+  50%{
+    background-position:100% 25%;
+  }
+  60%{
+    background-position:80% 20%;
+  }
+  70%{
+    background-position:60% 15%;
+  }
+  80%{
+    background-position:40% 10%;
+  }
+  90%{
+    background-position:20% 5%;
+  }
+  100%{
+    background-position:0% 0%;
+  }
+}
+@keyframes tweenit {
+  0%{
+    background-position:0% 50%;
+  }
+  10%{
+    background-position:20% 45%;
+  }
+  20%{
+    background-position:40% 40%;
+  }
+  30%{
+    background-position:60% 35%;
+  }
+  40%{
+    background-position:80% 30%;
+  }
+  50%{
+    background-position:100% 25%;
+  }
+  60%{
+    background-position:80% 20%;
+  }
+  70%{
+    background-position:60% 15%;
+  }
+  80%{
+    background-position:40% 10%;
+  }
+  90%{
+    background-position:20% 5%;
+  }
+  100%{
+    background-position:0% 0%;
+  }
 }
 
 .tooltip {
@@ -703,7 +815,8 @@ input:focus {
 }
 
 .searchbar-input {
-  background-color: #121212;
+  background-color: transparent;
+  backdrop-filter: blur(200px);
   border: 1px solid $accent;
   color:$accent;
   &::placeholder {
@@ -719,7 +832,8 @@ input:focus {
 }
 
 .fillsearch {
-  background-color: #121212;
+  background-color: transparent;
+  backdrop-filter: blur(200px);
   border: none;
   font-weight: bold;
   color:$accent;

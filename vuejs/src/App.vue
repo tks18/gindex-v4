@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="mx-0 my-0 px-0 py-0">
+  <div id="app" class="mx-0 blur-part my-0 px-0 py-0">
     <Layout ref="layout" />
   </div>
 </template>
