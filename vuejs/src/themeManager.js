@@ -46,6 +46,6 @@ export default function(){
       import("@/assets/style/theme/konifer/register.scss");
     }
   } else {
-    import("@/assets/style/theme/witch-haze/register.scss");
+    import("@/assets/style/theme/emerald/register.scss");
   }
 }

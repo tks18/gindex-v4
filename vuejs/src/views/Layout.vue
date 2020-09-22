@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="section mx-0 my-0 px-0 py-0">
+    <section class="section show-part mx-0 my-0 px-0 py-0">
       <Head v-if="showInfo"></Head>
         <!-- <keep-alive> -->
         <feb-alive>
