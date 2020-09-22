@@ -6,12 +6,13 @@
         <div class="columns is-desktop is-multiline is-centered is-vcentered">
           <div :class="ismobile ? 'column is-full' : 'column is-two-thirds'">
             <vue-plyr ref="plyr" v-bind:key="videokey" class="my-2">
-              <video preload="none" :src="url" class="video-content">
+              <video preload="none" controls crossorigin playsinline class="video-content">
+                <source :src="url" type="application/x-mpegURL">
               </video>
             </vue-plyr>
           </div>
           <div v-if="url.length > 0" :class="(ismobile ? 'column is-full' : 'column is-two-thirds')+' has-text-white mx-2'">
-            <b>Playing: </b>{{ this.url }}
+            <b>Playing: </b>{{ url }}
           </div>
         </div>
       </div>
@@ -120,7 +121,7 @@ export default {
       this.url = url;
       let options = {
           src: url,
-          autoplay: false,
+          autoplay: true,
           media: this.player.media,
       };
       this.metatitle = "Playing - "+url;

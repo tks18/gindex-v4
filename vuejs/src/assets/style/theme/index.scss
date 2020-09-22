@@ -48,6 +48,11 @@
   border-radius: 10px;
 }
 
+html,body {
+  width: 100%;
+  min-height: 100vh;
+}
+
 html {
   background-image: linear-gradient(to right bottom, $grad-start, $grad-midone, $grad-midtwo, $grad-midthree, $grad-final);
   background-size: 150% 150%;
