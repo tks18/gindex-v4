@@ -44,39 +44,42 @@ Any Issues / Help Regarding Setup, Contact Through the telegram Group
 13. Uses MongoDB for User Database.
 14. Full Access Control of Backend from Frontend Based on User's Role.
 
+## Follow guide to deploy yours!
+[Full Guide](https://telegra.ph/Google-Drive-Ultimate-Index-07-04)
+
 #### Site Shots:
 **1. Home - Logged In**
-![HomeLog](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/homelogout.jpg)
+![HomeLog](imgs/home.png)
 
 **2. Home - Logged Out**
-![homeout](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/homelogged.jpeg)
+![homeout](imgs/homelogout.jpg)
 
 **4. Video Page**
-![video](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/go2index/videoPlayer.jpg?raw=true)
+![video](imgs/videoPlayer.jpg)
 
 **5. Video Player - Extended**
-![video](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/go2index/videplayer2.jpg?raw=true)
+![video](imgs/videplayer2.jpg)
 
 **6. Video Player - External Players**
-![video](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/vuejs/go2index/videoPlayer%20Modal.jpg?raw=true)
+![video](imgs/videoPlayer%20Modal.jpg)
 
 **7. Settings**
-![settings](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/settings.jpg)
+![settings](imgs/settings.jpg)
 
 **8. Admin Page**
-![admin](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/adminpage.jpg)
+![admin](imgs/adminpage.jpg)
 
 **9. Admin - User Registration Page**
-![register](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/newuserregister.jpg)
+![register](imgs/newuserregister.jpg)
 
 **10. Pending Requests - Modal**
-![pending](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/pendinguser.jpeg)
+![pending](imgs/pendinguser.jpeg)
 
 **11. User Request Page**
-![request](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/request.jpeg)
+![request](imgs/request.jpeg)
 
 **12. User Verify Page**
-![verify](https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/vuejs/go2index/verify.jpeg)
+![verify](imgs/verify.jpeg)
 
 
 #### Thanks - Support Me
