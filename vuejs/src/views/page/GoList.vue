@@ -4,6 +4,11 @@
       <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
     </div>
     <div class="golist" v-loading="loading">
+      <div class="has-text-right my-2 py-2">
+        <div class="my-1">
+          <span class="has-text-netflix has-text-weight-semibold" @click="$notify({title: 'Under Construction', message: 'Wait for Another Update.', type: 'info'})">Not Finding Your Movie ?</span>
+        </div>
+      </div>
       <bread-crumb ref="breadcrumb"></bread-crumb>
       <list-view
         :data="files"
