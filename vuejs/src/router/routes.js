@@ -50,17 +50,6 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d+)::cmd(stream)/",
-    name: 'stream',
-    component: _import("page/GoStream"),
-    meta: {
-      ...meta,
-      view: 'stream',
-      requiresAuth: true,
-      hybrid: true,
-    }
-  },
-  {
     path: "/:id(\\d+)::cmd(audio)/:path",
     name: 'audio',
     component: _import("page/GoAudio"),

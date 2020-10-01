@@ -144,18 +144,6 @@
           </a>
           <a
             class="navbar-item"
-            title="Stream M3u8"
-            v-tooltip.bottom-start="'Stream M3u8'"
-            @click="gotoPage('/' ,'stream')"
-            v-if="logged"
-           >
-           <span class="icon">
-            <i class="fas fa-stream"></i>
-          </span>
-          <span class="is-hidden-desktop">Stream M3u8</span>
-          </a>
-          <a
-            class="navbar-item"
             title="Profile"
             v-tooltip.bottom-start="'Go to Settings'"
             @click="gotoPage('/' ,'settings')"

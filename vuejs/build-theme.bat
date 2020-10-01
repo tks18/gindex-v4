@@ -14,7 +14,7 @@ echo.
 echo Starting the Script Now.
 echo.
 echo Currently Following Themes are Available:
-set themes=carnation curious^-blue emerald ice^-cold konifer netflix^-red konifer kournikova mona^-lisa persian^-rose purple^-heart purple^-mountains^-majesty salmon selective^-yellow shamrock witch^-haze
+set themes=gradient^-carnation gradient^-curious^-blue gradient^-emerald gradient^-ice^-cold gradient^-konifer gradient^-netflix^-red gradient^-kournikova gradient^-mona^-lisa gradient^-persian^-rose gradient^-purple^-heart gradient^-purple^-mountains^-majesty gradient^-salmon gradient^-selective^-yellow gradient^-shamrock gradient^-witch^-haze black^-carnation black^-curious^-blue black^-emerald black^-ice^-cold black^-konifer black^-netflix^-red black^-kournikova black^-mona^-lisa black^-persian^-rose black^-purple^-heart black^-purple^-mountains^-majesty black^-salmon black^-selective^-yellow black^-shamrock black^-witch^-haze
 for %%b in (%themes%) do (
   set /A i+=1
   echo %i%. %%b
