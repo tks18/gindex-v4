@@ -69,29 +69,7 @@
                 <h3 class="title has-text-centered has-text-weight-bold">Your Preferences</h3>
                 <div class="columns is-vcentered is-centered is-multiline is-mobile">
                   <div class="column is-three-fifths">
-                    <p class="subtitle">Change Your Avatar</p>
-                  </div>
-                  <div class="column has-text-centered is-two-fifths">
-                    <button class="button is-rounded is-netflix-red" @click="alerts('Under Development')">
-                      <span class="icon is-small">
-                        <i class="far fa-user-circle"></i>
-                      </span>
-                      <span>Change</span>
-                    </button>
-                  </div>
-                  <div class="column is-three-fifths">
                     <p class="subtitle">Change Your Password</p>
-                  </div>
-                  <div class="column has-text-centered is-two-fifths">
-                    <button class="button is-rounded is-netflix-red" @click="gotoPage('/changepassword/', 'settings')">
-                      <span class="icon is-small">
-                        <i class="fas fa-lock"></i>
-                      </span>
-                      <span>Change</span>
-                    </button>
-                  </div>
-                  <div class="column is-three-fifths">
-                    <p class="subtitle">Change Your Email</p>
                   </div>
                   <div class="column has-text-centered is-two-fifths">
                     <button class="button is-rounded is-netflix-red" @click="alerts('Under Development')">
@@ -111,7 +89,7 @@
                   <div class="column is-three-fifths">
                     <p class="subtitle has-text-white">Delete Your Account</p>
                   </div>
-                  <div class="column is-two-fifths">
+                  <div class="column has-text-centered is-two-fifths">
                     <button class="button is-rounded is-warning" @click="gotoPage('/me/', 'delete')">
                       <span class="icon is-small">
                         <i class="fas fa-user-times"></i>

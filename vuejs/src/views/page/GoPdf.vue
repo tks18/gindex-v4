@@ -5,26 +5,35 @@
     </div>
     <div class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
       <div class="column is-full has-text-right">
-        <button class="button is-netflix-red is-rounded" @click="download">
-          <span class="icon">
-            <i class="fas fa-download fontonly"></i>
-          </span>
-        </button>
-      </div>
-      <div class="column is-full mx-0 px-0">
-        <div class="columns is-desktop is-multiline is-centered is-vcentered mx-0 px-0">
-          <div v-for="i in numPages" v-bind:key="i" class="column is-half mx-0 my-1 py-1 px-0" >
-            <p class="is-small has-text-centered has-text-white mx-0 my-1 py-0 px-0">
-              Page No. <span class="has-text-netflix-only">{{ i }}</span>
-            </p>
-            <pdf
-              ref="pdf"
-              :src="src"
-              :page="i"
-              class="mx-1 my-2"
-            ></pdf>
+        <div class="columns is-multiline has-text-centered is-centered is-vcentered">
+          <div class="column is-two-thirds">
+            <p class="subtitle has-text-white has-text-weight-bold">{{ pdfname }}</p>
+          </div>
+          <div class="column is-one-third">
+            <button class="button is-netflix-red is-rounded" @click="download">
+              <span class="icon">
+                <i class="fas fa-download fontonly"></i>
+              </span>
+              <span>Download</span>
+            </button>
           </div>
         </div>
+      </div>
+      <div class="column is-full mx-0 px-0">
+        <object
+          :data="src"
+          type="application/pdf"
+          width="100%"
+          height="100%">
+          <iframe
+            :src="src"
+            width="100%"
+            height="100%"
+            style="border: none;">
+            <p>Your browser does not support PDFs.
+              <a :href="src">Download the PDF</a>.</p>
+          </iframe>
+        </object>
       </div>
     </div>
   </div>
@@ -33,7 +42,6 @@
 <script>
 import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
 import { initializeUser, getgds } from "@utils/localUtils";
-import pdf from "vue-pdf-modified/src/vuePdfNoSssNoWorker";
 import Loading from 'vue-loading-overlay';
 import { decode64 } from "@utils/AcrouUtil";
 export default {
@@ -51,11 +59,11 @@ export default {
   },
   data: function() {
     return {
-      show: true,
       user: {},
       token: {},
       mediaUrl: "",
       metatitle: "",
+      pdfname: "",
       gds: [],
       currgd: {},
       mediaToken: "",
@@ -64,15 +72,10 @@ export default {
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       ismobile: false,
-      src:'',
-      loadedRatio: 0,
-      page: 1,
-      numPages: 0,
-      rotate: 0,
+      src:"",
     };
   },
   components: {
-    pdf,
     Loading
   },
   computed: {
@@ -99,25 +102,9 @@ export default {
       }
     },
     getUrl(){
+      this.pdfname = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))
       this.src = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
-      this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
-      pdf.createLoadingTask(this.src).promise.then(pdf => {
-        this.numPages = pdf.numPages;
-      })
-    },
-    previousPage() {
-      if(this.page == 1){
-        this.page = 1;
-      } else {
-        this.page = this.page - 1;
-      }
-    },
-    nextPage() {
-      if(this.page >= this.pageCount){
-        this.page = this.currentPage
-      } else {
-        this.page++;
-      }
+      this.metatitle = this.pdfname
     },
     download(){
       location.href = this.src;
