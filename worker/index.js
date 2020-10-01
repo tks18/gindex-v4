@@ -4,9 +4,13 @@ var authConfig = {
   hybridpass: "Copy Hybrid Password Generated from Backend",
   version: "v8.1.3",
   theme: "green",
-  //Following Themes are Available for Selection.
-  //carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
-  //All are Case Sensitive.
+  // Following Themes are Available for Selection.
+  // carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
+  // Following Theme Variants are Available
+  // Black and Gradient
+  // For Example if You Need emerald this is what you have to Enter
+  // For Gradient Variant - "gradient-emerald" and for Black Version - "black-emerald"
+  // All are Lower Case.
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
   github_repo: "gindex-v4",
