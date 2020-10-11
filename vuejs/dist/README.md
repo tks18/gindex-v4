@@ -1,1 +1,1 @@
-Thanks for shan.tk for making this index
+Thanks for shan.tk for making this index :)
