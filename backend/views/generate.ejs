@@ -1,0 +1,11 @@
+<%- include("header") -%>
+  <body class="text-center">
+    <form action="/generate" method="post" class="form-signin">
+      <h1 class="h3 mb-3 font-weight-normal">Generate Hybrid Password</h1>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Generate</button>
+      <p class="mt-5 mb-3 text-muted">&copy; G-Index Backend</p>
+    </form>
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<%- include("footer") -%>

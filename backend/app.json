@@ -1,0 +1,73 @@
+{
+	"name": "G-Index Backend",
+	"description": "This is the Live Backend Server for G-Index for Authenticating Users",
+	"repository": "https://github.com/tks18/gindex-backend",
+	"keywords": ["gindex-backend"],
+	"env": {
+		"DBURL": {
+			"description": "MongoDB Atlas Connect URL for Your Database",
+      "required": true
+		},
+		"SITE": {
+			"description": "This is your Heroku's Backend Site Address. This is to Keep the Site Alive Every Half Hour.",
+      "required": true
+		},
+		"EMAILID": {
+			"description": "EmailID From Which OTP and Verification Emails will be Sent.",
+			"required": true
+		},
+		"EMAILPASS": {
+			"description": "Above Email ID's Password",
+			"required": true
+		},
+    "EMAILSMTP": {
+			"description": "SMTP Domain of your Email Service Provider",
+			"required": true
+		},
+    "EMAILPORT": {
+			"description": "Port of Your Email Service Provider",
+			"required": true
+		},
+    "EMAILSERVICE": {
+			"description": "Name of Your Email Service Provider. Example: Google, Yandex.., etc. Like that",
+			"required": true
+		},
+    "ADMINEMAIL": {
+			"description": "Whenever a User Registers or Verifies them. Their Details will be Sent to this Mail. Can be Same as Above Email ID",
+			"required": true
+		},
+    "REPLYTOMAIL": {
+			"description": "Whenver a User Replies to a Mail. That will be Sent to this Email ID",
+			"required": true
+		},
+    "SITESECRET": {
+			"description": "Can be Anything. This will be Asked When you are Setting up the Root User in Backend to Verify that its You.",
+			"required": true
+		},
+    "FRONTENDSITENAME": {
+			"description": "Your G-Index Name. Can be Anything",
+			"required": true
+		},
+		"TMDBAPI": {
+			"description": "Give Your TMDB V3 API Key for Automatic pulling of Video Data.",
+			"required": false
+		},
+    "FRONTENDURL": {
+			"description": "Your G-index Domain. This is Must, Otherwise Authentication will Fail.",
+			"required": true
+		},
+    "TOKENSECRET": {
+			"description": "Can be Anything. This will be Used to Issue JSON Web Tokens and Verify it. Recommended to Have Minimum 20 Characters. That will be Safe.",
+			"required": true
+		},
+		"MAXSESSIONS": {
+			"description": "Number of Sessions a User can Login",
+			"required": true
+		}
+	},
+	"buildpacks": [
+		{
+			"url": "heroku/nodejs"
+		}
+	]
+}
