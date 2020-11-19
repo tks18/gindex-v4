@@ -1,22 +1,25 @@
-![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year)![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month)![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week)
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Google Drive Index</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/tks18" property="cc:attributionName" rel="cc:attributionURL">Sudharshan TK</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/tks18/gindex-v4" rel="dct:source">https://github.com/tks18/gindex-v4</a>
+![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week)
 
 ##  A Vue js Based GD Index
-Any Issues / Help Regarding Setup, Contact Through the telegram Group
+
+#### [Project HomePage](https://gen.infozy.tk/)
+#### [Follow guide to deploy yours!](https://telegra.ph/Google-Drive-Ultimate-Index-07-04)
+#### [Telegram Support Group](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
+
+First of all GD-Index stands for Google Drive Directory Index. It is a Serverless Google Drive directory indexing program. It can list Google Drive files in the form of a directory and can be downloaded through a straight chain. It Can be Your Personal Drive or Share Drive or a Folder or a Team Drive.
+
+This GIndex is Based on Vue.js, a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable. The core library is focused on the view layer only, and is easy to pick up and integrate with other libraries or existing projects.
+
+Any Issues / Help Regarding Setup, Feel free to Contact Through the telegram Group.
 
 **Now With New UI**<br>
 ![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home.png?raw=true)<br>
 ![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home2.png?raw=true)<br>
 ![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home-nolog.png?raw=true)<br>
 
-#### Complete Site Inspiration from [Aicirou](https://github.com/Aicirou)
-
-*This is a Complete Rebuild from Aicirou's Gindex with Changes to Theme and Framework.*
-
 **Important** - _This Site Requires My GIndex Live Backend Server to be Running Otherwise the Site will Never Open._
 
-**Important** - _For Setting up of Backend. Visit my GIndex Backend [Repo](https://github.com/tks18/gindex-backend) for Steps to Setup._
+**Important** - _For Setting up of Backend. Visit my Wiki for Help in Setting Up._
 
 #### Site Features Other than Aicirou's:
 
@@ -37,9 +40,6 @@ Any Issues / Help Regarding Setup, Contact Through the telegram Group
 	- Superadmins - Can Accept Admin Requests.
 13. Uses MongoDB for User Database.
 14. Full Access Control of Backend from Frontend Based on User's Role.
-
-## Follow guide to deploy yours!
-[Full Guide](https://telegra.ph/Google-Drive-Ultimate-Index-07-04)
 
 #### Site Shots:
 **1. Home - Logged In**
@@ -77,3 +77,5 @@ Any Issues / Help Regarding Setup, Contact Through the telegram Group
 
 
 #### Thanks - Support Me
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Google Drive Index</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/tks18" property="cc:attributionName" rel="cc:attributionURL">Sudharshan TK</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/tks18/gindex-v4" rel="dct:source">https://github.com/tks18/gindex-v4</a>
