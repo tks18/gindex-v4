@@ -1,3 +1,4 @@
+ÿþ&cls
 @echo off
 echo.
 echo U L T I M A T E  G ^- I N D E X  B A C K E N D  D E P L O Y E R
