@@ -11,27 +11,26 @@ echo.
 echo.
 echo Deploying the Backend Now.
 echo.
-echo Make Sure You have Nodejs, Git Installed and You are in the Root of the Directory and not any Subfolders.
+echo Make Sure You have Nodejs, Git Installed and You are in the Root of the Directory and not any Subfolders
 echo.
-echo Make Sure You have Every Environment Variables in Hand for Faster Deployment.
+echo Make Sure You have Every Environment Variables in Hand for Faster Deployment
 echo.
-set /p AREYOUSURE=Are You Ready to Rock It (Y/[N])?
-if /I "%AREYOUSURE%" EQU "Y" goto :rockit
-if /I "%AREYOUSURE%" EQU "N" goto :endit
-:rockit
-echo Starting the Script Now.
+echo Starting the Script Now
 echo.
-echo Login in to Your Heroku Account.
-heroku login
+CALL npm i ^-g heroku
+echo Login in to Your Heroku Account
+CALL heroku login
+echo.
 set /p appname=Enter Unique Backend App Name in Heroku:
-heroku create %appname%
+CALL heroku create %appname%
 echo.
-heroku git:remote ^-a %appname%
+CALL heroku git:remote ^-a %appname%
 echo.
 echo Pushing G Index Backend to Heroku
-git subtree push ^-^-prefix backend heroku master
+CALL git subtree push ^-^-prefix backend heroku master
 echo.
 echo Now Have Your Environment Variables ready !!
+echo.
 set /p dburl=Enter the MongoDB url that You Copied from their Website:
 set /p site=Enter the Heroku App Website to which it is Deployed:
 set /p emailid=Enter the Email ID from which User Messages will be Sent:
@@ -51,12 +50,6 @@ set /p tokensec=Enter a Super Long Token Secret that will be Used to Secure the 
 echo.
 echo Pushing Config Keys to Heroku App.
 echo.
-heroku config:set -a %appname% DBURL=%dburl% SITE=%site% EMAILID=%emailid% EMAILPASS=%emailpass% EMAILPORT=%emailport% EMAILSERVICE=%emailservice% EMAILSMTP=%emailsmtp% ADMINEMAIL=%adminemail% REPLYTOMAIL=%replyemail% MAXSESSIONS=%maxsessions% EMAILGIF=%emailgif% SITESECRET=%sitesec% TMDBAPI=%tmdbapi% FRONTENDURL=%fronturls% FRONTENDSITENAME=%frontname% TOKENSECRET=%tokensec%
-:endit
-echo.
-echo I think You are Not Ready for this Awesomeness
-echo.
-echo We will See You Again Later when You are ready
-echo.
+CALL heroku config:set ^-a %appname% DBURL=%dburl% SITE=%site% EMAILID=%emailid% EMAILPASS=%emailpass% EMAILPORT=%emailport% EMAILSERVICE=%emailservice% EMAILSMTP=%emailsmtp% ADMINEMAIL=%adminemail% REPLYTOMAIL=%replyemail% MAXSESSIONS=%maxsessions% EMAILGIF=%emailgif% SITESECRET=%sitesec% TMDBAPI=%tmdbapi% FRONTENDURL=%fronturls% FRONTENDSITENAME=%frontname% TOKENSECRET=%tokensec%
 pause
 exit
