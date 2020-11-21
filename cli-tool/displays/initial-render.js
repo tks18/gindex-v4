@@ -20,7 +20,7 @@ module.exports = function(){
         'U L T I M A T E  G - I N D E X  D E P L O Y E R  C L I  T O O L \n\n'
       ) +
       chalk.yellow.bold(
-        '          B Y  \n'
+        '          B Y  \n\n\n'
       ) +
       chalk.yellow.bold(
         figlet.textSync('Shan.tk', {

@@ -4,7 +4,7 @@ module.exports = function(message, seconds, exFunc){
   if(seconds == 0){
     var countdown = new Spinner(message, ['|', '/', '-', '\\','~']);
     countdown.start();
-    var number = 5;
+    var number = 3;
     setInterval(function () {
       number--;
       countdown.message(message);
