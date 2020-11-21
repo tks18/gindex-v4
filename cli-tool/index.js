@@ -10,7 +10,7 @@ const yargs = require("yargs");
 log(
   initialRender()
 );
-spinner("Initializing Application", 0, function(){
+spinner("Initializing Application in", 0, function(){
   process.stdout.write('\n');
   process.exit(0);
 });
