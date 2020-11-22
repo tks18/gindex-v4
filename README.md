@@ -6,6 +6,8 @@
 #### [Follow guide to deploy yours!](https://telegra.ph/Google-Drive-Ultimate-Index-07-04)
 #### [Telegram Support Group](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
 
+#### Backend Deployer - [Windows](https://gen.infozy.tk/downloads/deploy-backend.bat) | [Others](https://gen.infozy.tk/downloads/deploy-backend.sh)
+
 First of all GD-Index stands for Google Drive Directory Index. It is a Serverless Google Drive directory indexing program. It can list Google Drive files in the form of a directory and can be downloaded through a straight chain. It Can be Your Personal Drive or Share Drive or a Folder or a Team Drive.
 
 This GIndex is Based on Vue.js, a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable. The core library is focused on the view layer only, and is easy to pick up and integrate with other libraries or existing projects.

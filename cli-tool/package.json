@@ -1,6 +1,6 @@
 {
   "name": "gindex-cli-tool",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Cli Tool to Publish Google Drive Index's Frontend and Backend all in One Tool",
   "main": "index.js",
   "scripts": {
@@ -23,15 +23,18 @@
     "url": "https://github.com/tks18/gindex-v4/issues"
   },
   "bin": {
-   "gdployer": "./index.js"
- },
+    "gdployer": "./index.js"
+  },
   "homepage": "https://github.com/tks18/gindex-v4#readme",
   "dependencies": {
+    "axios": "^0.21.0",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
     "clui": "^0.3.6",
     "figlet": "^1.5.0",
+    "node-cmd": "^4.0.0",
+    "simple-git": "^2.23.0",
     "yargs": "^16.1.1"
   }
 }

@@ -31,10 +31,8 @@ router.post('/', function(req, res){
 														User.updateOne({ email: req.body.email }, { $pull :{ sessions : { _id: result.sessions[0]._id}}}, function(error){
 															if(!error){
 																const existUser = result;
-																existUser.sessions = [{
-																	ip: req.connection.remoteAddress,
-																	time: Date.now()
-																}];
+																existUser.sessions = [];
+																console.log(existUser);
 							                  let token = jwt.sign({ existUser }, process.env.TOKENSECRET, {expiresIn: 604800});
 																let sessionToken = jwt.sign({ name: result.name, email: result.email, ip: req.connection.remoteAddress, time: Date.now() }, process.env.TOKENSECRET, {expiresIn: 604800});
 																let sessionData = result.sessions.create({
@@ -69,10 +67,8 @@ router.post('/', function(req, res){
 														})
 													} else {
 														const existUser = result;
-														existUser.sessions = [{
-															ip: req.connection.remoteAddress,
-															time: Date.now()
-														}];
+														existUser.sessions = [];
+														console.log(existUser);
 					                  let token = jwt.sign({ existUser }, process.env.TOKENSECRET, {expiresIn: 604800});
 														let sessionToken = jwt.sign({ name: result.name, email: result.email, ip: req.connection.remoteAddress, time: Date.now() }, process.env.TOKENSECRET, {expiresIn: 604800});
 														let sessionData = result.sessions.create({
