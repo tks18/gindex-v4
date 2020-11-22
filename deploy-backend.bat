@@ -1,4 +1,3 @@
-ÿþ&cls
 @echo off
 echo.
 echo U L T I M A T E  G ^- I N D E X  B A C K E N D  D E P L O Y E R
@@ -22,13 +21,17 @@ CALL npm i ^-g heroku
 echo Login in to Your Heroku Account
 CALL heroku login
 echo.
+CALL git clone --quiet --single-branch --branch master https://github.com/tks18/gindex-backend.git __temp__
+echo.
+echo Starting Deployment Process
+echo.
 set /p appname=Enter Unique Backend App Name in Heroku:
 CALL heroku create %appname%
 echo.
 CALL heroku git:remote ^-a %appname%
 echo.
 echo Pushing G Index Backend to Heroku
-CALL git subtree push ^-^-prefix backend heroku master
+CALL git subtree push ^-^-prefix __temp__ heroku master
 echo.
 echo Now Have Your Environment Variables ready !!
 echo.

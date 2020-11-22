@@ -3,7 +3,7 @@
 const spinner = require('./helpers/spinner');
 const initialRender = require('./displays/initial-render');
 const log = console.log;
-const { exec } = require("child_process");
+const { spawn } = require('child_process')
 const yargs = require("yargs");
 
 log(
@@ -25,9 +25,7 @@ if(options.name){
     process.exit(0);
   });
 } else {
-  spinner(`Initializing Application`, 0, function(){
-    console.log('\n')
-    process.stdout.write('\n');
-    process.exit(0);
+  spinner(`Initializing Application`, 2, function(){
+    
   });
 }
