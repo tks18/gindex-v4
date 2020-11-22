@@ -9,6 +9,7 @@ module.exports = function(message, seconds, exFunc){
       number--;
       countdown.message(message);
       if (number === 0) {
+        countdown.stop();
         exFunc();
       }
     }, 1000);
@@ -20,6 +21,7 @@ module.exports = function(message, seconds, exFunc){
       number--;
       countdown.message(message + ' ' + number + ' seconds...  ');
       if (number === 0) {
+        countdown.stop();
         exFunc();
       }
     }, 1000);
