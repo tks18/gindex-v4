@@ -6,7 +6,7 @@
 #### [Follow guide to deploy yours!](https://telegra.ph/Google-Drive-Ultimate-Index-07-04)
 #### [Telegram Support Group](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
 
-#### Backend Deployer - [Windows](https://gen.infozy.tk/downloads/deploy-backend.bat) | [Others](https://gen.infozy.tk/download/deploy-backend.sh)
+#### Backend Deployer - [Windows](https://gen.infozy.tk/downloads/deploy-backend.bat) | [Others](https://gen.infozy.tk/downloads/deploy-backend.sh)
 
 First of all GD-Index stands for Google Drive Directory Index. It is a Serverless Google Drive directory indexing program. It can list Google Drive files in the form of a directory and can be downloaded through a straight chain. It Can be Your Personal Drive or Share Drive or a Folder or a Team Drive.
 
