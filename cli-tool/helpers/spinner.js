@@ -1,8 +1,8 @@
 var CLI = require('clui'),
     Spinner = CLI.Spinner;
-module.exports = function(message, seconds, exFunc){
-  if(seconds == 0){
-    var countdown = new Spinner(message, ['|', '/', '-', '\\','~']);
+module.exports = function(message, seconds, showSec, exFunc){
+  if(!showSec){
+    var countdown = new Spinner(message, ['*', '&', '%', '#','@', '>', '<', '?', '{', '}']);
     countdown.start();
     var number = 3;
     setInterval(function () {
@@ -14,7 +14,7 @@ module.exports = function(message, seconds, exFunc){
       }
     }, 1000);
   } else {
-    var countdown = new Spinner(message + ' ' + seconds +' seconds...  ', ['|', '/', '-', '\\','~']);
+    var countdown = new Spinner(message + ' ' + seconds +' seconds...  ', ['*', '&', '%', '#','@', '>', '<', '?', '{', '}']);
     countdown.start();
     var number = seconds;
     setInterval(function () {

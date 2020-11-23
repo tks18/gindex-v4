@@ -9,8 +9,6 @@ module.exports = async () => {
     tmp.dir({ template: 'gindex-cli-XXXXXX' },async function _tempDirCreated(err, path, cleanupCallback) {
       if (err) throw err;
       console.log('Dir: ', path);
-      // const resp = await execa('git', ['clone', '--branch', response.username, 'https://github.com/tks18/tks18.git', '__temp__']);
-      // console.log(resp);
       let latVerUrl = await release();
       await axios({
           method: "get",
