@@ -2,21 +2,37 @@
 
 const spinner = require('./helpers/spinner');
 const initialRender = require('./displays/initial-render');
-const log = console.log;
 const execa = require('execa');
-const yargs = require("yargs");
-const tmp = require('tmp');
 const { prompt } = require('enquirer');
-const unzipper = require('unzipper');
-const fs = require('fs');
-const axios = require('axios');
+const yargs = require('yargs')
+const { hideBin } = require('yargs/helpers')
+
+const downNunzip = require('./helpers/unzip');
+const log = console.log;
+
 
 log(
   initialRender()
 );
 
+// const options = yargs(hideBin(process.argv))
+//   .command('serve [port]', 'start the server', (yargs) => {
+//     yargs
+//       .positional('port', {
+//         describe: 'port to bind on',
+//         default: 5000
+//       })
+//   }, (argv) => {
+//     console.log("Super", argv.port);
+//   })
+//   .option('verbose', {
+//     alias: 'v',
+//     type: 'boolean',
+//     description: 'Run with verbose logging'
+//   })
+//   .argv
+
 const options = yargs
- .usage("Usage: -n <name>")
  .option("n", { alias: "name", describe: "Your name", type: "string" })
  .option("h", { alias: "help", describe: "Helper Class", type: "string"})
  .option("v", { alias: "version", describe: "Version", type: "String" })
@@ -24,42 +40,12 @@ const options = yargs
  .help()
  .argv;
 
-if(options.name){
+if(options.serve){
   spinner(`${options.name} Application in`, 0, function(){
-
+    log('sada', options)
   });
-} else {
+} else if(options.deploy) {
   spinner(`Initializing Application`, 2, function(){
-    (async () => {
-      try {
-        tmp.dir(async function _tempDirCreated(err, path, cleanupCallback) {
-          if (err) throw err;
-          console.log('Dir: ', path);
-          const response = await prompt({
-            type: 'input',
-            name: 'username',
-            message: 'What is your username?'
-          });
-          console.log(response);
-          // const resp = await execa('git', ['clone', '--branch', response.username, 'https://github.com/tks18/tks18.git', '__temp__']);
-          // console.log(resp);
-          await axios({
-              method: "get",
-              url: 'https://github.com/tks18/gindex-v4/releases/download/backend-v2.2.3/gindex-backend-2.2.3.zip',
-              responseType: "stream"
-          }).then(resp => {
-            resp.data.pipe(fs.createWriteStream(path+"/latest.zip").on('finish', () => {
-              fs.createReadStream(path+"/latest.zip").pipe(unzipper.Extract({ path: path+'/backend' })).on('close', ()=> {
-                cleanupCallback();
-                process.exit();
-              });
-            }));
-          })
-        });
-      } catch(e) {
-        console.log(e)
-        process.exit();
-      }
-    })();
+    downNunzip();
   });
 }
