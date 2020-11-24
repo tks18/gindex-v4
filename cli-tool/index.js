@@ -14,14 +14,12 @@ console.log(
 );
 
 yargs(hideBin(process.argv))
-  .command('deploy', 'Deploy Your Backend(for Now) will Support Frontend after Some time', {}, (argv) => {
-    spinner(`Getting Ready Man!! Wait`, 2, function(){
-      downNunzip();
-    });
+  .command('init', 'Initialize the Deployer (Will Check for all the Preqrequisites)', {}, (args) => {
+    init();
   })
-  .command('init', 'summa', {}, (args) => {
-    spinner(`Getting Ready Man!! Wait`, 2, false,function(){
-      init();
+  .command('deploy', 'Deploy Your Backend(for Now) will Support Frontend after Some time', {}, (argv) => {
+    spinner(false, `Getting Ready Man!! Wait`, 2, function(){
+      downNunzip();
     });
   })
   .argv

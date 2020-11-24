@@ -3,7 +3,6 @@ const execa = require('execa');
 module.exports = async () => {
   try {
     const result = await execa('npm', ['i', '-g', 'heroku']);
-    console.log(result);
     if(result.stderr == '' && !result.failed && !result.killed && !result.timedOut && !result.isCancelled){
       return {
         res: true,
@@ -20,7 +19,6 @@ module.exports = async () => {
       }
     }
   } catch(e) {
-    console.log(e);
     return {
       res: false,
       output: e.stderr,
