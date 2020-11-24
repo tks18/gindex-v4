@@ -5,11 +5,26 @@ module.exports = async () => {
     const result = await execa('git', ['--version']);
     const numRegex = /(git version).+/;
     if(numRegex.test(result.stdout)){
-      return true;
+      return {
+        res: true,
+        output: result.stdout,
+        cmd: result.command,
+        exitCode: result.exitCode
+      };
     } else {
-      return false;
+      return {
+        res: false,
+        output: result.stderr,
+        cmd: result.command,
+        exitCode: result.exitCode
+      };
     }
   } catch(e) {
-    return false;
+    return {
+      res: false,
+      output: e.stderr,
+      cmd: e.command,
+      exitCode: e.exitCode
+    };
   }
 };

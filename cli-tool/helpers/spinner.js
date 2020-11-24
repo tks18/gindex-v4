@@ -2,12 +2,12 @@ var CLI = require('clui'),
     Spinner = CLI.Spinner;
 module.exports = function(indefinite, message, seconds, showSec, exFunc){
   if(indefinite){
-    var countdown = new Spinner(message, ['*', '&', '%', '#','@', '>', '<', '?', '{', '}']);
+    var countdown = new Spinner(message, ['G', '-', 'I', 'N','D', 'E', 'X', '-', '-', 'S', 'H', 'A', 'N', '.', 'T', 'K']);
     countdown.start();
     exFunc(countdown);
   } else {
     if(!showSec){
-      var countdown = new Spinner(message, ['*', '&', '%', '#','@', '>', '<', '?', '{', '}']);
+      var countdown = new Spinner(message, ['G', '-', 'I', 'N','D', 'E', 'X', '-', '-', 'S', 'H', 'A', 'N', '.', 'T', 'K']);
       countdown.start();
       var number = 3;
       setInterval(function () {
@@ -19,7 +19,7 @@ module.exports = function(indefinite, message, seconds, showSec, exFunc){
         }
       }, 1000);
     } else {
-      var countdown = new Spinner(message + ' ' + seconds +' seconds...  ', ['*', '&', '%', '#','@', '>', '<', '?', '{', '}']);
+      var countdown = new Spinner(message + ' ' + seconds +' seconds...  ', ['G', '-', 'I', 'N','D', 'E', 'X', '-', '-', 'S', 'H', 'A', 'N', '.', 'T', 'K']);
       countdown.start();
       var number = seconds;
       setInterval(function () {
