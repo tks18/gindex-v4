@@ -1,6 +1,6 @@
 {
   "name": "gindex-cli-tool",
-  "version": "0.0.6",
+  "version": "0.1.10",
   "description": "A Cli Tool to Publish Google Drive Index's Frontend and Backend all in One Tool",
   "main": "index.js",
   "scripts": {
@@ -32,12 +32,14 @@
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
     "clui": "^0.3.6",
+    "conf": "^7.1.2",
     "email-prompt": "^0.3.2",
     "enquirer": "^2.3.6",
     "execa": "^4.1.0",
     "figlet": "^1.5.0",
     "node-cmd": "^4.0.0",
     "simple-git": "^2.23.0",
+    "tmp": "^0.2.1",
     "unzipper": "^0.10.11",
     "yargs": "^16.1.1"
   }
