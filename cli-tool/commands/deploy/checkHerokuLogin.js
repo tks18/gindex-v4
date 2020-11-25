@@ -3,6 +3,7 @@ const execa = require('execa');
 module.exports = async () => {
   try {
     const result = await execa('heroku', ['auth:token']);
+    const summa = await execa('cd', ['c:']);
     const tokenRegex = /(Warning: token will expire).+/;
     if(tokenRegex.test(result.stderr)){
       return {
