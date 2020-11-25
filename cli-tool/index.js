@@ -1,13 +1,10 @@
 #!/usr/bin/env node
 
 const spinner = require('./helpers/spinner');
-const { prompt } = require('enquirer');
 const yargs = require('yargs')
 const { hideBin } = require('yargs/helpers')
-
-const downNunzip = require('./helpers/unzip');
 const initialRender = require('./displays/initial-render');
-const { init } = require('./commands');
+const { init, deploy } = require('./commands');
 
 console.log(
   initialRender()
@@ -18,8 +15,12 @@ yargs(hideBin(process.argv))
     init();
   })
   .command('deploy', 'Deploy Your Backend(for Now) will Support Frontend after Some time', {}, (argv) => {
-    spinner(false, `Getting Ready Man!! Wait`, 2, function(){
-      downNunzip();
+    spinner(false, `Getting Ready Man!! Wait`, 2, false, function(){
+      deploy();
     });
   })
   .argv
+
+if(yargs.argv._.length < 1){
+  yargs.showHelp();
+}
