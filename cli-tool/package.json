@@ -1,6 +1,6 @@
 {
   "name": "gindex-cli-tool",
-  "version": "0.3.10",
+  "version": "0.4.10",
   "description": "A Cli Tool to Publish Google Drive Index's Frontend and Backend all in One Tool",
   "main": "index.js",
   "scripts": {

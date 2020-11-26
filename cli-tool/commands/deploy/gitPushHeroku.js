@@ -1,10 +1,10 @@
 const execa = require('execa');
 const path = require('path');
 
-module.exports = async (appname, cwdPath) => {
-  let resPath = path.resolve(cwdPath);
+module.exports = async (cwdPath) => {
+  const backPath = path.resolve(cwdPath);
   try {
-    const result = await execa('heroku', ['git:remote','-a', appname], { cwd: resPath });
+    const result = await execa('git', ['push','heroku', 'master'], { cwd: backPath });
     if(!result.failed && !result.killed && !result.timedOut && !result.isCancelled){
       return {
         res: true,
@@ -28,4 +28,4 @@ module.exports = async (appname, cwdPath) => {
       exitCode: e.exitCode
     };
   }
-};
+}

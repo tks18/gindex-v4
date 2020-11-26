@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = async (backPath) => {
   try {
-    let cwdPath = path.resolve(backPath);
+    let cwdPath = path.normalize(path.resolve(backPath));
     const gitInit = await execa('git', ['init'], {cwd: cwdPath});
     if(!gitInit.failed && !gitInit.killed && !gitInit.timedOut && !gitInit.isCancelled){
       const gitAdd = await execa('git', ['add', '.'], {cwd: cwdPath});
@@ -28,7 +28,7 @@ module.exports = async (backPath) => {
           }
         } else {
           return {
-            res: true,
+            res: false,
             initOut: gitInit.stdout,
             addOut: gitAdd.stdout,
             commitOut: gitCommit.stderr,
@@ -46,7 +46,7 @@ module.exports = async (backPath) => {
         }
       } else {
         return {
-          res: true,
+          res: false,
           initOut: gitInit.stdout,
           addOut: gitAdd.stderr,
           commitOut: 'Not Executed',
@@ -64,7 +64,7 @@ module.exports = async (backPath) => {
       }
     } else {
       return {
-        res: true,
+        res: false,
         initOut: gitInit.stderr,
         addOut: "Not Executed",
         commitOut: "Not Executed",
@@ -81,8 +81,9 @@ module.exports = async (backPath) => {
       }
     }
   } catch(e) {
+    console.log(e);
     return {
-      res: true,
+      res: false,
       initOut: e.stderr,
       addOut: e.stderr,
       commitOut: e.stderr,
@@ -92,9 +93,9 @@ module.exports = async (backPath) => {
         commit: e.command
       },
       exitCodes: {
-        init: gitInit.exitCode,
-        add: gitAdd.exitCode,
-        commit: gitCommit.exitCode
+        init: e.exitCode,
+        add: e.exitCode,
+        commit: e.exitCode
       }
     }
   }
