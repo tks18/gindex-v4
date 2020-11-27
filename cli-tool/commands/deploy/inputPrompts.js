@@ -15,14 +15,6 @@ module.exports = {
         type: 'input',
         name: "dburl",
         message: "Enter the MongoDB url that You Copied from their Website",
-        validate(value) {
-          const regex = /^(https:\/\/|https:\/\/).+/
-          if(!regex.test(value)){
-            return "Please Enter a Valid DB url";
-          } else {
-            return true;
-          }
-        }
       },
       {
         type: 'input',
