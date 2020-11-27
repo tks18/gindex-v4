@@ -5,6 +5,7 @@ const createTMP = require('./createTMP');
 const downloadUnzip = require('./downloadUnzip');
 const initBackendnCommit = require('./initBackendnCommit');
 const gitPushHeroku = require('./gitPushHeroku');
+const pushConfigKeys = require('./pushConfigKeys');
 const inputPrompts = require('./inputPrompts');
 const path = require('path');
 
@@ -29,7 +30,15 @@ module.exports = async () => {
                 const pushHeroku = await gitPushHeroku(resPath);
                 console.log(pushHeroku);
                 if(pushHeroku.res){
-                  process.exit()
+                  const configObj = await inputPrompts.configKeys();
+                  console.log(configObj);
+                  const pushConfigObj = await pushConfigKeys(appname, resPath, configObj);
+                  console.log(pushConfigObj);
+                  if(pushConfigObj.res){
+                    process.exit();
+                  } else {
+
+                  }
                 } else {
 
                 }
@@ -50,6 +59,4 @@ module.exports = async () => {
   } else {
 
   }
-  // let summa = path.resolve('C:\Users\SUDHAR~1\AppData\Local\Temp\gindex-cli-F1dLUW\backend');
-  // console.log(summa)
 }
