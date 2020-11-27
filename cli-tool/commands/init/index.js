@@ -3,6 +3,8 @@ const checkNpmExists = require('./checkNpmExists');
 const installHerokuG = require('./installHerokuG');
 const chalk = require('chalk');
 const spinner = require('../../helpers/spinner');
+const checkHerokuLogin = require('../deploy/checkHerokuLogin');
+const deploy = require('../deploy');
 const postInitMsg = require('./post-init');
 
 module.exports = () => {
@@ -34,10 +36,22 @@ module.exports = () => {
                 chalk.bold.green('Succesfully Initiated Heroku & Updated') +
                 '\n'+
                 chalk.bold(herokuStat.output) +
-                '\n\n'+
-                postInitMsg
-              );
-              process.exit();
+                '\n\n'
+              )
+              spinner(true, 'Checking Heroku Login Status',0,false,async (checkHerSpin) => {
+                const checkHeroku = await checkHerokuLogin();
+                checkHerSpin.stop();
+                if(checkHeroku.res){
+                  console.log('\n'+
+                    chalk.bold.green('It Looks like Heroku is Authorized and Now Starting the Deployment Process.') +
+                    '\n'
+                  )
+                  deploy();
+                } else {
+                  console.log(postInitMsg);
+                  process.exit();
+                }
+              })
             } else {
               herokuSpin.stop();
               console.log('\n'+
