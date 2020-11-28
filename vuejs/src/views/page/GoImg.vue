@@ -38,6 +38,7 @@ export default {
       metatitle: "",
       user: {},
       token: {},
+      session: {},
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       ismobile: false,
@@ -67,7 +68,7 @@ export default {
   },
   methods: {
     render() {
-      let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email;
+      let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email+"&sessionid="+this.session.sessionid;
 // Easy to debug in development environment
 // path = process.env.NODE_ENV === "development"? "/api" + path: "";
       this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
@@ -100,6 +101,7 @@ export default {
         this.logged = userData.data.logged;
       } else if(userData.type == "normal"){
         this.user = userData.data.user;
+        this.session = userData.data.session;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
       }

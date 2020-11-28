@@ -61,6 +61,7 @@ export default {
     return {
       user: {},
       token: {},
+      session: {},
       mediaUrl: "",
       metatitle: "",
       pdfname: "",
@@ -103,7 +104,7 @@ export default {
     },
     getUrl(){
       this.pdfname = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'))
-      this.src = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.src = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token+"&sessionid="+this.session.sessionid;
       this.metatitle = this.pdfname
     },
     download(){
@@ -122,6 +123,7 @@ export default {
       } else if(userData.type == "normal"){
         this.user = userData.data.user;
         this.token = userData.data.token;
+        this.session = userData.data.session;
         this.logged = userData.data.logged;
       }
     } else {

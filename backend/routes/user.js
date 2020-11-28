@@ -23,11 +23,17 @@ router.post('/verify', function(req, res){
 							if(activeSessions.map(session => {
 								return session.sessionid
 							}).indexOf(req.body.sessionId) > -1){
-								var expiryUnixTime = decoded.exp * 1000;
-								var issuedUnixTime = decoded.iat * 1000;
-								const issueDate = new Date(issuedUnixTime).toLocaleString();
-								const expiryDate = new Date(expiryUnixTime).toLocaleString();
-								res.status(200).send({ auth: true, registered: true, tokenuser: decoded, issuedate: issueDate, expirydate: expiryDate });
+								jwt.verify(req.body.sessionId, process.env.TOKENSECRET, function(error, sessionDec){
+									if(sessionDec){
+										var expiryUnixTime = decoded.exp * 1000;
+										var issuedUnixTime = decoded.iat * 1000;
+										const issueDate = new Date(issuedUnixTime).toLocaleString();
+										const expiryDate = new Date(expiryUnixTime).toLocaleString();
+										res.status(200).send({ auth: true, registered: true, tokenuser: decoded, issuedate: issueDate, expirydate: expiryDate });
+									} else {
+										res.status(200).send({auth: false, registered: false, tokenuser: null});
+									}
+								})
 							} else {
 								res.status(200).send({auth: false, registered: false, tokenuser: null});
 							}

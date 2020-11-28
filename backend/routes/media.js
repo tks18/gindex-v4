@@ -36,7 +36,20 @@ router.post('/verify', function(req, res){
 				if(result){
 					jwt.verify(req.body.token, process.env.TOKENSECRET, function(error, decoded){
 						if(decoded){
-							res.status(200).send({ auth: true, registered: true, tokenuser: decoded });
+							let activeSessions = result.sessions;
+							if(activeSessions.map(session => {
+								return session.sessionid
+							}).indexOf(req.body.sessionId) > -1){
+								jwt.verify(req.body.sessionId, process.env.TOKENSECRET, function(error, sessionDec){
+									if(sessionDec){
+										res.status(200).send({ auth: true, registered: true, tokenuser: decoded });
+									} else {
+										res.status(200).send({auth: false, registered: false, tokenuser: null});
+									}
+								})
+							} else {
+								res.status(200).send({auth: false, registered: false, tokenuser: null});
+							}
 						} else {
 							res.status(200).send({auth: false, registered: false, tokenuser: null});
 						}
@@ -48,7 +61,7 @@ router.post('/verify', function(req, res){
 	} else {
 		res.status(200).send({ auth: false, message: "UNAUTHORIZED" })
 	}
-})
+});
 
 router.post('/data', function(req, res){
 	if(checkOrigin(req.headers.origin)){

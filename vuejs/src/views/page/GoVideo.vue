@@ -917,6 +917,7 @@ export default {
       ismobile: false,
       user: {},
       token: {},
+      session: {},
       searchBarTerm: "",
       searchBarfaIcon: "fab fa-searchengin",
       videokey: 0,
@@ -975,12 +976,14 @@ export default {
     initializeUser(){
       var userData = initializeUser();
       if(userData.isThere){
+        console.log(userData);
         if(userData.type == "hybrid"){
           this.user = userData.data.user;
           this.logged = userData.data.logged;
         } else if(userData.type == "normal"){
           this.user = userData.data.user;
           this.token = userData.data.token;
+          this.session = userData.data.session;
           this.logged = userData.data.logged;
         }
       } else {
@@ -1236,7 +1239,7 @@ export default {
         token: this.token.token,
       }, backendHeaders(this.token.token)).then(response => {
         if(response.data.auth && response.data.registered && response.data.token){
-          let link = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+response.data.token;
+          let link = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+response.data.token+"&sessionid="+this.session.sessionid;
           this.mainLoad = false;
           navigator.clipboard.writeText(link).then(function() {
             notify({
@@ -1274,7 +1277,7 @@ export default {
         token: this.token.token,
       }, backendHeaders(this.token.token)).then(response => {
         if(response.data.auth && response.data.registered && response.data.token){
-          let link = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+response.data.token;
+          let link = this.videourl+"?player=external"+"&email="+this.user.email+"&token="+response.data.token+"&sessionid="+this.session.sessionid;
           var curplay = players(link, this.videoname).filter((player) => {
             return player.name == name;
           })[0];
@@ -1303,7 +1306,7 @@ export default {
         token: this.token.token,
       }, backendHeaders(this.token.token)).then(response => {
         if(response.data.auth && response.data.registered && response.data.token){
-          let link = window.location.origin+encodeURI(this.url.replace(/^\/(\d+:)\//, "/$1down/"))+"?player=download"+"&email="+this.user.email+"&token="+response.data.token;
+          let link = window.location.origin+encodeURI(this.url.replace(/^\/(\d+:)\//, "/$1down/"))+"?player=download"+"&email="+this.user.email+"&token="+response.data.token+"&sessionid="+this.session.sessionid;
           console.log(link);
           this.mainLoad = false;
           location.href=link;
@@ -1326,7 +1329,8 @@ export default {
     getVideourl() {
       this.videoname = this.url.split('/').pop();
       this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      this.apiurl = this.videourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token+"&sessionid="+this.session.sessionid;
+      console.log(this.apiurl);
     },
     tapPlay(){
       this.infoPanel = false;

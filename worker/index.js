@@ -283,8 +283,9 @@ async function handleRequest(request) {
     if(player && player == "internal"){
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
-      if(token && email) {
-        let response = await gd.tokenAuthResponse(token, email);
+      let sessionId = url.searchParams.get("sessionid");
+      if(token && email && sessionId) {
+        let response = await gd.tokenAuthResponse(token, email, sessionId);
         console.log(response);
         if(response) {
           const is_down = !(command && command == "down");
@@ -300,9 +301,9 @@ async function handleRequest(request) {
     } else if(player && player == "external"){
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
-      console.log(email);
-      if(token && email) {
-        let response = await gd.tokenAuthResponse(token, email);
+      let sessionId = url.searchParams.get("sessionid");
+      if(token && email && sessionId) {
+        let response = await gd.tokenAuthResponse(token, email, sessionId);
         console.log(response);
         if(response) {
           const is_down = !(command && command == "down");
@@ -318,10 +319,9 @@ async function handleRequest(request) {
     } else if(player && player == "download"){
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
-      let response = await gd.tokenAuthResponse(token, email);
-      if(token && email) {
-        let response = await gd.tokenAuthResponse(token, email);
-        console.log(response);
+      let sessionId = url.searchParams.get("sessionid");
+      if(token && email && sessionId) {
+        let response = await gd.tokenAuthResponse(token, email, sessionId);
         if(response) {
           const is_down = !(command && command == "down");
           return gd.down(file.id, range ,is_down);
@@ -539,7 +539,7 @@ class googleDrive {
     }
   }
 
-  async tokenAuthResponse(token, email) {
+  async tokenAuthResponse(token,sessionId, email) {
     const _403 = new Response('Sorry, this page is not available.', {
       status: 403,
       statusText: "Forbidden Request/ Not Allowed",
@@ -552,7 +552,7 @@ class googleDrive {
           'Content-Type': 'application/json',
           'origin': authConfig.frontendUrl,
         },
-        body: JSON.stringify({ token: token, email: email })
+        body: JSON.stringify({ token: token, email: email, sessionId: sessionId })
       });
       const resbody = await res.json();
       console.log(resbody);

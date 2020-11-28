@@ -144,6 +144,7 @@ export default {
       fullpage: true,
       user: {},
       token: {},
+      session: {},
       gds: [],
       currgd: {},
       mediaToken: "",
@@ -176,6 +177,7 @@ export default {
           this.logged = userData.data.logged;
         } else if(userData.type == "normal"){
           this.user = userData.data.user;
+          this.session = userData.data.session;
           this.token = userData.data.token;
           this.logged = userData.data.logged;
         }
@@ -216,9 +218,9 @@ export default {
     getAudioUrl() {
       this.audioname = this.url.split('/').pop();
       this.audiourl = window.location.origin + encodeURI(this.url);
-      this.apiurl = this.audiourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
-      this.externalUrl = this.audiourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken;
-      this.downloadUrl = this.audiourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken;
+      this.apiurl = this.audiourl+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token+"&sessionid="+this.session.sessionid;
+      this.externalUrl = this.audiourl+"?player=external"+"&email="+this.user.email+"&token="+this.mediaToken+"&sessionid="+this.session.sessionid;
+      this.downloadUrl = this.audiourl+"?player=download"+"&email="+this.user.email+"&token="+this.mediaToken+"&sessionid="+this.session.sessionid;
     },
     checkMobile() {
       var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
