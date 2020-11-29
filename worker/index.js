@@ -103,7 +103,7 @@ function html(current_drive_order = 0, model = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <style>
-    @import url(https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@${authConfig.version}/vuejs/outputs/${authConfig.theme}/style.css);
+    @import url(https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/style.css);
   </style>
   <link rel="icon" sizes="57x57" href="${authConfig.favicon}" />
   <script>
@@ -124,7 +124,7 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@${authConfig.version}/vuejs/outputs/${authConfig.theme}/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/app.js"></script>
 </body>
 </html>
 `;
