@@ -1,4 +1,5 @@
 import Vue from "vue";
+import vuetify from "@/plugin/vuetify"
 import App from "./App.vue";
 import { Loading } from "element-ui";
 import "element-ui/lib/theme-chalk/icon.css";
@@ -23,7 +24,9 @@ import Meta from 'vue-meta';
 import themeManager from './themeManager';
 import "viewerjs/dist/viewer.css";
 import VuePlyr from "vue-plyr";
+
 themeManager();
+
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$backend = rawAxios;
@@ -70,6 +73,7 @@ new Vue({
   router,
   store,
   i18n,
+  vuetify,
   render: (h) => h(App),
   mounted() {
     this.$store.dispatch("acrou/view/load");

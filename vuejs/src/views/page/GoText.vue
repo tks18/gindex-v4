@@ -40,6 +40,7 @@ export default {
       content: "",
       user: {},
       token: {},
+      session: {},
       windowWidth: window.innerWidth,
       screenWidth: screen.width,
       ismobile: false,
@@ -76,7 +77,7 @@ export default {
   },
   methods: {
     render () {
-      let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token;
+      let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&email="+this.user.email+"&token="+this.token.token+"&sessionid="+this.session.sessionid;
       this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
       this.content = this.$t("page.text.loading");
       get_file({ path: path, file: {} }, data => {
@@ -106,6 +107,7 @@ export default {
       } else if(userData.type == "normal"){
         this.user = userData.data.user;
         this.token = userData.data.token;
+        this.session = userData.data.session;
         this.logged = userData.data.logged;
       }
     } else {

@@ -38,6 +38,7 @@ export function shuffle(array) {
 export function initializeUser() {
   var token = getItem("tokendata");
   var user = getItem("userdata");
+  var session = getItem("sessiondata");
   var hyBridToken = getItem("hybridToken");
   if(hyBridToken && hyBridToken != null || hyBridToken != undefined){
     const hybridData = JSON.parse(decodeSecret(hyBridToken));
@@ -69,9 +70,10 @@ export function initializeUser() {
         },
       }
     }
-  } else if (user != null && token != null){
+  } else if (user != null && token != null && session != null){
     var tokenData = JSON.parse(decodeSecret(token));
     var userData = JSON.parse(decodeSecret(user));
+    var sessionData = JSON.parse(decodeSecret(session));
     if(userData.admin && userData.superadmin){
       return {
         isThere: true,
@@ -79,6 +81,7 @@ export function initializeUser() {
         data: {
           user: userData,
           token: tokenData,
+          session: sessionData,
           logged: true,
           loading: false,
           admin: true,
@@ -92,6 +95,7 @@ export function initializeUser() {
         data: {
           user: userData,
           token: tokenData,
+          session: sessionData,
           logged: true,
           loading: false,
           admin: true,
@@ -105,6 +109,7 @@ export function initializeUser() {
         data: {
           user: userData,
           token: tokenData,
+          session: sessionData,
           logged: true,
           loading: false,
           admin: false,

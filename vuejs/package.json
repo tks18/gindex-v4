@@ -1,7 +1,8 @@
 {
   "name": "gindex-v4",
-  "version": "8.2.6",
-  "g2index": "8.2.6",
+  "version": "8.2.7",
+  "g2index": "8.2.7",
+  "cdnVersion": "frontend-8.2.7",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -62,6 +63,7 @@
     "vue-switch-button": "^0.2.1",
     "vue-toastification": "^1.7.6",
     "vue2-animate": "^2.1.3",
+    "vuetify": "^2.3.19",
     "vuex": "^3.4.0",
     "webpack-obfuscator": "^1.7.0"
   },
@@ -74,9 +76,11 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-component": "^1.1.1",
     "compression-webpack-plugin": "^4.0.0",
+    "deepmerge": "^4.2.2",
     "eslint": "^7.3.0",
     "eslint-plugin-vue": "^6.2.2",
     "fs": "0.0.1-security",
+    "sass": "^1.29.0",
     "vue-cli-plugin-i18n": "~1.0.1",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^3.7.0",

@@ -2,8 +2,8 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "v8.2.6",
-  theme: "black-emerald",
+  version: "8.2.7",
+  theme: "black-netflix-red",
   // Following Themes are Available for Selection.
   // All are Lower Case - Do Not Enter Wrongly.
   // carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
@@ -103,7 +103,7 @@ function html(current_drive_order = 0, model = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <style>
-    @import url(https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@${authConfig.version}/vuejs/outputs/${authConfig.theme}/style.css);
+    @import url(https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/style.css);
   </style>
   <link rel="icon" sizes="57x57" href="${authConfig.favicon}" />
   <script>
@@ -124,7 +124,7 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@${authConfig.version}/vuejs/outputs/${authConfig.theme}/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/app.js"></script>
 </body>
 </html>
 `;
@@ -283,8 +283,9 @@ async function handleRequest(request) {
     if(player && player == "internal"){
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
-      if(token && email) {
-        let response = await gd.tokenAuthResponse(token, email);
+      let sessionId = url.searchParams.get("sessionid");
+      if(token && email && sessionId) {
+        let response = await gd.tokenAuthResponse(token, email, sessionId);
         console.log(response);
         if(response) {
           const is_down = !(command && command == "down");
@@ -300,9 +301,9 @@ async function handleRequest(request) {
     } else if(player && player == "external"){
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
-      console.log(email);
-      if(token && email) {
-        let response = await gd.tokenAuthResponse(token, email);
+      let sessionId = url.searchParams.get("sessionid");
+      if(token && email && sessionId) {
+        let response = await gd.tokenAuthResponse(token, email, sessionId);
         console.log(response);
         if(response) {
           const is_down = !(command && command == "down");
@@ -318,10 +319,9 @@ async function handleRequest(request) {
     } else if(player && player == "download"){
       let token = url.searchParams.get("token");
       let email = url.searchParams.get("email");
-      let response = await gd.tokenAuthResponse(token, email);
-      if(token && email) {
-        let response = await gd.tokenAuthResponse(token, email);
-        console.log(response);
+      let sessionId = url.searchParams.get("sessionid");
+      if(token && email && sessionId) {
+        let response = await gd.tokenAuthResponse(token, email, sessionId);
         if(response) {
           const is_down = !(command && command == "down");
           return gd.down(file.id, range ,is_down);
@@ -539,7 +539,7 @@ class googleDrive {
     }
   }
 
-  async tokenAuthResponse(token, email) {
+  async tokenAuthResponse(token,sessionId, email) {
     const _403 = new Response('Sorry, this page is not available.', {
       status: 403,
       statusText: "Forbidden Request/ Not Allowed",
@@ -552,7 +552,7 @@ class googleDrive {
           'Content-Type': 'application/json',
           'origin': authConfig.frontendUrl,
         },
-        body: JSON.stringify({ token: token, email: email })
+        body: JSON.stringify({ token: token, email: email, sessionId: sessionId })
       });
       const resbody = await res.json();
       console.log(resbody);

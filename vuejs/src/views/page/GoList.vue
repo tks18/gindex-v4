@@ -123,6 +123,7 @@ export default {
       gds: [],
       user: {},
       token: {},
+      session: {},
       currgd: {},
       sort: {
         name: true,
@@ -296,6 +297,7 @@ export default {
           this.user = userData.data.user;
         } else if(userData.type == "normal"){
           this.user = userData.data.user;
+          this.session = userData.data.session;
           this.token = userData.data.token;
         }
       } else {
@@ -355,7 +357,7 @@ export default {
           token: this.token.token,
         }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered && response.data.token){
-            let link = window.location.origin+encodeURI(path.replace(/^\/(\d+:)\//, "/$1down/"))+"?player=download"+"&email="+this.user.email+"&token="+response.data.token;
+            let link = window.location.origin+encodeURI(path.replace(/^\/(\d+:)\//, "/$1down/"))+"?player=download"+"&email="+this.user.email+"&token="+response.data.token+"&sessionid="+this.session.sessionid;
             this.mainLoad = false;
             location.href=link;
             return;
@@ -381,7 +383,7 @@ export default {
           token: this.token.token,
         }, backendHeaders(this.token.token)).then(response => {
           if(response.data.auth && response.data.registered && response.data.token){
-            let link = window.location.origin+encodeURI(path)+"?player=external"+"&email="+this.user.email+"&token="+response.data.token;
+            let link = window.location.origin+encodeURI(path)+"?player=external"+"&email="+this.user.email+"&token="+response.data.token+"&sessionid="+this.session.sessionid;
             this.mainLoad = false;
             navigator.clipboard.writeText(link).then(function() {
               notify({

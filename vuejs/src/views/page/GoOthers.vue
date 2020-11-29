@@ -43,6 +43,7 @@ export default {
       metatitle: "",
       user: {},
       token: {},
+      session: {},
       gds: [],
       currgd: {},
       downloadUrl: "",
@@ -76,7 +77,7 @@ export default {
   },
   methods: {
     render() {
-      let path = window.location.origin + encodeURI(this.url)+"?player=download"+"&token="+this.mediaToken+"&email="+this.user.email;
+      let path = window.location.origin + encodeURI(this.url)+"?player=download"+"&token="+this.mediaToken+"&email="+this.user.email+"&sessionid="+this.session.sessionid;
       this.obj = path;
     },
     checkMobile() {
@@ -110,6 +111,7 @@ export default {
       } else if(userData.type == "normal"){
         this.user = userData.data.user;
         this.token = userData.data.token;
+        this.session = userData.data.session;
         this.logged = userData.data.logged;
       }
     } else {

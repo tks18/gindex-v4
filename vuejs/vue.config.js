@@ -9,13 +9,13 @@ function resolve(dir) {
 }
 
 // Increase environment variables
-process.env.VUE_APP_VERSION = require("./package.json").version;
+process.env.VUE_APP_VERSION = require("./package.json").cdnVersion;
 process.env.VUE_APP_G2INDEX_VERSION = require("./package.json").g2index;
 
 process.env.VUE_APP_CDN_PATH =
   process.env.VUE_APP_CDN_PATH.replace(
     "@master",
-    "@v" + process.env.VUE_APP_VERSION
+    "@" + process.env.VUE_APP_VERSION
   ).replace("THEME", process.env.VUE_APP_THEME) || "/";
 
 // Basic path Note that you need to modify this before publishing
