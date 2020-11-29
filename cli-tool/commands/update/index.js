@@ -1,9 +1,9 @@
-const checkHerokuLogin = require('../deploy/checkHerokuLogin');
-const gitCheckoutHApp = require('../deploy/gitCheckoutHApp');
-const createTMP = require('../deploy/createTMP');
-const downloadUnzip = require('../deploy/downloadUnzip');
-const initBackendnCommit = require('../deploy/initBackendnCommit');
-const inputPrompts = require('../deploy/inputPrompts');
+const checkHerokuLogin = require('./checkHerokuLogin');
+const gitCheckoutHApp = require('./gitCheckoutHApp');
+const createTMP = require('./createTMP');
+const downloadUnzip = require('./downloadUnzip');
+const initBackendnCommit = require('./initBackendnCommit');
+const inputPrompts = require('./inputPrompts');
 const pushBackend = require('./pushBackend');
 const herokuNotAuthMess = require('../init/post-init');
 const spinner = require('../../helpers/spinner');
@@ -11,7 +11,7 @@ const spinner = require('../../helpers/spinner');
 const chalk = require('chalk');
 
 module.exports = async () => {
-  spinner(true, 'Check for Heroku Login Status', 0, false, async(herokuSpin) => {
+  spinner(true, 'Some Initial Checks', 0, false, async(herokuSpin) => {
     const checkHeroku = await checkHerokuLogin();
     herokuSpin.stop();
     if(checkHeroku.res){
@@ -33,17 +33,17 @@ module.exports = async () => {
                 chalk.white("Backend downloaded and Unzipped in "+tempPath+". Don\'t Worry this will be Autocleaned after this Process.")+
                 '\n'
               );
-              spinner(true, 'Initializing Repo for Deploying to Heroku', 0, false, async(initSpin) => {
+              spinner(true, `Initializing Repo for Updating ${appname} in Heroku`, 0, false, async(initSpin) => {
                 const gitInitBack = await initBackendnCommit(resPath);
                 initSpin.stop();
                 if(gitInitBack.res){
                   console.log(
                     '\n'+
                     chalk.bold.green("Initialized Backend and Ready to Deploy to Heroku")+'\n\n'+
-                    chalk.white(gitInitBack.output)+
+                    chalk.white(gitInitBack.initOut+'\n'+gitInitBack.addOut+'\n'+gitInitBack.commitOut)+
                     '\n'
                   );
-                  spinner(true, 'Checking Heroku App for Deployment', 0, false, async(checkSpin) => {
+                  spinner(true, 'Prelimnary Checks for Heroku App for Deployment', 0, false, async(checkSpin) => {
                     const checkOutHeroku = await gitCheckoutHApp(appname, resPath);
                     checkSpin.stop();
                     if(checkOutHeroku.res){
@@ -53,19 +53,19 @@ module.exports = async () => {
                         chalk.white(checkOutHeroku.output)+
                         '\n'
                       );
-                      spinner(true, 'Pushing the Latest Backend to Heroku App', 0, false, async(pushSpin) => {
+                      spinner(true, 'Updating the Latest Backend to Heroku App', 0, false, async(pushSpin) => {
                         const pushHeroku = await pushBackend(resPath);
                         pushSpin.stop();
                         if(pushHeroku.res){
                           console.log(
                             '\n'+
-                            chalk.bold.green("Pushing to Backend Successfull. Here is the Build Process.")+'\n\n'+
+                            chalk.bold.green("Pushing to Heroku Successfull. Here is the Build Process.")+'\n\n'+
                             chalk.white(pushHeroku.output)+
                             '\n'
                           );
                           console.log(
                             '\n'+
-                            chalk.yellow.bold(`You can Access the backend in the following Address for Creating the Super User\n>> https://${appname}.herokuapp.com`)+
+                            chalk.yellow.bold(`Your Backend has been Successfully Updated\n>> https://${appname}.herokuapp.com`)+
                             '\n'
                           );
                           process.exit();

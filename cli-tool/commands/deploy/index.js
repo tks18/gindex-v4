@@ -52,7 +52,7 @@ module.exports = async () => {
                       console.log(
                         '\n'+
                         chalk.bold.green("Initialized Backend and Ready to Deploy to Heroku")+'\n\n'+
-                        chalk.white(gitInitBack.output)+
+                        chalk.white(gitInitBack.initOut+'\n'+gitInitBack.addOut+'\n'+gitInitBack.commitOut)+
                         '\n'
                       );
                       spinner(true, 'Checking Heroku App for Deployment', 0, false, async(checkSpin) => {
@@ -71,7 +71,7 @@ module.exports = async () => {
                             if(pushHeroku.res){
                               console.log(
                                 '\n'+
-                                chalk.bold.green("Pushing to Backend Successfull. Here is the Build Process.")+'\n\n'+
+                                chalk.bold.green("Pushing to Heroku Successfull. Here is the Build Process.")+'\n\n'+
                                 chalk.white(pushHeroku.output)+
                                 '\n'
                               );
