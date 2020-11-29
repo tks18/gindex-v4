@@ -2,8 +2,8 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "v8.2.6",
-  theme: "black-emerald",
+  version: "8.2.7",
+  theme: "black-netflix-red",
   // Following Themes are Available for Selection.
   // All are Lower Case - Do Not Enter Wrongly.
   // carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
