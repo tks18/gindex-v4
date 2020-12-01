@@ -77,6 +77,21 @@ const FUNCS = {
 };
 
 /**
+ * global functions
+ */
+const FUNCS = {
+  formatSearchKeyword: function(keyword) {
+    let nothing = "";
+    let space = " ";
+    if (!keyword) return nothing;
+    return keyword
+      .replace(/(!=)|['"=<>/\\:]/g, nothing)
+      .replace(/[,，|(){}]/g, space)
+      .trim();
+  },
+};
+
+/**
  * global consts
  * @type {{folder_mime_type: string, default_file_fields: string, gd_root_type: {share_drive: number, user_drive: number, sub_folder: number}}}
  */
@@ -285,7 +300,7 @@ async function handleRequest(request) {
       let email = url.searchParams.get("email");
       let sessionId = url.searchParams.get("sessionid");
       if(token && email && sessionId) {
-        let response = await gd.tokenAuthResponse(token, email, sessionId);
+        let response = await gd.tokenAuthResponse(token, sessionId, email);
         console.log(response);
         if(response) {
           const is_down = !(command && command == "down");
@@ -303,7 +318,7 @@ async function handleRequest(request) {
       let email = url.searchParams.get("email");
       let sessionId = url.searchParams.get("sessionid");
       if(token && email && sessionId) {
-        let response = await gd.tokenAuthResponse(token, email, sessionId);
+        let response = await gd.tokenAuthResponse(token, sessionId, email);
         console.log(response);
         if(response) {
           const is_down = !(command && command == "down");
@@ -321,7 +336,7 @@ async function handleRequest(request) {
       let email = url.searchParams.get("email");
       let sessionId = url.searchParams.get("sessionid");
       if(token && email && sessionId) {
-        let response = await gd.tokenAuthResponse(token, email, sessionId);
+        let response = await gd.tokenAuthResponse(token, sessionId, email);
         if(response) {
           const is_down = !(command && command == "down");
           return gd.down(file.id, range ,is_down);
@@ -528,6 +543,7 @@ class googleDrive {
           body: JSON.stringify({ email: received_user, password: received_pass })
         });
         const resbody = await res.json();
+        console.log(resbody);
         if(resbody.auth && resbody.registered && resbody.token){
           return null
         } else {
@@ -555,7 +571,6 @@ class googleDrive {
         body: JSON.stringify({ token: token, email: email, sessionId: sessionId })
       });
       const resbody = await res.json();
-      console.log(resbody);
       if(resbody.auth && resbody.registered && resbody.tokenuser){
         return true
       } else {
