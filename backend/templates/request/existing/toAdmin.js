@@ -228,7 +228,7 @@ function returnTemplate(userDetails, post){
                                 </tr>
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 16px; line-height: 24px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 18px;">
-                                    The Following Person has Requested ${post} Previlage to ${process.env.FRONTENDSITENAME}. Any Issues, Reply to this Mail, We Will Help Resolve Your Issue.
+                                    The Following Person has Requested ${post} Previlage For ${process.env.FRONTENDSITENAME}.
                                     <br><br>
                                     <b>Details:</b>
                                     <br>

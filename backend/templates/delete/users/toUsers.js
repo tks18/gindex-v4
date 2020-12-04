@@ -228,11 +228,11 @@ function returnTemplate(userDetails, admin) {
                                 </tr>
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 16px; line-height: 24px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 18px;">
-                                    Your Account has been Deleted by Super Admin - ${admin}. Any Issues, Reply to this Mail, We Will Help Resolve Your Issue.
+                                    Your Account has been Deleted by - ${admin}.
                                     <br><br>
-                                    Enjoy! :)
+                                    Follow the Rules Next Time
                                     <br><br>
-                                    Thanks and Regards from,
+                                    Thanks and Regards
                                     <br>
                                     ${process.env.FRONTENDSITENAME}
                                   </td>

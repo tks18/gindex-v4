@@ -223,12 +223,12 @@ function returnTemplate(userDetails) {
                                 <!-- START BODY COPY -->
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 24px; line-height: 30px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 13px;">
-                                    Dear ${userDetails.name},
+                                    Dear Admin,
                                   </td>
                                 </tr>
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 16px; line-height: 24px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 18px;">
-                                    The Following Person has Requested Access to ${process.env.FRONTENDSITENAME} Content. If You Know him it is Well and Good, but Don't Accept Unwanted Request and Bloat the Website. Any Issues, Reply to this Mail, We Will Help Resolve Your Issue.
+                                    The Following Person has Requested Access for ${process.env.FRONTENDSITENAME}. Only Accept the Request if It's From an Email Id on Our BITS Domain (Specifically Hyderabad Campus). Currently We Are Allowing Alumni's From All Three Campuses. 
                                     <br><br>
                                     <b>Details:</b>
                                     <br>

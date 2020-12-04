@@ -228,7 +228,7 @@ function returnTemplate(userDetails, temppass) {
                                 </tr>
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 16px; line-height: 24px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 18px;">
-                                    As you Forgot the Password, Please Verify your Account with OTP and Set a New Password. The Following One Time Password is Valid for only 3 Hours. Any Issues, Reply to this Mail, We Will Help Resolve Your Issue.
+                                    We have recieved your request to reset your password. Please Verify your Account with the OTP below and Set a New Password. The Following OTP is Valid only for only 3 Hours. If you face any Issue, Ping one of our admins on facebook. We'll help you sort itWe Have Recieved Your Request to Reset Your Password. Please Verify Your Account With the Otp Below and Set a New Password. The Following Otp is Valid Only for Only 3 Hours. If You Face Any Issue, Ping One of Our Admins on Facebook. We'll Help You Sort It Out.
                                     <br><br>
                                     Your One Time Password - <b><i>${temppass}</i></b>
                                     <br><br>

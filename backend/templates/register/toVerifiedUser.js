@@ -228,11 +228,11 @@ function returnTemplate(userDetails) {
                                 </tr>
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 16px; line-height: 24px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 18px;">
-                                    Your email ${userDetails.email} has been Verified. Now you can Login with Your Password. Any Issues, Reply to this Mail, We Will Help Resolve Your Issue.
+                                    Your email ${userDetails.email} has been Verified. You can now Login with Your Password. Ping any of our Admins incase of any issues !
                                     <br><br>
                                     Enjoy! :)
                                     <br><br>
-                                    Thanks and Regards from,
+                                    Thanks and Regards
                                     <br>
                                     ${process.env.FRONTENDSITENAME}
                                   </td>

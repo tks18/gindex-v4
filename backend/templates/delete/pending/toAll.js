@@ -232,7 +232,7 @@ function returnTemplate(userDetails) {
                                     <br><br>
                                     Enjoy! :)
                                     <br><br>
-                                    Thanks and Regards from,
+                                    Thanks and Regards
                                     <br>
                                     ${process.env.FRONTENDSITENAME}
                                   </td>

@@ -228,11 +228,11 @@ function returnTemplate(userDetails){
                                 </tr>
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 16px; line-height: 24px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 18px;">
-                                    We have Received Your Request for Accessing Content in ${process.env.FRONTENDSITENAME}.Your Request is Pending Confirmation from Admins.Till we Process the Data, Please be Patient. On Confirmation You will get a Email regarding Confirmation and a OTP will be Sent to Activate your Account.You have to  Activate Your Account within 3 Hours of Confirmation Mail, Otherwise your Account will be deleted Automatically. Any Issues, Reply to this Mail, We Will Help Resolve Your Issue.
+                                    We have Received Your Request for ${process.env.FRONTENDSITENAME}. Kindly Be Patient and Wait Until One of Our Admins Accept Your Request. On Confirmation From One of Our Admins, You Will Get a Email Regarding Confirmation and an Otp Will Be Sent to Activate Your Account. Please Note That the Otp Will Only Be Valid for 3 Hours and Hence Keep Checking Your Email (Including Your Spam) for the Next 3-4 Hours. Requests Are Only Accepted Between 8 Am and 10 Pm. Incase You Miss the Mail With the Otp and Your Request Gets Deleted, Kindly Request Again . If You Face Any Issue, Kindly Ping One of the Admins on Facebook, We'll Help Sort It Out.
                                     <br><br>
-                                    Enjoy! :)
+                                    Enjoy :)
                                     <br><br>
-                                    Thanks and Regards from,
+                                    Thanks and Regards
                                     <br>
                                     ${process.env.FRONTENDSITENAME}
                                   </td>

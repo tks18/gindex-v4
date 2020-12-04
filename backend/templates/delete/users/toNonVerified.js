@@ -228,11 +228,11 @@ function returnTemplate(userDetails){
                                 </tr>
                                 <tr>
                                   <td class="td-padding" align="left" style="font-family: 'Roboto Mono', monospace; color: #212121!important; font-size: 16px; line-height: 24px; padding-top: 18px; padding-left: 18px!important; padding-right: 18px!important; padding-bottom: 0px!important; mso-line-height-rule: exactly; mso-padding-alt: 18px 18px 0px 18px;">
-                                    This is to Inform you that your Account has been Deleted Automatically, Since You didn't Use the Sent One Time Password. Any Issues, Reply to this Mail, We Will Help Resolve Your Issue.
+                                    This is to Inform You That Your Account Has Been Deleted Automatically, Since the OTP Which Was Sent Has Expired. Incase You Missed the OTP by Mistake, Kindly Request Again and Wait for One of Our Admin's to Accept. 
                                     <br><br>
-                                    Enjoy! :)
+                                    Do Keep Checking Your Email Next Time
                                     <br><br>
-                                    Thanks and Regards from,
+                                    Thanks and Regards
                                     <br>
                                     ${process.env.FRONTENDSITENAME}
                                   </td>
