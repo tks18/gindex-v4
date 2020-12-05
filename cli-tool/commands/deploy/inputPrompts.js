@@ -101,7 +101,7 @@ module.exports = {
         name: "maxsessions",
         message: "Enter the Number of Maximum Active Sessions that Users can Login Simultaneously(Eg: 1, 2, 5, etc.)",
         validate(value) {
-          const regex = /([1-9].+|[1-9])/;
+          const regex = /([1-9]).+/;
           if(!regex.test(value)){
             return "Enter a Valid Number";
           } else {

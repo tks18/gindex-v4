@@ -67,7 +67,7 @@ router.post('/data', function(req, res){
 	if(checkOrigin(req.headers.origin)){
 		if(jwtVerify(req.headers.token)){
 			Settings.findOne({ cId: process.env.FRONTENDSITENAME }, function(error, settingsData){
-				if(!settingsData || settingsData.tmdb){
+				if(settingsData && settingsData.tmdb){
 					User.findOne({ email: req.body.email }, function(error, result){
 						if(result){
 							try {

@@ -4,7 +4,7 @@ const spinner = require('./helpers/spinner');
 const yargs = require('yargs')
 const { hideBin } = require('yargs/helpers')
 const initialRender = require('./displays/initial-render');
-const { init, deploy, update } = require('./commands');
+const { init, deploy, update, configure } = require('./commands');
 
 console.log(
   initialRender()
@@ -23,6 +23,13 @@ yargs(hideBin(process.argv))
     spinner(false, `Initializing Now`, 2, false, function(){
       update();
     });
+  })
+  .command('configure [env]', "Update Your Backend Variables", {}, (args) => {
+    if(args.env){
+      configure.env();
+    } else {
+      console.log("More Options Will be Supported later. For Now only Backend Variables Configuration is Enabled")
+    }
   })
   .argv
 

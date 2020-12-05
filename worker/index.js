@@ -2,7 +2,7 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "8.2.7",
+  version: "8.2.8",
   theme: "black-netflix-red",
   // Following Themes are Available for Selection.
   // All are Lower Case - Do Not Enter Wrongly.
@@ -77,21 +77,6 @@ const FUNCS = {
 };
 
 /**
- * global functions
- */
-const FUNCS = {
-  formatSearchKeyword: function(keyword) {
-    let nothing = "";
-    let space = " ";
-    if (!keyword) return nothing;
-    return keyword
-      .replace(/(!=)|['"=<>/\\:]/g, nothing)
-      .replace(/[,，|(){}]/g, space)
-      .trim();
-  },
-};
-
-/**
  * global consts
  * @type {{folder_mime_type: string, default_file_fields: string, gd_root_type: {share_drive: number, user_drive: number, sub_folder: number}}}
  */
@@ -128,7 +113,7 @@ function html(current_drive_order = 0, model = {}) {
     })}');
     window.themeOptions = JSON.parse('${JSON.stringify(themeOptions)}');
     window.backend = '${authConfig.backendSite}';
-    window.version = '${authConfig.version}';
+    window.version = 'frontend-${authConfig.version}';
     window.gds = JSON.parse('${JSON.stringify(
       authConfig.roots.map((it) => it.name)
     )}');

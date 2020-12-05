@@ -59,7 +59,7 @@ export default {
                 this.$notify({
                   title: "Update Available",
                   dangerouslyUseHTMLString: true,
-                  message: `Frontend Update - ${latestVersion} is Available`,
+                  message: `Frontend Update - ${latestVersion[0].tag_name} is Available`,
                   duration: 0,
                   type: "warning",
                 });
