@@ -10,22 +10,22 @@
             <div class="columns is-multiline is-desktop is-centered is-vcentered">
               <div class="column is-two-thirds">
                 <figure class="image is-100x150">
-                  <img v-lazy="videoData.poster_path">
+                  <v-img :src="videoData.poster_path" />
                 </figure>
               </div>
               <div v-if="ismobile" class="column has-text-centered is-full">
-                <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
+                <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded mx-2" @click="tapPlay">
                   <span class="icon">
                     <i class="fas fa-play"></i>
                   </span>
                   <span>Play Now</span>
-                </button>
-                <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
+                </v-btn>
+                <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
                   <span class="icon">
                     <i class="fas fa-tv"></i>
                   </span>
                   <span>Watch Trailer</span>
-                </button>
+                </v-btn>
               </div>
             </div>
           </div>
@@ -87,18 +87,18 @@
                 </div>
               </div>
               <div v-if="!ismobile" class="column is-full">
-                <button class="button is-netflix-red is-rounded mx-2" @click="tapPlay">
+                <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded mx-2" @click="tapPlay">
                   <span class="icon">
                     <i class="fas fa-play"></i>
                   </span>
                   <span>Play Now</span>
-                </button>
-                <button class="button is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
+                </v-btn>
+                <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded mx-2" @click="playOutside(videoData.videos.results[0].key)">
                   <span class="icon">
                     <i class="fas fa-tv"></i>
                   </span>
                   <span>Watch Trailer</span>
-                </button>
+                </v-btn>
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@
                           <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
                             <div class="column mx-0 px-0 py-0 my-0 is-full">
                               <figure class="image is-100x150">
-                                <img :src="videoData.poster_path || 'https://img.icons8.com/cotton/2x/video-file--v1.png'">
+                                <v-img :src="videoData.poster_path || 'https://img.icons8.com/cotton/2x/video-file--v1.png'" />
                               </figure>
                             </div>
                           </div>
@@ -268,32 +268,32 @@
                   <div :class="!dataPresent ? ismobile ? 'column is-full' : 'column is-4' : ismobile ? 'column is-full' : 'column is-2' ">
                     <div class="columns is-multiline is-mobile is-centered has-text-centered is-vcentered">
                       <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
-                        <button class="button is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
+                        <v-btn rounded small :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
                           <span class="icon">
                             <i class="fas fa-external-link-square-alt fontonly"></i>
                           </span>
-                        </button>
+                        </v-btn>
                       </div>
                       <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
-                        <button class="button is-netflix-red" @click="copy" v-tooltip.bottom-start="'Copy Link'">
+                        <v-btn rounded small :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="copy" v-tooltip.bottom-start="'Copy Link'">
                           <span class="icon">
                             <i class="fa fa-copy fontonly"></i>
                           </span>
-                        </button>
+                        </v-btn>
                       </div>
                       <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
-                        <button class="button is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
+                        <v-btn rounded small :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
                           <span class="icon">
                             <i class="fas fa-download fontonly"></i>
                           </span>
-                        </button>
+                        </v-btn>
                       </div>
                       <div :class="!dataPresent ? ismobile ? 'column is-quarter' : 'column is-quarter mx-1' : ismobile ? 'column is-quarter' : 'column is-half'">
-                        <button class="button is-netflix-red" @click="subModal=true;" v-tooltip.bottom-start="'Load Custom Subtitles..'">
+                        <v-btn rounded small :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="subModal=true;" v-tooltip.bottom-start="'Load Custom Subtitles..'">
                           <span class="icon">
                             <i class="fas fa-closed-captioning fontonly"></i>
                           </span>
-                        </button>
+                        </v-btn>
                       </div>
                     </div>
                   </div>
@@ -319,10 +319,10 @@
                     </div>
                     <div v-if="!ismobile && season.season_number === parsedData.season && videoData.images.posters && videoData.images.posters.length != 0" class="column is-3">
                       <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
-                        <div class="column mx-0 px-0 py-0 my-0 is-full">
-                          <figure class="image is-4by3">
-                            <img class="is-rounded" v-lazy="videoData.images.posters[0].file_path">
-                          </figure>
+                        <div class="column has-text-centered mx-0 px-0 py-0 my-0 is-full">
+                          <v-avatar size="150">
+                            <v-img class="is-rounded" :src="videoData.images.posters[0].file_path" />
+                          </v-avatar>
                         </div>
                       </div>
                     </div>
@@ -498,7 +498,7 @@
                       <div class="columns mx-0 px-0 py-0 my-0 is-multiline is-centered">
                         <div class="column mx-0 px-0 py-0 my-0 is-full">
                           <figure class="image">
-                            <img v-lazy="videoData.images.backdrops[0].file_path">
+                            <v-img :src="videoData.images.backdrops[0].file_path" />
                           </figure>
                         </div>
                       </div>
@@ -534,10 +534,10 @@
                       <div class="columns is-mobile is-vcentered scroll-block" ref="cast">
                         <div v-for="(people, index) in videoData.credits.cast" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                           <div class="columns is-desktop is-centered is-vcentered is-multiline">
-                            <div class="column mx-1 px-1 is-full">
-                              <figure class="image">
-                                <img v-lazy="people.profile_path == null ? people.gender == 0 ? 'https://i.ibb.co/tPTLybZ/Blank-Person-462x600.jpg' : 'https://i.ibb.co/SR5L4Dy/avatar-female-tall.jpg' : people.profile_path">
-                              </figure>
+                            <div class="column has-text-centered mx-1 px-1 is-full">
+                              <v-avatar size="150">
+                                <v-img :src="people.profile_path == null ? people.gender == 0 ? 'https://i.ibb.co/tPTLybZ/Blank-Person-462x600.jpg' : 'https://i.ibb.co/SR5L4Dy/avatar-female-tall.jpg' : people.profile_path" />
+                              </v-avatar>
                             </div>
                             <div class="column has-text-centered is-full">
                               <p class="is-small has-text-white scroll-text">
@@ -582,10 +582,10 @@
                       <div class="columns is-mobile is-vcentered scroll-block" ref="crew">
                         <div v-for="(people, index) in videoData.credits.crew" v-bind:key="index" :class="ismobile ? 'column is-6 mx-0 px-0 scroll-link' : 'column is-2 mx-2 px-2 scroll-link'">
                           <div class="columns is-desktop is-centered is-vcentered is-multiline">
-                            <div class="column mx-1 px-1 is-full">
-                              <figure class="image">
-                                <img v-lazy="people.profile_path == null ? people.gender == 0 ? 'https://i.ibb.co/tPTLybZ/Blank-Person-462x600.jpg' : 'https://i.ibb.co/SR5L4Dy/avatar-female-tall.jpg' : people.profile_path">
-                              </figure>
+                            <div class="column has-text-centered mx-1 px-1 is-full">
+                              <v-avatar size="150">
+                                <v-img :src="people.profile_path == null ? people.gender == 0 ? 'https://i.ibb.co/tPTLybZ/Blank-Person-462x600.jpg' : 'https://i.ibb.co/SR5L4Dy/avatar-female-tall.jpg' : people.profile_path" />
+                              </v-avatar>
                             </div>
                             <div class="column has-text-centered is-full">
                               <p class="is-small has-text-white scroll-text">
@@ -754,12 +754,12 @@
                 <p class>{{ item.name }}</p>
               </div>
               <div class="column is-4">
-                <button class="button is-netflix-red is-rounded" @click="modal = false;handleExternalPlay(item.name)">
+                <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="modal = false;handleExternalPlay(item.name)">
                   <span class="icon is-small">
                     <i class="fas fa-play"></i>
                   </span>
                   <span>Play</span>
-                </button>
+                </v-btn>
               </div>
             </div>
           </section>
@@ -818,7 +818,7 @@
           </div>
         </div>
         <div class="column is-full">
-          <div class="columns has-background-dark suggestList is-multiline is-mobile is-centered is-vcentered" v-for="(file, index) in files" v-bind:key="index" @click="action(file,'view')">
+          <v-card dark width="550" class="columns has-background-dark is-multiline is-mobile is-centered is-vcentered suggestList my-2" v-for="(file, index) in files" v-bind:key="index" @click="action(file,'view')">
             <div class="column is-2">
               <svg class="iconfont" style="font-size: 20px">
                 <use :xlink:href="getIcon(file.mimeType)" />
@@ -845,7 +845,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </v-card>
         </div>
         <div
           v-show="loading"
@@ -998,6 +998,7 @@ export default {
       this.getFiles($state);
       this.getVideoData(decodeURIComponent(this.videoname.split('.').slice(0,-1).join('.')));
       this.checkMobile();
+      this.ismobile ? this.desc = false : this.desc = true;
       this.mainLoad = false;
       // if(!this.infoPanel) this.player.play();
     },

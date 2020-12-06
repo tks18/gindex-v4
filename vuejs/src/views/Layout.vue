@@ -48,25 +48,29 @@ export default {
     checkVersion() {
       if(this.admin){
         let appVersion = window.version;
-        this.$backend.get("https://api.github.com/repos/tks18/gindex-v4/releases").then(response => {
-          if(response.data){
-            let latestVersion = response.data.filter(releases => {
-              const frontendRegex = /^(frontend).+/;
-              return frontendRegex.test(releases.tag_name);
-            });
-            if(latestVersion.length > 0){
-              if(appVersion != latestVersion[0].tag_name){
-                this.$notify({
-                  title: "Update Available",
-                  dangerouslyUseHTMLString: true,
-                  message: `Frontend Update - ${latestVersion[0].tag_name} is Available`,
-                  duration: 0,
-                  type: "warning",
-                });
+        try {
+          this.$backend.get("https://api.github.com/repos/tks18/gindex-v4/releases").then(response => {
+            if(response.data){
+              let latestVersion = response.data.filter(releases => {
+                const frontendRegex = /^(frontend).+/;
+                return frontendRegex.test(releases.tag_name);
+              });
+              if(latestVersion.length > 0){
+                if(appVersion != latestVersion[0].tag_name){
+                  this.$notify({
+                    title: "Update Available",
+                    dangerouslyUseHTMLString: true,
+                    message: `Frontend Update - ${latestVersion[0].tag_name} is Available`,
+                    duration: 0,
+                    type: "warning",
+                  });
+                }
               }
             }
-          }
-        })
+          })
+        } catch {
+          console.error
+        }
       }
     },
   },

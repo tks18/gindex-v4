@@ -7,12 +7,12 @@
       <div class="column is-full">
         <p class="subtitle has-text-white has-text-weight-bold">Your Requested File is <span class="has-text-netflix-only">{{ objName }}</span>.</p>
         <p class="subtitle has-text-white">{{ checkPath ? "This File is Supported by us, but Not Supported by your Browser. You can only Download the File" : "We Don't Support these Formats online. Your only Option is to Download" }}</p>
-        <button class="button is-netflix-red is-rounded" @click="downloadButton">
+        <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="downloadButton">
           <span class="icon">
            <i class="fas fa-download"></i>
          </span>
          <span>Download</span>
-        </button>
+       </v-btn>
       </div>
     </div>
   </div>
@@ -124,7 +124,7 @@ export default {
       if(response.data.auth && response.data.registered && response.data.token){
         this.mainLoad = false;
         this.mediaToken = response.data.token;
-        this.objName = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
+        this.objName = decodeURIComponent(this.url.split('/').pop());
         this.metatitle = this.objName;
         this.render();
       } else {

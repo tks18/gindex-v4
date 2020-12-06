@@ -3,7 +3,7 @@
     <div class="container">
       <div class="navbar-brand">
         <div class="navbar-item nav-link">
-          <h3 class="title has-text-netflix is-3" v-tooltip.bottom-start="'Home'" @click="homeroute">
+          <h3 v-ripple class="title has-text-netflix-only is-3" v-tooltip.bottom-start="'Home'" @click="homeroute">
             {{ currgd.name }}
           </h3>
         </div>
@@ -28,6 +28,7 @@
         <div class="navbar-start">
           <a
             class="navbar-item"
+            v-ripple
             v-tooltip.bottom-start="'OTP Registration'"
             v-if="!logged"
             @click="gotoPage('/otp/', 'register')"
@@ -36,6 +37,7 @@
           </a>
           <a
             class="navbar-item"
+            v-ripple
             v-tooltip.bottom-start="'Request Access'"
             v-if="!logged"
             @click="gotoPage('/request/user/', 'register')"
@@ -44,6 +46,7 @@
           </a>
           <a
             class="navbar-item"
+            v-ripple
             v-tooltip.bottom-start="'Login'"
             v-if="!logged"
             @click="gotoPage('/', 'login')"
@@ -53,6 +56,7 @@
           <a
             class="navbar-item"
             v-show="logged"
+            v-ripple
             v-for="(link, index) in quicklinks.slice(0,3)"
             v-tooltip.bottom-start="link.title"
             v-bind:key="index"
@@ -62,6 +66,7 @@
           </a>
           <a
             class="navbar-item"
+            v-ripple
             v-tooltip.bottom-start="'Go to Root'"
             v-show="logged"
             title="All"
@@ -76,6 +81,7 @@
             <div class="navbar-dropdown is-boxed">
               <a
                 class="navbar-item"
+                v-ripple
                 @click="changeItem(item)"
                 v-for="(item, index) in gds"
                 v-bind:key="index"
@@ -93,6 +99,7 @@
             <div class="navbar-dropdown is-boxed">
               <a
                 class="navbar-item"
+                v-ripple
                 @click="changeItem(item)"
                 v-for="(item, index) in gds"
                 v-bind:key="index"
@@ -102,6 +109,7 @@
           </div>
           <a
             class="navbar-item"
+            v-ripple
             v-tooltip.bottom-start="'Search'"
             v-if="logged && !searchBar"
             @click="searchBar = true"
@@ -133,6 +141,7 @@
           <a
             class="navbar-item"
             title="Stop Music Player"
+            v-ripple
             v-tooltip.bottom-start="'Stop Music Player'"
             @click="closeMusicPlayer()"
             v-if="logged && miniplayer"
@@ -145,6 +154,7 @@
           <a
             class="navbar-item"
             title="Profile"
+            v-ripple
             v-tooltip.bottom-start="'Go to Settings'"
             @click="gotoPage('/' ,'settings')"
             v-if="logged"
@@ -157,6 +167,7 @@
           <a
             class="navbar-item"
             title="Admin Panel"
+            v-ripple
             v-tooltip.bottom-start="'Admin Panel'"
             v-if="logged && admin"
             @click="gotoPage('/','admin')"
@@ -169,6 +180,7 @@
           <a
             class="navbar-item"
             title="Logout"
+            v-ripple
             v-tooltip.bottom-start="'Logout'"
             @click="logout"
             v-if="logged"

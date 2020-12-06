@@ -10,12 +10,12 @@
             <p class="subtitle has-text-white has-text-weight-bold">{{ pdfname }}</p>
           </div>
           <div class="column is-one-third">
-            <button class="button is-netflix-red is-rounded" @click="download">
+            <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="download">
               <span class="icon">
                 <i class="fas fa-download fontonly"></i>
               </span>
               <span>Download</span>
-            </button>
+            </v-btn>
           </div>
         </div>
       </div>

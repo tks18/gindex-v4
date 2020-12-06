@@ -162,23 +162,23 @@
                       <p class="subtitle has-text-white">For Admin Features</p>
                     </div>
                     <div v-if="!admin && !superadmin" class="column is-one-third">
-                      <button class="button is-netflix-red is-rounded" @click="adminmodal = true">
+                      <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="adminmodal = true">
                         <span class="icon is-small">
                           <i class="fas fa-sticky-note"></i>
                         </span>
                         <span class="content">Click Here</span>
-                      </button>
+                      </v-btn>
                     </div>
                     <div v-if="admin && !superadmin" class="column is-two-thirds">
                       <p class="subtitle has-text-white">For Superadmin Features</p>
                     </div>
                     <div v-if="admin && !superadmin" class="column is-one-third">
-                      <button class="button is-netflix-red is-rounded" @click="superadminmodal = true">
+                      <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="superadminmodal = true">
                         <span class="icon is-small">
                           <i class="fas fa-sticky-note"></i>
                         </span>
                         <span class="content">Click Here</span>
-                      </button>
+                      </v-btn>
                     </div>
                   </div>
                 </div>

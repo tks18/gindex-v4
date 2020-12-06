@@ -27,6 +27,7 @@
       <tr class="tr-item" v-for="(file, index) in files" v-bind:key="index">
         <td
           class="td-item"
+          v-ripple
           @click.self="
             action(
               file,
@@ -56,36 +57,38 @@
             style="color: #bbf1c8;"
           ></span>
         </td>
-        <td class="td-item is-hidden-mobile is-hidden-touch">
+        <td class="td-item is-hidden-mobile is-hidden-touch" v-ripple>
           {{ file.modifiedTime }}
         </td>
-        <td class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
+        <td v-ripple class="td-item is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
         <td class="is-hidden-mobile is-hidden-touch">
-          <span class="icon td-hover" v-if="file.mimeType !== 'application/vnd.google-apps.folder'" @click.stop="action(file,'copy')">
+          <v-btn :dark="$currentTheme.text" :color="$currentTheme.hex" icon small class="icon td-hover" v-if="file.mimeType !== 'application/vnd.google-apps.folder'" @click.stop="action(file,'copy')">
             <i
-              class="fa fa-copy faa-shake animated-hover"
+              v-ripple
+              class="fa fa-copy"
               :title="$t('list.opt.copy')"
               aria-hidden="true"
             ></i>
-          </span>
-          <span class="icon td-hover" @click.stop="action(file, '_blank')">
+          </v-btn>
+          <v-btn :dark="$currentTheme.text" :color="$currentTheme.hex" icon small class="icon td-hover" @click.stop="action(file, '_blank')">
             <i
-              class="fa fa-external-link faa-shake animated-hover"
+              v-ripple
+              class="fa fa-external-link"
               :title="$t('list.opt.newTab')"
               aria-hidden="true"
             ></i>
-          </span>
-          <span
+          </v-btn>
+          <v-btn :dark="$currentTheme.text" :color="$currentTheme.hex" icon small
             class="icon td-hover"
             @click.stop="action(file, 'down')"
             v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
           >
             <i
-              class="fa fa-download faa-shake animated-hover"
+              class="fa fa-download"
               aria-hidden="true"
               :title="$t('list.opt.download')"
             ></i>
-          </span>
+          </v-btn>
         </td>
       </tr>
     </tbody>

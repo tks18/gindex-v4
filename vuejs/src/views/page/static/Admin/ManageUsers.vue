@@ -70,19 +70,19 @@
                   </article>
                 </div>
                 <div v-show="!inviteInput" :class="admin && superadmin ? currentUser.admin && currentUser.superadmin && !currentUser.pending ? 'column has-text-centered is-half' : 'column has-text-right is-quarter' : 'column has-text-centered is-half' ">
-                  <button class="button is-rounded is-netflix-red" @click="handleUpgradeDelete(currentUser, 'delete')">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="handleUpgradeDelete(currentUser, 'delete')">
                     Delete
-                  </button>
+                  </v-btn>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
-                  <button class="button is-rounded is-netflix-red" @click="inviteInput = true;">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="inviteInput = true;">
                     Invite as Admin
-                  </button>
+                  </v-btn>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && !currentUser.pending" class="column has-text-left is-quarter has-text-centered">
-                  <button class="button is-rounded is-netflix-red" @click="inviteInput = true;">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="inviteInput = true;">
                     Invite as Superadmin
-                  </button>
+                  </v-btn>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && !currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
                   <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
@@ -90,9 +90,9 @@
                   </button>
                 </div>
                 <div v-show="!inviteInput" v-if="admin && superadmin && currentUser.admin && !currentUser.superadmin && currentUser.pending" class="column has-text-left is-quarter has-text-centered">
-                  <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
                     Grant Superadmin
-                  </button>
+                  </v-btn>
                 </div>
                 <div v-if="inviteInput" class="column is-full">
                   <div class="columns is-mobile is-multiline is-centered">
@@ -104,14 +104,14 @@
                       </div>
                     </div>
                     <div class="column has-text-right is-half">
-                      <button class="button is-rounded is-netflix-red" @click="handleInvite(currentUser)">
+                      <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="handleInvite(currentUser)">
                         Invite
-                      </button>
+                      </v-btn>
                     </div>
                     <div class="column has-text-left is-half" @click="inviteInput = false;errorMessage = false;">
-                      <button class="button is-rounded is-netflix-red" >
+                      <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" >
                         Cancel
-                      </button>
+                      </v-btn>
                     </div>
                   </div>
                 </div>
@@ -141,9 +141,9 @@
                 <th class="has-text-white is-hidden-mobile is-hidden-touch" >{{ user.email.slice(0,30) }}</th>
                 <th class="has-text-white is-hidden-mobile is-hidden-touch" >{{ user.role }}</th>
                 <th class="has-text-white" >
-                  <button class="button is-netflix-red is-rounded" @click="userModal(user)">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="userModal(user)">
                     View
-                  </button>
+                  </v-btn>
                 </th>
               </tr>
             </tbody>
