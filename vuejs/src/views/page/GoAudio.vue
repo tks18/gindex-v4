@@ -48,21 +48,21 @@
           <div class="column is-full">
             <div class="box has-text-centered has-background-black">
               <div class="columns is-centered is-vcentered is-mobile is-multiline">
-                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-full' : 'column has-text-netflix is-medium has-text-centered is-half'">
-                  <button class="button is-netflix-red" @click="toggleModes" v-tooltip.bottom-start="'Toggle MiniPlayer'">
+                <div :class="ismobile ? 'column has-text-netflix-only has-text-centered is-medium is-full' : 'column has-text-netflix-only is-medium has-text-centered is-half'">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" @click="toggleModes" v-tooltip.bottom-start="'Toggle MiniPlayer'">
                     <span class="icon">
                       <i class="fas fa-compact-disc"></i>
                     </span>
                     <span>Toggle MiniPlayer</span>
-                  </button>
+                  </v-btn>
                 </div>
-                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-full' : 'column has-text-netflix is-medium has-text-centered is-half'">
-                  <button class="button is-netflix-red" @click="addtoCurrlist" v-tooltip.bottom-start="'Add Songs to Current Playlist. Only for Miniplayer'">
+                <div :class="ismobile ? 'column has-text-netflix-only has-text-centered is-medium is-full' : 'column has-text-netflix-only is-medium has-text-centered is-half'">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" @click="addtoCurrlist" v-tooltip.bottom-start="'Add Songs to Current Playlist. Only for Miniplayer'">
                     <span class="icon">
                       <i class="fas fa-clipboard-list"></i>
                     </span>
                     <span>Add Current Playlist</span>
-                  </button>
+                  </v-btn>
                 </div>
               </div>
             </div>
@@ -73,26 +73,26 @@
                 <div :class="ismobile ? 'column is-full' : 'column is-8'">
                     <p class="subtitle has-text-white has-text-weight-bold"> {{ miniplayer ? "Mini Player is toggled on" : "Mini Player is toggled off" }}</p>
                 </div>
-                <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
-                  <button class="button is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
+                <div :class="ismobile ? 'column has-text-netflix-only has-text-centered is-medium is-3' : 'column has-text-netflix-only is-medium has-text-centered is-1'">
+                  <v-btn rounded small :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="modal=true;" v-tooltip.bottom-start="'Play Externally.'">
                     <span class="icon">
                       <i class="fas fa-external-link-square-alt fontonly"></i>
                     </span>
-                  </button>
+                  </v-btn>
                 </div>
                 <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
-                  <button class="button is-netflix-red" v-clipboard:copy="externalUrl" v-tooltip.bottom-start="'Copy Link'">
+                  <v-btn rounded small :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" v-clipboard:copy="externalUrl" v-tooltip.bottom-start="'Copy Link'">
                     <span class="icon">
                       <i class="fa fa-copy fontonly"></i>
                     </span>
-                  </button>
+                  </v-btn>
                 </div>
                 <div :class="ismobile ? 'column has-text-netflix has-text-centered is-medium is-3' : 'column has-text-netflix is-medium has-text-centered is-1'">
-                  <button class="button is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
+                  <v-btn rounded small :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="downloadButton" v-tooltip.bottom-start="'Download Now.'">
                     <span class="icon">
                       <i class="fas fa-download fontonly"></i>
                     </span>
-                  </button>
+                  </v-btn>
                 </div>
               </div>
             </div>

@@ -9,45 +9,45 @@
               <p class="subtitle has-text-weight-bold">Manage Quicklinks</p>
             </div>
             <div class="column has-text-right is-one-third">
-              <button class="button is-netflix-red is-rounded" @click="gotoPage('/posteriors/quicklinks','admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="gotoPage('/posteriors/quicklinks','admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-plus"></i>
                 </span>
                 <span>Manage</span>
-              </button>
+              </v-btn>
             </div>
             <div class="column is-two-thirds">
               <p class="subtitle has-text-weight-bold">Manage Trending</p>
             </div>
             <div class="column has-text-right is-one-third">
-              <button class="button is-netflix-red is-rounded" @click="gotoPage('/posteriors/Trending','admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="gotoPage('/posteriors/Trending','admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-plus"></i>
                 </span>
                 <span>Manage</span>
-              </button>
+              </v-btn>
             </div>
             <div class="column is-two-thirds">
               <p class="subtitle has-text-weight-bold">Manage Categories</p>
             </div>
             <div class="column has-text-right is-one-third">
-              <button class="button is-netflix-red is-rounded" @click="gotoPage('/posteriors/categories','admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="gotoPage('/posteriors/categories','admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-plus"></i>
                 </span>
                 <span>Manage</span>
-              </button>
+              </v-btn>
             </div>
             <div class="column is-two-thirds">
               <p class="subtitle has-text-weight-bold">Manage Hero Posters</p>
             </div>
             <div class="column has-text-right is-one-third">
-              <button class="button is-netflix-red is-rounded" @click="gotoPage('/posteriors/heros','admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="gotoPage('/posteriors/heros','admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-plus"></i>
                 </span>
                 <span>Manage</span>
-              </button>
+              </v-btn>
             </div>
           </div>
         </div>

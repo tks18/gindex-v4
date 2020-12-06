@@ -30,19 +30,19 @@
                       <div class="box has-background-light">
                         <div class="columns is-mobile is-multiline is-centered">
                           <div :class="ismobile ? 'column is-half' : 'column is-one-third'">
-                            <button class="button is-netflix-red is-rounded" @click="handleTransport(user, setrole)">
+                            <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="handleTransport(user, setrole)">
                               Accept
-                            </button>
+                            </v-btn>
                           </div>
                           <div :class="ismobile ? 'column is-half' : 'column is-one-third'">
-                            <button class="button is-netflix-red is-rounded" @click="handleDelete(deleteApi, user)">
+                            <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="handleDelete(deleteApi, user)">
                               Reject
-                            </button>
+                            </v-btn>
                           </div>
                           <div :class="ismobile ? 'column is-full' : 'column is-one-third'">
-                            <button class="button is-netflix-red is-rounded" @click="handleSpam(deleteApi, user)">
+                            <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red is-rounded" @click="handleSpam(deleteApi, user)">
                               Mark as Spam
-                            </button>
+                            </v-btn>
                           </div>
                         </div>
                       </div>
@@ -63,12 +63,12 @@
                         </p>
                       </div>
                       <div class="column is-one-third">
-                        <button class="button is-netflix-red" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';deleteApi = 'user'">
+                        <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="modal = true; listname = 'Users - Pending';getPendingUsers(pendingusers); setrole = 'user';deleteApi = 'user'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
                           <span>Get</span>
-                        </button>
+                        </v-btn>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
                         <p class="subtitle has-text-weight-semibold has-text-white">
@@ -76,12 +76,12 @@
                         </p>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-one-third">
-                        <button class="button is-netflix-red" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';deleteApi = 'admin'">
+                        <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingadmin); setrole = 'admin';deleteApi = 'admin'">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
                           <span>Get</span>
-                        </button>
+                        </v-btn>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-two-thirds">
                         <p class="subtitle has-text-weight-semibold has-text-white">
@@ -89,12 +89,12 @@
                         </p>
                       </div>
                       <div v-if="user.admin && user.superadmin" class="column is-one-third">
-                        <button class="button is-netflix-red" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';deleteApi = 'superadmin';">
+                        <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="modal = true; listname = 'Admins - Pending';getPendingUsers(pendingsuperadmin); setrole = 'superadmin';deleteApi = 'superadmin';">
                           <span class="icon is-small">
                             <i class="fas fa-user-shield"></i>
                           </span>
                           <span>Get</span>
-                        </button>
+                        </v-btn>
                       </div>
                     </div>
                   </div>

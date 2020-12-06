@@ -15,23 +15,23 @@
                   <p class="subtitle has-text-weight-bold">Add a User</p>
                 </div>
                 <div class="column has-text-centered is-one-third">
-                  <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/', 'register')">
                     <span class="icon is-small">
                       <i class="fas fa-user-plus"></i>
                     </span>
                     <span>Add</span>
-                  </button>
+                  </v-btn>
                 </div>
                 <div class="column is-two-thirds">
                   <p class="subtitle has-text-weight-bold">Invite Users</p>
                 </div>
                 <div class="column has-text-centered is-one-third">
-                  <button class="button is-rounded is-netflix-red" @click="gotoPage('/', 'invite')">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/', 'invite')">
                     <span class="icon is-small">
                       <i class="fas fa-user-plus"></i>
                     </span>
                     <span>Invite</span>
-                  </button>
+                  </v-btn>
                 </div>
               </div>
             </div>
@@ -46,23 +46,23 @@
               <p class="subtitle has-text-weight-bold">Manage Existing Users</p>
             </div>
             <div class="column has-text-centered is-one-third">
-              <button class="button is-rounded is-netflix-red" @click="gotoPage('/manage', 'admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/manage', 'admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-plus"></i>
                 </span>
                 <span>Manage</span>
-              </button>
+              </v-btn>
             </div>
             <div class="column is-two-thirds">
               <p class="subtitle has-text-weight-bold">Manage Spam Users</p>
             </div>
             <div class="column has-text-centered is-one-third">
-              <button class="button is-rounded is-netflix-red" @click="gotoPage('/spam', 'admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/spam', 'admin')">
                 <span class="icon is-small">
                   <i class="fas fa-hand-paper"></i>
                 </span>
                 <span>Manage</span>
-              </button>
+              </v-btn>
             </div>
           </div>
         </div>
@@ -75,23 +75,23 @@
               <p class="subtitle has-text-weight-bold">Go to Settings</p>
             </div>
             <div class="column has-text-centered is-one-third">
-              <button class="button is-rounded is-netflix-red" @click="gotoPage('/settings', 'admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/settings', 'admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-cog"></i>
                 </span>
                 <span>Settings</span>
-              </button>
+              </v-btn>
             </div>
             <div class="column is-two-thirds">
               <p class="subtitle has-text-weight-bold">Manage Posteriors</p>
             </div>
             <div class="column has-text-centered is-one-third">
-              <button class="button is-rounded is-netflix-red" @click="gotoPage('/posteriors', 'admin')">
+              <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/posteriors', 'admin')">
                 <span class="icon is-small">
                   <i class="fas fa-user-cog"></i>
                 </span>
                 <span>Settings</span>
-              </button>
+              </v-btn>
             </div>
           </div>
         </div>

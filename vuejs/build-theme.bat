@@ -25,5 +25,5 @@ rmdir outputs\%theme% /s /Q
 set VUE_APP_THEME=%theme%
 echo Currently Building for %theme%
 echo.
-yarn build
-robocopy "dist" "outputs/%theme%" /E
+CALL yarn build
+CALL robocopy "dist" "outputs/%theme%" /E

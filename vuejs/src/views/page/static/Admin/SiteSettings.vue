@@ -61,9 +61,9 @@
                 </div>
               </div>
               <div class="column has-text-centered is-full">
-                <button class="button is-netflix-red" type="submit" :disabled="disabled">
+                <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" type="submit" :disabled="disabled">
                   Save Changes
-                </button>
+                </v-btn>
               </div>
             </div>
           </form>

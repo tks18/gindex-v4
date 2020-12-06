@@ -22,6 +22,7 @@ import cdnpath from "./libs/util.cdn";
 import '@/components'
 import Meta from 'vue-meta';
 import themeManager from './themeManager';
+import currTheme from './theme-hexes';
 import "viewerjs/dist/viewer.css";
 import VuePlyr from "vue-plyr";
 
@@ -31,6 +32,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$backend = rawAxios;
 Vue.prototype.$bus = EventBus;
+Vue.prototype.$currentTheme = currTheme();
 Vue.prototype.$audio = {
   createPlayer: createPlayer,
   player: globalPlayer,

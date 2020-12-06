@@ -27,12 +27,12 @@
                   </div>
                 </div>
                 <div class="buttons is-centered">
-                  <button class="button is-rounded is-medium is-netflix-red" @click="gotoPage('/', 'login')">
+                  <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-medium is-netflix-red" @click="gotoPage('/', 'login')">
                     <span class="icon is-medium">
                       <i class="fas fa-shipping-fast"></i>
                     </span>
                     <span>Login</span>
-                  </button>
+                  </v-btn>
                 </div>
               </div>
             </div>

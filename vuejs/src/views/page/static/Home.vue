@@ -42,12 +42,12 @@
                         <h3 class="subtitle has-text-white">
                           Watch Here
                         </h3>
-                        <button class="button is-netflix-red" @click="gotoPage('/'+mainhero.link+'/')">
+                        <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="gotoPage('/'+mainhero.link+'/')">
                           <span class="icon">
                             <i class="fas fa-play"></i>
                           </span>
                           <span>Play Now</span>
-                        </button>
+                        </v-btn>
                       </div>
                     </div>
                   </div>
@@ -72,11 +72,11 @@
                </div>
              </div>
              <div class="category-block" ref="cat">
-               <div v-for="(cat, index) in category" v-bind:key="index" @click="gotoPage('/'+cat.link+'/')" class="cat-link" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
-                 <h1 class="title is-4 has-text-centered has-text-white has-text-weight-bold" style="display: flex;align-items: baseline;">
+               <v-card dark v-for="(cat, index) in category" class="cat-link" v-bind:key="index" @click="gotoPage('/'+cat.link+'/')" :style="'background: url('+cat.poster+');background-size:cover;cursor: pointer;'">
+                 <h1 class="title is-4 cat-link-text has-text-centered has-text-white has-text-weight-bold" style="display: flex;align-items: baseline;">
                    {{ cat.title }}
                  </h1>
-               </div>
+               </v-card>
              </div>
            </div>
            <div v-if="trending.length != 0" :class=" ismobile ? 'column is-full mt-2 mr-0'  : 'column is-full ml-2 mr-0 pl-4 pr-0'">
@@ -88,8 +88,8 @@
                </div>
              </div>
              <div class="trending-block" ref="trend">
-               <div v-for="(trend, index) in trending" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
-               </div>
+               <v-card dark v-for="(trend, index) in trending" v-bind:key="index" class="trend-link" @click="gotoPage('/'+trend.link+'/')" :style="'background: url('+trend.poster+');background-size:cover;cursor: pointer;'">
+               </v-card>
              </div>
            </div>
          </div>
@@ -128,7 +128,7 @@
                             <input :class="ismobile ? 'input is-rounded' : 'input is-large is-rounded'" autofocus placeholder="Enter Your Email" id="email" type="email" v-model="email" required>
                           </div>
                           <div class="control">
-                            <button :class="ismobile ? loading ? 'button is-loading is-rounded is-netflix-red' : 'button is-rounded is-netflix-red' : loading ? 'button is-rounded is-loading is-large is-netflix-red' : 'button is-large is-rounded is-netflix-red'" :disabled="disabled">
+                            <button :class="ismobile ? loading ? 'button is-loading is-rounded is-success' : 'button is-rounded is-success' : loading ? 'button is-rounded is-loading is-large is-success' : 'button is-large is-rounded is-success'" :disabled="disabled">
                               <span>Start</span>
                               <span class="icon">
                                 <i class="fas fa-arrow-right"></i>

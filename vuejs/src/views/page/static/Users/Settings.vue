@@ -37,12 +37,12 @@
                 <p class="subtitle">Request More Scopes</p>
               </div>
               <div v-if="!admin && !superadmin || admin && !superadmin" class="column has-text-centered is-two-fifths">
-                <button class="button is-netflix-red" @click="gotoPage('/request/', 'settings')">
+                <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-netflix-red" @click="gotoPage('/request/', 'settings')">
                   <span class="icon is-small">
                     <i class="fas fa-user-shield"></i>
                   </span>
                   <span>Request</span>
-                </button>
+                </v-btn>
               </div>
               <div v-if="admin && superadmin" class="column has-text-centered is-full">
                 <p class="subtitle has-text-warning-dark has-text-weight-bold">You Have Maximum Access to this Website</p>
@@ -72,12 +72,12 @@
                     <p class="subtitle">Change Your Password</p>
                   </div>
                   <div class="column has-text-centered is-two-fifths">
-                    <button class="button is-rounded is-netflix-red" @click="alerts('Under Development')">
+                    <v-btn :color="$currentTheme.hex" :dark="$currentTheme.text" class="is-rounded is-netflix-red" @click="gotoPage('/changepassword/', 'settings')">
                       <span class="icon is-small">
                         <i class="fas fa-envelope"></i>
                       </span>
                       <span>Change</span>
-                    </button>
+                    </v-btn>
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                     <p class="subtitle has-text-white">Delete Your Account</p>
                   </div>
                   <div class="column has-text-centered is-two-fifths">
-                    <button class="button is-rounded is-warning" @click="gotoPage('/me/', 'delete')">
+                    <button class="button is-warning" @click="gotoPage('/me/', 'delete')">
                       <span class="icon is-small">
                         <i class="fas fa-user-times"></i>
                       </span>
