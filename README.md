@@ -53,6 +53,8 @@ Any Issues / Help Regarding Setup, Feel free to Contact Through the telegram Gro
 
 You can Visit the Releases folder in the Repo for All the Local Development Zips Including Frontend, Backend and CLI Tool to Develop Locally. Pull Requests are Welcomed Provided it is Worthy to Merge it.
 
+[Click Here for Releases](https://github.com/tks18/gindex-v4/tree/master/releases)
+
 **Now With New UI**<br>
 ![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home.png?raw=true)<br>
 ![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home2.png?raw=true)<br>
