@@ -2,29 +2,28 @@ const execa = require('execa');
 
 module.exports = async () => {
   try {
-    const result = await execa('heroku', ['auth:token']);
-    const tokenRegex = /(Warning: token will expire).+/;
-    if(tokenRegex.test(result.stderr)){
+    const result = await execa('npm', ['i', '-g', '@cloudflare/wrangler']);
+    if(result.stderr == '' && !result.failed && !result.killed && !result.timedOut && !result.isCancelled){
       return {
         res: true,
-        output: result.stdout+'\n'+result.stderr,
+        output: result.stdout,
         cmd: result.command,
         exitCode: result.exitCode
-      };
+      }
     } else {
       return {
         res: false,
-        output: result.stdout+'\n'+result.stderr,
+        output: result.stderr,
         cmd: result.command,
         exitCode: result.exitCode
-      };
+      }
     }
   } catch(e) {
     return {
       res: false,
-      output: e.stdout+'\n'+e.stderr,
+      output: e.stderr,
       cmd: e.command,
       exitCode: e.exitCode
-    };
+    }
   }
-};
+}

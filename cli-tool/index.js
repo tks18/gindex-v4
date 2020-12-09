@@ -14,12 +14,16 @@ yargs(hideBin(process.argv))
   .command('init', 'Initialize the Deployer (Will Check for all the Preqrequisites)', {}, (args) => {
     init();
   })
-  .command('deploy', 'Deploy Your Backend(for Now) will Support Frontend after Some time', {}, (argv) => {
+  .command('deploy [type]', 'Deploy Your Backend(for Now) will Support Frontend after Some time', {}, (args) => {
     spinner(false, `Getting Ready Man!! Wait`, 2, false, function(){
-      deploy();
+      if(args.type == "frontend"){
+        deploy.frontend();
+      } else if(args.type == "backend"){
+        deploy.backend();
+      }
     });
   })
-  .command('update', 'Update Your Backend to latest Version', {}, (argv) => {
+  .command('update', 'Update Your Backend to latest Version', {}, (args) => {
     spinner(false, `Initializing Now`, 2, false, function(){
       update();
     });
