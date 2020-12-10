@@ -31,6 +31,7 @@
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
+    "clipboardy": "^2.3.0",
     "clui": "^0.3.6",
     "conf": "^7.1.2",
     "email-prompt": "^0.3.2",
