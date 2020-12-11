@@ -1,4 +1,4 @@
-![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week) ![https://img.shields.io/github/languages/count/tks18/gindex-v4](![https://img.shields.io/github/languages/count/tks18/gindex-v4]) ![https://img.shields.io/github/languages/top/tks18/gindex-v4](https://img.shields.io/github/languages/top/tks18/gindex-v4) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
+![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week) ![https://img.shields.io/github/languages/top/tks18/gindex-v4](https://img.shields.io/github/languages/top/tks18/gindex-v4) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
 
 ##  A Vue js Based GD Index
 
@@ -6,13 +6,54 @@
 #### [Follow guide to deploy yours!](https://telegra.ph/Google-Drive-Ultimate-Index-07-04)
 #### [Telegram Support Group](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
 
-#### Backend Deployer - [Windows](https://gen.infozy.tk/downloads/deploy-backend.bat) | [Others](https://gen.infozy.tk/downloads/deploy-backend.sh)
+#### We have a Detailed Project WiKi that Explains Everything in Detail and the Process to be Done to Deploy Everything and Also how to Develop in Local Environment - [Here is the Wiki](https://github.com/tks18/gindex-v4/wiki)
+
+## Introducing Our Own CLI Tool
+
+You can Use Our CLI Tool to Deploy Your Backend With Ease.
+
+* Open Cmd or Terminal as the Case maybe and Type the following
+
+```js
+> npm i -g gindex-cli-tool
+```
+
+* After Installing the Package, Enter the Following to Initialize the Tool and Check for all the Pre-requisites
+
+```js
+> gdployer init
+```
+
+* After Performing all the Checks it give a Success Output.
+* Type in the Following to Login to Heroku Account from the CLI.
+
+```js
+> heroku login
+```
+
+* Type in the Following to Start Deployment Process.
+
+```js
+> gdployer deploy
+```
+
+* Follow the On-screen Instructions to Deploy the Backend.
+* Enter a unique app name when Prompted. This will come before herokuapp.com, `Example: https://sample.herokuapp.com`
+* [Click here for Help Related to All the Environment Variables that needs to be setted up.](https://github.com/tks18/gindex-v4/wiki/backend-envirnment-variables).
+
+## What is GD Index ?
 
 First of all GD-Index stands for Google Drive Directory Index. It is a Serverless Google Drive directory indexing program. It can list Google Drive files in the form of a directory and can be downloaded through a straight chain. It Can be Your Personal Drive or Share Drive or a Folder or a Team Drive.
 
 This GIndex is Based on Vue.js, a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable. The core library is focused on the view layer only, and is easy to pick up and integrate with other libraries or existing projects.
 
 Any Issues / Help Regarding Setup, Feel free to Contact Through the telegram Group.
+
+## Local Development
+
+You can Visit the Releases folder in the Repo for All the Local Development Zips Including Frontend, Backend and CLI Tool to Develop Locally. Pull Requests are Welcomed Provided it is Worthy to Merge it.
+
+[Click Here for Releases](https://github.com/tks18/gindex-v4/tree/master/releases)
 
 **Now With New UI**<br>
 ![Refreshing New Home Look](https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/imgs/home.png?raw=true)<br>

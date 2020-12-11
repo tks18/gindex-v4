@@ -3,7 +3,7 @@ const checkNpmExists = require('./checkNpmExists');
 const installHerokuG = require('./installHerokuG');
 const chalk = require('chalk');
 const spinner = require('../../helpers/spinner');
-const checkHerokuLogin = require('../deploy/checkHerokuLogin');
+const checkHerokuLogin = require('../deploy/backend/checkHerokuLogin');
 const deploy = require('../deploy');
 const postInitMsg = require('./post-init');
 
