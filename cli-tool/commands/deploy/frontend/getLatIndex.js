@@ -7,7 +7,12 @@ module.exports = async () => {
       return frontendRegex.test(releases.tag_name);
     })[0].tag_name
     return axios.get(`https://raw.githubusercontent.com/tks18/gindex-v4/${result}/worker/index.js`).then(resp => {
-      return resp.data
+      replacedVersion = result.replace(/^(frontend-)/, '')
+      return {
+        version: result,
+        verNumber: replacedVersion,
+        code: resp.data
+      }
     })
   })
 }

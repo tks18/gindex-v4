@@ -162,6 +162,14 @@ module.exports = {
       return answer
     })
   },
+  audioPoster: () => {
+    return new Input({
+      name: "audioPoster",
+      message: "Enter a Poster Image for Album Art for Audios"
+    }).run().then(answer => {
+      return answer
+    })
+  },
   footLogo: () => {
     return new Confirm({
       name: 'footerLogo',
