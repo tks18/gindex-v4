@@ -1,6 +1,29 @@
 const { Input, Confirm, Form, Select, Password } = require('enquirer');
 
 module.exports = {
+  mode: () => {
+    return new Select({
+      name: 'mode',
+      message: 'Do you want to Directly Deploy it to Cloudflare or Do you want to Get only the Code',
+      choices: [
+        {
+          name: 'direct-deploy',
+          message: 'Directly Deploy it to Cloudflare(Requires Cloudflare Token)',
+          value: 'direct-deploy'
+        },
+        {
+          name: 'only-code',
+          message: 'Only Get the Worker Code, You Deploy it to Cloudflare',
+          value: 'only-code'
+        }
+      ]
+    }).run().then(answer => {
+      return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
+    })
+  },
   appname: () => {
     return new Input({
       type: 'input',
@@ -8,6 +31,12 @@ module.exports = {
       message: "Enter a Worker Name"
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log(e);
+      process.exit();
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   themename: () => {
@@ -33,6 +62,20 @@ module.exports = {
       ]
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
+    })
+  },
+  getAuthCode: () => {
+    return new Confirm({
+      name: 'getAuthCode',
+      message: 'Do You need to Generate Google Drive Refresh Token'
+    }).run().then(answer => {
+      return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   themeVariant: () => {
@@ -45,6 +88,9 @@ module.exports = {
       ]
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   fronturl: () => {
@@ -61,6 +107,9 @@ module.exports = {
       }
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   backurl: () => {
@@ -77,6 +126,9 @@ module.exports = {
       }
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   favicon: () => {
@@ -85,6 +137,9 @@ module.exports = {
       message: "Enter a Favicon URL for the Website"
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   clientId: () => {
@@ -93,6 +148,9 @@ module.exports = {
       message: 'Enter the Client ID You got from Google Drive API'
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   clientSec: () => {
@@ -101,6 +159,9 @@ module.exports = {
       message: 'Enter the Client Secret You got from Google Drive API'
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   refreshTok: () => {
@@ -109,6 +170,9 @@ module.exports = {
       message: 'Enter the Refresh Token You got from Google Drive API'
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   confRoot: () => {
@@ -117,12 +181,15 @@ module.exports = {
       message: 'Do You want to Add More Roots'
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   rootForm: () => {
     return new Form({
       name: 'rootform',
-      message: 'Enter the Following Regarding to Folder Details',
+      message: 'Enter the Following Regarding to Folder Details (Use Arrow Keys to Move down the Form)',
       choices: [
         {
           name: 'id',
@@ -136,6 +203,9 @@ module.exports = {
     }).run().then(answer => {
       answer['protect_file_link'] = true;
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   netBlack: () => {
@@ -144,6 +214,9 @@ module.exports = {
       message: 'Do You want to Prefer Netflix Black'
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   loadingImg: () => {
@@ -152,6 +225,9 @@ module.exports = {
       message: "Enter a Loading GIF for Display in Website while the Files are Loading"
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   homeImg: () => {
@@ -160,6 +236,9 @@ module.exports = {
       message: "Enter a Background Image for Display in Website Homepage"
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   audioPoster: () => {
@@ -168,6 +247,9 @@ module.exports = {
       message: "Enter a Poster Image for Album Art for Audios"
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   footLogo: () => {
@@ -176,6 +258,9 @@ module.exports = {
       message: 'Do You want Footer Logo to be Displayed'
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
   footImg: () => {
@@ -184,6 +269,9 @@ module.exports = {
       message: "Enter a Footer Logo Image for Display in Website\'s Footer"
     }).run().then(answer => {
       return answer
+    }).catch(e => {
+      console.log("Error Occured in the Instance");
+      process.exit();
     })
   },
 }
