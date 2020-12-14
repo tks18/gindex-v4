@@ -24,14 +24,6 @@ const schema = {
         type: 'object',
         default: {},
       },
-      direct: {
-        type: 'boolean',
-        default: false,
-      },
-      wrangler: {
-        type: 'object',
-        default: {},
-      }
     }
   }
 }
