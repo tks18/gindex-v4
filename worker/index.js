@@ -14,7 +14,7 @@ var authConfig = {
   frontendUrl: FE_URL,
   github_name: "tks18",
   github_repo: "gindex-v4",
-  favicon: FEVI_LINK,
+  favicon: FAVI_LINK,
   client_id: GCP_ID,
   backendSite: BE_URL,
   client_secret: GCP_SECRET,
