@@ -1,9 +1,9 @@
 // =======Options START=======
 var authConfig = {
-  siteName: "Glory to Heaven",
-  hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "v8.2.6",
-  theme: "black-emerald",
+  siteName: SITE_NAME, //This Vars Can Be configured in worker settings > site variable
+  hybridpass: HB_PASS, // Put this variable key in site variable keys & add value anytime u want
+  version: VARSION,
+  theme: THEME,
   // Following Themes are Available for Selection.
   // All are Lower Case - Do Not Enter Wrongly.
   // carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
@@ -11,18 +11,18 @@ var authConfig = {
   // Black and Gradient
   // For Example if You Need emerald this is what you have to Enter
   // For Gradient Variant - "gradient-emerald" and for Black Version - "black-emerald"
-  frontendUrl: "https://glorytoheaven.tk",
+  frontendUrl: FE_URL,
   github_name: "tks18",
   github_repo: "gindex-v4",
-  favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico",
-  client_id: "client_id",
-  backendSite: "http://localhost:3000",
-  client_secret: "client_id",
-  refresh_token: "refresh_token",
+  favicon: FEVI_LINK,
+  client_id: GCP_ID,
+  backendSite: BE_URL,
+  client_secret: GCP_SECRET,
+  refresh_token: REF_T,
   roots: [
     {
-      id: "folder_id",
-      name: "Glory to Heaven",
+      id: RID_1,
+      name: RN_1,
       protect_file_link: true,
     }
   ],
@@ -36,8 +36,8 @@ var themeOptions = {
   languages: 'en',
   netflix_home: true, //If True Dont Forget to Fill in all the Required Details
   prefer_netflix_black: false,
-  loading_image: "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif", // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
-  home_background_image: "https://assets.nflxext.com/ffe/siteui/vlv3/bd777948-0e8f-4f7f-b0bf-f7e0ee0875e5/cd5b9c59-183b-4b03-9caf-934bc11565b8/IN-en-20200627-popsignuptwoweeks-perspective_alpha_website_small.jpg",
+  loading_image: L_GIF, // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
+  home_background_image: H_B_IMG,
   audio: {
     default_poster: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
   },
