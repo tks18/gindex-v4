@@ -1,56 +1,56 @@
 {
-  "_name": "🇬🇧English",
-  "languages": "Languages",
-  "index": "Home",
-  "folder": "Folder",
-  "notify": {
-    "title": "Notify"
-  },
-  "copy": {
-    "success": "Copy successful",
-    "error": "Copy failed"
-  },
-  "list": {
-    "view": {
-      "gridMode": "Grid view",
-      "listMode": "List view"
-    },
-    "auth": "Directory encryption, please enter password",
-    "title": {
-      "file": "File",
-      "moditime": "Modified Time",
-      "size": "Size",
-      "operation": "Actions"
-    },
-    "loading": "Loading...",
-    "opt": {
-      "copy": "Copy link",
-      "newTab": "Open a new tab",
-      "download": "Download"
-    },
-    "total": "Total",
-    "item": "item"
-  },
-  "search": {
-    "placeholder": "Search resources..."
-  },
-  "page": {
-    "video": {
-        "play": "Play",
-        "download": "Download",
-        "link": "Download link"
-    },
-    "text": {
-      "loading": "Loading..."
-    }
-  },
-  "setting": {
-    "clear": {
-      "text": "Clean cache",
-      "success": "Cache cleanup successful"
-    }
-  },
-  "checkVersion": {
-    "tips": "New version detected, <a href='${url}'>Go to GitHub</a>"
-  }
+	"_name": "Traditional Chinese",
+	"languages": "語言",
+	"index": "首頁",
+	"folder": "資料夾",
+	"notify": {
+		"title": "通知"
+	},
+	"copy": {
+		"success": "複製成功",
+		"error": "複製失敗"
+	},
+	"list": {
+		"view": {
+			"gridMode": "網格視圖",
+			"listMode": "列表視圖"
+		},
+		"auth": "目錄已加密，請輸入密碼",
+		"title": {
+			"file": "文件",
+			"moditime": "修改時間",
+			"size": "大小",
+			"operation": "操作"
+		},
+		"loading": "讀取中...",
+		"opt": {
+			"copy": "複製連結",
+			"newTab": "在新分頁開啟",
+			"download": "下載"
+		},
+		"total": "共",
+		"item": "項"
+	},
+	"search": {
+		"placeholder": "搜尋資源..."
+	},
+	"page": {
+		"video": {
+			"play": "播放",
+			"download": "下載",
+			"link": "下載連結"
+		},
+		"text": {
+			"loading": "讀取中..."
+		}
+	},
+	"setting": {
+		"clear": {
+			"text": "清除快取",
+			"success": "快取已成功清除"
+		}
+	},
+	"checkVersion": {
+		"tips": "檢測到新版本, <a href='${url}'>前往 GitHub</a>"
+	}
 }
