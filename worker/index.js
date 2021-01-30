@@ -2,7 +2,7 @@
 var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "8.2.8",
+  version: "8.2.9",
   theme: "black-netflix-red",
   // Following Themes are Available for Selection.
   // All are Lower Case - Do Not Enter Wrongly.
