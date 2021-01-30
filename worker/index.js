@@ -125,8 +125,6 @@ function html(current_drive_order = 0, model = {}) {
 <body>
     <div id="app"></div>
     <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/app.js"></script>
-</body>
-</html>
 `;
 }
 addEventListener("fetch", (event) => {
