@@ -34,7 +34,7 @@
     "lodash": "^4.17.19",
     "lowdb": "^1.0.0",
     "markdown-it": "^11.0.0",
-    "marked": "^1.1.0",
+    "marked": "^2.0.0",
     "node-sass": "^4.14.0",
     "nprogress": "^0.2.0",
     "plyr": "^3.6.2",
