@@ -3,8 +3,6 @@ const clear = require('clear');
 const figlet = require('figlet');
 const boxen = require('boxen');
 
-const greeting = chalk.white.bold("Hello! There !");
-
 const boxenOptions = {
  padding: 1,
  margin: 1,
@@ -29,6 +27,5 @@ module.exports = function(){
           width: 100,
           whitespaceBreak: true
         })
-      ), boxenOptions) + '\n\n' +
-      greeting
+      ), boxenOptions) + '\n\n'
 }

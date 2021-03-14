@@ -4,26 +4,29 @@
       <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
       <span class="sr-only">Loading...</span>
     </div>
-    <div class="markdown-body content has-background-dark" v-html="markedHTML"></div>
+    <div
+      class="markdown-body content has-background-dark"
+      v-html="markedHTML"
+    ></div>
   </div>
 </template>
 
 <script>
-import marked from "marked";
-import bandupan from "./plugin/baidupan";
-import { ComponentsMarkdownBase } from "@api/components.markdown";
+import marked from 'marked';
+import bandupan from './plugin/baidupan';
+import { ComponentsMarkdownBase } from '@api/components.markdown';
 export default {
-  name: "markdown",
+  name: 'markdown',
   props: {
     url: {
       type: String,
       required: false,
-      default: "",
+      default: '',
     },
     source: {
       type: String,
       required: false,
-      default: "",
+      default: '',
     },
     highlight: {
       type: Boolean,
@@ -39,8 +42,8 @@ export default {
   },
   data() {
     return {
-      getReadmePublicPath: "",
-      markedHTML: "",
+      getReadmePublicPath: '',
+      markedHTML: '',
     };
   },
   mounted() {
@@ -49,7 +52,7 @@ export default {
     } else if (this.source) {
       this.initWithMd();
     } else {
-      console.log("not mounted init");
+      console.log('not mounted init');
     }
   },
   methods: {

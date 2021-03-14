@@ -1,29 +1,6 @@
 const { Input, Confirm, Form, Select, Password } = require('enquirer');
 
 module.exports = {
-  mode: () => {
-    return new Select({
-      name: 'mode',
-      message: 'Do you want to Directly Deploy it to Cloudflare or Do you want to Get only the Code',
-      choices: [
-        {
-          name: 'direct-deploy',
-          message: 'Directly Deploy it to Cloudflare(Requires Cloudflare Token)',
-          value: 'direct-deploy'
-        },
-        {
-          name: 'only-code',
-          message: 'Only Get the Worker Code, You Deploy it to Cloudflare',
-          value: 'only-code'
-        }
-      ]
-    }).run().then(answer => {
-      return answer
-    }).catch(e => {
-      console.log("Error Occured in the Instance");
-      process.exit();
-    })
-  },
   appname: () => {
     return new Input({
       type: 'input',

@@ -1,14 +1,11 @@
 {
   "name": "gindex-v4",
-  "version": "8.2.9",
-  "g2index": "8.2.9",
-  "cdnVersion": "frontend-8.2.9",
+  "version": "8.3.0",
+  "g2index": "8.3.0",
+  "cdnVersion": "frontend-8.3.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-theme": "cmd /c build-theme.bat",
-    "build-all": "cmd /c buildAll.bat",
-    "serve-theme": "cmd /c serve-theme.bat",
     "lint": "vue-cli-service lint",
     "analyz": "npm_config_report=true npm run build",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
@@ -16,7 +13,7 @@
   "dependencies": {
     "animate.css": "^4.1.0",
     "aplayer": "^1.10.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "bulma": "^0.9.0",
     "bulma-divider": "^0.2.0",
@@ -34,7 +31,7 @@
     "lodash": "^4.17.19",
     "lowdb": "^1.0.0",
     "markdown-it": "^11.0.0",
-    "marked": "^1.1.0",
+    "marked": "^2.0.0",
     "node-sass": "^4.14.0",
     "nprogress": "^0.2.0",
     "plyr": "^3.6.2",

@@ -8,10 +8,11 @@
         <div class="level-item">
           <ul>
             <li>
-              <a class="accent"
+              <a
+                class="accent"
                 v-show="navs && navs.length > 0"
                 @click="go('/' + index + ':/')"
-                >{{ $t("index") }}</a
+                >{{ $t('index') }}</a
               >
             </li>
             <li
@@ -19,10 +20,17 @@
               :class="index + 1 == navs.length ? 'is-active accent' : 'accent'"
               v-bind:key="index"
             >
-              <a class="accent" style="color:white" v-if="index + 1 == navs.length" aria-current="page" href="#">{{
+              <a
+                class="accent"
+                style="color: white"
+                v-if="index + 1 == navs.length"
+                aria-current="page"
+                href="#"
+                >{{ item.title }}</a
+              >
+              <a class="accent" v-else @click="go(item.path)">{{
                 item.title
               }}</a>
-              <a class="accent" v-else @click="go(item.path)">{{ item.title }}</a>
             </li>
           </ul>
         </div>
@@ -37,24 +45,24 @@
 </template>
 
 <script>
-import ViewMode from "@/layout/viewmode";
-import { decode64 } from "@utils/AcrouUtil";
+import ViewMode from '@/layout/viewmode';
+import { decode64 } from '@utils/AcrouUtil';
 export default {
-  props: ["name"],
+  props: ['name'],
   components: {
     ViewMode,
   },
-  data: function() {
+  data: function () {
     return {
       navs: [],
-      index: "/",
+      index: '/',
     };
   },
   mounted() {
     this.render();
   },
   watch: {
-    $route: "render",
+    $route: 'render',
   },
   methods: {
     go(path) {
@@ -65,8 +73,19 @@ export default {
     render() {
       this.index = this.$route.params.id;
       let cmd = this.$route.params.cmd;
-// Do not render if searching
-      if (cmd === "search" || cmd === "home" || cmd === "result" || cmd === "register" || cmd === "settings" || cmd === "admin" || cmd === "video" || cmd === "pdf" || cmd === "audio" || cmd === "login") {
+      // Do not render if searching
+      if (
+        cmd === 'search' ||
+        cmd === 'home' ||
+        cmd === 'result' ||
+        cmd === 'register' ||
+        cmd === 'settings' ||
+        cmd === 'admin' ||
+        cmd === 'video' ||
+        cmd === 'pdf' ||
+        cmd === 'audio' ||
+        cmd === 'login'
+      ) {
         this.navs = [];
         return;
       }
@@ -74,21 +93,21 @@ export default {
       if (cmd) {
         path = decode64(this.$route.params.path);
       }
-      var arr = path.trim("/").split("/");
-      var p = "/";
+      var arr = path.trim('/').split('/');
+      var p = '/';
       if (arr.length > 0) {
         var navs = [];
         for (var i in arr) {
           var n = arr[i];
-          if (n == "") {
+          if (n == '') {
             continue;
           }
           n = decodeURIComponent(n);
-          p += arr[i] + "/";
+          p += arr[i] + '/';
           // if (p.match("/[0-9]+:/")[0] === p) {
           //   n = this.$t('index');
           // }
-          if (n.match("[0-9]+:")) {
+          if (n.match('[0-9]+:')) {
             continue;
           }
           navs.push({
