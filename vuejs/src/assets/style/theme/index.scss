@@ -1,13 +1,3 @@
-@font-face {
-  font-family: "iconfont";
-  src: url("//at.alicdn.com/t/font_1760192_tl9awsq3di.eot");
-  src: url("//at.alicdn.com/t/font_1760192_tl9awsq3di.eot?#iefix")
-      format("embedded-opentype"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.woff2") format("woff2"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.woff") format("woff"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.ttf") format("truetype"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.svg#iconfont") format("svg");
-}
 
 .vs__fade-enter-active,
 .vs__fade-leave-active {
@@ -22,7 +12,7 @@
     user-select: none;
 }
 
-.pendingusers, input, textarea {
+.pendingusers {
     -webkit-user-select: text;
     -khtml-user-select: text;
     -moz-user-select: text;
@@ -48,24 +38,10 @@
   border-radius: 10px;
 }
 
-html,
-body {
-  width: 100%;
-  min-height: 100vh;
-}
-
-html {
-  background-color: #121212;
-  font-size: 14px;
-}
-
 .navbar {
   background-color: #121212;
   .container {
     max-width: 95%;
-  }
-  .navbar-item:hover {
-
   }
   .navbar-brand > .title {
     color: $accent;
@@ -109,7 +85,6 @@ html {
 }
 
 body {
-  background-color: #121212;
   overflow: hidden;
 }
 
@@ -296,13 +271,6 @@ body {
   border: 1px solid #121212;
 }
 
-//search bar
-.search-input,
-.search-input::-webkit-input-placeholder {
-  color: $accent;
-  font-weight: bold;
-}
-
 .golist {
   min-height: 240px;
   position: relative;
@@ -406,7 +374,6 @@ body {
   text-align: center;
   padding: 5px;
   margin: 5px;
-  font-family: monospace;
   .but-pad {
     margin: 3px;
   }
@@ -415,6 +382,10 @@ body {
 .special-image {
     width: 50%;
     text-align: center;
+}
+
+.point-cursor {
+  cursor: pointer;
 }
 
 .special-image:hover {
@@ -561,7 +532,7 @@ body {
   }
 }
 
-.playbuttons, .playbuttons:visited,  {
+.playbuttons, .playbuttons:visited {
   border: none;
   background: transparent;
   color: $accent;
@@ -688,10 +659,6 @@ body {
       border-color: $color;
     }
   }
-}
-
-input:focus {
-  border: 1px solid grey;
 }
 
 .searchbar-input {

@@ -3,14 +3,6 @@ var authConfig = {
   siteName: "Glory to Heaven",
   hybridpass: "Copy Hybrid Password Generated from Backend",
   version: "8.2.8",
-  theme: "black-netflix-red",
-  // Following Themes are Available for Selection.
-  // All are Lower Case - Do Not Enter Wrongly.
-  // carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
-  // Following Theme Variants are Available
-  // Black and Gradient
-  // For Example if You Need emerald this is what you have to Enter
-  // For Gradient Variant - "gradient-emerald" and for Black Version - "black-emerald"
   frontendUrl: "https://glorytoheaven.tk",
   github_name: "tks18",
   github_repo: "gindex-v4",
@@ -103,7 +95,7 @@ function html(current_drive_order = 0, model = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <style>
-    @import url(https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/style.css);
+    @import url(https://cdn.jsdelivr.net/gh/tks18/gindex-v4@frontend-${authConfig.version}/vuejs/dist/style.css);
   </style>
   <link rel="icon" sizes="57x57" href="${authConfig.favicon}" />
   <script>
@@ -124,7 +116,7 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@frontend-${authConfig.version}/vuejs/dist/app.js"></script>
 </body>
 </html>
 `;
