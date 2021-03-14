@@ -1,7 +1,7 @@
-const path = require("path");
-const cdnDependencies = require("./dependencies-cdn");
-const BuildAppJSPlugin = require("./buildAppJSPlugin");
-const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const path = require('path');
+const cdnDependencies = require('./dependencies-cdn');
+const BuildAppJSPlugin = require('./buildAppJSPlugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const JavaScriptObfuscator = require('webpack-obfuscator');
 
 function resolve(dir) {
@@ -9,19 +9,19 @@ function resolve(dir) {
 }
 
 // Increase environment variables
-process.env.VUE_APP_VERSION = require("./package.json").cdnVersion;
-process.env.VUE_APP_G2INDEX_VERSION = require("./package.json").g2index;
+process.env.VUE_APP_VERSION = require('./package.json').cdnVersion;
+process.env.VUE_APP_G2INDEX_VERSION = require('./package.json').g2index;
 
 process.env.VUE_APP_CDN_PATH =
   process.env.VUE_APP_CDN_PATH.replace(
-    "@master",
-    "@" + process.env.VUE_APP_VERSION
-  ).replace("THEME", process.env.VUE_APP_THEME) || "/";
+    '@master',
+    '@' + process.env.VUE_APP_VERSION,
+  ) || '/';
 
 // Basic path Note that you need to modify this before publishing
-let publicPath = process.env.VUE_APP_CDN_PATH || "/";
+let publicPath = process.env.VUE_APP_CDN_PATH || '/';
 let cdnPath = process.env.VUE_APP_CDN_PATH;
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === 'production';
 
 //Set the library not to participate in the build
 let externals = {};
@@ -39,10 +39,9 @@ module.exports = {
   lintOnSave: true,
   css: {
     loaderOptions: {
-
       // Set scss public variable file
       sass: {
-        prependData: `$cdnPath: "${isProd ? cdnPath : "/"}";`,
+        prependData: `$cdnPath: "${isProd ? cdnPath : '/'}";`,
       },
     },
   },
@@ -53,35 +52,38 @@ module.exports = {
       configNew.plugins = [
         // gzip
         new CompressionWebpackPlugin({
-          filename: "[path].gz[query]",
-          test: new RegExp("\\.(" + ["js", "css"].join("|") + ")$"),
+          filename: '[path].gz[query]',
+          test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
           threshold: 10240,
           minRatio: 0.8,
           deleteOriginalAssets: false,
         }),
-        new JavaScriptObfuscator({
+        new JavaScriptObfuscator(
+          {
             compact: true,
             disableConsoleOutput: true,
             rotateStringArray: true,
             shuffleStringArray: true,
-        }, ['app.js']),
+          },
+          ['app.js'],
+        ),
       ];
     }
     return configNew;
   },
 
   chainWebpack: (config) => {
-    config.plugin("BuildAppJSPlugin").use(BuildAppJSPlugin);
+    config.plugin('BuildAppJSPlugin').use(BuildAppJSPlugin);
     /**
-      * Add CDN parameter to htmlWebpackPlugin configuration
-      */
-    config.plugin("html").tap((args) => {
+     * Add CDN parameter to htmlWebpackPlugin configuration
+     */
+    config.plugin('html').tap((args) => {
       if (isProd) {
         args[0].cdn = cdn;
       } else {
         args[0].cdn = {
-          js: cdnDependencies.filter((e) => e.name === "").map((e) => e.js),
-          css: cdnDependencies.filter((e) => e.name === "").map((e) => e.css),
+          js: cdnDependencies.filter((e) => e.name === '').map((e) => e.js),
+          css: cdnDependencies.filter((e) => e.name === '').map((e) => e.css),
         };
       }
       args[0].inject = false;
@@ -90,32 +92,32 @@ module.exports = {
     // Solve the cli3 hot update failure https://github.com/vuejs/vue-cli/issues/1559
     config.resolve.symlinks(true);
     config.resolve.alias
-      .set("@", resolve("src"))
-      .set("@assets", resolve("src/assets"))
-      .set("@utils", resolve("src/utils"))
-      .set("@api", resolve("src/api"))
-      .set("@node_modules", resolve("node_modules"));
+      .set('@', resolve('src'))
+      .set('@assets', resolve('src/assets'))
+      .set('@utils', resolve('src/utils'))
+      .set('@api', resolve('src/api'))
+      .set('@node_modules', resolve('node_modules'));
 
     // analyzing tool
     if (process.env.npm_config_report) {
       config
-        .plugin("webpack-bundle-analyzer")
-        .use(require("webpack-bundle-analyzer").BundleAnalyzerPlugin);
+        .plugin('webpack-bundle-analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
     }
   },
 
-// Do not output map file
+  // Do not output map file
   productionSourceMap: false,
 
   devServer: {
     publicPath,
     proxy: {
-      "/api": {
-        target: "https://glorytoheaven.tk/",
+      '/api': {
+        target: 'https://glorytoheaven.tk/',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          "^/api": "",
+          '^/api': '',
         },
       },
     },
@@ -123,9 +125,9 @@ module.exports = {
 
   pluginOptions: {
     i18n: {
-      locale: "en",
-      fallbackLocale: "en",
-      localeDir: "locales",
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
       enableInSFC: true,
     },
   },

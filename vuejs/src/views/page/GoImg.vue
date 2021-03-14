@@ -1,11 +1,21 @@
 <template>
-  <div :class="ismobile ? 'content mx-0 mt-2 px-0 g2-content' : 'content ml-5 mt-2 mr-5 pl-5 pr-5 g2-content'">
+  <div
+    :class="
+      ismobile
+        ? 'content mx-0 mt-2 px-0 g2-content'
+        : 'content ml-5 mt-2 mr-5 pl-5 pr-5 g2-content'
+    "
+  >
     <div class="loading">
-      <loading :active.sync="mainLoad" :can-cancel="false" :is-full-page="fullpage"></loading>
+      <loading
+        :active.sync="mainLoad"
+        :can-cancel="false"
+        :is-full-page="fullpage"
+      ></loading>
     </div>
     <figure class="image">
-      <img :src="imgurl" :class="!display?'is-hidden':''" @load="loading" />
-      <center :class="display?'is-hidden':''">
+      <img :src="imgurl" :class="!display ? 'is-hidden' : ''" @load="loading" />
+      <center :class="display ? 'is-hidden' : ''">
         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
         <span class="sr-only">Loading...</span>
       </center>
@@ -15,27 +25,29 @@
 </template>
 
 <script>
-import { apiRoutes, backendHeaders } from "@/utils/backendUtils";
-import { initializeUser, getgds } from "@utils/localUtils";
-import { decode64 } from "@utils/AcrouUtil";
+import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
+import { initializeUser, getgds } from '@utils/localUtils';
+import { decode64 } from '@utils/AcrouUtil';
 import Loading from 'vue-loading-overlay';
 export default {
   metaInfo() {
     return {
       title: this.metatitle,
       titleTemplate: (titleChunk) => {
-        if(titleChunk && this.siteName){
-          return titleChunk ? `${titleChunk} | ${this.siteName}` : `${this.siteName}`;
+        if (titleChunk && this.siteName) {
+          return titleChunk
+            ? `${titleChunk} | ${this.siteName}`
+            : `${this.siteName}`;
         } else {
-          return "Loading..."
+          return 'Loading...';
         }
       },
-    }
+    };
   },
-  data: function() {
+  data: function () {
     return {
-      imgurl: "",
-      metatitle: "",
+      imgurl: '',
+      metatitle: '',
       user: {},
       token: {},
       session: {},
@@ -44,21 +56,21 @@ export default {
       ismobile: false,
       gds: [],
       currgd: {},
-      mediaToken: "",
+      mediaToken: '',
       mainLoad: false,
       fullpage: true,
-      display: false
+      display: false,
     };
   },
   components: {
-    Loading
+    Loading,
   },
   computed: {
     url() {
       if (this.$route.params.path) {
         return decode64(this.$route.params.path);
       }
-      return ''
+      return '';
     },
     siteName() {
       return window.gds.filter((item, index) => {
@@ -68,25 +80,36 @@ export default {
   },
   methods: {
     render() {
-      let path = window.location.origin + encodeURI(this.url)+"?player=internal"+"&token="+this.token.token+"&email="+this.user.email+"&sessionid="+this.session.sessionid;
-// Easy to debug in development environment
-// path = process.env.NODE_ENV === "development"? "/api" + path: "";
-      this.metatitle = decodeURIComponent(this.url.split('/').pop().split('.').slice(0,-1).join('.'));
+      let path =
+        window.location.origin +
+        encodeURI(this.url) +
+        '?player=internal' +
+        '&token=' +
+        this.token.token +
+        '&email=' +
+        this.user.email +
+        '&sessionid=' +
+        this.session.sessionid;
+      // Easy to debug in development environment
+      // path = process.env.NODE_ENV === "development"? "/api" + path: "";
+      this.metatitle = decodeURIComponent(
+        this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+      );
       this.imgurl = path;
     },
     checkMobile() {
       var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if(width > 966){
-        this.ismobile = false
+      if (width > 966) {
+        this.ismobile = false;
       } else {
-        this.ismobile = true
+        this.ismobile = true;
       }
     },
     loading(event) {
       if (event.target.complete == true) {
         this.display = true;
       }
-    }
+    },
   },
   async beforeMount() {
     this.checkMobile();
@@ -95,11 +118,11 @@ export default {
     this.gds = gddata.gds;
     this.currgd = gddata.current;
     var userData = await initializeUser();
-    if(userData.isThere){
-      if(userData.type == "hybrid"){
+    if (userData.isThere) {
+      if (userData.type == 'hybrid') {
         this.user = userData.data.user;
         this.logged = userData.data.logged;
-      } else if(userData.type == "normal"){
+      } else if (userData.type == 'normal') {
         this.user = userData.data.user;
         this.session = userData.data.session;
         this.token = userData.data.token;
@@ -108,41 +131,52 @@ export default {
     } else {
       this.logged = userData.data.logged;
     }
-    await this.$backend.post(apiRoutes.mediaTokenTransmitter, {
-      email: userData.data.user.email,
-      token: userData.data.token.token,
-    }, backendHeaders(this.token.token)).then(response => {
-      if(response.data.auth && response.data.registered && response.data.token){
+    await this.$backend
+      .post(
+        apiRoutes.mediaTokenTransmitter,
+        {
+          email: userData.data.user.email,
+          token: userData.data.token.token,
+        },
+        backendHeaders(this.token.token),
+      )
+      .then((response) => {
+        if (
+          response.data.auth &&
+          response.data.registered &&
+          response.data.token
+        ) {
+          this.mainLoad = false;
+          this.mediaToken = response.data.token;
+          this.render();
+        } else {
+          this.mainLoad = false;
+          this.mediaToken = '';
+        }
+      })
+      .catch((e) => {
+        console.log(e);
         this.mainLoad = false;
-        this.mediaToken = response.data.token;
-        this.render();
-      } else {
-        this.mainLoad = false;
-        this.mediaToken = "";
-      }
-    }).catch(e => {
-      console.log(e);
-      this.mainLoad = false;
-      this.mediaToken = "";
-    })
+        this.mediaToken = '';
+      });
   },
   watch: {
-    screenWidth: function() {
+    screenWidth: function () {
       var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if(width > 966){
-        this.ismobile = false
+      if (width > 966) {
+        this.ismobile = false;
       } else {
-        this.ismobile = true
+        this.ismobile = true;
       }
     },
-    windowWidth: function() {
+    windowWidth: function () {
       var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if(width > 966){
-        this.ismobile = false
+      if (width > 966) {
+        this.ismobile = false;
       } else {
-        this.ismobile = true
+        this.ismobile = true;
       }
     },
-  }
+  },
 };
 </script>

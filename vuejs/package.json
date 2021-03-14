@@ -6,9 +6,6 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-theme": "cmd /c build-theme.bat",
-    "build-all": "cmd /c buildAll.bat",
-    "serve-theme": "cmd /c serve-theme.bat",
     "lint": "vue-cli-service lint",
     "analyz": "npm_config_report=true npm run build",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
