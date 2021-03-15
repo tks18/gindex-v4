@@ -3,7 +3,9 @@
     <navdrawer v-if="showInfo" />
     <navbar v-if="showInfo" />
     <v-main>
-      <router-view></router-view>
+      <feb-alive>
+        <router-view></router-view>
+      </feb-alive>
     </v-main>
     <Footer v-if="showInfo"></Footer>
   </v-app>

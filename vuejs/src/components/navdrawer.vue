@@ -18,7 +18,7 @@
             label="Search"
             color="primary"
             v-model="param"
-            @keypress.enter="query"
+            @keyup.enter="query"
             prepend-inner-icon="mdi-cloud-search"
             hint="Be Particular !"
             dense
