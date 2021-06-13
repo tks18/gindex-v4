@@ -21,13 +21,12 @@ done
 
 export VUE_APP_THEME=${themes_list[0]}
 printf "\nBuilding Assets for ${themes_list[0]}\n\n"
-parent_dir="outputs/themes"
-theme_dir="${parent_dir}/${themes_list[0]}"
+theme_dir="outputs/themes/${themes_list[0]}"
 printf $theme_dir
 mkdir -p $theme_dir
 yarn build
-cp -r ./dist/. "$theme_dir/."
-cd outputs
+cp -r ./dist/. ./outputs/themes/$theme_dir/.
+cd outputs/themes
 ls
 cd ..
 
