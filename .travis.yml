@@ -4,5 +4,8 @@ branches:
 
 language: bash
 sudo: required
-script:
-  - chmod u+x bash build.sh
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  on:
+    branch: master
