@@ -19,16 +19,18 @@ for theme in ${themes[@]}; do
     done
 done
 
-for theme in ${themes_list[@]}; do
-    export VUE_APP_THEME=${theme}
-    printf "\nBuilding Assets for ${theme}\n\n"
-    parent_dir="outputs/themes"
-    theme_dir="${parent_dir}/${theme}"
-    printf $theme_dir
-    mkdir -p $theme_dir
-    yarn build
-    cp -r ./dist/. $theme_dir
-    cd outputs
-    ls
-    cd ..
-done
+export VUE_APP_THEME=${themes_list[0]}
+printf "\nBuilding Assets for ${themes_list[0]}\n\n"
+parent_dir="outputs/themes"
+theme_dir="${parent_dir}/${themes_list[0]}"
+printf $theme_dir
+mkdir -p $theme_dir
+yarn build
+cp -r ./dist/. "$theme_dir/."
+cd outputs
+ls
+cd ..
+
+# for theme in ${themes_list[@]}; do
+    
+# done
