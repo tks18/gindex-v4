@@ -25,11 +25,10 @@ theme_dir="outputs/themes/${themes_list[0]}"
 printf $theme_dir
 mkdir -p $theme_dir
 yarn build
-cp -r ./dist/. ./outputs/themes/$theme_dir/.
+cp -r ./dist/. ./outputs/themes/${themes_list[0]}/.
 cd outputs/themes
 ls
 cd ..
-
 # for theme in ${themes_list[@]}; do
     
 # done
