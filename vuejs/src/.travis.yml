@@ -1,0 +1,29 @@
+language: ruby
+cache: bundler
+branches:
+  only:
+  - develop
+before_install:
+   - export TZ=Asia/Kolkata
+   - rvm install 2.6.5
+cache: bundler
+install:
+- gem update --system
+- gem install jekyll -v 3.8.5
+- gem install bundler -v 2.1.4 --user-install
+- bundle install
+
+script:
+  - JEKYLL_ENV=production bundle exec jekyll build
+
+deploy:
+  provider: pages
+  local-dir: ./_site
+  target-branch: master
+  email: tksudharshan@gmail.com
+  name: tks18
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: develop
