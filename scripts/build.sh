@@ -19,18 +19,14 @@ for theme in ${themes[@]}; do
     done
 done
 
-printf "\nGenerating Folders\n"
-dest_dir="outputs/themes"
-mkdir -p ${dest_dir}
-
 for theme in ${themes_list[@]}; do
     export VUE_APP_THEME=${theme}
     printf "\nBuilding Assets for ${theme}\n\n"
-    theme_dir="${dest_dir}/${theme}"
+    theme_dir="outputs\themes\\${theme}"
     printf $theme_dir
-    mkdir -p ${theme_dir}
+    mkdir -p $theme_dir
     yarn build
-    cp -r ./dist/. ${theme_dir}
+    cp -r ./dist/. $theme_dir
     cd outputs
     ls
     cd ..

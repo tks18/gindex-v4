@@ -4,7 +4,7 @@ node_js:
   - 14
 
 install:
-  - chmod u+x ./scripts/build.sh
+  - chmod u+x ./scripts/install.sh
   - bash ./scripts/install.sh
 
 script:
