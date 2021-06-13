@@ -6,6 +6,6 @@ language: bash
 sudo: required
 deploy:
   provider: script
-  script: bash scripts/deploy.sh
+  script: chmod u+x bash build.sh
   on:
     branch: master
