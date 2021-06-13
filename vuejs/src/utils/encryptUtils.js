@@ -1,15 +1,16 @@
-import crypto from "crypto-js";
-import secret from "../../secret";
+import crypto from 'crypto-js';
 import bcrypt from 'bcryptjs';
 
+const secret = process.env.VUE_APP_SECRET_PASS;
+
 export function encodeSecret(object) {
-  let hash = crypto.AES.encrypt(object, secret.pass).toString();
-  return hash
+  let hash = crypto.AES.encrypt(object, secret).toString();
+  return hash;
 }
 
 export function decodeSecret(hash) {
-  let object = crypto.AES.decrypt(hash, secret.pass).toString(crypto.enc.Utf8);
-  return object
+  let object = crypto.AES.decrypt(hash, secret).toString(crypto.enc.Utf8);
+  return object;
 }
 
 export function getItem(name) {
@@ -26,6 +27,6 @@ export function removeItem(name) {
 }
 
 export async function checkPass(pass, comparePass) {
-    var synced = await bcrypt.compareSync(pass, comparePass)
-    return synced;
+  var synced = await bcrypt.compareSync(pass, comparePass);
+  return synced;
 }

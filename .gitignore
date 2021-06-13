@@ -1,3 +1,4 @@
+.env
 vuejs/secret.js
 deploy-backend-orig.bat
 deploy-backend-orig.sh

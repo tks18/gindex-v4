@@ -1,11 +1,33 @@
 language: node_js
+
 node_js:
   - 14
 
 install:
-  - chmod u+x build.sh
-  - bash install.sh
-sudo: required
+  - chmod u+x ./scripts/build.sh
+  - bash ./scripts/install.sh
+
 script:
-  - chmod u+x build.sh
-  - bash build.sh
+  - chmod u+x ./scripts/build.sh
+  - bash ./scripts/build.sh
+
+deploy:
+  - provider: pages
+    local-dir: ./vuejs/outputs
+    target-branch: build
+    email: tksudharshan@gmail.com
+    name: tks18
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    on:
+      branch: master
+
+  - provider: pages
+    local-dir: ./vuejs/outputs
+    target-branch: dev-build
+    email: tksudharshan@gmail.com
+    name: tks18
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    on:
+      branch: dev
