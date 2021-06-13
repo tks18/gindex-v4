@@ -17,6 +17,7 @@ deploy:
     target-branch: build
     email: tksudharshan@gmail.com
     name: tks18
+    skip-cleanup: true
     github-token: $GITHUB_TOKEN
     keep-history: true
     on:
@@ -27,6 +28,7 @@ deploy:
     target-branch: dev-build
     email: tksudharshan@gmail.com
     name: tks18
+    skip-cleanup: true
     github-token: $GITHUB_TOKEN
     keep-history: true
     on:
