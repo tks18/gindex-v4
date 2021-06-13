@@ -1,6 +1,6 @@
 language: node
 
-install: ./build.sh
+install: chmod u+x bash build.sh
 sudo: required
 script: chmod u+x bash build.sh
 deploy:
