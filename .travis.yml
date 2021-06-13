@@ -1,8 +1,22 @@
-language: node
+language: node_js
+node_js:
+  - "node"
+cache: npm
+branches:
+  only:
+  - master
+cache: npm
+script:
+  - npm run build
 
-install: ./build.sh
-sudo: required
-script: chmod u+x bash build.sh
 deploy:
-  provider: script
-  script: chmod u+x bash build.sh
+  provider: pages
+  local-dir: ./dist
+  target-branch: gh-pages
+  email: tksudharshan@gmail.com
+  name: tks18
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: master
