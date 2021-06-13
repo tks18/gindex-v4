@@ -1,0 +1,8 @@
+branches:
+  only:
+    - master
+
+language: bash
+sudo: required
+script:
+  - chmod u+x bash build.sh
