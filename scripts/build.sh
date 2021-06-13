@@ -22,7 +22,8 @@ done
 for theme in ${themes_list[@]}; do
     export VUE_APP_THEME=${theme}
     printf "\nBuilding Assets for ${theme}\n\n"
-    theme_dir="outputs\themes\\${theme}"
+    parent_dir="outputs/themes"
+    theme_dir="${parent_dir}/${theme}"
     printf $theme_dir
     mkdir -p $theme_dir
     yarn build
