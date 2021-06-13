@@ -1,11 +1,8 @@
-branches:
-  only:
-    - master
+language: node
 
-language: bash
+install: ./build.sh
 sudo: required
+script: chmod u+x bash build.sh
 deploy:
   provider: script
   script: chmod u+x bash build.sh
-  on:
-    branch: master
