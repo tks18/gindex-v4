@@ -8,10 +8,10 @@ git config --global user.email "tksudharshan@gmail.com"
 
 git clone -b build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
 cd ${DEPLOY_DIR}
-git rm -r .
+git rm --quiet -r .
 git add .
 git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
-cp -v -r ../vuejs/outputs/. .
+cp -r ../vuejs/outputs/. .
 git add .
 git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
 git push origin build
