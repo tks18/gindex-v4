@@ -9,24 +9,23 @@ export VUE_APP_SECRET_PASS=${SECRET_PASS}
 export VUE_APP_CDN_PATH=https://cdn.jsdelivr.net/gh/tks18/gindex-v4@master/vuejs/outputs/THEME/
 printf "\n"
 printf "Getting Latest themes and Variants"
-themes=("carnation" "curious-blue" "emerald" "ice-cold" "konifer" "netflix-red" "kournikova" "mona-lisa" "persian-rose" "purple-heart" "purple-mountains-majesty" "salmon" "selective-yellow" "shamrock" "witch-haze")
-variants=("black" "gradient")
-printf "\n" 
-printf "Populating Themes"
-declare -a themes_list
+themes_list = ("gradient-carnation" "gradient-curious-blue" "gradient-emerald" "gradient-ice-cold" "gradient-konifer" "gradient-netflix-red" "gradient-kournikova" "gradient-mona-lisa" "gradient-persian-rose" "gradient-purple-heart" "gradient-purple-mountains-majesty" "gradient-salmon" "gradient-selective-yellow" "gradient-shamrock" "gradient-witch-haze" "black-carnation" "black-curious-blue" "black-emerald" "black-ice-cold" "black-konifer" "black-netflix-red" "black-kournikova" "black-mona-lisa" "black-persian-rose" "black-purple-heart" "black-purple-mountains-majesty" "black-salmon" "black-selective-yellow" "black-shamrock" "black-witch-haze")
 
-for theme in ${themes[@]}; do
-    for variant in ${variants[@]}; do
-        themes_list+=("${variant}-${theme}")
-    done
-done
-
-
-export VUE_APP_THEME=${themes_list[0]}
-printf "\nBuilding Assets for ${themes_list[0]}\n\n"
-mkdir -p ./outputs/themes/${themes_list[0]}
+export VUE_APP_THEME="gradient-carnation"
+printf "\nBuilding Assets for gradient-carnation\n\n"
+ls
+mkdir -p ./outputs/themes/gradient-carnation
 yarn build
-mv -v ./dist/* ./outputs/themes/${themes_list[0]}/.
+cd outputs
+ls
+cd ..
+mv -v ./dist/* ./outputs/themes/gradient-carnation/.
+cd outputs
+ls
+cd themes
+ls
+cd gradient-carnation
+ls
 
 # for theme in ${themes_list[@]}; do
     
