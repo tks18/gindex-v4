@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 cd vuejs
 printf ".\n.\n.\n.\n.\n"
 printf "Setting Default Environment Variables"
@@ -19,10 +21,13 @@ for theme in ${themes[@]}; do
     done
 done
 
-for theme in ${themes_list[@]}; do
-    export VUE_APP_THEME=${theme}
-    printf "\nBuilding Assets for ${theme}\n\n"
-    mkdir -p ./outputs/themes/${theme}
-    yarn build
-    cp -r ./dist/. ./outputs/themes/${theme}/.
-done
+
+export VUE_APP_THEME=${themes_list[0]}
+printf "\nBuilding Assets for ${themes_list[0]}\n\n"
+mkdir -p ./outputs/themes/${themes_list[0]}
+yarn build
+mv -v ./dist/* ./outputs/themes/${themes_list[0]}/.
+
+# for theme in ${themes_list[@]}; do
+    
+# done

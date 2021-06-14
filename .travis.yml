@@ -12,24 +12,12 @@ script:
   - bash ./scripts/build.sh
 
 deploy:
-  - provider: pages
-    local-dir: ./vuejs/outputs
-    target-branch: build
-    email: tksudharshan@gmail.com
-    name: tks18
-    skip-cleanup: true
-    github-token: $GITHUB_TOKEN
-    keep-history: true
+  - provider: script
+    script: bash ./scripts/deploy.sh production
     on:
       branch: master
 
-  - provider: pages
-    local-dir: ./vuejs/outputs
-    target-branch: dev-build
-    email: tksudharshan@gmail.com
-    name: tks18
-    skip-cleanup: true
-    github-token: $GITHUB_TOKEN
-    keep-history: true
+  - provider: script
+    script: bash ./scripts/deploy.sh dev
     on:
       branch: dev
