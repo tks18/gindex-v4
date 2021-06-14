@@ -19,7 +19,6 @@ deploy:
     name: tks18
     skip-cleanup: true
     github-token: $GITHUB_TOKEN
-    keep-history: true
     on:
       branch: master
 
@@ -30,6 +29,5 @@ deploy:
     name: tks18
     skip-cleanup: true
     github-token: $GITHUB_TOKEN
-    keep-history: true
     on:
       branch: dev
