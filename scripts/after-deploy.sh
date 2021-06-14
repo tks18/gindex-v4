@@ -19,7 +19,7 @@ git commit -m "Preparing for Frontend Deploy: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_M
 cp -v -r ../vuejs/. .
 git add .
 git commit -m "Deploying Frontend for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
-git push origin frontend
+git push --quiet -u --no-progress origin frontend
 
 cd ..
 rm -rf ${FT_DEPLOY_DIR}/*
@@ -33,7 +33,7 @@ git commit -m "Preparing for Backend Deploy: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_ME
 cp -v -r ../backend/. .
 git add .
 git commit -m "Deploying Backend for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
-git push origin backend
+git push --quiet -u --no-progress origin backend
 
 cd ..
 rm -rf ${BE_DEPLOY_DIR}/*
@@ -47,14 +47,14 @@ git commit -m "Preparing for CLI-Tool Deploy: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_M
 cp -v -r ../cli-tool/. .
 git add .
 git commit -m "Deploying CLI-Tool for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
-git push origin cli-tool
+git push --quiet -u --no-progress origin cli-tool
 
 cd ..
 
 rm -rf ${CLI_DEPLOY_DIR}/*
-rm -rfv vuejs/*
-rm -rfv backend/*
-rm -rfv cli-tool/* 
+rm -rf vuejs/*
+rm -rf backend/*
+rm -rf cli-tool/* 
 
 printf "Successfully Deployed all the Modules"
 
