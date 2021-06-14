@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+$family-sans-serif: 'Open Sans', sans-serif;
+$widescreen-enabled: false;
+$fullhd-enabled: true;
+$link: #fa4659;
+$accent: #fa4659;
+
+$grad-start: #121212;
+$grad-midone: #39263f;
+$grad-midtwo: #75325e;
+$grad-midthree: #ba3768;
+$grad-final: #fa4659;
+
+$button-text: white;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+$table-row-hover-background-color: #fedadd;
+
+@import 'bulma';
+@import 'bulma-divider';
+@import 'cool-checkboxes-for-bulma.io';
+@import '~@/assets/style/theme/grad-index.scss';
+@import 'vue2-animate/src/sass/vue2-animate.scss';
+@import "vue-select/src/scss/vue-select.scss";
+@import 'bulma-extensions/bulma-switch/src/sass/index.sass'
