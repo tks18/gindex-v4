@@ -6,6 +6,11 @@ language: node_js
 node_js:
   - 14
 
+cache:
+  directories:
+    - vuejs/.yarn/cache
+    - vuejs/node_modules
+
 install: bash ./scripts/install.sh
 
 script: bash ./scripts/build.sh
