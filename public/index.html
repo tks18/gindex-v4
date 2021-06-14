@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <!-- CSS files accelerated by CDN, configured under vue.config.js -->
+  <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.css) { %>
+  <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style">
+  <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+  />
+  <% } %>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script>
+    var authConfig = {
+      version: '1.1.0',
+      backendSite: "http://localhost:3000",
+      hybridpass: "$2b$10$VuQSSgZ130dr8e7o3rUqS.5Hxl1lPxgN.v9JsqGLh30/4i0u5bCua",
+      roots: [
+        {
+          id: "",
+          name: "Glory to Heaven",
+          pass: "",
+        },
+        {
+          id: "",
+          name: "TeamDrive",
+          pass: "",
+        },
+        {
+          id: "",
+          name: "TeamDrive",
+          pass: "",
+        },
+      ],
+    };
+    var themeOptions = {
+      languages: 'en',
+      netflix_home: true, //If True Dont Forget to Fill in all the Required Details
+      prefer_netflix_black: false,
+      loading_image: "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif", // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
+      home_background_image: "https://assets.nflxext.com/ffe/siteui/vlv3/bd777948-0e8f-4f7f-b0bf-f7e0ee0875e5/cd5b9c59-183b-4b03-9caf-934bc11565b8/IN-en-20200627-popsignuptwoweeks-perspective_alpha_website_small.jpg",
+      audio: {
+        default_poster: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+      },
+      footer_data: {
+        copyright: true,
+        disclaimer: true,
+        license: true,
+        codeofconduct: true,
+        footer_logo: true,
+        footer_logo_link: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+      },
+      render: {
+        head_md: true,
+        head_md_link: `https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/HEAD.md`,
+        readme_md: true,
+        readme_md_link: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/README.md",
+        desc: true,
+      }
+    }
+    window.gdconfig = JSON.parse(JSON.stringify({ version: authConfig.version, themeOptions: themeOptions }));
+    window.themeOptions = themeOptions;
+    window.gds = authConfig.roots.map((it) => {
+      return it.name
+    })
+    window.backend = authConfig.backendSite;
+    window.version = authConfig.version;
+    window.gdHybridPass = authConfig.hybridpass;
+    window.current_drive_order = 0;
+  </script>
+  <!-- The JS file accelerated by CDN is configured under vue.config.js -->
+  <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
+  <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+  <% } %>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="/app.js"></script>
+</body>
+
+</html>
