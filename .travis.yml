@@ -1,15 +1,11 @@
+os: linux
 language: node_js
-
 node_js:
   - 14
 
-install:
-  - chmod u+x ./scripts/install.sh
-  - bash ./scripts/install.sh
+install: bash ./scripts/install.sh
 
-script:
-  - chmod u+x ./scripts/build.sh
-  - bash ./scripts/build.sh
+script: bash ./scripts/build.sh
 
 deploy:
   - provider: script
