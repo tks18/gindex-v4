@@ -14,7 +14,7 @@ then
     git rm -r .
     git add .
     git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
-    mv -v ../vuejs/outputs/. .
+    cp -v -r ../vuejs/outputs/. .
     git add .
     git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
 
@@ -25,7 +25,7 @@ then
     git rm -r .
     git add .
     git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
-    mv -v ../vuejs/outputs/. .
+    cp -v -r ../vuejs/outputs/. .
     git add .
     git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
 fi
