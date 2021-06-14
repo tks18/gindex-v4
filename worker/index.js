@@ -1,9 +1,9 @@
 // =======Options START=======
 var authConfig = {
-  siteName: "Glory to Heaven",
-  hybridpass: "Copy Hybrid Password Generated from Backend",
-  version: "8.2.8",
-  theme: "black-netflix-red",
+  siteName: 'Glory to Heaven',
+  hybridpass: 'Copy Hybrid Password Generated from Backend',
+  version: '8.4.0',
+  theme: 'black-netflix-red',
   // Following Themes are Available for Selection.
   // All are Lower Case - Do Not Enter Wrongly.
   // carnation, curious-blue, emerald, ice-cold, konifer, netflix-red, kournikova, mona-lisa, persian-rose, purple-heart, purple-mountains-majesty, salmon, selective-yellow, shamrock, witch-haze
@@ -11,20 +11,20 @@ var authConfig = {
   // Black and Gradient
   // For Example if You Need emerald this is what you have to Enter
   // For Gradient Variant - "gradient-emerald" and for Black Version - "black-emerald"
-  frontendUrl: "https://glorytoheaven.tk",
-  github_name: "tks18",
-  github_repo: "gindex-v4",
-  favicon: "https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico",
-  client_id: "client_id",
-  backendSite: "http://localhost:3000",
-  client_secret: "client_id",
-  refresh_token: "refresh_token",
+  frontendUrl: 'https://glorytoheaven.tk',
+  github_name: 'tks18',
+  github_repo: 'gindex-v4',
+  favicon: 'https://raw.githubusercontent.com/tks18/infozy/develop/favicon.ico',
+  client_id: 'client_id',
+  backendSite: 'http://localhost:3000',
+  client_secret: 'client_id',
+  refresh_token: 'refresh_token',
   roots: [
     {
-      id: "folder_id",
-      name: "Glory to Heaven",
+      id: 'folder_id',
+      name: 'Glory to Heaven',
       protect_file_link: true,
-    }
+    },
   ],
   default_gd: 0,
   files_list_page_size: 200,
@@ -36,25 +36,26 @@ var themeOptions = {
   languages: 'en',
   netflix_home: true, //If True Dont Forget to Fill in all the Required Details
   prefer_netflix_black: false,
-  loading_image: "https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif", // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
-  home_background_image: "https://assets.nflxext.com/ffe/siteui/vlv3/bd777948-0e8f-4f7f-b0bf-f7e0ee0875e5/cd5b9c59-183b-4b03-9caf-934bc11565b8/IN-en-20200627-popsignuptwoweeks-perspective_alpha_website_small.jpg",
+  loading_image: 'https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif', // Max Width and Height - 250px. Do not Enter Images more than 250px wide.
+  home_background_image:
+    'https://assets.nflxext.com/ffe/siteui/vlv3/bd777948-0e8f-4f7f-b0bf-f7e0ee0875e5/cd5b9c59-183b-4b03-9caf-934bc11565b8/IN-en-20200627-popsignuptwoweeks-perspective_alpha_website_small.jpg',
   audio: {
-    default_poster: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+    default_poster: 'https://i.ibb.co/Hx3ZqLm/giphy.gif',
   },
   footer_data: {
     footer_logo: true,
-    footer_logo_link: "https://i.ibb.co/Hx3ZqLm/giphy.gif",
+    footer_logo_link: 'https://i.ibb.co/Hx3ZqLm/giphy.gif',
   },
   render: {
     head_md: true,
     head_md_link: `https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/HEAD.md`,
     readme_md: true,
-    readme_md_link: "https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/README.md",
+    readme_md_link:
+      'https://cdn.jsdelivr.net/gh/tks18/gindex-v4@v7.5.2/vuejs/dist/README.md',
     desc: true,
-  }
-}
+  },
+};
 // =======Options END=======
-
 
 var routes = {
   loginRoute: authConfig.backendSite + '/login',
@@ -65,9 +66,9 @@ var routes = {
  * global functions
  */
 const FUNCS = {
-  formatSearchKeyword: function(keyword) {
-    let nothing = "";
-    let space = " ";
+  formatSearchKeyword: function (keyword) {
+    let nothing = '';
+    let space = ' ';
     if (!keyword) return nothing;
     return keyword
       .replace(/(!=)|['"=<>/\\:]/g, nothing)
@@ -82,14 +83,14 @@ const FUNCS = {
  */
 const CONSTS = {
   default_file_fields:
-    "parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size",
+    'parents,id,name,mimeType,modifiedTime,createdTime,fileExtension,size',
   gd_root_type: {
     user_drive: 0,
     share_drive: 1,
     sub_folder: 2,
   },
-  folder_mime_type: "application/vnd.google-apps.folder",
-}
+  folder_mime_type: 'application/vnd.google-apps.folder',
+};
 
 // gd instances
 var gds = [];
@@ -103,7 +104,9 @@ function html(current_drive_order = 0, model = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <style>
-    @import url(https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/style.css);
+    @import url(https://cdn.jsdelivr.net/gh/tks18/gindex-v4@frontend-${
+      authConfig.version
+    }/themes/${authConfig.theme}/style.css);
   </style>
   <link rel="icon" sizes="57x57" href="${authConfig.favicon}" />
   <script>
@@ -115,7 +118,7 @@ function html(current_drive_order = 0, model = {}) {
     window.backend = '${authConfig.backendSite}';
     window.version = 'frontend-${authConfig.version}';
     window.gds = JSON.parse('${JSON.stringify(
-      authConfig.roots.map((it) => it.name)
+      authConfig.roots.map((it) => it.name),
     )}');
     window.gdHybridPass = '${authConfig.hybridpass}';
     window.MODEL = JSON.parse('${JSON.stringify(model)}');
@@ -124,12 +127,14 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/${authConfig.github_name}/${authConfig.github_repo}@frontend-${authConfig.version}/vuejs/outputs/${authConfig.theme}/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tks18/gindex-v4@frontend-${
+      authConfig.version
+    }/themes/${authConfig.theme}/app.js"></script>
 </body>
 </html>
 `;
 }
-addEventListener("fetch", (event) => {
+addEventListener('fetch', (event) => {
   event.respondWith(handleRequest(event.request));
 });
 
@@ -165,16 +170,16 @@ async function handleRequest(request) {
    * @returns {Response}
    */
   function redirectToIndexPage() {
-    return new Response("", {
+    return new Response('', {
       status: 301,
       headers: { Location: `/${authConfig.default_gd}:home/` },
     });
   }
 
-  if (path == "/") return redirectToIndexPage();
-  if (path.toLowerCase() == "/favicon.ico") {
+  if (path == '/') return redirectToIndexPage();
+  if (path.toLowerCase() == '/favicon.ico') {
     // You can find a favicon later
-    return new Response("", { status: 404 });
+    return new Response('', { status: 404 });
   }
 
   // Special command format
@@ -194,8 +199,8 @@ async function handleRequest(request) {
     command = match.groups.command;
 
     // search for
-    if (command === "search") {
-      if (request.method === "POST") {
+    if (command === 'search') {
+      if (request.method === 'POST') {
         // search results
         return handleSearch(request, gd);
       } else {
@@ -203,33 +208,33 @@ async function handleRequest(request) {
         // Search page
         return new Response(
           html(gd.order, {
-            q: params.get("q") || "",
+            q: params.get('q') || '',
             is_search_page: true,
             root_type: gd.root_type,
           }),
           {
             status: 200,
-            headers: { "Content-Type": "text/html; charset=utf-8" },
-          }
+            headers: { 'Content-Type': 'text/html; charset=utf-8' },
+          },
         );
       }
-    } else if (command === "id2path" && request.method === "POST") {
+    } else if (command === 'id2path' && request.method === 'POST') {
       return handleId2Path(request, gd);
-    } else if (command === "view") {
+    } else if (command === 'view') {
       console.log(command);
       const params = url.searchParams;
       console.log(params);
-      return gd.view(params.get("url"), request.headers.get("Range"));
-    } else if (command !== "down" && request.method === "GET") {
+      return gd.view(params.get('url'), request.headers.get('Range'));
+    } else if (command !== 'down' && request.method === 'GET') {
       return new Response(html(gd.order, { root_type: gd.root_type }), {
         status: 200,
-        headers: { "Content-Type": "text/html; charset=utf-8" },
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
       });
     }
   }
-  const reg = new RegExp(`^(/\\d+:)${command}/`, "g");
+  const reg = new RegExp(`^(/\\d+:)${command}/`, 'g');
   path = path.replace(reg, (p1, p2) => {
-    return p2 + "/";
+    return p2 + '/';
   });
   // Expected path format
   const common_reg = /^\/\d+:\/.*$/g;
@@ -237,7 +242,7 @@ async function handleRequest(request) {
     if (!path.match(common_reg)) {
       return redirectToIndexPage();
     }
-    let split = path.split("/");
+    let split = path.split('/');
     let order = Number(split[1].slice(0, -1));
     if (order >= 0 && order < gds.length) {
       gd = gds[order];
@@ -252,92 +257,92 @@ async function handleRequest(request) {
   // for (const r = gd.basicAuthResponse(request); r;) return r;
   const basic_auth_res = gd.basicAuthResponse(request);
   const max_auth_res = await gd.maxAuthResponse(request);
-  path = path.replace(gd.url_path_prefix, "") || "/";
-  if (request.method == "POST") {
+  path = path.replace(gd.url_path_prefix, '') || '/';
+  if (request.method == 'POST') {
     return basic_auth_res || apiRequest(request, gd);
   }
 
-  let action = url.searchParams.get("a");
+  let action = url.searchParams.get('a');
   // console.log(path, path.substr(-1), action);
 
-  if (path.substr(-1) == "/" || action != null) {
+  if (path.substr(-1) == '/' || action != null) {
     return (
       basic_auth_res ||
       new Response(html(gd.order, { root_type: gd.root_type }), {
         status: 200,
-        headers: { "Content-Type": "text/html; charset=utf-8" },
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
       })
     );
   } else {
-    if (path.split("/").pop().toLowerCase() == ".password") {
-      return basic_auth_res || new Response("", { status: 404 });
+    if (path.split('/').pop().toLowerCase() == '.password') {
+      return basic_auth_res || new Response('', { status: 404 });
     }
     let file = await gd.file(path);
     const _403 = new Response('Sorry, this page is not available.', {
       status: 403,
       statusText: "You Can't take a Heck Out from my Server - Shan.tk",
     });
-    let player = url.searchParams.get("player");
-    let range = request.headers.get("Range");
+    let player = url.searchParams.get('player');
+    let range = request.headers.get('Range');
     if (gd.root.protect_file_link && basic_auth_res) return basic_auth_res;
-    if(player && player == "internal"){
-      let token = url.searchParams.get("token");
-      let email = url.searchParams.get("email");
-      let sessionId = url.searchParams.get("sessionid");
-      if(token && email && sessionId) {
+    if (player && player == 'internal') {
+      let token = url.searchParams.get('token');
+      let email = url.searchParams.get('email');
+      let sessionId = url.searchParams.get('sessionid');
+      if (token && email && sessionId) {
         let response = await gd.tokenAuthResponse(token, sessionId, email);
         console.log(response);
-        if(response) {
-          const is_down = !(command && command == "down");
-          return gd.down(file.id, range ,is_down);
+        if (response) {
+          const is_down = !(command && command == 'down');
+          return gd.down(file.id, range, is_down);
         } else {
-          if(max_auth_res !== null) return max_auth_res
-          const is_down = !(command && command == "down");
-         return gd.down(file.id, range, is_down);
-        }
-      } else {
-        return _403
-      }
-    } else if(player && player == "external"){
-      let token = url.searchParams.get("token");
-      let email = url.searchParams.get("email");
-      let sessionId = url.searchParams.get("sessionid");
-      if(token && email && sessionId) {
-        let response = await gd.tokenAuthResponse(token, sessionId, email);
-        console.log(response);
-        if(response) {
-          const is_down = !(command && command == "down");
-          return gd.down(file.id, range ,is_down);
-        } else {
-          if(max_auth_res !== null) return max_auth_res
-          const is_down = !(command && command == "down");
+          if (max_auth_res !== null) return max_auth_res;
+          const is_down = !(command && command == 'down');
           return gd.down(file.id, range, is_down);
         }
       } else {
-        return _403
+        return _403;
       }
-    } else if(player && player == "download"){
-      let token = url.searchParams.get("token");
-      let email = url.searchParams.get("email");
-      let sessionId = url.searchParams.get("sessionid");
-      if(token && email && sessionId) {
+    } else if (player && player == 'external') {
+      let token = url.searchParams.get('token');
+      let email = url.searchParams.get('email');
+      let sessionId = url.searchParams.get('sessionid');
+      if (token && email && sessionId) {
         let response = await gd.tokenAuthResponse(token, sessionId, email);
-        if(response) {
-          const is_down = !(command && command == "down");
-          return gd.down(file.id, range ,is_down);
+        console.log(response);
+        if (response) {
+          const is_down = !(command && command == 'down');
+          return gd.down(file.id, range, is_down);
         } else {
-          if(max_auth_res !== null) return max_auth_res
-          const is_down = !(command && command == "down");
-         return gd.down(file.id, range, is_down);
+          if (max_auth_res !== null) return max_auth_res;
+          const is_down = !(command && command == 'down');
+          return gd.down(file.id, range, is_down);
         }
       } else {
-        return _403
+        return _403;
+      }
+    } else if (player && player == 'download') {
+      let token = url.searchParams.get('token');
+      let email = url.searchParams.get('email');
+      let sessionId = url.searchParams.get('sessionid');
+      if (token && email && sessionId) {
+        let response = await gd.tokenAuthResponse(token, sessionId, email);
+        if (response) {
+          const is_down = !(command && command == 'down');
+          return gd.down(file.id, range, is_down);
+        } else {
+          if (max_auth_res !== null) return max_auth_res;
+          const is_down = !(command && command == 'down');
+          return gd.down(file.id, range, is_down);
+        }
+      } else {
+        return _403;
       }
     } else {
       return new Response('Sorry, this page is not available.', {
         status: 403,
         statusText: "You Can't take a Heck Out from my Server - Shan.tk",
-      })
+      });
     }
   }
 }
@@ -345,11 +350,11 @@ async function handleRequest(request) {
 async function apiRequest(request, gd) {
   let url = new URL(request.url);
   let path = url.pathname;
-  path = path.replace(gd.url_path_prefix, "") || "/";
+  path = path.replace(gd.url_path_prefix, '') || '/';
 
-  let option = { status: 200, headers: { "Access-Control-Allow-Origin": "*" } };
+  let option = { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } };
 
-  if (path.substr(-1) == "/") {
+  if (path.substr(-1) == '/') {
     let deferred_pass = gd.password(path);
     let body = await request.text();
     body = JSON.parse(body);
@@ -357,14 +362,14 @@ async function apiRequest(request, gd) {
     let deferred_list_result = gd.list(
       path,
       body.page_token,
-      Number(body.page_index)
+      Number(body.page_index),
     );
 
     // check .password file, if `enable_password_file_verify` is true
-    if (authConfig["enable_password_file_verify"]) {
+    if (authConfig['enable_password_file_verify']) {
       let password = await gd.password(path);
       // console.log("dir password", password);
-      if (password && password.replace("\n", "") !== body.password) {
+      if (password && password.replace('\n', '') !== body.password) {
         let html = `{"error": {"code": 401,"message": "password error."}}`;
         return new Response(html, option);
       }
@@ -374,7 +379,7 @@ async function apiRequest(request, gd) {
     return new Response(JSON.stringify(list_result), option);
   } else {
     let file = await gd.file(path);
-    let range = request.headers.get("Range");
+    let range = request.headers.get('Range');
     return new Response(JSON.stringify(file));
   }
 }
@@ -383,14 +388,14 @@ async function apiRequest(request, gd) {
 async function handleSearch(request, gd) {
   const option = {
     status: 200,
-    headers: { "Access-Control-Allow-Origin": "*" },
+    headers: { 'Access-Control-Allow-Origin': '*' },
   };
   let body = await request.text();
   body = JSON.parse(body);
   let search_result = await gd.search(
-    body.q || "",
+    body.q || '',
     body.page_token,
-    Number(body.page_index)
+    Number(body.page_index),
   );
   return new Response(JSON.stringify(search_result), option);
 }
@@ -404,12 +409,12 @@ async function handleSearch(request, gd) {
 async function handleId2Path(request, gd) {
   const option = {
     status: 200,
-    headers: { "Access-Control-Allow-Origin": "*" },
+    headers: { 'Access-Control-Allow-Origin': '*' },
   };
   let body = await request.text();
   body = JSON.parse(body);
   let path = await gd.findPathById(body.id);
-  return new Response(path || "", option);
+  return new Response(path || '', option);
 }
 
 class googleDrive {
@@ -429,8 +434,8 @@ class googleDrive {
     this.passwords = [];
     // id <-> path
     this.id_path_cache = {};
-    this.id_path_cache[this.root["id"]] = "/";
-    this.paths["/"] = this.root["id"];
+    this.id_path_cache[this.root['id']] = '/';
+    this.paths['/'] = this.root['id'];
     /*if (this.root['pass'] != "") {
             this.passwords['/'] = this.root['pass'];
         }*/
@@ -453,7 +458,7 @@ class googleDrive {
         })();*/
     // Wait for user_drive_real_root_id, only get 1 time
     if (authConfig.user_drive_real_root_id) return;
-    const root_obj = await (gds[0] || this).findItemById("root");
+    const root_obj = await (gds[0] || this).findItemById('root');
     if (root_obj && root_obj.id) {
       authConfig.user_drive_real_root_id = root_obj.id;
     }
@@ -464,9 +469,9 @@ class googleDrive {
    * @returns {Promise<void>}
    */
   async initRootType() {
-    const root_id = this.root["id"];
+    const root_id = this.root['id'];
     const types = CONSTS.gd_root_type;
-    if (root_id === "root" || root_id === authConfig.user_drive_real_root_id) {
+    if (root_id === 'root' || root_id === authConfig.user_drive_real_root_id) {
       this.root_type = types.user_drive;
     } else {
       const obj = await this.getShareDriveObjById(root_id);
@@ -480,23 +485,23 @@ class googleDrive {
    * @returns {Response|null}
    */
   basicAuthResponse(request) {
-    const user = this.root.user || "",
-      pass = this.root.pass || "",
-      _401 = new Response("Forbidden Request", {
+    const user = this.root.user || '',
+      pass = this.root.pass || '',
+      _401 = new Response('Forbidden Request', {
         headers: {
-          "WWW-Authenticate": `Basic realm="goindex:drive:${this.order}"`,
-          "Cache-Control": "no-store"
+          'WWW-Authenticate': `Basic realm="goindex:drive:${this.order}"`,
+          'Cache-Control': 'no-store',
         },
         status: 401,
       });
     if (user || pass) {
-      const auth = request.headers.get("Authorization");
+      const auth = request.headers.get('Authorization');
       // console.log(auth);
       if (auth) {
         try {
           const [received_user, received_pass] = atob(
-            auth.split(" ").pop()
-          ).split(":");
+            auth.split(' ').pop(),
+          ).split(':');
           return received_user === user && received_pass === pass ? null : _401;
         } catch (e) {}
       }
@@ -505,109 +510,116 @@ class googleDrive {
   }
 
   async maxAuthResponse(request) {
-    const _401 = new Response("ForBidden Request", {
-        headers: {
-          "WWW-Authenticate": `Basic realm="goindex:drive:${this.order}"`,
-          "Cache-Control": "no-store"
-        },
-        status: 401,
-      });
-    const auth = request.headers.get("Authorization");
+    const _401 = new Response('ForBidden Request', {
+      headers: {
+        'WWW-Authenticate': `Basic realm="goindex:drive:${this.order}"`,
+        'Cache-Control': 'no-store',
+      },
+      status: 401,
+    });
+    const auth = request.headers.get('Authorization');
     if (auth) {
       try {
         const [received_user, received_pass] = atob(
-          auth.split(" ").pop()
-        ).split(":");
+          auth.split(' ').pop(),
+        ).split(':');
         const res = await fetch(routes.loginRoute, {
           method: 'post',
           headers: {
-            'Accept': 'application/json, text/plain, */*',
+            Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
-            'origin': authConfig.frontendUrl,
+            origin: authConfig.frontendUrl,
           },
-          body: JSON.stringify({ email: received_user, password: received_pass })
+          body: JSON.stringify({
+            email: received_user,
+            password: received_pass,
+          }),
         });
         const resbody = await res.json();
         console.log(resbody);
-        if(resbody.auth && resbody.registered && resbody.token){
-          return null
+        if (resbody.auth && resbody.registered && resbody.token) {
+          return null;
         } else {
-          return _401
+          return _401;
         }
       } catch (e) {}
     } else {
-      return _401
+      return _401;
     }
   }
 
-  async tokenAuthResponse(token,sessionId, email) {
+  async tokenAuthResponse(token, sessionId, email) {
     const _403 = new Response('Sorry, this page is not available.', {
       status: 403,
-      statusText: "Forbidden Request/ Not Allowed",
+      statusText: 'Forbidden Request/ Not Allowed',
     });
     try {
       const res = await fetch(routes.mediaTokenVerify, {
         method: 'post',
         headers: {
-          'Accept': 'application/json, text/plain, */*',
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
-          'origin': authConfig.frontendUrl,
+          origin: authConfig.frontendUrl,
         },
-        body: JSON.stringify({ token: token, email: email, sessionId: sessionId })
+        body: JSON.stringify({
+          token: token,
+          email: email,
+          sessionId: sessionId,
+        }),
       });
       const resbody = await res.json();
-      if(resbody.auth && resbody.registered && resbody.tokenuser){
-        return true
+      if (resbody.auth && resbody.registered && resbody.tokenuser) {
+        return true;
       } else {
-        return false
+        return false;
       }
     } catch (e) {}
   }
 
-  async view(url, range = "", inline = true) {
+  async view(url, range = '', inline = true) {
     let requestOption = await this.requestOption();
-    requestOption.headers["Range"] = range;
+    requestOption.headers['Range'] = range;
     let res = await fetch(url, requestOption);
     const { headers } = (res = new Response(res.body, res));
     this.authConfig.enable_cors_file_down &&
-      headers.append("Access-Control-Allow-Origin", "*");
-    inline === true && headers.set("Content-Disposition", "inline");
+      headers.append('Access-Control-Allow-Origin', '*');
+    inline === true && headers.set('Content-Disposition', 'inline');
     return res;
   }
 
-  async down(id,range = "", inline = false) {
+  async down(id, range = '', inline = false) {
     let url = `https://www.googleapis.com/drive/v3/files/${id}?alt=media`;
     let requestOption = await this.requestOption();
-    requestOption.headers["Range"] = range;
+    requestOption.headers['Range'] = range;
     let res = await fetch(url, requestOption);
     const { headers } = (res = new Response(res.body, res));
     this.authConfig.enable_cors_file_down &&
-      headers.append("Access-Control-Allow-Origin", "*");
-    inline === true && headers.set("Content-Disposition", "inline");
+      headers.append('Access-Control-Allow-Origin', '*');
+    inline === true && headers.set('Content-Disposition', 'inline');
     return res;
   }
 
   async file(path) {
-    if (typeof this.files[path] == "undefined") {
+    if (typeof this.files[path] == 'undefined') {
       this.files[path] = await this._file(path);
     }
     return this.files[path];
   }
 
   async _file(path) {
-    let arr = path.split("/");
+    let arr = path.split('/');
     let name = arr.pop();
     name = decodeURIComponent(name).replace(/\'/g, "\\'");
-    let dir = arr.join("/") + "/";
+    let dir = arr.join('/') + '/';
     // console.log(name, dir);
     let parent = await this.findPathId(dir);
     // console.log(parent);
-    let url = "https://www.googleapis.com/drive/v3/files";
+    let url = 'https://www.googleapis.com/drive/v3/files';
     let params = { includeItemsFromAllDrives: true, supportsAllDrives: true };
     params.q = `'${parent}' in parents and name = '${name}' and trashed = false`;
     params.fields =
-      "files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink)";
-    url += "?" + this.enQuery(params);
+      'files(id, name, mimeType, size ,createdTime, modifiedTime, iconLink, thumbnailLink)';
+    url += '?' + this.enQuery(params);
     let requestOption = await this.requestOption();
     let response = await fetch(url, requestOption);
     let obj = await response.json();
@@ -661,16 +673,16 @@ class googleDrive {
     let obj;
     let params = { includeItemsFromAllDrives: true, supportsAllDrives: true };
     params.q = `'${parent}' in parents and trashed = false AND name !='.password'`;
-    params.orderBy = "folder,name,modifiedTime desc";
+    params.orderBy = 'folder,name,modifiedTime desc';
     params.fields =
-      "nextPageToken, files(id, name, mimeType, size , modifiedTime, thumbnailLink, description)";
+      'nextPageToken, files(id, name, mimeType, size , modifiedTime, thumbnailLink, description)';
     params.pageSize = this.authConfig.files_list_page_size;
 
     if (page_token) {
       params.pageToken = page_token;
     }
-    let url = "https://www.googleapis.com/drive/v3/files";
-    url += "?" + this.enQuery(params);
+    let url = 'https://www.googleapis.com/drive/v3/files';
+    url += '?' + this.enQuery(params);
     let requestOption = await this.requestOption();
     let response = await fetch(url, requestOption);
     obj = await response.json();
@@ -702,7 +714,7 @@ class googleDrive {
 
     // console.log("load", path, ".password", this.passwords[path]);
 
-    let file = await this.file(path + ".password");
+    let file = await this.file(path + '.password');
     if (file == undefined) {
       this.passwords[path] = null;
     } else {
@@ -722,7 +734,7 @@ class googleDrive {
    */
   async getShareDriveObjById(any_id) {
     if (!any_id) return null;
-    if ("string" !== typeof any_id) return null;
+    if ('string' !== typeof any_id) return null;
 
     let url = `https://www.googleapis.com/drive/v3/drives/${any_id}`;
     let requestOption = await this.requestOption();
@@ -758,16 +770,16 @@ class googleDrive {
     }
     let words = keyword.split(/\s+/);
     let name_search_str = `name contains '${words.join(
-      "' AND name contains '"
+      "' AND name contains '",
     )}'`;
 
     // For corpora, user is a personal disk, and drive is a team disk. Match driveId
     let params = {};
     if (is_user_drive) {
-      params.corpora = "user";
+      params.corpora = 'user';
     }
     if (is_share_drive) {
-      params.corpora = "drive";
+      params.corpora = 'drive';
       params.driveId = this.root.id;
       // This parameter will only be effective until June 1, 2020. Afterwards shared drive items will be included in the results.
       params.includeItemsFromAllDrives = true;
@@ -778,12 +790,12 @@ class googleDrive {
     }
     params.q = `trashed = false AND name !='.password' AND (${name_search_str})`;
     params.fields =
-      "nextPageToken, files(id, name, mimeType, size , modifiedTime, thumbnailLink, description)";
+      'nextPageToken, files(id, name, mimeType, size , modifiedTime, thumbnailLink, description)';
     params.pageSize = this.authConfig.search_result_list_page_size;
     // params.orderBy = 'folder,name,modifiedTime desc';
 
-    let url = "https://www.googleapis.com/drive/v3/files";
-    url += "?" + this.enQuery(params);
+    let url = 'https://www.googleapis.com/drive/v3/files';
+    url += '?' + this.enQuery(params);
     // console.log(params)
     let requestOption = await this.requestOption();
     let response = await fetch(url, requestOption);
@@ -862,7 +874,7 @@ class googleDrive {
     }
 
     const p_files = await this.findParentFilesRecursion(child_id);
-    if (!p_files || p_files.length < 1) return "";
+    if (!p_files || p_files.length < 1) return '';
 
     let cache = [];
     // Cache the path and id of each level found
@@ -870,13 +882,13 @@ class googleDrive {
       const is_folder =
         idx === 0 ? p_files[idx].mimeType === CONSTS.folder_mime_type : true;
       let path =
-        "/" +
+        '/' +
         p_files
           .slice(idx)
           .map((it) => it.name)
           .reverse()
-          .join("/");
-      if (is_folder) path += "/";
+          .join('/');
+      if (is_folder) path += '/';
       cache.push({ id: p_files[idx].id, path: path });
     });
 
@@ -897,21 +909,21 @@ class googleDrive {
     const is_user_drive = this.root_type === CONSTS.gd_root_type.user_drive;
     let url = `https://www.googleapis.com/drive/v3/files/${id}?fields=${
       CONSTS.default_file_fields
-    }${is_user_drive ? "" : "&supportsAllDrives=true"}`;
+    }${is_user_drive ? '' : '&supportsAllDrives=true'}`;
     let requestOption = await this.requestOption();
     let res = await fetch(url, requestOption);
     return await res.json();
   }
 
   async findPathId(path) {
-    let c_path = "/";
+    let c_path = '/';
     let c_id = this.paths[c_path];
 
-    let arr = path.trim("/").split("/");
+    let arr = path.trim('/').split('/');
     for (let name of arr) {
-      c_path += name + "/";
+      c_path += name + '/';
 
-      if (typeof this.paths[c_path] == "undefined") {
+      if (typeof this.paths[c_path] == 'undefined') {
         let id = await this._findDirId(c_id, name);
         this.paths[c_path] = id;
       }
@@ -934,11 +946,11 @@ class googleDrive {
       return null;
     }
 
-    let url = "https://www.googleapis.com/drive/v3/files";
+    let url = 'https://www.googleapis.com/drive/v3/files';
     let params = { includeItemsFromAllDrives: true, supportsAllDrives: true };
     params.q = `'${parent}' in parents and mimeType = 'application/vnd.google-apps.folder' and name = '${name}'  and trashed = false`;
-    params.fields = "nextPageToken, files(id, name, mimeType)";
-    url += "?" + this.enQuery(params);
+    params.fields = 'nextPageToken, files(id, name, mimeType)';
+    url += '?' + this.enQuery(params);
     let requestOption = await this.requestOption();
     let response = await fetch(url, requestOption);
     let obj = await response.json();
@@ -949,7 +961,7 @@ class googleDrive {
   }
 
   async accessToken() {
-    console.log("accessToken");
+    console.log('accessToken');
     if (
       this.authConfig.expires == undefined ||
       this.authConfig.expires < Date.now()
@@ -964,20 +976,20 @@ class googleDrive {
   }
 
   async fetchAccessToken() {
-    console.log("fetchAccessToken");
-    const url = "https://www.googleapis.com/oauth2/v4/token";
+    console.log('fetchAccessToken');
+    const url = 'https://www.googleapis.com/oauth2/v4/token';
     const headers = {
-      "Content-Type": "application/x-www-form-urlencoded",
+      'Content-Type': 'application/x-www-form-urlencoded',
     };
     const post_data = {
       client_id: this.authConfig.client_id,
       client_secret: this.authConfig.client_secret,
       refresh_token: this.authConfig.refresh_token,
-      grant_type: "refresh_token",
+      grant_type: 'refresh_token',
     };
 
     let requestOption = {
-      method: "POST",
+      method: 'POST',
       headers: headers,
       body: this.enQuery(post_data),
     };
@@ -999,27 +1011,27 @@ class googleDrive {
     return response;
   }
 
-  async requestOption(headers = {}, method = "GET") {
+  async requestOption(headers = {}, method = 'GET') {
     const accessToken = await this.accessToken();
-    headers["authorization"] = "Bearer " + accessToken;
+    headers['authorization'] = 'Bearer ' + accessToken;
     return { method: method, headers: headers };
   }
 
   enQuery(data) {
     const ret = [];
     for (let d in data) {
-      ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
     }
-    return ret.join("&");
+    return ret.join('&');
   }
 
   sleep(ms) {
     return new Promise(function (resolve, reject) {
       let i = 0;
       setTimeout(function () {
-        console.log("sleep" + ms);
+        console.log('sleep' + ms);
         i++;
-        if (i >= 2) reject(new Error("i>=2"));
+        if (i >= 2) reject(new Error('i>=2'));
         else resolve(i);
       }, ms);
     });
@@ -1029,9 +1041,9 @@ class googleDrive {
 String.prototype.trim = function (char) {
   if (char) {
     return this.replace(
-      new RegExp("^\\" + char + "+|\\" + char + "+$", "g"),
-      ""
+      new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'),
+      '',
     );
   }
-  return this.replace(/^\s+|\s+$/g, "");
+  return this.replace(/^\s+|\s+$/g, '');
 };
