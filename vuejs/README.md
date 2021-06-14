@@ -1,1 +1,0 @@
-# G Index based on Vue
