@@ -21,8 +21,8 @@ git add .
 git commit -m "Deploying Frontend for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
 git push origin frontend
 
-rm -rf ${FT_DEPLOY_DIR}/*
 cd ..
+rm -rf ${FT_DEPLOY_DIR}/*
 
 printf "\nPublishing Backend\n"
 git clone -b backend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${BE_DEPLOY_DIR}
@@ -49,9 +49,9 @@ git add .
 git commit -m "Deploying CLI-Tool for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
 git push origin cli-tool
 
-rm -rf ${CLI_DEPLOY_DIR}/*
 cd ..
 
+rm -rf ${CLI_DEPLOY_DIR}/*
 rm -rfv vuejs/*
 rm -rfv backend/*
 rm -rfv cli-tool/* 
