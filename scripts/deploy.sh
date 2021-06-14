@@ -9,7 +9,7 @@ git config --global user.email "tksudharshan@gmail.com"
 
 if [ $build_type == "dev" ] 
 then
-    git clone -b dev-build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ./${DEPLOY_DIR}/.
+    git clone -b dev-build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
     cd ${DEPLOY_DIR}
     git rm -r .
     git add .
@@ -20,7 +20,7 @@ then
 
 elif [ $build_type == "production" ]
 then   
-    git clone -b build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ./${DEPLOY_DIR}/.
+    git clone -b build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
     cd ${DEPLOY_DIR}
     git rm -r .
     git add .

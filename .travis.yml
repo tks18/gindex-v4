@@ -13,13 +13,13 @@ script:
 
 deploy:
   - provider: script
-    cleanup: false
+    skip_cleanup: true
     script: bash ./scripts/deploy.sh production
     on:
       branch: master
 
   - provider: script
-    cleanup: false
+    skip_cleanup: true
     script: bash ./scripts/deploy.sh dev
     on:
       branch: dev
