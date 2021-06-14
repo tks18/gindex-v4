@@ -1,0 +1,46 @@
+<%- include("header") -%>
+<body>
+
+  <% if(user){ %>
+    <div class="container data">
+      <center>
+        <h2>Your Details</h2>
+        <p class="lead">
+          Your Name is <b><%= details.name %></b>
+        </p>
+        <p class="lead">
+          Your Email is <b><%= details.email %></b>
+        </p>
+        <p> This Page is Only Visible Only for One Time </p>
+        <p> Hereafter You Can Login to Frontend With this Email and Password.<a href="<%= fronturl %>" target="_blank"><b>Login</b></a></p>
+        <p> To setup the Frontend, Please Continue with this <a href="https://github.com/tks18" target="_blank"><b>Wiki</b></a> </p>
+      </center>
+    </div>
+  <% } else if(!showPass) { %>
+    <div class="container data">
+      <center>
+        <p class="lead">
+          <%= data %>
+        </p>
+        <p class="lead">
+          <a href="/generate">Generate a Hybrid Password</a>
+        </p>
+        <p><a href="<%= fronturl %>" target="_blank"><b>Go to Frontend</b></a> </p>
+      </center>
+    </div>
+  <% } else {%>
+    <div class="container data">
+      <center>
+        <p>
+          Your Hashed Hybrid Password
+        </p>
+        <p class="lead">
+          <%= hybrid %>
+        </p>
+        <p> Copy the Above and Paste in Your Worker File</p>
+        <p>Generate <a href="/generate">Another</a></p>
+        <p>Go to <a href="/">Home</a></p>
+      </center>
+    </div>
+  <% } %>
+<%- include("footer") -%>
