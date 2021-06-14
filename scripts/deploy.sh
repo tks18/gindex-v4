@@ -9,15 +9,14 @@ git config --global user.email "tksudharshan@gmail.com"
 
 if [ $build_type == "dev" ] 
 then
-    ls
     git clone -b dev-build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
     cd ${DEPLOY_DIR}
     git rm -r .
     git add .
-    git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
+    git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
     cp -v -r ../vuejs/outputs/. .
     git add .
-    git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
+    git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
     git push origin dev-build
 
 elif [ $build_type == "production" ]
@@ -26,9 +25,13 @@ then
     cd ${DEPLOY_DIR}
     git rm -r .
     git add .
-    git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
+    git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
     cp -v -r ../vuejs/outputs/. .
     git add .
-    git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
+    git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
     git push origin build
 fi
+
+cd ..
+rm -rf vuejs/*
+rm -rf ${DEPLOY_DIR}/*
