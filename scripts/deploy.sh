@@ -13,13 +13,12 @@ then
     git clone -b dev-build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
     cd ${DEPLOY_DIR}
     git rm -r .
-    ls
     git add .
     git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
     cp -v -r ../vuejs/outputs/. .
-    ls
     git add .
     git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
+    git push origin dev-build
 
 elif [ $build_type == "production" ]
 then   
@@ -31,4 +30,5 @@ then
     cp -v -r ../vuejs/outputs/. .
     git add .
     git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
+    git push origin build
 fi
