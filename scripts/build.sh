@@ -21,6 +21,6 @@ for theme in ${themes_list[@]}; do
     printf "\nBuilding Assets for ${theme}\n\n"
     theme_dir="${dest_dir}/${theme}"
     mkdir -p ${theme_dir}
-    yarn build
+    yarn build --silent
     mv ./dist/* ${theme_dir}/.
 done
