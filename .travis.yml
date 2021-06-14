@@ -1,4 +1,7 @@
 os: linux
+branches:
+  only:
+    - master
 language: node_js
 node_js:
   - 14
@@ -10,12 +13,6 @@ script: bash ./scripts/build.sh
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash ./scripts/deploy.sh production
+    script: bash ./scripts/deploy.sh
     on:
       branch: master
-
-  - provider: script
-    skip_cleanup: true
-    script: bash ./scripts/deploy.sh dev
-    on:
-      branch: dev
