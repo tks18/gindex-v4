@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 build_type="$1"
 GIT_URL="github.com/tks18/gindex-v4.git"
@@ -9,12 +9,15 @@ git config --global user.email "tksudharshan@gmail.com"
 
 if [ $build_type == "dev" ] 
 then
+    ls
     git clone -b dev-build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
     cd ${DEPLOY_DIR}
     git rm -r .
+    ls
     git add .
     git commit -m "Preparing to Deploy ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
     cp -v -r ../vuejs/outputs/. .
+    ls
     git add .
     git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}"
 

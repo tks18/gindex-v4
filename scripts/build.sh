@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 cd vuejs
 printf ".\n.\n.\n.\n.\n"
