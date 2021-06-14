@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-build_type="$1"
 GIT_URL="github.com/tks18/gindex-v4.git"
 DEPLOY_DIR="deploy-tmp"
 

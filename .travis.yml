@@ -21,3 +21,5 @@ deploy:
     script: bash ./scripts/deploy.sh
     on:
       branch: master
+
+after_deploy: bash ./scripts/after-deploy.sh
