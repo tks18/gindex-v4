@@ -13,7 +13,7 @@ themes_list=("gradient-carnation" "gradient-curious-blue" "gradient-emerald" "gr
 
 printf "\nDeleting old Builds\n\n"
 ls
-git rm -r outputs/.
+rm -rfv outputs/*
 dest_dir="outputs/themes"
 mkdir -p dest_dir
 cd outputs
