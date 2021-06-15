@@ -75,6 +75,7 @@
     "eslint": "^7.3.0",
     "eslint-plugin-vue": "^6.2.2",
     "fs": "0.0.1-security",
+    "javascript-obfuscator": "^2.15.2",
     "vue-cli-plugin-i18n": "~1.0.1",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^3.7.0",
