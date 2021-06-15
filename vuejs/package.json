@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "bulma": "^0.9.0",
     "bulma-divider": "^0.2.0",
+    "bulma-extensions": "^6.2.7",
     "clipboard": "^2.0.6",
     "cool-checkboxes-for-bulma.io": "^1.1.0",
     "core-js": "^3.6.4",
