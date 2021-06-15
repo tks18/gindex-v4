@@ -13,6 +13,7 @@ git config --global user.email "tksudharshan@gmail.com"
 printf "\nPublishing Frontend\n"
 rm -rf vuejs/node_modules/*
 rm -rf vuejs/.yarn/cache/*
+rm -rf vuejs/outputs/*
 git clone -b frontend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${FT_DEPLOY_DIR}
 cd ${FT_DEPLOY_DIR}
 rm -rf *
