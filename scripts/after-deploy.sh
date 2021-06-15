@@ -15,9 +15,7 @@ rm -rf vuejs/node_modules/*
 rm -rf vuejs/.yarn/cache/*
 git clone -b frontend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${FT_DEPLOY_DIR}
 cd ${FT_DEPLOY_DIR}
-git rm --quiet -r .
-git add .
-git commit -m "Preparing for Frontend Deploy: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
+rm -rf *
 cp -r ../vuejs/. .
 git add .
 git commit -m "Deploying Frontend for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
@@ -29,9 +27,7 @@ rm -rf ${FT_DEPLOY_DIR}/*
 printf "\nPublishing Backend\n"
 git clone -b backend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${BE_DEPLOY_DIR}
 cd ${BE_DEPLOY_DIR}
-git rm --quiet -r .
-git add .
-git commit -m "Preparing for Backend Deploy: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
+rm -rf *
 cp -r ../backend/. .
 git add .
 git commit -m "Deploying Backend for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
@@ -43,9 +39,7 @@ rm -rf ${BE_DEPLOY_DIR}/*
 printf "\nPublishing CLI Tool\n"
 git clone -b cli-tool https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${CLI_DEPLOY_DIR}
 cd ${CLI_DEPLOY_DIR}
-git rm --quiet -r .
-git add .
-git commit -m "Preparing for CLI-Tool Deploy: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
+rm -rf *
 cp -r ../cli-tool/. .
 git add .
 git commit -m "Deploying CLI-Tool for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
