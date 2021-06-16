@@ -1,5 +1,4 @@
 import crypto from 'crypto-js';
-import bcrypt from 'bcryptjs';
 
 const secret = process.env.VUE_APP_SECRET_PASS;
 
@@ -24,9 +23,4 @@ export function setItem(name, obj) {
 
 export function removeItem(name) {
   localStorage.removeItem(name);
-}
-
-export async function checkPass(pass, comparePass) {
-  var synced = await bcrypt.compareSync(pass, comparePass);
-  return synced;
 }

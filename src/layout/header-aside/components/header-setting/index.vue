@@ -11,7 +11,7 @@
         <span class="icon">
           <i class="fa fa-trash" aria-hidden="true"></i>
         </span>
-        {{ $t("setting.clear.text") }}
+        Clear
       </a>
     </div>
   </div>
@@ -26,16 +26,16 @@ export default {
     cleanCache() {
       new Promise((resolve) => {
         Object.keys(localStorage).forEach((item) => {
-          if (item.indexOf("file_path_") !== -1) {
+          if (item.indexOf('file_path_') !== -1) {
             localStorage.removeItem(item);
           }
         });
         resolve();
       }).then(() => {
         this.$notify({
-          title: this.$t("notify.title"),
-          message: this.$t("setting.clear.success"),
-          type: "success",
+          title: 'Cache Cleared',
+          message: 'Cache has been Successfully Cleared',
+          type: 'success',
         });
       });
     },

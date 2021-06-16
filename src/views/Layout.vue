@@ -2,20 +2,20 @@
   <div>
     <section class="section show-part mx-0 my-0 px-0 py-0">
       <Head v-if="showInfo"></Head>
-        <!-- <keep-alive> -->
-        <feb-alive>
-            <router-view ></router-view>
-        </feb-alive>
-        <!-- </keep-alive> -->
-        <Footer v-if="showInfo"></Footer>
+      <!-- <keep-alive> -->
+      <feb-alive>
+        <router-view></router-view>
+      </feb-alive>
+      <!-- </keep-alive> -->
+      <Footer v-if="showInfo"></Footer>
     </section>
   </div>
 </template>
 
 <script>
-import { initializeUser } from "@utils/localUtils";
-import Head from "./common/Head";
-import Footer from "./common/Footer";
+import { initializeUser } from '@utils/localUtils';
+import Head from './common/Head';
+import Footer from './common/Footer';
 export default {
   data: function () {
     return {
@@ -31,7 +31,7 @@ export default {
   methods: {
     assignUserInfo() {
       var userData = initializeUser();
-      if(userData.isThere){
+      if (userData.isThere) {
         this.logged = userData.data.logged;
         this.admin = userData.data.admin;
       } else {
@@ -39,37 +39,39 @@ export default {
       }
     },
     changeFooter() {
-      if(this.$route.name == 'home' && !this.logged){
+      if (this.$route.name == 'home' && !this.logged) {
         this.showInfo = false;
       } else {
         this.showInfo = true;
       }
     },
     checkVersion() {
-      if(this.admin){
+      if (this.admin) {
         let appVersion = window.version;
         try {
-          this.$backend.get("https://api.github.com/repos/tks18/gindex-v4/releases").then(response => {
-            if(response.data){
-              let latestVersion = response.data.filter(releases => {
-                const frontendRegex = /^(frontend).+/;
-                return frontendRegex.test(releases.tag_name);
-              });
-              if(latestVersion.length > 0){
-                if(appVersion != latestVersion[0].tag_name){
-                  this.$notify({
-                    title: "Update Available",
-                    dangerouslyUseHTMLString: true,
-                    message: `Frontend Update - ${latestVersion[0].tag_name} is Available`,
-                    duration: 0,
-                    type: "warning",
-                  });
+          this.$backend
+            .get('https://api.github.com/repos/tks18/gindex-v4/releases')
+            .then((response) => {
+              if (response.data) {
+                let latestVersion = response.data.filter((releases) => {
+                  const frontendRegex = /^(frontend).+/;
+                  return frontendRegex.test(releases.tag_name);
+                });
+                if (latestVersion.length > 0) {
+                  if (appVersion != latestVersion[0].tag_name) {
+                    this.$notify({
+                      title: 'Update Available',
+                      dangerouslyUseHTMLString: true,
+                      message: `Frontend Update - ${latestVersion[0].tag_name} is Available`,
+                      duration: 0,
+                      type: 'warning',
+                    });
+                  }
                 }
               }
-            }
-          })
+            });
         } catch {
-          console.error
+          console.error;
         }
       }
     },
@@ -82,25 +84,25 @@ export default {
   created() {
     this.$bus.$on('logged', () => {
       this.assignUserInfo();
-      this.changeFooter()
-    })
+      this.changeFooter();
+    });
     this.$bus.$on('logout', () => {
-      this.changeFooter()
+      this.changeFooter();
       this.assignUserInfo();
-    })
+    });
   },
   updated() {
-    this.changeFooter()
+    this.changeFooter();
     this.assignUserInfo();
   },
   watch: {
-    "$route": function() {
-      if(this.$route.name == 'home' && !this.logged){
+    $route: function () {
+      if (this.$route.name == 'home' && !this.logged) {
         this.showInfo = false;
       } else {
         this.showInfo = true;
       }
-    }
+    },
   },
 };
 </script>
