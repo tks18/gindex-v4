@@ -3,8 +3,6 @@
 cd vuejs
 printf ".\n.\n.\n.\n.\n"
 printf "Setting Default Environment Variables"
-export VUE_APP_I18N_LOCALE=en
-export VUE_APP_I18N_FALLBACK_LOCALE=en
 export VUE_APP_SECRET_PASS=${SECRET_PASS}
 export VUE_APP_CDN_PATH=https://cdn.jsdelivr.net/gh/tks18/gindex-v4@master/themes/THEME/
 printf "\n"

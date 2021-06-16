@@ -1,7 +1,6 @@
 // =======Options START=======
 var authConfig = {
   siteName: 'Glory to Heaven',
-  hybridpass: 'Copy Hybrid Password Generated from Backend',
   version: '8.4.0',
   theme: 'black-netflix-red',
   // Following Themes are Available for Selection.
@@ -120,7 +119,6 @@ function html(current_drive_order = 0, model = {}) {
     window.gds = JSON.parse('${JSON.stringify(
       authConfig.roots.map((it) => it.name),
     )}');
-    window.gdHybridPass = '${authConfig.hybridpass}';
     window.MODEL = JSON.parse('${JSON.stringify(model)}');
     window.current_drive_order = ${current_drive_order};
   </script>

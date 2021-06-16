@@ -10,7 +10,6 @@ import VueAxios from 'vue-axios';
 import router from './router';
 import vSelect from 'vue-select';
 import EventBus from './EventBus';
-import i18n from './i18n';
 import Vclipboard2 from 'vue-clipboard2';
 import store from '@/store/index';
 import VueLazyload from 'vue-lazyload';
@@ -20,10 +19,11 @@ import { createPlayer, globalPlayer, destroyPlayer } from './plugin/aplayer';
 import cdnpath from './libs/util.cdn';
 import '@/components';
 import Meta from 'vue-meta';
+import VuePlyr from 'vue-plyr';
 import themeManager from './themeManager';
 import currTheme from './theme-hexes';
 import 'viewerjs/dist/viewer.css';
-import VuePlyr from 'vue-plyr';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 themeManager();
 
@@ -74,7 +74,6 @@ Vue.use(Viewer);
 new Vue({
   router,
   store,
-  i18n,
   render: (h) => h(App),
   mounted() {
     this.$store.dispatch('acrou/view/load');

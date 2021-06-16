@@ -6,18 +6,18 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-theme": "cmd /c build-theme.bat",
-    "build-all": "cmd /c buildAll.bat",
-    "serve-theme": "cmd /c serve-theme.bat",
-    "lint": "vue-cli-service lint",
-    "analyz": "npm_config_report=true npm run build",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
+    "win-build-theme": "scripts/windows/build-theme.bat",
+    "win-build-all": "scripts/windows/buildAll.bat",
+    "win-serve-theme": "scripts/windows/serve-theme.bat",
+    "sh-build-theme": "bash scripts/others/build-theme.sh",
+    "sh-build-all": "bash scripts/others/buildAll.sh",
+    "sh-serve-theme": "bash scripts/others/serve-theme.sh",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "animate.css": "^4.1.0",
     "aplayer": "^1.10.1",
     "axios": "^0.19.2",
-    "bcryptjs": "^2.4.3",
     "bulma": "^0.9.0",
     "bulma-divider": "^0.2.0",
     "bulma-extensions": "^6.2.7",
@@ -46,7 +46,6 @@
     "vue-axios": "^2.1.5",
     "vue-clipboard2": "^0.3.1",
     "vue-codemirror": "^4.0.6",
-    "vue-i18n": "^8.18.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-infinite-scroll": "^2.0.2",
     "vue-lazyload": "^1.3.3",
@@ -65,7 +64,6 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@intlify/vue-i18n-loader": "^1.0.0",
     "@vue/cli-plugin-babel": "~4.4.5",
     "@vue/cli-plugin-eslint": "~4.4.5",
     "@vue/cli-plugin-vuex": "^4.4.5",
@@ -77,9 +75,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "fs": "0.0.1-security",
     "javascript-obfuscator": "^2.15.2",
-    "vue-cli-plugin-i18n": "~1.0.1",
     "vue-template-compiler": "^2.6.11",
-    "webpack-bundle-analyzer": "^3.7.0",
     "webpack-obfuscator": "2.6.0"
   },
   "eslintConfig": {
