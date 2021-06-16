@@ -1318,16 +1318,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@intlify/vue-i18n-loader@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@intlify/vue-i18n-loader@npm:1.0.0"
-  dependencies:
-    js-yaml: ^3.13.1
-    json5: ^2.1.1
-  checksum: 6b6fa8fb647e261cf6fd4baa0e11b1ccb7b2e7f974b560c251ad595c43e3a36a2215d9cba300e23e0001b2e4160176ce228c86e685c787d2dc73a70d3ff6a851
-  languageName: node
-  linkType: hard
-
 "@javascript-obfuscator/escodegen@npm:2.2.0":
   version: 2.2.0
   resolution: "@javascript-obfuscator/escodegen@npm:2.2.0"
@@ -2681,13 +2671,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bcryptjs@npm:^2.4.3":
-  version: 2.4.3
-  resolution: "bcryptjs@npm:2.4.3"
-  checksum: 5a320711757b5932da200856a5193cad0123df7c43b46417172eabf2aa436a8f08f64851722052fea6335453f96290005b6694a7dd26d8951810362de343175c
-  languageName: node
-  linkType: hard
-
 "bfj@npm:^6.1.1":
   version: 6.1.2
   resolution: "bfj@npm:6.1.2"
@@ -3499,20 +3482,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cli-table3@npm:^0.5.1":
-  version: 0.5.1
-  resolution: "cli-table3@npm:0.5.1"
-  dependencies:
-    colors: ^1.1.2
-    object-assign: ^4.1.0
-    string-width: ^2.1.1
-  dependenciesMeta:
-    colors:
-      optional: true
-  checksum: 6a2eed1fd28476953fbaeba596056cdda837345572cfca912fee649bb6d0e115325eb19f0b62aa23747128b6727f3bb7d3dc568ecbedd3af63636fb4a476ce26
-  languageName: node
-  linkType: hard
-
 "cli-width@npm:^3.0.0":
   version: 3.0.0
   resolution: "cli-width@npm:3.0.0"
@@ -3673,13 +3642,6 @@ __metadata:
   version: 1.2.1
   resolution: "colorette@npm:1.2.1"
   checksum: 1cc21ad4b84777a424794f78b6bb6a44b614ae17dcea91762199339f8047598e6d981249eeef7ea588c99eaf062be8fcdcd4866c112998922ed854db6dde96f9
-  languageName: node
-  linkType: hard
-
-"colors@npm:^1.1.2":
-  version: 1.4.0
-  resolution: "colors@npm:1.4.0"
-  checksum: a0f266ac041a9774d92cc9624a984707678d2eeec125d54e8d8231075ce36c24c5352fb5d0f90c6ee420d0f63e354417cec716386ad341309334aad18e32b933
   languageName: node
   linkType: hard
 
@@ -4415,7 +4377,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"deepmerge@npm:^4.2.0, deepmerge@npm:^4.2.2":
+"deepmerge@npm:^4.2.2":
   version: 4.2.2
   resolution: "deepmerge@npm:4.2.2"
   checksum: 85abf8e0045ee280996e7d2396979c877ef0741e413b716e42441110e0a83ac08098b2a49cea035510060bf667c0eae3189b2a52349f5fa4b000c211041637b1
@@ -4682,18 +4644,6 @@ __metadata:
     dom-serializer: 0
     domelementtype: 1
   checksum: a5b2f01fb3ff626073e3c3b43fedcff34073fb059b1235ee31cd0b5690d826304f41bc3fd117f95d754a1666ac3a57d224b408d83dd4f1c4525fd5b636d8df6f
-  languageName: node
-  linkType: hard
-
-"dot-object@npm:^1.7.1":
-  version: 1.9.0
-  resolution: "dot-object@npm:1.9.0"
-  dependencies:
-    commander: ^2.20.0
-    glob: ^7.1.4
-  bin:
-    dot-object: ./bin/dot-object
-  checksum: 319962f930ed955c5ff8227d80369bf9809c0dfaa747170ce51806dca40cbf3990f1d7b8a82cf43ccabdc63e7c2a4b0018533245e1e278f4d7dea374d8e54187
   languageName: node
   linkType: hard
 
@@ -5145,13 +5095,6 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: 6f47e20ec67a8ad58ed79ad350373142fb30387f4b9847f43943d80a2307e74252ea8739a9f53ec850ef5eaf689103c3d7b8bbc71e04e06444687cfda51fe3b7
-  languageName: node
-  linkType: hard
-
-"esm@npm:^3.2.13":
-  version: 3.2.25
-  resolution: "esm@npm:3.2.25"
-  checksum: 12a0272aaa15ce4bc07e52cbb66d471cf56ad81ad1a3c1d9f6fa1e29e8c2712716333825e2572f9dbdfdc787e5717a75cb00ce2846e2a50e2bba6971c24402f3
   languageName: node
   linkType: hard
 
@@ -5680,15 +5623,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flat@npm:^5.0.0":
-  version: 5.0.2
-  resolution: "flat@npm:5.0.2"
-  bin:
-    flat: cli.js
-  checksum: 549b3012e9c8e90da9eab25c283443a39a6c5b0a35a6d382827e4bfc5e88161d1dac5faf667f6255571a42edc58e679b432a1452b9bdbd7ab16718a740bef556
-  languageName: node
-  linkType: hard
-
 "flatted@npm:^2.0.0":
   version: 2.0.2
   resolution: "flatted@npm:2.0.2"
@@ -6009,7 +5943,6 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "gindex-v4@workspace:."
   dependencies:
-    "@intlify/vue-i18n-loader": ^1.0.0
     "@vue/cli-plugin-babel": ~4.4.5
     "@vue/cli-plugin-eslint": ~4.4.5
     "@vue/cli-plugin-vuex": ^4.4.5
@@ -6019,7 +5952,6 @@ fsevents@~2.1.2:
     axios: ^0.19.2
     babel-eslint: ^10.1.0
     babel-plugin-component: ^1.1.1
-    bcryptjs: ^2.4.3
     bulma: ^0.9.0
     bulma-divider: ^0.2.0
     bulma-extensions: ^6.2.7
@@ -6051,10 +5983,8 @@ fsevents@~2.1.2:
     vue: ^2.6.11
     vue-avatar: ^2.3.0
     vue-axios: ^2.1.5
-    vue-cli-plugin-i18n: ~1.0.1
     vue-clipboard2: ^0.3.1
     vue-codemirror: ^4.0.6
-    vue-i18n: ^8.18.2
     vue-infinite-loading: ^2.4.5
     vue-infinite-scroll: ^2.0.2
     vue-lazyload: ^1.3.3
@@ -6072,7 +6002,6 @@ fsevents@~2.1.2:
     vue-toastification: ^1.7.6
     vue2-animate: ^2.1.3
     vuex: ^3.4.0
-    webpack-bundle-analyzer: ^3.7.0
     webpack-obfuscator: 2.6.0
   languageName: unknown
   linkType: soft
@@ -7405,13 +7334,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"is-valid-glob@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "is-valid-glob@npm:1.0.0"
-  checksum: 7d61129ee5051409cd8b1ba738d1ce7108a20b39f297671f2c07a1d2737fc13d0cc476261b9a5fa6491252e6dbf0bc7cef04444b14455e929b285fddc2f48895
-  languageName: node
-  linkType: hard
-
 "is-windows@npm:^1.0.2":
   version: 1.0.2
   resolution: "is-windows@npm:1.0.2"
@@ -7671,7 +7593,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"json5@npm:^2.1.1, json5@npm:^2.1.2":
+"json5@npm:^2.1.2":
   version: 2.1.3
   resolution: "json5@npm:2.1.3"
   dependencies:
@@ -10795,7 +10717,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^3.0.0, rimraf@npm:^3.0.2":
+"rimraf@npm:^3.0.2":
   version: 3.0.2
   resolution: "rimraf@npm:3.0.2"
   dependencies:
@@ -11662,7 +11584,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"string-width@npm:^1.0.2 || 2, string-width@npm:^2.0.0, string-width@npm:^2.1.1":
+"string-width@npm:^1.0.2 || 2, string-width@npm:^2.0.0":
   version: 2.1.1
   resolution: "string-width@npm:2.1.1"
   dependencies:
@@ -12750,22 +12672,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"vue-cli-plugin-i18n@npm:~1.0.1":
-  version: 1.0.1
-  resolution: "vue-cli-plugin-i18n@npm:1.0.1"
-  dependencies:
-    debug: ^4.1.0
-    deepmerge: ^4.2.0
-    dotenv: ^8.2.0
-    flat: ^5.0.0
-    rimraf: ^3.0.0
-    vue: ^2.6.11
-    vue-i18n: ^8.17.0
-    vue-i18n-extract: 1.0.2
-  checksum: d7ea10ed23b91651a65e23ba2cfd8f86c8e20e2a6018f47af752a3c369723482d14a2e8bda49a127fcd9a467515df2bd0453c8a2deeb67d44965fef6d3b9fc1a
-  languageName: node
-  linkType: hard
-
 "vue-clipboard2@npm:^0.3.1":
   version: 0.3.1
   resolution: "vue-clipboard2@npm:0.3.1"
@@ -12805,29 +12711,6 @@ fsevents@~2.1.2:
   version: 2.3.4
   resolution: "vue-hot-reload-api@npm:2.3.4"
   checksum: dedefb87284bdba222a93bc55bc1441ee16d9e30546d57107c42d21102cfcafba058c8be35f2678370cee0588f1bf3ee7b32dbf3c1610e5c9bf851a5996a8351
-  languageName: node
-  linkType: hard
-
-"vue-i18n-extract@npm:1.0.2":
-  version: 1.0.2
-  resolution: "vue-i18n-extract@npm:1.0.2"
-  dependencies:
-    cli-table3: ^0.5.1
-    dot-object: ^1.7.1
-    esm: ^3.2.13
-    glob: ^7.1.3
-    is-valid-glob: ^1.0.0
-    yargs: ^13.2.2
-  bin:
-    vue-i18n-extract: dist-node/index.bin.js
-  checksum: 09d13006befec1817051d8e32e69bb88b86a52bb2f5794d32e41a6f24111365cc25fa693d9ccba49bd0c30957ee5d7fd9b6a04fdb48664dead15d246ea4726dc
-  languageName: node
-  linkType: hard
-
-"vue-i18n@npm:^8.17.0, vue-i18n@npm:^8.18.2":
-  version: 8.21.0
-  resolution: "vue-i18n@npm:8.21.0"
-  checksum: 5ad83f7c202eca5075541df83b4f4729812ecec89c186198abe0e8b6a0fd6e0cd60c4f533ae90f6640c98ee36a1a245663b4d57d594f0e22dbc7dc8f61e5bcaa
   languageName: node
   linkType: hard
 
@@ -13080,7 +12963,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"webpack-bundle-analyzer@npm:^3.7.0, webpack-bundle-analyzer@npm:^3.8.0":
+"webpack-bundle-analyzer@npm:^3.8.0":
   version: 3.8.0
   resolution: "webpack-bundle-analyzer@npm:3.8.0"
   dependencies:
@@ -13478,7 +13361,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"yargs@npm:^13.2.2, yargs@npm:^13.3.2":
+"yargs@npm:^13.3.2":
   version: 13.3.2
   resolution: "yargs@npm:13.3.2"
   dependencies:
