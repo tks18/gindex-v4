@@ -1,8 +1,8 @@
 {
   "name": "gindex-v4",
-  "version": "8.4.1",
-  "g2index": "8.4.1",
-  "cdnVersion": "frontend-8.4.1",
+  "version": "8.4.2",
+  "g2index": "8.4.2",
+  "cdnVersion": "frontend-8.4.2",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
