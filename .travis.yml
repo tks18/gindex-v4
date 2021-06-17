@@ -6,6 +6,11 @@ language: node_js
 node_js:
   - 14
 
+git:
+  depth: 3
+  quiet: true
+  submodules: false
+
 cache:
   directories:
     - vuejs/.yarn/cache

@@ -6,7 +6,7 @@ DEPLOY_DIR="deploy-tmp"
 git config --global user.name "tks18"
 git config --global user.email "tksudharshan@gmail.com"
 
-git clone -b build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
+git clone --single-branch --depth 3 --quiet -b build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
 cd ${DEPLOY_DIR}
 rm -rf *
 cp -r ../vuejs/outputs/. .
