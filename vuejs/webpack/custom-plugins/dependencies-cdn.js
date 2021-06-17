@@ -5,24 +5,18 @@ const deps = [
     js: 'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
     css: '',
   },
-  {
-    name: 'vue-i18n',
-    library: 'VueI18n',
-    js: 'https://cdn.jsdelivr.net/npm/vue-i18n@8.17.3/dist/vue-i18n.min.js',
-    css: '',
-  },
-  {
-    name: 'vue-router',
-    library: 'VueRouter',
-    js: 'https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js',
-    css: '',
-  },
-  {
-    name: 'vuex',
-    library: 'Vuex',
-    js: 'https://cdn.jsdelivr.net/npm/vuex@3.4.0/dist/vuex.js',
-    css: '',
-  },
+  // {
+  //   name: 'vue-router',
+  //   library: 'VueRouter',
+  //   js: 'https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js',
+  //   css: '',
+  // },
+  // {
+  //   name: 'vuex',
+  //   library: 'Vuex',
+  //   js: 'https://cdn.jsdelivr.net/npm/vuex@3.4.0/dist/vuex.js',
+  //   css: '',
+  // },
   {
     name: 'axios',
     library: 'axios',
