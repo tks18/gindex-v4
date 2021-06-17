@@ -1,10 +1,12 @@
-![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week) ![https://img.shields.io/github/languages/top/tks18/gindex-v4](https://img.shields.io/github/languages/top/tks18/gindex-v4) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
+![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/year) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/month) ![https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week](https://data.jsdelivr.com/v1/package/gh/tks18/gindex-v4/badge/week) ![https://img.shields.io/github/languages/top/tks18/gindex-v4](https://img.shields.io/github/languages/top/tks18/gindex-v4) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://t.me/joinchat/UapdD22_Vy40MDdl)
 
 ##  A Vue js Based GD Index
 
 #### [Project HomePage](https://gen.infozy.tk/)
 #### [Follow guide to deploy yours!](https://telegra.ph/Google-Drive-Ultimate-Index-07-04)
-#### [Telegram Support Group](https://t.me/joinchat/MXJ4wk5Gs__QFZbvBdd_pg)
+#### [![Telegram Support Group](https://i.ibb.co/0n3kkHx/image.png)](https://t.me/joinchat/UapdD22_Vy40MDdl)
+
+**Scan or Click to Join Support Group**
 
 #### We have a Detailed Project WiKi that Explains Everything in Detail and the Process to be Done to Deploy Everything and Also how to Develop in Local Environment - [Here is the Wiki](https://github.com/tks18/gindex-v4/wiki)
 

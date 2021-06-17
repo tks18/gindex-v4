@@ -14,7 +14,7 @@ printf "\nPublishing Frontend\n"
 rm -rf vuejs/node_modules/*
 rm -rf vuejs/.yarn/cache/*
 rm -rf vuejs/outputs/*
-git clone -b frontend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${FT_DEPLOY_DIR}
+git clone --single-branch --depth 3 --quiet -b frontend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${FT_DEPLOY_DIR}
 cd ${FT_DEPLOY_DIR}
 rm -rf *
 cp -r ../vuejs/. .
@@ -26,7 +26,7 @@ cd ..
 rm -rf ${FT_DEPLOY_DIR}/*
 
 printf "\nPublishing Backend\n"
-git clone -b backend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${BE_DEPLOY_DIR}
+git clone --single-branch --depth 3 --quiet -b backend https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${BE_DEPLOY_DIR}
 cd ${BE_DEPLOY_DIR}
 rm -rf *
 cp -r ../backend/. .
@@ -38,7 +38,7 @@ cd ..
 rm -rf ${BE_DEPLOY_DIR}/*
 
 printf "\nPublishing CLI Tool\n"
-git clone -b cli-tool https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${CLI_DEPLOY_DIR}
+git clone --single-branch --depth 3 --quiet -b cli-tool https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${CLI_DEPLOY_DIR}
 cd ${CLI_DEPLOY_DIR}
 rm -rf *
 cp -r ../cli-tool/. .
