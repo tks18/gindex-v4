@@ -60,12 +60,12 @@ const deps = [
   //     'https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js',
   //   css: '',
   // },
-  // {
-  //   name: '',
-  //   library: '',
-  //   js: 'https://at.alicdn.com/t/font_1760192_axq33n6snd.js',
-  //   css: '',
-  // },
+  {
+    name: '',
+    library: '',
+    js: 'https://at.alicdn.com/t/font_1760192_axq33n6snd.js',
+    css: '',
+  },
   {
     name: '',
     library: '',
