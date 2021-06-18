@@ -11,7 +11,6 @@ import router from './router';
 import vSelect from 'vue-select';
 import EventBus from './EventBus';
 import Vclipboard2 from 'vue-clipboard2';
-import store from '@/store/index';
 import VueLazyload from 'vue-lazyload';
 import VTooltip from 'v-tooltip';
 import Viewer from 'v-viewer';
@@ -73,9 +72,5 @@ Vue.use(Viewer);
 
 new Vue({
   router,
-  store,
   render: (h) => h(App),
-  mounted() {
-    this.$store.dispatch('acrou/view/load');
-  },
 }).$mount('#app');

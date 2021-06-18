@@ -1644,7 +1644,6 @@ import {
   checkView,
 } from '@utils/AcrouUtil';
 import Loading from 'vue-loading-overlay';
-import { mapState } from 'vuex';
 import { decode64 } from '@utils/AcrouUtil';
 import { srt2vtt, players } from '@utils/playUtils';
 import notify from '@/components/notification';
@@ -2275,7 +2274,6 @@ export default {
       }
       return '';
     },
-    ...mapState('acrou/view', ['mode']),
     players() {
       return players().map((player) => {
         return {

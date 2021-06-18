@@ -1648,7 +1648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/cli-plugin-vuex@npm:^4.4.5, @vue/cli-plugin-vuex@npm:^4.4.6":
+"@vue/cli-plugin-vuex@npm:^4.4.6":
   version: 4.5.4
   resolution: "@vue/cli-plugin-vuex@npm:4.5.4"
   peerDependencies:
@@ -5945,7 +5945,6 @@ fsevents@~2.1.2:
   dependencies:
     "@vue/cli-plugin-babel": ~4.4.5
     "@vue/cli-plugin-eslint": ~4.4.5
-    "@vue/cli-plugin-vuex": ^4.4.5
     "@vue/cli-service": ~4.4.5
     animate.css: ^4.1.0
     aplayer: ^1.10.1
@@ -6001,7 +6000,6 @@ fsevents@~2.1.2:
     vue-template-compiler: ^2.6.11
     vue-toastification: ^1.7.6
     vue2-animate: ^2.1.3
-    vuex: ^3.4.0
     webpack-obfuscator: 2.6.0
   languageName: unknown
   linkType: soft
@@ -12907,15 +12905,6 @@ fsevents@~2.1.2:
   version: 2.6.12
   resolution: "vue@npm:2.6.12"
   checksum: 92ed547e55a4b27a2a45aa9ab7ff5999f891dc9754562a37226dd190b323d9f99daec892dd8bd39786e404e6e065d808e165b1a0c127ce8d45fd1bde79ec7312
-  languageName: node
-  linkType: hard
-
-"vuex@npm:^3.4.0":
-  version: 3.5.1
-  resolution: "vuex@npm:3.5.1"
-  peerDependencies:
-    vue: ^2.0.0
-  checksum: e613f2d2b823e72ec494a8de01fe1686167673971cb049af511a7ea1fbe71999884d5e251fff9905f4303837b844b145167befbf78ee8a1a9ae71b4aa777ddb7
   languageName: node
   linkType: hard
 

@@ -27,19 +27,18 @@
       <list-view
         :data="files"
         :originalData="files"
-        v-if="mode === 'list'"
         :icons="getIcon"
         :sortIt="sortIt"
         :action="action"
       />
-      <grid-view
+      <!-- <grid-view
         class="g2-content"
         :data="files"
         v-if="mode !== 'list'"
         :getIcon="getIcon"
         :action="action"
         :thum="thum"
-      />
+      /> -->
       <infinite-loading
         v-show="!loading"
         ref="infinite"
@@ -104,13 +103,11 @@ import {
 } from '@utils/AcrouUtil';
 import { orderBy, sortBy } from 'lodash';
 import { initializeUser, getgds, icon } from '@utils/localUtils';
-import { mapState } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import notify from '@/components/notification';
 import { apiRoutes, backendHeaders } from '@utils/backendUtils';
 import BreadCrumb from '../common/BreadCrumb';
 import ListView from './components/list';
-import GridView from './components/grid';
 import Markdown from '../common/Markdown';
 import InfiniteLoading from 'vue-infinite-loading';
 export default {
@@ -118,7 +115,6 @@ export default {
   components: {
     BreadCrumb,
     ListView,
-    GridView,
     Headmd: Markdown,
     Readmemd: Markdown,
     InfiniteLoading,
@@ -192,7 +188,6 @@ export default {
     }
   },
   computed: {
-    ...mapState('acrou/view', ['mode']),
     images() {
       return this.files.filter((file) => file.mimeType.indexOf('image') != -1);
     },

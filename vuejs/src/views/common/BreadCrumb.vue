@@ -35,23 +35,19 @@
           </ul>
         </div>
       </div>
-      <div class="level-right">
+      <!-- <div class="level-right">
         <div class="level-item">
           <view-mode />
         </div>
-      </div>
+      </div> -->
     </nav>
   </div>
 </template>
 
 <script>
-import ViewMode from '@/layout/viewmode';
 import { decode64 } from '@utils/AcrouUtil';
 export default {
   props: ['name'],
-  components: {
-    ViewMode,
-  },
   data: function () {
     return {
       navs: [],

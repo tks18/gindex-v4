@@ -204,12 +204,6 @@
             </span>
             <span class="is-hidden-desktop">Logout</span>
           </a>
-          <a
-            :class="ismobile ? 'navbar-item' : 'navbar-item is-hidden'"
-            @click.stop="$refs.viewMode.toggleMode"
-          >
-            <viewMode ref="viewMode" />
-          </a>
         </div>
       </div>
     </div>
@@ -220,11 +214,7 @@
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import { getItem, removeItem } from '@utils/encryptUtils';
 import { initializeUser } from '@utils/localUtils';
-import ViewMode from '@/layout/viewmode';
 export default {
-  components: {
-    ViewMode,
-  },
   created() {
     this.$bus.$on('logged', () => {
       this.loginorout();

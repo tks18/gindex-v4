@@ -14,7 +14,6 @@ import {
 // Routing data
 
 import routes from './routes';
-import store from '@/store/index';
 
 // Rewrite history before router instantiation
 febAlive.resetHistory();
@@ -56,7 +55,6 @@ Vue.use(febAlive, { router });
 router.beforeEach((to, from, next) => {
   NProgress.start();
   setItem('prev', from.name);
-  store.dispatch('acrou/cancelToken/cancel');
   const token = getItem('tokendata');
   const user = getItem('userdata');
   const sessionStore = getItem('sessionStore');
