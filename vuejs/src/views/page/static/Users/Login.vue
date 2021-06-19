@@ -314,7 +314,7 @@ export default {
                 }. Your token will expire at ${this.$moment(
                   tokenData.expirydate,
                 ).format('dddd, MMMM Do YYYY [at] hh:mm A')}.`;
-                this.$bus.$emit('logged', 'User Logged');
+                this.$parent.$emit('logged', 'User Logged');
                 this.$notify({
                   title: 'Success',
                   message: 'Successfully Logged in',

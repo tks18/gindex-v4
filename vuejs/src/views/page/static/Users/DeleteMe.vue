@@ -145,7 +145,7 @@ export default {
                 removeItem('tokendata');
                 setTimeout(() => {
                   this.loading = false;
-                  this.$bus.$emit('logout', 'User Logged Out');
+                  this.$emit('logout', 'User Logged Out');
                   this.$router.push({
                     name: 'results',
                     params: {

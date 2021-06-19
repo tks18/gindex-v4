@@ -216,21 +216,6 @@ import { getItem, removeItem } from '@utils/encryptUtils';
 import { initializeUser } from '@utils/localUtils';
 export default {
   created() {
-    this.$bus.$on('logged', () => {
-      this.loginorout();
-      this.changeNavbarStyle();
-    });
-    this.$bus.$on('logout', () => {
-      this.loginorout();
-      this.changeNavbarStyle();
-    });
-    this.$bus.$on('music-toggled', () => {
-      if (this.$audio.player() == undefined) {
-        this.miniplayer = false;
-      } else if (this.$audio.player() != undefined) {
-        this.miniplayer = true;
-      }
-    });
     this.loginorout();
     this.active = false;
     this.siteName = document.getElementsByTagName('title')[0].innerText;
@@ -291,7 +276,7 @@ export default {
         path: '/' + item.index + ':home/',
       });
       this.getallPosts(item.index);
-      this.$bus.$emit('td', 'TD Changed');
+      this.$emit('td', 'TD Changed');
     },
     query() {
       if (this.param) {
@@ -335,7 +320,7 @@ export default {
         this.admin = userData.data.admin;
         this.superadmin = userData.data.superadmin;
       } else {
-        this.logged = userData.data.logged;
+        this.logged = false;
       }
       this.getallPosts(this.$route.params.id);
     },
@@ -359,7 +344,8 @@ export default {
         removeItem('tokendata');
         removeItem('userdata');
         removeItem('sessiondata');
-        this.$bus.$emit('logout', 'User Logged Out');
+        this.loginorout();
+        this.changeNavbarStyle();
         this.$router.push({
           name: 'results',
           params: {
@@ -387,12 +373,11 @@ export default {
     closeMusicPlayer() {
       if (this.$audio.player() == undefined) return;
       this.$audio.destroy();
-      this.$bus.$emit('music-toggled', 'Music Toggled');
+      this.$emit('music-toggled', 'Music Toggled');
     },
   },
   computed: {
     showSearch() {
-      // Folder does not support searching
       return window.MODEL ? window.MODEL.root_type < 2 : true;
     },
     siteTitle() {
@@ -411,6 +396,18 @@ export default {
   },
   mounted() {
     this.netflix_black = window.themeOptions.prefer_netflix_black;
+    this.$on('logged', (event) => {
+      console.log(event);
+      this.loginorout();
+      this.changeNavbarStyle();
+    });
+    this.$on('music-toggled', () => {
+      if (this.$audio.player() == undefined) {
+        this.miniplayer = false;
+      } else if (this.$audio.player() != undefined) {
+        this.miniplayer = true;
+      }
+    });
     this.changeNavbarStyle();
   },
   watch: {

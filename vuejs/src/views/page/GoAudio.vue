@@ -503,7 +503,7 @@ export default {
       this.$audio.player().list.add(this.playlist);
       this.miniplayer = true;
       this.$audio.player().play();
-      this.$bus.$emit('music-toggled', 'Music Toggled');
+      this.$emit('music-toggled', 'Music Toggled');
     },
     toggleModes() {
       if (this.$audio.player() == undefined) {
@@ -515,7 +515,7 @@ export default {
         this.miniplayer = false;
         this.$audio.destroy();
       }
-      this.$bus.$emit('music-toggled', 'Music Toggled');
+      this.$emit('music-toggled', 'Music Toggled');
     },
   },
   computed: {

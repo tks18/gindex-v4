@@ -9,7 +9,6 @@ import rawAxios from 'axios';
 import VueAxios from 'vue-axios';
 import router from './router';
 import vSelect from 'vue-select';
-import EventBus from './EventBus';
 import Vclipboard2 from 'vue-clipboard2';
 import VueLazyload from 'vue-lazyload';
 import VTooltip from 'v-tooltip';
@@ -29,7 +28,6 @@ themeManager();
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$backend = rawAxios;
-Vue.prototype.$bus = EventBus;
 Vue.prototype.$currentTheme = currTheme();
 Vue.prototype.$audio = {
   createPlayer: createPlayer,

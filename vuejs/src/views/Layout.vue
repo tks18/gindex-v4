@@ -82,11 +82,11 @@ export default {
     this.checkVersion();
   },
   created() {
-    this.$bus.$on('logged', () => {
+    this.$on('logged', () => {
       this.assignUserInfo();
       this.changeFooter();
     });
-    this.$bus.$on('logout', () => {
+    this.$on('logout', () => {
       this.changeFooter();
       this.assignUserInfo();
     });
