@@ -28,6 +28,7 @@ themeManager();
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$backend = rawAxios;
+Vue.prototype.$bus = new Vue({});
 Vue.prototype.$currentTheme = currTheme();
 Vue.prototype.$audio = {
   createPlayer: createPlayer,

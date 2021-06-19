@@ -25,7 +25,7 @@
             >
               <div class="column is-two-thirds">
                 <figure class="image is-100x150">
-                  <v-img :src="videoData.poster_path" />
+                  <img :src="videoData.poster_path" />
                 </figure>
               </div>
               <div v-if="ismobile" class="column has-text-centered is-full">
@@ -240,7 +240,7 @@
                         >
                           <div class="column mx-0 px-0 py-0 my-0 is-full">
                             <figure class="image is-100x150">
-                              <v-img
+                              <img
                                 :src="
                                   videoData.poster_path ||
                                   'https://img.icons8.com/cotton/2x/video-file--v1.png'
@@ -588,12 +588,12 @@
                         <div
                           class="column has-text-centered mx-0 px-0 py-0 my-0 is-full"
                         >
-                          <v-avatar size="150">
-                            <v-img
+                          <figure class="image is-150x150">
+                            <img
                               class="is-rounded"
                               :src="videoData.images.posters[0].file_path"
                             />
-                          </v-avatar>
+                          </figure>
                         </div>
                       </div>
                     </div>
@@ -911,7 +911,7 @@
                       >
                         <div class="column mx-0 px-0 py-0 my-0 is-full">
                           <figure class="image">
-                            <v-img
+                            <img
                               :src="videoData.images.backdrops[0].file_path"
                             />
                           </figure>
@@ -982,8 +982,8 @@
                             <div
                               class="column has-text-centered mx-1 px-1 is-full"
                             >
-                              <v-avatar size="150">
-                                <v-img
+                              <figure class="image is-150x150">
+                                <img
                                   :src="
                                     people.profile_path == null
                                       ? people.gender == 0
@@ -992,7 +992,7 @@
                                       : people.profile_path
                                   "
                                 />
-                              </v-avatar>
+                              </figure>
                             </div>
                             <div class="column has-text-centered is-full">
                               <p class="is-small has-text-white scroll-text">
@@ -1081,8 +1081,8 @@
                             <div
                               class="column has-text-centered mx-1 px-1 is-full"
                             >
-                              <v-avatar size="150">
-                                <v-img
+                              <figure class="image is-150x150">
+                                <img
                                   :src="
                                     people.profile_path == null
                                       ? people.gender == 0
@@ -1091,7 +1091,7 @@
                                       : people.profile_path
                                   "
                                 />
-                              </v-avatar>
+                              </figure>
                             </div>
                             <div class="column has-text-centered is-full">
                               <p class="is-small has-text-white scroll-text">
@@ -1180,7 +1180,7 @@
                             <div class="column is-full">
                               <figure class="image">
                                 <img
-                                  v-lazy="
+                                  :src="
                                     company.logo_path == null
                                       ? 'https://i.ibb.co/Hqkdh46/movie-people-production-24908-58149.jpg'
                                       : company.logo_path
@@ -1267,7 +1267,7 @@
                               class="column is-full"
                             >
                               <figure class="image">
-                                <img v-lazy="network.logo_path" />
+                                <img :src="network.logo_path" />
                               </figure>
                             </div>
                             <div class="column has-text-centered is-full">
@@ -2183,7 +2183,6 @@ export default {
               response.data.token +
               '&sessionid=' +
               this.session.sessionid;
-            console.log(link);
             this.mainLoad = false;
             location.href = link;
             return;
@@ -2215,7 +2214,6 @@ export default {
         this.token.token +
         '&sessionid=' +
         this.session.sessionid;
-      console.log(this.apiurl);
     },
     tapPlay() {
       this.infoPanel = false;

@@ -1,33 +1,35 @@
 @font-face {
-  font-family: "iconfont"; /* project id 1760192 */
-  src: url("//at.alicdn.com/t/font_1760192_tl9awsq3di.eot");
-  src: url("//at.alicdn.com/t/font_1760192_tl9awsq3di.eot?#iefix")
-      format("embedded-opentype"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.woff2") format("woff2"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.woff") format("woff"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.ttf") format("truetype"),
-    url("//at.alicdn.com/t/font_1760192_tl9awsq3di.svg#iconfont") format("svg");
+  font-family: 'iconfont'; /* project id 1760192 */
+  src: url('//at.alicdn.com/t/font_1760192_tl9awsq3di.eot');
+  src: url('//at.alicdn.com/t/font_1760192_tl9awsq3di.eot?#iefix')
+      format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1760192_tl9awsq3di.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1760192_tl9awsq3di.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1760192_tl9awsq3di.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1760192_tl9awsq3di.svg#iconfont') format('svg');
 }
 
 .vs__fade-enter-active,
 .vs__fade-leave-active {
-    transition: none;
+  transition: none;
 }
 
 * {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: -moz-none;
-    -o-user-select: none;
-    user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  user-select: none;
 }
 
-.pendingusers, input, textarea {
-    -webkit-user-select: text;
-    -khtml-user-select: text;
-    -moz-user-select: text;
-    -o-user-select: text;
-    user-select: text;
+.pendingusers,
+input,
+textarea {
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -o-user-select: text;
+  user-select: text;
 }
 
 /* width */
@@ -64,9 +66,6 @@ html {
   .container {
     max-width: 95%;
   }
-  .navbar-item:hover {
-
-  }
   .navbar-brand > .title {
     color: $accent;
   }
@@ -82,23 +81,23 @@ html {
     color: $accent;
     border: 0px;
   }
-  @media only screen and (max-width: 700px){
+  @media only screen and (max-width: 700px) {
     .navbar-item {
       &.has-dropdown {
-      .navbar-dropdown {
-        display: none;
-      }
-      &.is-active {
         .navbar-dropdown {
-          display: block;
+          display: none;
         }
-       }
-     }
+        &.is-active {
+          .navbar-dropdown {
+            display: block;
+          }
+        }
+      }
     }
   }
 }
 
-.navbar-dropdown{
+.navbar-dropdown {
   background-color: #121212;
   max-height: 18em;
   overflow: auto;
@@ -188,22 +187,22 @@ body {
 }
 
 .fillmain {
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.fillinput{
+.fillinput {
   width: 30%;
 }
 
-@media only screen and (max-width: 700px){
+@media only screen and (max-width: 700px) {
   .fillinput {
     width: 100%;
   }
 }
 
-@media only screen and (max-width: 700px){
+@media only screen and (max-width: 700px) {
   .table {
     border-top: none;
   }
@@ -228,7 +227,7 @@ body {
     margin: 1px;
     padding: 1px;
   }
-  .footimage{
+  .footimage {
     .gloryimage {
       margin: 2px;
       padding: 5px;
@@ -242,7 +241,7 @@ body {
   .footer-copyright {
     color: white;
     font-weight: bold;
-    &a{
+    &a {
       color: $accent;
     }
     &a:hover {
@@ -263,7 +262,8 @@ body {
 }
 
 .no-content {
-  background: url(https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif) no-repeat 50% 50%;
+  background: url(https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif) no-repeat 50%
+    50%;
   height: 240px;
   line-height: 240px;
   text-align: center;
@@ -372,11 +372,10 @@ body {
   left: 7px;
 }
 
-
 // bulma-divider
 .is-divider,
 .is-divider-vertical {
-  border-top: .2rem solid $accent;
+  border-top: 0.2rem solid $accent;
 }
 
 .is-divider-vertical[data-content]::after,
@@ -387,10 +386,18 @@ body {
 
 .mkdown-text {
   color: white;
-  margin:1rem 0;
+  margin: 1rem 0;
   background-color: inherit;
-  text-align:center;
-  h1,h2,h3,h4,h5,h6,p,strong,em {
+  text-align: center;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  strong,
+  em {
     color: white;
   }
   a {
@@ -413,8 +420,8 @@ body {
 }
 
 .special-image {
-    width: 50%;
-    text-align: center;
+  width: 50%;
+  text-align: center;
 }
 
 .special-image:hover {
@@ -486,9 +493,9 @@ body {
 }
 
 .homehero {
-  background-size:cover;
-  min-width:100%;
-  box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
+  background-size: cover;
+  min-width: 100%;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-item:hover {
@@ -501,17 +508,18 @@ body {
   white-space: wrap;
   .trend-link {
     display: inline-block;
-    box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.2);
     width: 24.2%;
     height: 175px;
     padding: 14px;
     margin: 3px;
   }
   .trend-link:hover {
-    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2),
+      0 6px 20px 0 rgba(229, 9, 20, 0.19);
   }
 }
-@media only screen and (max-width: 600px){
+@media only screen and (max-width: 600px) {
   .trending-block {
     .trend-link {
       width: 48%;
@@ -532,13 +540,14 @@ body {
   .cat-link {
     display: inline-block;
     width: 250px;
-    box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
     height: 175px;
     padding: 14px;
     margin: 5px;
   }
   .cat-link:hover {
-    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2),
+      0 6px 20px 0 rgba(229, 9, 20, 0.19);
   }
   .cat-link-text {
     opacity: 1;
@@ -561,7 +570,8 @@ body {
   }
 }
 
-.playbuttons, .playbuttons:visited,  {
+.playbuttons,
+.playbuttons:visited {
   border: none;
   background: transparent;
   color: $accent;
@@ -600,7 +610,7 @@ body {
     border-color: #121212;
     z-index: 1;
   }
-  &[x-placement^="top"] {
+  &[x-placement^='top'] {
     margin-bottom: 5px;
     .tooltip-arrow {
       border-width: 5px 5px 0 5px;
@@ -613,7 +623,7 @@ body {
       margin-bottom: 0;
     }
   }
-  &[x-placement^="bottom"] {
+  &[x-placement^='bottom'] {
     margin-top: 5px;
     .tooltip-arrow {
       border-width: 0 5px 5px 5px;
@@ -626,7 +636,7 @@ body {
       margin-bottom: 0;
     }
   }
-  &[x-placement^="right"] {
+  &[x-placement^='right'] {
     margin-left: 5px;
     .tooltip-arrow {
       border-width: 5px 5px 5px 0;
@@ -639,7 +649,7 @@ body {
       margin-right: 0;
     }
   }
-  &[x-placement^="left"] {
+  &[x-placement^='left'] {
     margin-right: 5px;
     .tooltip-arrow {
       border-width: 5px 0 5px 5px;
@@ -655,15 +665,15 @@ body {
   &[aria-hidden='true'] {
     visibility: hidden;
     opacity: 0;
-    transition: opacity .15s, visibility .15s;
+    transition: opacity 0.15s, visibility 0.15s;
   }
   &[aria-hidden='false'] {
     visibility: visible;
     opacity: 1;
-    transition: opacity .15s;
+    transition: opacity 0.15s;
   }
   &.info {
-    $color: rgba(#004499, .9);
+    $color: rgba(#004499, 0.9);
     .tooltip-inner {
       background: $color;
       color: white;
@@ -697,7 +707,7 @@ input:focus {
 .searchbar-input {
   background-color: #121212;
   border: 1px solid $accent;
-  color:$accent;
+  color: $accent;
   &::placeholder {
     color: $accent;
     font-weight: bold;
@@ -714,7 +724,7 @@ input:focus {
   background-color: #121212;
   border: none;
   font-weight: bold;
-  color:$accent;
+  color: $accent;
   &::placeholder {
     color: $accent;
     font-weight: bold;
@@ -742,12 +752,13 @@ input:focus {
 }
 
 .slide-fade-enter-active {
-  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }

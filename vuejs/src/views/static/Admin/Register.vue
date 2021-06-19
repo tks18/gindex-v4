@@ -272,7 +272,9 @@
               <span class="icon is-small is-right">
                 <i class="fas fa-check"></i>
               </span>
-              <p class="help is-warning">Name of Recipient(Auto Filled)</p>
+              <p class="help has-text-netflix-only">
+                Name of Recipient(Auto Filled)
+              </p>
             </div>
           </div>
           <div class="field">
@@ -292,13 +294,15 @@
               <span class="icon is-small is-right">
                 <i class="fas fa-check"></i>
               </span>
-              <p class="help is-warning">Email of Recipient(Auto Filled)</p>
+              <p class="help has-text-netflix-only">
+                Email of Recipient(Auto Filled)
+              </p>
             </div>
           </div>
           <div class="field">
             <div class="control">
               <textarea
-                class="textarea is-success is-rounded"
+                class="textarea is-rounded"
                 disabled
                 placeholder="Message From Recipient"
                 id="message"
@@ -306,15 +310,17 @@
                 v-model="message"
                 required
               ></textarea>
-              <p class="help is-warning">Message From Recipient(Auto Filled)</p>
+              <p class="help has-text-netflix-only">
+                Message From Recipient(Auto Filled)
+              </p>
             </div>
           </div>
           <label class="subtitle has-text-white">
             User's Role(Auto Filled)</label
           >
-          <div class="control mb-3">
+          <div class="control mb-3 my-1">
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="userradio"
               type="radio"
               name="role"
@@ -323,9 +329,9 @@
               disabled
               v-model="role"
             />
-            <label for="userradio">User</label>
+            <label for="userradio" class="mx-1">User</label>
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="adminradio"
               type="radio"
               name="role"
@@ -333,9 +339,9 @@
               disabled
               v-model="role"
             />
-            <label for="adminradio"> Admin</label>
+            <label for="adminradio" class="mx-1"> Admin</label>
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="superadminradio"
               type="radio"
               name="role"
@@ -343,9 +349,9 @@
               disabled
               v-model="role"
             />
-            <label for="superadminradio">Superadmin</label>
+            <label for="superadminradio" class="mx-1">Superadmin</label>
           </div>
-          <p v-if="admin && !superadmin" class="help is-warning">
+          <p v-if="admin && !superadmin" class="help has-text-netflix-only">
             Only Superadmin can Accept Admin & Superadmin users
           </p>
           <div>

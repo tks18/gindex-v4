@@ -73,7 +73,7 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
-                class="input is-rounded is-focused"
+                class="input is-rounded"
                 placeholder="Email"
                 id="email"
                 type="email"
@@ -89,9 +89,9 @@
             </p>
           </div>
           <label class="subtitle has-text-white"> Invite for Role</label>
-          <div class="control mb-3">
+          <div class="control mb-3 my-1">
             <input
-              class="is-checkradio is-small is-success"
+              class="is-checkradio is-small is-success mx-1"
               id="userradio"
               type="radio"
               name="role"
@@ -102,11 +102,11 @@
             />
             <label
               for="userradio"
-              class="subtitle has-text-weight-bold has-text-white"
+              class="subtitle has-text-weight-bold has-text-white mx-1"
               >User</label
             >
             <input
-              class="is-checkradio is-small is-success"
+              class="is-checkradio is-small is-success mx-1"
               id="adminradio"
               type="radio"
               name="role"
@@ -116,12 +116,12 @@
             />
             <label
               for="adminradio"
-              class="subtitle has-text-weight-bold has-text-white"
+              class="subtitle has-text-weight-bold has-text-white mx-1"
             >
               Admin</label
             >
             <input
-              class="is-checkradio is-small is-success"
+              class="is-checkradio is-small is-success mx-1"
               id="superadminradio"
               type="radio"
               name="role"
@@ -131,15 +131,15 @@
             />
             <label
               for="superadminradio"
-              class="subtitle has-text-weight-bold has-text-white"
+              class="subtitle has-text-weight-bold has-text-white mx-1"
               >Superadmin</label
             >
           </div>
           <div class="field">
             <div class="control">
               <textarea
-                class="textarea is-success is-rounded"
-                placeholder="Message to Him"
+                class="textarea is-rounded"
+                placeholder="Message to that Person"
                 id="message"
                 rows="3"
                 v-model="message"

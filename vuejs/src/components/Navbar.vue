@@ -276,7 +276,7 @@ export default {
         path: '/' + item.index + ':home/',
       });
       this.getallPosts(item.index);
-      this.$emit('td', 'TD Changed');
+      this.$bus.$emit('td', 'TD Changed');
     },
     query() {
       if (this.param) {
@@ -346,6 +346,7 @@ export default {
         removeItem('sessiondata');
         this.loginorout();
         this.changeNavbarStyle();
+        this.$bus.$emit('logout', 'Log Out Success');
         this.$router.push({
           name: 'results',
           params: {
@@ -373,7 +374,7 @@ export default {
     closeMusicPlayer() {
       if (this.$audio.player() == undefined) return;
       this.$audio.destroy();
-      this.$emit('music-toggled', 'Music Toggled');
+      this.$bus.$emit('music-toggled', 'Music Toggled');
     },
   },
   computed: {
@@ -396,12 +397,12 @@ export default {
   },
   mounted() {
     this.netflix_black = window.themeOptions.prefer_netflix_black;
-    this.$on('logged', (event) => {
+    this.$bus.$on('logged', (event) => {
       console.log(event);
       this.loginorout();
       this.changeNavbarStyle();
     });
-    this.$on('music-toggled', () => {
+    this.$bus.$on('music-toggled', () => {
       if (this.$audio.player() == undefined) {
         this.miniplayer = false;
       } else if (this.$audio.player() != undefined) {

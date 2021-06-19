@@ -106,9 +106,9 @@ import { initializeUser, getgds, icon } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
 import notify from '@/components/notification';
 import { apiRoutes, backendHeaders } from '@utils/backendUtils';
-import BreadCrumb from '../common/BreadCrumb';
-import ListView from './components/list';
-import Markdown from '../common/Markdown';
+import BreadCrumb from '@/components/BreadCrumb';
+import ListView from '@/components/list';
+import Markdown from '@/components/Markdown';
 import InfiniteLoading from 'vue-infinite-loading';
 export default {
   name: 'GoList',

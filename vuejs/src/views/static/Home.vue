@@ -457,7 +457,7 @@ export default {
               response.data.status == 'User Present & Verified'
             ) {
               this.loading = false;
-              this.$emit('verified', 'User Verified');
+              this.$bus.$emit('verified', 'User Verified');
               this.$router.push({
                 name: 'login',
                 params: { cmd: 'login', id: 0, email: this.email },
@@ -468,7 +468,7 @@ export default {
               response.data.status == 'User Present & Not Verified'
             ) {
               this.loading = false;
-              this.$emit('verified', 'User Verified');
+              this.$bus.$emit('verified', 'User Verified');
               this.$router.push({
                 name: 'otp',
                 params: { cmd: 'register', id: 0, email: this.email },
@@ -479,7 +479,7 @@ export default {
               response.data.status == 'User Not Present'
             ) {
               this.loading = false;
-              this.$emit('verified', 'User Verified');
+              this.$bus.$emit('verified', 'User Verified');
               this.$router.push({
                 name: 'request',
                 params: { cmd: 'register', id: 0, email: this.email },
@@ -490,7 +490,7 @@ export default {
               response.data.status == 'Pending Confirmation from Admins.'
             ) {
               this.loading = false;
-              this.$emit('verified', 'User Verified');
+              this.$bus.$emit('verified', 'User Verified');
               this.$router.push({
                 name: 'results',
                 params: {
@@ -508,7 +508,7 @@ export default {
               response.data.status == 'Spammed User'
             ) {
               this.loading = false;
-              this.$emit('verified', 'User Verified');
+              this.$bus.$emit('verified', 'User Verified');
               this.$router.push({
                 name: 'results',
                 params: {
@@ -522,7 +522,7 @@ export default {
               });
             } else {
               this.loading = false;
-              this.$emit('verified', 'User Verified');
+              this.$bus.$emit('verified', 'User Verified');
               this.$router.push({
                 name: 'results',
                 params: {
@@ -538,7 +538,7 @@ export default {
           })
           .catch((error) => {
             this.loading = false;
-            this.$emit('verified', 'User Verified');
+            this.$bus.$emit('verified', 'User Verified');
             console.log(error);
             this.$router.push({
               name: 'login',

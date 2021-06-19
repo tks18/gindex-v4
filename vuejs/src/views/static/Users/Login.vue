@@ -190,7 +190,7 @@
             </p>
           </div>
           <p
-            class="help subtitle has-text-weight-bold forgot-pass has-text-right is-success"
+            class="help subtitle has-text-weight-bold forgot-pass has-text-right has-text-netflix"
             style="cursor: pointer"
             @click="modal = true"
           >
@@ -314,7 +314,7 @@ export default {
                 }. Your token will expire at ${this.$moment(
                   tokenData.expirydate,
                 ).format('dddd, MMMM Do YYYY [at] hh:mm A')}.`;
-                this.$parent.$emit('logged', 'User Logged');
+                this.$parent.$bus.$emit('logged', 'User Logged');
                 this.$notify({
                   title: 'Success',
                   message: 'Successfully Logged in',

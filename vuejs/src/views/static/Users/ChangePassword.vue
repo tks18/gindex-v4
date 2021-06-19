@@ -173,7 +173,7 @@ export default {
               removeItem('userdata');
               this.loading = false;
               this.metatitle = 'Success...';
-              this.$emit('logout', 'User Logged Out');
+              this.$bus.$emit('logout', 'User Logged Out');
               this.$router.push({
                 name: 'results',
                 params: {
