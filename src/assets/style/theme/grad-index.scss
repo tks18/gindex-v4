@@ -78,8 +78,6 @@ html {
   .container {
     max-width: 95%;
   }
-  .navbar-item:hover {
-  }
   .navbar-brand > .title {
     color: $accent;
   }
@@ -555,13 +553,14 @@ body {
   .cat-link {
     display: inline-block;
     width: 250px;
-    box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.3);
     height: 175px;
     padding: 14px;
     margin: 5px;
   }
   .cat-link:hover {
-    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2), 0 6px 20px 0 rgba(229, 9, 20, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(229, 9, 20, 0.2),
+      0 6px 20px 0 rgba(229, 9, 20, 0.19);
   }
   .cat-link-text {
     opacity: 1;

@@ -14,9 +14,9 @@
       class="columns has-text-centered is-multiline is-centered is-vcentered"
     >
       <div class="column is-two-thirds">
-        <div class="control mb-3">
+        <div class="control mb-3 my-1">
           <input
-            class="is-checkradio is-small is-success"
+            class="is-checkradio is-small is-success mx-1"
             id="addradio"
             type="radio"
             name="type"
@@ -25,11 +25,11 @@
           />
           <label
             for="addradio"
-            class="subtitle has-text-weight-bold has-text-white"
+            class="subtitle has-text-weight-bold has-text-white mx-1"
             >Add</label
           >
           <input
-            class="is-checkradio is-small is-success"
+            class="is-checkradio is-small is-success mx-1"
             id="removeradio"
             type="radio"
             name="type"
@@ -38,7 +38,7 @@
           />
           <label
             for="removeradio"
-            class="subtitle has-text-weight-bold has-text-white"
+            class="subtitle has-text-weight-bold has-text-white mx-1"
             >Remove</label
           >
         </div>
@@ -87,9 +87,9 @@
           <label class="subtitle has-text-white"
             >Select User's Role First</label
           >
-          <div class="control mb-3">
+          <div class="control mb-3 my-1">
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="useraddradio"
               type="radio"
               name="addrole"
@@ -98,9 +98,9 @@
               :disabled="roledisabled"
               v-model="addrole"
             />
-            <label for="useraddradio" class="has-text-white">User</label>
+            <label for="useraddradio" class="has-text-white mx-1">User</label>
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="adminaddradio"
               type="radio"
               name="addrole"
@@ -108,9 +108,11 @@
               :disabled="roledisabled"
               v-model="addrole"
             />
-            <label for="adminaddradio" class="has-text-white"> Admin</label>
+            <label for="adminaddradio" class="has-text-white mx-1">
+              Admin</label
+            >
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="superadminaddradio"
               type="radio"
               name="addrole"
@@ -118,7 +120,7 @@
               :disabled="roledisabled"
               v-model="addrole"
             />
-            <label for="superadminaddradio" class="has-text-white"
+            <label for="superadminaddradio" class="has-text-white mx-1"
               >Superadmin</label
             >
           </div>
@@ -170,9 +172,9 @@
           <label class="subtitle has-text-white"
             >Select User's Role First</label
           >
-          <div class="control mb-3">
+          <div class="control mb-3 my-1">
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="userremradio"
               type="radio"
               name="addrole"
@@ -181,9 +183,9 @@
               :disabled="roledisabled"
               v-model="removerole"
             />
-            <label for="userremradio" class="has-text-white">User</label>
+            <label for="userremradio" class="has-text-white mx-1">User</label>
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="adminremradio"
               type="radio"
               name="addrole"
@@ -191,9 +193,11 @@
               :disabled="roledisabled"
               v-model="removerole"
             />
-            <label for="adminremradio" class="has-text-white"> Admin</label>
+            <label for="adminremradio" class="has-text-white mx-1">
+              Admin</label
+            >
             <input
-              class="is-checkradio is-small is-warning"
+              class="is-checkradio is-small is-warning mx-1"
               id="superadminremradio"
               type="radio"
               name="addrole"
@@ -201,7 +205,7 @@
               :disabled="roledisabled"
               v-model="removerole"
             />
-            <label for="superadminremradio" class="has-text-white"
+            <label for="superadminremradio" class="has-text-white mx-1"
               >Superadmin</label
             >
           </div>

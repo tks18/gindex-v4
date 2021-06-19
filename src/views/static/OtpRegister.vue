@@ -8,54 +8,6 @@
       ></loading>
     </div>
     <div class="columns is-vcentered is-centered is-multiline">
-      <div class="column is-half">
-        <section class="hero is-black is-medium">
-          <div class="hero-body">
-            <div class="container">
-              <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                  <article
-                    class="tile has-text-centered is-child notification is-success"
-                  >
-                    <p class="title has-text-dark">
-                      <span class="icon">
-                        <i class="fab fa-superpowers"></i>
-                      </span>
-                      <span> Final Steps... </span>
-                    </p>
-                    <p class="subtitle">Email Verification</p>
-                    <div class="content">
-                      <p class="has-text-dark has-text-weight-semibold">
-                        After Receiving Confirmation Mail, You Have to Verify
-                        your Account with OTP.
-                      </p>
-                      <p class="has-text-dark">
-                        Please Enter your OTP to Verify and Register your
-                        Account.
-                      </p>
-                      <p class="has-text-dark">
-                        After Successfully Verifying. Press the Below button to
-                        Login.
-                      </p>
-                    </div>
-                  </article>
-                </div>
-              </div>
-              <div class="buttons is-centered">
-                <button
-                  class="is-rounded is-medium is-netflix-red"
-                  @click="gotoPage('/', 'login')"
-                >
-                  <span class="icon is-medium">
-                    <i class="fas fa-shipping-fast"></i>
-                  </span>
-                  <span>Login</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
       <div
         class="column is centered has-text-centered has-text-white is-two-fifths"
       >

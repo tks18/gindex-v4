@@ -13,16 +13,11 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 export default {
   data() {
     return {};
   },
-  computed: {
-    ...mapState('acrou/view', ['mode']),
-  },
   methods: {
-    ...mapActions('acrou/view', ['toggle']),
     toggleMode() {
       this.toggle(this.mode === 'list' ? 'grid' : 'list');
     },
