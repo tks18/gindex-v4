@@ -21,7 +21,7 @@
           <div class="column is-full">
             <div class="box has-background-light">
               <h2 class="title has-text-centered has-text-weight-bold">
-                Related to New Users
+                Relating to New Users
               </h2>
               <div
                 class="columns is-vcentered is-centered is-multiline is-mobile"
@@ -63,7 +63,7 @@
         <div class="box has-background-light">
           <div class="columns is-centered is-multiline is-mobile">
             <h2 class="title has-text-centered has-text-weight-bold">
-              Related to Existing Users
+              Relating to Existing Users
             </h2>
             <div class="column is-two-thirds">
               <p class="subtitle has-text-weight-bold">Manage Existing Users</p>

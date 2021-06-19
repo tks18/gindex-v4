@@ -201,7 +201,6 @@ import 'aplayer/dist/APlayer.min.css';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import aplayer from 'aplayer';
 import { initializeUser, getgds } from '@utils/localUtils';
-import { mapState } from 'vuex';
 import Loading from 'vue-loading-overlay';
 export default {
   metaInfo() {
@@ -531,7 +530,6 @@ export default {
       }
       return '';
     },
-    ...mapState('acrou/view', ['mode']),
     players() {
       return [
         {

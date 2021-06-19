@@ -1,0 +1,34 @@
+{
+  "folders": [
+    {
+      "name": "Root",
+      "path": "../"
+    },
+    {
+      "name": "Front-end",
+      "path": "../vuejs"
+    },
+    {
+      "name": "Back-end",
+      "path": "../backend"
+    },
+    {
+      "name": "CLI Tool",
+      "path": "../cli-tool"
+    },
+    {
+      "name": "Worker",
+      "path": "../worker"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "node_modules/": true,
+      "packages/": true,
+      "vuejs/": true,
+      "backend/": true,
+      "cli-tool/": true,
+      "worker/": true
+    }
+  }
+}
