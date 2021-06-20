@@ -49,6 +49,7 @@ export default {
     this.assignUserInfo();
   },
   mounted() {
+    console.log(this.$currentTheme);
     this.netflix_black = window.themeOptions.prefer_netflix_black;
   },
   methods: {
