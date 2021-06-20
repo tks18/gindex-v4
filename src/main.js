@@ -4,6 +4,7 @@ import { Loading } from 'element-ui';
 import 'element-ui/lib/theme-chalk/icon.css';
 import 'element-ui/lib/theme-chalk/notification.css';
 import 'element-ui/lib/theme-chalk/loading.css';
+import notification from '@/components/notification';
 import axios from '@/plugin/axios';
 import rawAxios from 'axios';
 import VueAxios from 'vue-axios';
@@ -15,21 +16,18 @@ import VTooltip from 'v-tooltip';
 import Viewer from 'v-viewer';
 import { createPlayer, globalPlayer, destroyPlayer } from './plugin/aplayer';
 import cdnpath from './libs/util.cdn';
-import '@/components';
 import Meta from 'vue-meta';
 import VuePlyr from 'vue-plyr';
-import themeManager from './themeManager';
-import currTheme from './theme-hexes';
+import loadTheme from './themeManager';
 import 'viewerjs/dist/viewer.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
 
-themeManager();
-
 Vue.config.productionTip = false;
+Vue.prototype.$currentTheme = loadTheme();
 Vue.prototype.$cdnpath = cdnpath;
 Vue.prototype.$backend = rawAxios;
+Vue.prototype.$notify = notification;
 Vue.prototype.$bus = new Vue({});
-Vue.prototype.$currentTheme = currTheme();
 Vue.prototype.$audio = {
   createPlayer: createPlayer,
   player: globalPlayer,

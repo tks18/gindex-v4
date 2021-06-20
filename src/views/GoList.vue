@@ -62,11 +62,11 @@
       class="is-divider"
       :data-content="'Total' + ' ' + files.length + ' ' + 'Item'"
     ></div>
-    <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
-    <readmemd
+    <Markdown :option="headmd" v-if="renderHeadMD && headmd.display"></Markdown>
+    <Markdown
       :option="readmemd"
       v-if="renderReadMeMD && readmemd.display"
-    ></readmemd>
+    ></Markdown>
     <viewer
       v-if="viewer && images && images.length > 0"
       :images="images"
@@ -115,8 +115,7 @@ export default {
   components: {
     BreadCrumb,
     ListView,
-    Headmd: Markdown,
-    Readmemd: Markdown,
+    Markdown,
     InfiniteLoading,
     Loading,
   },

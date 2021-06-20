@@ -2136,13 +2136,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"animate.css@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "animate.css@npm:4.1.0"
-  checksum: 96d8192e1c1c33707bfb8fdd74246adb491d3ab849d2b0a3435f0b9fcf4adb8e14b07013595b38e0d02c8ab276032e3b4f31609c7a8385a45b1a3f9474140cbb
-  languageName: node
-  linkType: hard
-
 "ansi-colors@npm:^3.0.0":
   version: 3.2.4
   resolution: "ansi-colors@npm:3.2.4"
@@ -5946,7 +5939,6 @@ fsevents@~2.1.2:
     "@vue/cli-plugin-babel": ~4.4.5
     "@vue/cli-plugin-eslint": ~4.4.5
     "@vue/cli-service": ~4.4.5
-    animate.css: ^4.1.0
     aplayer: ^1.10.1
     axios: ^0.19.2
     babel-eslint: ^10.1.0
