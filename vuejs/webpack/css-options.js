@@ -20,7 +20,7 @@ const localBuild = process.env.VUE_APP_LOCAL;
 
 const correctedCdn = localBuild
   ? '/'
-  : cdn.replace('@master', '@' + buildVersion).replace('THEME', buildTheme) ||
+  : cdn.replace('@master', `@${buildVersion}`).replace('THEME', buildTheme) ||
     '/';
 process.env.VUE_APP_CDN_PATH = correctedCdn;
 

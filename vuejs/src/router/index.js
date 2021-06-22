@@ -36,12 +36,11 @@ const router = new VueRouter({
   scrollBehavior(to, from, savePosition) {
     if (savePosition) {
       return savePosition;
-    } else {
-      return {
-        x: 0,
-        y: 0,
-      };
     }
+    return {
+      x: 0,
+      y: 0,
+    };
   },
   routes,
 });
@@ -67,7 +66,7 @@ router.beforeEach((to, from, next) => {
       const tokenData = JSON.parse(decodeSecret(token));
       const userData = JSON.parse(decodeSecret(user));
       const sessionData = JSON.parse(decodeSecret(session));
-      if (sessionStore != undefined && sessionStore != null) {
+      if (sessionStore !== undefined && sessionStore !== null) {
         if (to.matched.some((record) => record.meta.admin)) {
           if (userData.admin) {
             next({ params: { userinfo: userData, tokeninfo: tokenData } });
@@ -196,7 +195,6 @@ router.beforeEach((to, from, next) => {
             }
           })
           .catch((e) => {
-            console.log(e);
             next({
               name: 'results',
               params: {

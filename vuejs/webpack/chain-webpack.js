@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 const BuildAppJSPlugin = require('./custom-plugins/buildAppJSPlugin');
 const cdnDependencies = require('./custom-plugins/dependencies-cdn');
 

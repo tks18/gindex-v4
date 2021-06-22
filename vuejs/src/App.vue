@@ -13,13 +13,14 @@ import { initializeUser } from '@utils/localUtils';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { removeItem } from '@utils/encryptUtils';
+
 export default {
   name: 'App',
   components: {
     Navbar,
-    Footer: Footer,
+    Footer,
   },
-  data: function () {
+  data() {
     return {
       github: 'https://github.com/tks18/gindex-v4',
       netflix_black: false,
@@ -27,6 +28,15 @@ export default {
       logged: false,
       admin: false,
     };
+  },
+  watch: {
+    $route() {
+      if (this.$route.name === 'home' && !this.logged) {
+        this.showInfo = false;
+      } else {
+        this.showInfo = true;
+      }
+    },
   },
   created() {
     this.$bus.$on('logged', () => {
@@ -49,12 +59,11 @@ export default {
     this.assignUserInfo();
   },
   mounted() {
-    console.log(this.$currentTheme);
     this.netflix_black = window.themeOptions.prefer_netflix_black;
   },
   methods: {
     assignUserInfo() {
-      var userData = initializeUser();
+      const userData = initializeUser();
       if (userData.isThere) {
         this.logged = userData.data.logged;
         this.admin = userData.data.admin;
@@ -63,7 +72,7 @@ export default {
       }
     },
     changeFooter() {
-      if (this.$route.name == 'home' && !this.logged) {
+      if (this.$route.name === 'home' && !this.logged) {
         this.showInfo = false;
       } else {
         this.showInfo = true;
@@ -71,18 +80,18 @@ export default {
     },
     checkVersion() {
       if (this.admin) {
-        let appVersion = window.version;
+        const appVersion = window.version;
         try {
           this.$backend
             .get('https://api.github.com/repos/tks18/gindex-v4/releases')
             .then((response) => {
               if (response.data) {
-                let latestVersion = response.data.filter((releases) => {
+                const latestVersion = response.data.filter((releases) => {
                   const frontendRegex = /^(frontend).+/;
                   return frontendRegex.test(releases.tag_name);
                 });
                 if (latestVersion.length > 0) {
-                  if (appVersion != latestVersion[0].tag_name) {
+                  if (appVersion !== latestVersion[0].tag_name) {
                     this.$notify({
                       title: 'Update Available',
                       dangerouslyUseHTMLString: true,
@@ -95,7 +104,13 @@ export default {
               }
             });
         } catch {
-          console.error;
+          this.$notify({
+            title: 'Failed',
+            dangerouslyUseHTMLString: true,
+            message: `Update Cheking Failed`,
+            duration: 0,
+            type: 'error',
+          });
         }
       }
     },
@@ -104,15 +119,6 @@ export default {
         removeItem('sessionStore');
         removeItem('prev');
       });
-    },
-  },
-  watch: {
-    $route: function () {
-      if (this.$route.name == 'home' && !this.logged) {
-        this.showInfo = false;
-      } else {
-        this.showInfo = true;
-      }
     },
   },
 };

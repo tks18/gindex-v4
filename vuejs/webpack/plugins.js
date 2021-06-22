@@ -6,7 +6,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const prodPlugins = [
   new CompressionWebpackPlugin({
-    filename: '[path][base].br',
+    filename: '[path].br',
     algorithm: 'brotliCompress',
     compressionOptions: {
       params: {

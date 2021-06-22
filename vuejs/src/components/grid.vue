@@ -2,9 +2,9 @@
   <div class="g2-grid-view">
     <div class="columns is-multiline is-mobile mx-1">
       <div
-        :class="ismobile ? 'column is-half' : 'column is-2'"
         v-for="(file, index) in folders"
         :key="'folder_' + index"
+        :class="ismobile ? 'column is-half' : 'column is-2'"
         @click="action(file)"
       >
         <div class="card g2-grid-view-card">
@@ -21,18 +21,16 @@
     </div>
     <div class="columns is-multiline is-mobile mx-1">
       <div
-        :class="ismobile ? 'column is-half' : 'column is-2'"
         v-for="(file, index) in files"
         :key="'file_' + index"
+        :class="ismobile ? 'column is-half' : 'column is-2'"
         @click="action(file, 'view')"
       >
         <div class="card g2-grid-view-card">
           <div
             :class="
               'card-image' +
-                (file.mimeType.indexOf('video') != -1
-                  ? ' g2-grid-view-play'
-                  : '')
+              (file.mimeType.indexOf('video') != -1 ? ' g2-grid-view-play' : '')
             "
           >
             <i></i>
@@ -63,7 +61,7 @@
 
 <script>
 export default {
-  name: "GridView",
+  name: 'GridView',
   props: {
     data: {
       type: Array,
@@ -71,31 +69,33 @@ export default {
     },
     getIcon: {
       type: Function,
+      default: () => [],
     },
     action: {
       type: Function,
+      default: () => [],
     },
     thum: {
       type: Function,
+      default: () => [],
     },
   },
-  data: function () {
+  data() {
     return {};
   },
   computed: {
-    folders () {
+    folders() {
       return this.data.filter((item) => item.isFolder);
     },
-    files () {
+    files() {
       return this.data.filter((item) => !item.isFolder);
     },
     ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if(width > 966){
-        return false
-      } else {
-        return true
+      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
       }
+      return true;
     },
   },
   methods: {},
@@ -156,7 +156,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    content: "";
+    content: '';
     background: rgba(0, 0, 0, 0.15);
     opacity: 1;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000, endColorstr=#33000000);
@@ -175,7 +175,7 @@ export default {
     text-align: center;
     height: 0;
     color: hsla(0, 0%, 100%, 0.67);
-    content: "\e6f6";
+    content: '\e6f6';
     font-size: 3rem;
     font-family: iconfont !important;
     line-height: 0;
@@ -186,4 +186,5 @@ export default {
   height: 1.5em;
   vertical-align: middle;
 }
-</style>``
+</style>
+``

@@ -39,6 +39,11 @@
     "operator-linebreak": "off",
     "comma-dangle": "off",
     "quotes": "off",
+    "no-restricted-syntax": "off",
+    "vue/html-self-closing": "off",
+    "no-restricted-globals": "off",
+    "import/no-dynamic-require": "off",
+    "guard-for-in": "off",
     "no-await-in-loop": "off",
     "import/no-unresolved": "off",
     "no-plusplus": "off"
