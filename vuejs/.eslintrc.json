@@ -43,6 +43,7 @@
     "vue/html-self-closing": "off",
     "no-restricted-globals": "off",
     "import/no-dynamic-require": "off",
+    "newline-per-chained-call": "off",
     "guard-for-in": "off",
     "no-await-in-loop": "off",
     "import/no-unresolved": "off",

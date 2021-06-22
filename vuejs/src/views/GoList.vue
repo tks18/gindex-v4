@@ -7,7 +7,7 @@
         :is-full-page="fullpage"
       ></loading>
     </div>
-    <div class="golist" v-loading="loading">
+    <div v-loading="loading" class="golist">
       <div class="has-text-right my-2 py-2">
         <div class="my-1">
           <span
@@ -19,16 +19,16 @@
                 type: 'info',
               })
             "
-            >Not Finding Your Movie ?</span
-          >
+            >Not Finding Your Movie ?
+          </span>
         </div>
       </div>
       <bread-crumb ref="breadcrumb"></bread-crumb>
       <list-view
         :data="files"
-        :originalData="files"
+        :original-data="files"
         :icons="getIcon"
-        :sortIt="sortIt"
+        :sort-it="sortIt"
         :action="action"
       />
       <!-- <grid-view
@@ -62,21 +62,22 @@
       class="is-divider"
       :data-content="'Total' + ' ' + files.length + ' ' + 'Item'"
     ></div>
-    <Markdown :option="headmd" v-if="renderHeadMD && headmd.display"></Markdown>
+    <Markdown v-if="renderHeadMD && headmd.display" :option="headmd"></Markdown>
     <Markdown
-      :option="readmemd"
       v-if="renderReadMeMD && readmemd.display"
+      :option="readmemd"
     ></Markdown>
     <viewer
       v-if="viewer && images && images.length > 0"
+      ref="viewer"
       :images="images"
       class="is-hidden"
-      ref="viewer"
       :options="{ toolbar: true, url: 'data-source' }"
       @inited="inited"
     >
       <img
         v-for="image in images"
+        :key="image.path"
         :src="thum(image.thumbnailLink)"
         :data-source="
           image.path +
@@ -86,7 +87,6 @@
           '&token=' +
           token.token
         "
-        :key="image.path"
         :alt="image.name"
         class="image"
       />
@@ -110,6 +110,7 @@ import BreadCrumb from '@/components/BreadCrumb';
 import ListView from '@/components/list';
 import Markdown from '@/components/Markdown';
 import InfiniteLoading from 'vue-infinite-loading';
+
 export default {
   name: 'GoList',
   components: {
@@ -127,13 +128,12 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
-  data: function () {
+  data() {
     return {
       metatitle: '',
       infiniteId: +new Date(),
@@ -167,6 +167,40 @@ export default {
       readmemd: { display: false, file: {}, path: '' },
     };
   },
+  computed: {
+    images() {
+      return this.files.filter((file) => file.mimeType.indexOf('image') !== -1);
+    },
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+    renderHeadMD() {
+      return window.themeOptions.render.head_md || false;
+    },
+    renderReadMeMD() {
+      return window.themeOptions.render.readme_md || false;
+    },
+  },
+  watch: {
+    screenWidth() {
+      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
+      }
+    },
+    windowWidth() {
+      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
+      }
+    },
+  },
   mounted() {
     this.metatitle = 'Getting Files...';
     this.checkMobile();
@@ -186,47 +220,29 @@ export default {
       this.headLink = '';
     }
   },
-  computed: {
-    images() {
-      return this.files.filter((file) => file.mimeType.indexOf('image') != -1);
-    },
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-    renderHeadMD() {
-      return window.themeOptions.render.head_md || false;
-    },
-    renderReadMeMD() {
-      return window.themeOptions.render.readme_md || false;
-    },
-  },
   created() {
     this.initializeUser();
     this.render();
-    let gddata = getgds(this.$route.params.id);
+    const gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
   },
   methods: {
     infiniteHandler($state) {
-      // The first time you enter the page does not execute the scroll event
       if (!this.page.page_token) {
         return;
       }
       this.page.page_index++;
       this.render($state);
-      console.log($state);
     },
     render($state) {
       this.metatitle = 'Getting Files...';
       this.headmd = { display: false, file: '', path: '' };
       this.readmemd = { display: false, file: '', path: '' };
-      var path = this.$route.path;
-      var password = localStorage.getItem('password' + path);
-      let q = this.$route.query.q;
-      var p = {
+      const { path } = this.$route;
+      const password = localStorage.getItem(`password${path}`);
+      const { q } = this.$route.query;
+      const p = {
         q: q ? decodeURIComponent(q) : '',
         password: password || null,
         ...this.page,
@@ -234,14 +250,14 @@ export default {
       this.axios
         .post(path, p)
         .then((res) => {
-          var body = res.data;
+          const body = res.data;
           if (body) {
             // Determine the response status
-            if (body.error && body.error.code == '401') {
+            if (body.error && body.error.code === '401') {
               this.checkPassword(path);
               return;
             }
-            var data = body.data;
+            const { data } = body;
             if (!data) return;
             this.page = {
               page_token: body.nextPageToken,
@@ -265,57 +281,53 @@ export default {
         })
         .catch((e) => {
           this.loading = false;
-          console.log(e);
         });
     },
     buildFiles(files) {
-      let lastName = decodeURIComponent(
+      const lastName = decodeURIComponent(
         this.$route.fullPath.split('/').slice(0, -1).join('/').split('/').pop(),
       );
       this.metatitle =
-        lastName.slice(lastName.length - 1, lastName.length) == ':'
+        lastName.slice(lastName.length - 1, lastName.length) === ':'
           ? 'Root'
           : lastName;
-      var path = this.$route.path;
+      const { path } = this.$route;
       return !files
         ? []
         : sortBy(
             orderBy(
               files.map((item) => {
-                var p = path + checkoutPath(item.name, item);
-                let isFolder =
+                const p = path + checkoutPath(item.name, item);
+                const isFolder =
                   item.mimeType === 'application/vnd.google-apps.folder';
-                let size = isFolder ? '-' : formatFileSize(item.size);
+                const size = isFolder ? '-' : formatFileSize(item.size);
                 return {
                   path: p,
                   ...item,
                   modifiedTime: formatDate(item.modifiedTime),
-                  size: size,
+                  size,
                   absoluteSize: item.size,
-                  isFolder: isFolder,
+                  isFolder,
                 };
               }),
               ['file'],
               ['asc'],
             ),
-            [
-              function (q) {
-                return !q.isFolder;
-              },
-            ],
+            [(q) => !q.isFolder],
           );
     },
     checkPassword(path) {
-      var pass = prompt('Directory encryption, please enter password', '');
-      localStorage.setItem('password' + path, pass);
-      if (pass != null && pass != '') {
+      // eslint-disable-next-line no-alert
+      const pass = prompt('Directory encryption, please enter password', '');
+      localStorage.setItem(`password${path}`, pass);
+      if (pass != null && pass !== '') {
         this.render(path);
       } else {
         this.$router.go(-1);
       }
     },
     checkMobile() {
-      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if (width > 966) {
         this.ismobile = false;
       } else {
@@ -323,9 +335,9 @@ export default {
       }
     },
     async initializeUser() {
-      var userData = await initializeUser();
+      const userData = await initializeUser();
       if (userData.isThere) {
-        if (userData.type == 'normal') {
+        if (userData.type === 'normal') {
           this.user = userData.data.user;
           this.session = userData.data.session;
           this.token = userData.data.token;
@@ -341,7 +353,7 @@ export default {
       this.$viewer = viewer;
     },
     action(file, target) {
-      let cmd = this.$route.params.cmd;
+      const { cmd } = this.$route.params;
       if (file.mimeType === 'application/vnd.google-apps.shortcut') {
         this.$notify({
           title: 'notify.title',
@@ -357,7 +369,9 @@ export default {
       if (file.mimeType.startsWith('image/') && target === 'view') {
         this.viewer = true;
         this.$nextTick(() => {
-          let index = this.images.findIndex((item) => item.path === file.path);
+          const index = this.images.findIndex(
+            (item) => item.path === file.path,
+          );
           this.$viewer.view(index);
         });
         return;
@@ -365,15 +379,14 @@ export default {
       this.target(file, target);
     },
     target(file, target) {
-      let path = file.path;
+      const { path } = file;
       if (target === '_blank') {
-        if (file.mimeType == 'application/vnd.google-apps.folder') {
+        if (file.mimeType === 'application/vnd.google-apps.folder') {
           window.open(window.location.origin + path);
           return;
-        } else {
-          window.open(window.location.origin + checkView(path));
-          return;
         }
+        window.open(window.location.origin + checkView(path));
+        return;
       }
       if (target === 'down') {
         this.$notify({
@@ -397,28 +410,20 @@ export default {
               response.data.registered &&
               response.data.token
             ) {
-              let link =
-                window.location.origin +
-                encodeURI(path.replace(/^\/(\d+:)\//, '/$1down/')) +
-                '?player=download' +
-                '&email=' +
-                this.user.email +
-                '&token=' +
-                response.data.token +
-                '&sessionid=' +
-                this.session.sessionid;
+              const link =
+                `${
+                  window.location.origin +
+                  encodeURI(path.replace(/^\/(\d+:)\//, '/$1down/'))
+                }?player=download` +
+                `&email=${this.user.email}&token=${response.data.token}&sessionid=${this.session.sessionid}`;
               this.mainLoad = false;
               location.href = link;
-              return;
             } else {
               this.mainLoad = false;
-              return;
             }
           })
           .catch((e) => {
-            console.log(e);
             this.mainLoad = false;
-            return;
           });
       }
       if (target === 'copy') {
@@ -443,50 +448,37 @@ export default {
               response.data.registered &&
               response.data.token
             ) {
-              let link =
-                window.location.origin +
-                encodeURI(path) +
-                '?player=external' +
-                '&email=' +
-                this.user.email +
-                '&token=' +
-                response.data.token +
-                '&sessionid=' +
-                this.session.sessionid;
+              const link =
+                `${window.location.origin + encodeURI(path)}?player=external` +
+                `&email=${this.user.email}&token=${response.data.token}&sessionid=${this.session.sessionid}`;
               this.mainLoad = false;
               navigator.clipboard.writeText(link).then(
-                function () {
+                () => {
                   notify({
                     title: 'Copied !!',
                     message: 'Successfully Copied.',
                     type: 'success',
                   });
-                  return;
                 },
-                function (err) {
+                (err) => {
                   notify({
                     title: 'Failed',
-                    message: 'Failed to Copied - ' + err,
+                    message: `Failed to Copied - ${err}`,
                     type: 'error',
                   });
-                  return;
                 },
               );
-              return;
             } else {
               this.mainLoad = false;
-              return;
             }
           })
           .catch((e) => {
-            console.log(e);
             this.mainLoad = false;
-            return;
           });
       }
       if (file.mimeType === 'application/vnd.google-apps.folder') {
         this.$router.push({
-          path: path,
+          path,
         });
         return;
       }
@@ -494,11 +486,10 @@ export default {
         this.$router.push({
           path: checkView(path),
         });
-        return;
       }
     },
     renderMd() {
-      var cmd = this.$route.params.cmd;
+      const { cmd } = this.$route.params;
       if (cmd) {
         return;
       }
@@ -522,51 +513,29 @@ export default {
       this.sort[name] = !this.sort[name];
       this.files = sortBy(
         orderBy(this.files, [name], [this.sort[name] ? 'asc' : 'desc']),
-        [
-          function (q) {
-            return !q.isFolder;
-          },
-        ],
+        [(q) => !q.isFolder],
       );
     },
     goSearchResult(file, target) {
       this.loading = true;
-      let id = this.$route.params.id;
+      const { id } = this.$route.params;
       this.axios
         .post(`/${id}:id2path`, { id: file.id })
         .then((res) => {
           this.loading = false;
-          let data = res.data;
+          const { data } = res;
           if (data) {
+            // eslint-disable-next-line no-param-reassign
             file.path = `/${id}:${data}`;
             this.target(file, target);
           }
         })
         .catch((e) => {
           this.loading = false;
-          console.log(e);
         });
     },
     getIcon(type) {
-      return '#' + (icon[type] ? icon[type] : 'icon-weizhi');
-    },
-  },
-  watch: {
-    screenWidth: function () {
-      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
-      }
-    },
-    windowWidth: function () {
-      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
-      }
+      return `#${icon[type] ? icon[type] : 'icon-weizhi'}`;
     },
   },
 };
