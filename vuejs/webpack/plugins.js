@@ -1,24 +1,38 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const zlib = require('zlib');
 const JavaScriptObfuscator = require('webpack-obfuscator');
 
 const isProd = process.env.NODE_ENV === 'production';
 
 const prodPlugins = [
   new CompressionWebpackPlugin({
-    filename: '[path].gz[query]',
+    filename: '[path][base].br',
+    algorithm: 'brotliCompress',
+    compressionOptions: {
+      params: {
+        [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+      },
+    },
     test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
     threshold: 10240,
     minRatio: 0.8,
-    deleteOriginalAssets: false,
   }),
   new JavaScriptObfuscator(
     {
-      compact: true,
-      disableConsoleOutput: true,
+      compact: false,
       rotateStringArray: true,
+      stringArray: true,
       shuffleStringArray: true,
+      numbersToExpressions: true,
+      simplify: true,
+      splitStrings: true,
     },
-    ['app.js'],
+    [
+      'worker.js',
+      'js/chunk-vendors.*.js',
+      'js/chunk-vendors.*.js.br',
+      'js/chunk-vendors.*.js.map',
+    ],
   ),
 ];
 

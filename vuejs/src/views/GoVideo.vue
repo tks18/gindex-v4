@@ -2034,12 +2034,6 @@ export default {
         }
       }
     },
-    loadFlv(options) {
-      import('@/plugin/video-plugins/flv').then((res) => {
-        var Flv = res.default;
-        Flv(options);
-      });
-    },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : '';
     },
