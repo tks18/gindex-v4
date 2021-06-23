@@ -24,8 +24,8 @@
         <p>Error Proccessing</p>
         <button
           class="delete"
-          aria-label="delete"
           @click="errorMessage = false"
+          aria-label="delete"
         ></button>
       </div>
       <div class="message-body">
@@ -41,8 +41,8 @@
         <p>Success !</p>
         <button
           class="delete"
-          aria-label="delete"
           @click="successMessage = false"
+          aria-label="delete"
         ></button>
       </div>
       <div class="message-body">
@@ -60,10 +60,10 @@
               <div class="column is-one-third">
                 <div class="field">
                   <input
-                    id="request"
-                    v-model="request"
                     type="checkbox"
+                    id="request"
                     name="request"
+                    v-model="request"
                     class="switch is-danger"
                   />
                   <label for="request">
@@ -81,10 +81,10 @@
               <div class="column is-one-third">
                 <div class="field">
                   <input
-                    id="adminreqs"
-                    v-model="adminreqs"
                     type="checkbox"
+                    id="adminreqs"
                     name="adminreqs"
+                    v-model="adminreqs"
                     class="switch is-danger"
                   />
                   <label for="adminreqs">
@@ -102,10 +102,10 @@
               <div class="column is-one-third">
                 <div class="field">
                   <input
-                    id="tmdb"
-                    v-model="tmdb"
                     type="checkbox"
+                    id="tmdb"
                     name="tmdb"
+                    v-model="tmdb"
                     class="switch is-danger"
                   />
                   <label for="tmdb">
@@ -136,7 +136,6 @@ import { initializeUser, getgds } from '@utils/localUtils';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-
 export default {
   components: {
     Loading,
@@ -149,8 +148,9 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
@@ -180,56 +180,12 @@ export default {
       fullpage: true,
     };
   },
-  computed: {
-    ismobile() {
-      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      }
-      return true;
-    },
-    siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
-    },
-  },
-  watch: {
-    request: 'checkButtonDisability',
-    adminreqs: 'checkButtonDisability',
-    tmdb: 'checkButtonDisability',
-  },
-  beforeMount() {
-    this.loading = true;
-    const userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type === 'normal') {
-        this.user = userData.data.user;
-        this.token = userData.data.token;
-        this.logged = userData.data.logged;
-        this.loading = userData.data.loading;
-        this.admin = userData.data.admin;
-        this.superadmin = userData.data.superadmin;
-      }
-    } else {
-      this.logged = userData.data.logged;
-      this.loading = userData.data.loading;
-    }
-  },
-  mounted() {
-    this.getSiteSettings();
-  },
-  created() {
-    const gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
   methods: {
-    gotoPage(url, cmd) {
+    gotoPage: function (url, cmd) {
       if (cmd) {
-        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
+        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
       } else {
-        this.$router.push({ path: `/${this.currgd.id}:${url}` });
+        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
       }
     },
     getSiteSettings() {
@@ -300,6 +256,51 @@ export default {
           }
         });
     },
+  },
+  computed: {
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
+  },
+  beforeMount() {
+    this.loading = true;
+    var userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type == 'normal') {
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
+    } else {
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
+    }
+  },
+  mounted() {
+    this.getSiteSettings();
+  },
+  created() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
+  watch: {
+    request: 'checkButtonDisability',
+    adminreqs: 'checkButtonDisability',
+    tmdb: 'checkButtonDisability',
   },
 };
 </script>

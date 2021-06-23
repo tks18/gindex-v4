@@ -320,12 +320,12 @@ body {
   .pageloader {
     position: absolute;
     padding-top: 0;
-    background-color: hsla(0deg, 0%, 15%, 0.2);
+    background-color: hsla(0%, 0%, 15%, 0.2);
     will-change: initial;
     z-index: 1;
 
     .title {
-      color: hsl(0deg, 0%, 4%);
+      color: hsl(0, 0%, 4%);
     }
   }
 

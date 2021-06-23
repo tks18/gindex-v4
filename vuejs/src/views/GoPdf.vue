@@ -57,7 +57,6 @@ import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import { initializeUser, getgds } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
 import { decode64 } from '@utils/AcrouUtil';
-
 export default {
   metaInfo() {
     return {
@@ -67,15 +66,13 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
-  components: {
-    Loading,
-  },
-  data() {
+  data: function () {
     return {
       user: {},
       token: {},
@@ -94,6 +91,9 @@ export default {
       src: '',
     };
   },
+  components: {
+    Loading,
+  },
   computed: {
     url() {
       this.checkMobile();
@@ -103,35 +103,47 @@ export default {
       return '';
     },
     siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
     },
   },
-  watch: {
-    screenWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+  methods: {
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if (width > 966) {
         this.ismobile = false;
       } else {
         this.ismobile = true;
       }
     },
-    windowWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
-      }
+    getUrl() {
+      this.pdfname = decodeURIComponent(
+        this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+      );
+      this.src =
+        window.location.origin +
+        encodeURI(this.url) +
+        '?player=internal' +
+        '&email=' +
+        this.user.email +
+        '&token=' +
+        this.token.token +
+        '&sessionid=' +
+        this.session.sessionid;
+      this.metatitle = this.pdfname;
+    },
+    download() {
+      location.href = this.src;
+      return;
     },
   },
   async beforeMount() {
     this.checkMobile();
     this.mainload = true;
-    const userData = await initializeUser();
+    var userData = await initializeUser();
     if (userData.isThere) {
-      if (userData.type === 'normal') {
+      if (userData.type == 'normal') {
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.session = userData.data.session;
@@ -164,35 +176,32 @@ export default {
         }
       })
       .catch((e) => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = '';
       });
   },
   created() {
-    const gddata = getgds(this.$route.params.id);
+    let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
   },
-  methods: {
-    checkMobile() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+  watch: {
+    screenWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if (width > 966) {
         this.ismobile = false;
       } else {
         this.ismobile = true;
       }
     },
-    getUrl() {
-      this.pdfname = decodeURIComponent(
-        this.url.split('/').pop().split('.').slice(0, -1).join('.'),
-      );
-      this.src =
-        `${window.location.origin + encodeURI(this.url)}?player=internal` +
-        `&email=${this.user.email}&token=${this.token.token}&sessionid=${this.session.sessionid}`;
-      this.metatitle = this.pdfname;
-    },
-    download() {
-      location.href = this.src;
+    windowWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
+      }
     },
   },
 };

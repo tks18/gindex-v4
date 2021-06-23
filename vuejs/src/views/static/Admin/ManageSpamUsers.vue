@@ -16,33 +16,31 @@
       <div class="column is-two-thirds">
         <div class="control mb-3 my-1">
           <input
-            id="addradio"
-            v-model="type"
             class="is-checkradio is-small is-success mx-1"
+            id="addradio"
             type="radio"
             name="type"
             value="add"
+            v-model="type"
           />
           <label
             for="addradio"
             class="subtitle has-text-weight-bold has-text-white mx-1"
+            >Add</label
           >
-            Add
-          </label>
           <input
-            id="removeradio"
-            v-model="type"
             class="is-checkradio is-small is-success mx-1"
+            id="removeradio"
             type="radio"
             name="type"
             value="remove"
+            v-model="type"
           />
           <label
             for="removeradio"
             class="subtitle has-text-weight-bold has-text-white mx-1"
+            >Remove</label
           >
-            Remove
-          </label>
         </div>
         <article
           :class="
@@ -55,8 +53,8 @@
             <p>Error Logging in!!</p>
             <button
               class="delete"
-              aria-label="delete"
               @click="errormessageVisibility = false"
+              aria-label="delete"
             ></button>
           </div>
           <div class="message-body">
@@ -74,8 +72,8 @@
             <p>Success !</p>
             <button
               class="delete"
-              aria-label="delete"
               @click="successmessageVisibility = false"
+              aria-label="delete"
             ></button>
           </div>
           <div class="message-body">
@@ -86,57 +84,57 @@
       <div v-if="type == 'add'" class="column is-half">
         <p class="subtitle is-small has-text-white">Add Users to Spam List</p>
         <form @submit.prevent="handleAddSpam">
-          <label class="subtitle has-text-white">
-            Select User's Role First
-          </label>
+          <label class="subtitle has-text-white"
+            >Select User's Role First</label
+          >
           <div class="control mb-3 my-1">
             <input
-              id="useraddradio"
-              v-model="addrole"
               class="is-checkradio is-small is-warning mx-1"
+              id="useraddradio"
               type="radio"
               name="addrole"
               checked
               value="user"
               :disabled="roledisabled"
+              v-model="addrole"
             />
             <label for="useraddradio" class="has-text-white mx-1">User</label>
             <input
-              id="adminaddradio"
-              v-model="addrole"
               class="is-checkradio is-small is-warning mx-1"
+              id="adminaddradio"
               type="radio"
               name="addrole"
               value="admin"
               :disabled="roledisabled"
+              v-model="addrole"
             />
             <label for="adminaddradio" class="has-text-white mx-1">
-              Admin
-            </label>
+              Admin</label
+            >
             <input
-              id="superadminaddradio"
-              v-model="addrole"
               class="is-checkradio is-small is-warning mx-1"
+              id="superadminaddradio"
               type="radio"
               name="addrole"
               value="superadmin"
               :disabled="roledisabled"
+              v-model="addrole"
             />
-            <label for="superadminaddradio" class="has-text-white mx-1">
-              Superadmin
-            </label>
+            <label for="superadminaddradio" class="has-text-white mx-1"
+              >Superadmin</label
+            >
           </div>
           <div class="field">
             <label class="label has-text-white">Select the User</label>
             <div class="control">
               <div class="select is-fullwidth">
-                <select id="addemail" v-model="addUserEmail">
+                <select v-model="addUserEmail" id="addemail">
                   <option
-                    v-for="(addUser, index) in users"
-                    :key="index"
+                    v-for="(user, index) in users"
                     placeholder="Select the User"
+                    v-bind:key="index"
                   >
-                    {{ addUser.email }}
+                    {{ user.email }}
                   </option>
                 </select>
               </div>
@@ -145,11 +143,11 @@
           <div class="field">
             <div class="control">
               <textarea
-                id="message"
-                v-model="addmessage"
                 class="textarea is-success is-rounded"
                 placeholder="Reason for Adding Him"
+                id="message"
                 rows="3"
+                v-model="addmessage"
                 required
               ></textarea>
             </div>
@@ -171,57 +169,57 @@
       <div v-if="type == 'remove'" class="column is-half">
         <p class="subtitle is-small has-text-white">Remove Users from Spam</p>
         <form @submit.prevent="handleRemoveSpam">
-          <label class="subtitle has-text-white">
-            Select User's Role First
-          </label>
+          <label class="subtitle has-text-white"
+            >Select User's Role First</label
+          >
           <div class="control mb-3 my-1">
             <input
-              id="userremradio"
-              v-model="removerole"
               class="is-checkradio is-small is-warning mx-1"
+              id="userremradio"
               type="radio"
               name="addrole"
               checked
               value="user"
               :disabled="roledisabled"
+              v-model="removerole"
             />
             <label for="userremradio" class="has-text-white mx-1">User</label>
             <input
-              id="adminremradio"
-              v-model="removerole"
               class="is-checkradio is-small is-warning mx-1"
+              id="adminremradio"
               type="radio"
               name="addrole"
               value="admin"
               :disabled="roledisabled"
+              v-model="removerole"
             />
             <label for="adminremradio" class="has-text-white mx-1">
-              Admin
-            </label>
+              Admin</label
+            >
             <input
-              id="superadminremradio"
-              v-model="removerole"
               class="is-checkradio is-small is-warning mx-1"
+              id="superadminremradio"
               type="radio"
               name="addrole"
               value="superadmin"
               :disabled="roledisabled"
+              v-model="removerole"
             />
-            <label for="superadminremradio" class="has-text-white mx-1">
-              Superadmin
-            </label>
+            <label for="superadminremradio" class="has-text-white mx-1"
+              >Superadmin</label
+            >
           </div>
           <div class="field">
             <label class="label has-text-white">Select the User</label>
             <div class="control">
               <div class="select is-fullwidth">
-                <select id="removeemail" v-model="removeUserEmail">
+                <select v-model="removeUserEmail" id="removeemail">
                   <option
-                    v-for="(removeUser, index) in spamUsers"
-                    :key="index"
+                    v-for="(user, index) in spamUsers"
                     placeholder="Select the User"
+                    v-bind:key="index"
                   >
-                    {{ removeUser.email }}
+                    {{ user.email }}
                   </option>
                 </select>
               </div>
@@ -248,7 +246,6 @@
 import { initializeUser, getgds } from '@utils/localUtils';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import Loading from 'vue-loading-overlay';
-
 export default {
   components: {
     Loading,
@@ -261,8 +258,9 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
@@ -294,105 +292,6 @@ export default {
       currgd: {},
     };
   },
-  computed: {
-    siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
-    },
-  },
-  watch: {
-    addrole() {
-      if (this.addrole === 'user') {
-        this.getUserApi = apiRoutes.getUsers;
-        this.postAddSpam = apiRoutes.addSpamUser;
-        this.getUsers();
-      } else if (this.addrole === 'admin') {
-        this.getUserApi = apiRoutes.getAdmins;
-        this.postAddSpam = apiRoutes.addSpamAdmin;
-        this.getUsers();
-      } else if (this.addrole === 'superadmin') {
-        this.getUserApi = apiRoutes.getSuperAdmins;
-        this.postAddSpam = apiRoutes.addSpamSuperAdmin;
-        this.getUsers();
-      }
-    },
-    removerole() {
-      if (this.removerole === 'user') {
-        this.getSpamApi = apiRoutes.getSpamUsers;
-        this.postSpamApi = apiRoutes.removeSpamUser;
-        this.getSpamUsers();
-      } else if (this.removerole === 'admin') {
-        this.getSpamApi = apiRoutes.getSpamAdmins;
-        this.postSpamApi = apiRoutes.removeSpamAdmin;
-        this.getSpamUsers();
-      } else if (this.removerole === 'superadmin') {
-        this.getSpamApi = apiRoutes.getSpamSuperadmins;
-        this.postSpamApi = apiRoutes.removeSpamSuperadmin;
-        this.getSpamUsers();
-      }
-    },
-  },
-  beforeMount() {
-    this.loading = true;
-    const userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type === 'normal') {
-        this.user = userData.data.user;
-        this.token = userData.data.token;
-        this.logged = userData.data.logged;
-        this.loading = userData.data.loading;
-        this.admin = userData.data.admin;
-        this.superadmin = userData.data.superadmin;
-      }
-    } else {
-      this.logged = userData.data.logged;
-      this.loading = userData.data.loading;
-    }
-  },
-  mounted() {
-    this.loading = true;
-    if (this.admin && this.superadmin) {
-      this.addrole = 'user';
-      this.removerole = 'user';
-      this.roledisabled = false;
-      this.getUserApi = apiRoutes.getUsers;
-      this.postAddSpam = apiRoutes.addSpamUser;
-      this.getSpamApi = apiRoutes.getSpamUsers;
-      this.postSpamApi = apiRoutes.removeSpamUser;
-      this.getUsers();
-      this.getSpamUsers();
-      this.loading = false;
-    } else if (this.admin && !this.superadmin) {
-      this.addrole = 'user';
-      this.removerole = 'user';
-      this.getUserApi = apiRoutes.getUsers;
-      this.postAddSpam = apiRoutes.addSpamUser;
-      this.getSpamApi = apiRoutes.getSpamUsers;
-      this.postSpamApi = apiRoutes.removeSpamUser;
-      this.getUsers();
-      this.getSpamUsers();
-      this.loading = false;
-    } else {
-      this.loading = false;
-      this.$router.push({
-        name: 'results',
-        params: {
-          id: this.currgd.id,
-          cmd: 'result',
-          success: false,
-          data: 'UnAuthorized Route. Not Allowed.',
-          redirectUrl: '/',
-          tocmd: 'home',
-        },
-      });
-    }
-  },
-  created() {
-    const gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
   methods: {
     getUsers() {
       this.metatitle = 'Getting Users...';
@@ -420,6 +319,7 @@ export default {
       } else {
         this.loading = false;
         this.metatitle = 'Request Failed...';
+        console.log('Not Possible');
       }
     },
     getSpamUsers() {
@@ -448,6 +348,7 @@ export default {
       } else {
         this.loading = false;
         this.metatitle = 'Failed...';
+        console.log('Not Possible');
       }
     },
     handleAddSpam() {
@@ -511,6 +412,104 @@ export default {
           });
       } else {
         this.metatitle = 'Failed...';
+        console.log('Not Possible');
+      }
+    },
+  },
+  beforeMount() {
+    this.loading = true;
+    var userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type == 'normal') {
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
+    } else {
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
+    }
+  },
+  computed: {
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
+  },
+  mounted() {
+    this.loading = true;
+    if (this.admin && this.superadmin) {
+      (this.addrole = 'user'), (this.removerole = 'user');
+      this.roledisabled = false;
+      (this.getUserApi = apiRoutes.getUsers),
+        (this.postAddSpam = apiRoutes.addSpamUser);
+      (this.getSpamApi = apiRoutes.getSpamUsers),
+        (this.postSpamApi = apiRoutes.removeSpamUser);
+      this.getUsers();
+      this.getSpamUsers();
+      this.loading = false;
+    } else if (this.admin && !this.superadmin) {
+      (this.addrole = 'user'), (this.removerole = 'user');
+      (this.getUserApi = apiRoutes.getUsers),
+        (this.postAddSpam = apiRoutes.addSpamUser);
+      (this.getSpamApi = apiRoutes.getSpamUsers),
+        (this.postSpamApi = apiRoutes.removeSpamUser);
+      this.getUsers();
+      this.getSpamUsers();
+      this.loading = false;
+    } else {
+      this.loading = false;
+      this.$router.push({
+        name: 'results',
+        params: {
+          id: this.currgd.id,
+          cmd: 'result',
+          success: false,
+          data: 'UnAuthorized Route. Not Allowed.',
+          redirectUrl: '/',
+          tocmd: 'home',
+        },
+      });
+    }
+  },
+  created() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
+  watch: {
+    addrole: function () {
+      if (this.addrole == 'user') {
+        this.getUserApi = apiRoutes.getUsers;
+        this.postAddSpam = apiRoutes.addSpamUser;
+        this.getUsers();
+      } else if (this.addrole == 'admin') {
+        this.getUserApi = apiRoutes.getAdmins;
+        this.postAddSpam = apiRoutes.addSpamAdmin;
+        this.getUsers();
+      } else if (this.addrole == 'superadmin') {
+        this.getUserApi = apiRoutes.getSuperAdmins;
+        this.postAddSpam = apiRoutes.addSpamSuperAdmin;
+        this.getUsers();
+      }
+    },
+    removerole: function () {
+      if (this.removerole == 'user') {
+        this.getSpamApi = apiRoutes.getSpamUsers;
+        this.postSpamApi = apiRoutes.removeSpamUser;
+        this.getSpamUsers();
+      } else if (this.removerole == 'admin') {
+        this.getSpamApi = apiRoutes.getSpamAdmins;
+        this.postSpamApi = apiRoutes.removeSpamAdmin;
+        this.getSpamUsers();
+      } else if (this.removerole == 'superadmin') {
+        this.getSpamApi = apiRoutes.getSpamSuperadmins;
+        this.postSpamApi = apiRoutes.removeSpamSuperadmin;
+        this.getSpamUsers();
       }
     },
   },

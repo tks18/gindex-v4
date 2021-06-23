@@ -135,15 +135,14 @@
                   <div class="column is-full my-0 py-1">
                     <span
                       v-for="(genre, index) in videoData.genres"
-                      :key="index"
+                      v-bind:key="index"
                       class="has-text-netflix-only"
-                    >
-                      {{
+                      >{{
                         index == videoData.genres.length - 1
                           ? genre.name
                           : genre.name + ', '
-                      }}
-                    </span>
+                      }}</span
+                    >
                   </div>
                 </div>
               </div>
@@ -198,7 +197,7 @@
                 </div>
               </div>
               <div class="column is-full mt-0 pt-1">
-                <vue-plyr ref="plyr" :key="videokey" class="my-2">
+                <vue-plyr ref="plyr" v-bind:key="videokey" class="my-2">
                   <video :poster="poster" :src="apiurl" class="video-content">
                     <source
                       :src="apiurl"
@@ -206,12 +205,12 @@
                       size="Original Format"
                     />
                     <track
-                      v-for="(subfile, index) in suburl"
-                      :key="index"
+                      v-for="(sub, index) in suburl"
                       kind="captions"
-                      :label="subfile.label"
-                      :src="subfile.url"
-                      :srclang="subfile.label"
+                      :label="sub.label"
+                      :src="sub.url"
+                      :srclang="sub.label"
+                      v-bind:key="index"
                     />
                   </video>
                 </vue-plyr>
@@ -277,7 +276,7 @@
                                       videoData.name ||
                                       videoData.original_name ||
                                       decodeURIComponent(
-                                        videoname
+                                        this.videoname
                                           .split('.')
                                           .slice(0, -1)
                                           .join('.'),
@@ -314,13 +313,13 @@
                                 <p class="is-small has-text-grey">
                                   Tagline:
                                   <span class="is-small has-text-white">
-                                    <span class="has-text-netflix-only">
-                                      "
+                                    <span class="has-text-netflix-only"
+                                      >"
                                     </span>
                                     <i>{{ videoData.tagline }}</i>
                                     <span class="has-text-netflix-only">
-                                      "
-                                    </span>
+                                      "</span
+                                    >
                                   </span>
                                 </p>
                               </div>
@@ -463,9 +462,9 @@
                         "
                       >
                         <button
-                          v-tooltip.bottom-start="'Play Externally.'"
                           class="button is-rounded is-netflix-red has-text-white"
                           @click="modal = true"
+                          v-tooltip.bottom-start="'Play Externally.'"
                         >
                           <span class="icon">
                             <i
@@ -486,9 +485,9 @@
                         "
                       >
                         <button
-                          v-tooltip.bottom-start="'Copy Link'"
                           class="button is-rounded is-netflix-red has-text-white"
                           @click="copy"
+                          v-tooltip.bottom-start="'Copy Link'"
                         >
                           <span class="icon">
                             <i class="fa fa-copy fontonly"></i>
@@ -507,9 +506,9 @@
                         "
                       >
                         <button
-                          v-tooltip.bottom-start="'Download Now.'"
                           class="button is-rounded is-netflix-red has-text-white"
                           @click="downloadButton"
+                          v-tooltip.bottom-start="'Download Now.'"
                         >
                           <span class="icon">
                             <i class="fas fa-download fontonly"></i>
@@ -528,9 +527,9 @@
                         "
                       >
                         <button
-                          v-tooltip.bottom-start="'Load Custom Subtitles..'"
                           class="button is-rounded is-netflix-red has-text-white"
                           @click="subModal = true"
+                          v-tooltip.bottom-start="'Load Custom Subtitles..'"
                         >
                           <span class="icon">
                             <i class="fas fa-closed-captioning fontonly"></i>
@@ -558,7 +557,7 @@
                 >
                   <div
                     v-for="(season, index) in videoData.seasons"
-                    :key="index"
+                    v-bind:key="index"
                     class="columns is-vcentered is-mobile"
                   >
                     <div
@@ -566,11 +565,9 @@
                       :class="ismobile ? 'column is-full' : 'column is-9'"
                     >
                       <p class="is-small has-text-grey">
-                        About this Season:
-                        <span class="has-text-netflix-only">
-                          Season {{ season.season_number }}
-                        </span>
-                        <br />
+                        About this Season:<span class="has-text-netflix-only">
+                          Season {{ season.season_number }}</span
+                        ><br />
                         <span class="is-small has-text-white">
                           {{ season.overview }}
                         </span>
@@ -662,7 +659,10 @@
                                   videoData.original_name ||
                                   videoData.name ||
                                   decodeURIComponent(
-                                    videoname.split('.').slice(0, -1).join('.'),
+                                    this.videoname
+                                      .split('.')
+                                      .slice(0, -1)
+                                      .join('.'),
                                   )
                                 }}
                               </span>
@@ -746,7 +746,7 @@
                             <div class="column is-half">
                               <span
                                 v-for="(genre, index) in videoData.genres"
-                                :key="index"
+                                v-bind:key="index"
                                 class="subtitle has-text-weight-bold has-text-netflix-only"
                               >
                                 {{
@@ -884,7 +884,7 @@
                               <span
                                 v-for="(langs,
                                 index) in videoData.spoken_languages"
-                                :key="index"
+                                v-bind:key="index"
                                 class="subtitle has-text-weight-bold has-text-netflix-only"
                               >
                                 {{
@@ -964,12 +964,12 @@
                     </div>
                     <div class="column is-full">
                       <div
-                        ref="cast"
                         class="columns is-mobile is-vcentered scroll-block"
+                        ref="cast"
                       >
                         <div
                           v-for="(people, index) in videoData.credits.cast"
-                          :key="index"
+                          v-bind:key="index"
                           :class="
                             ismobile
                               ? 'column is-6 mx-0 px-0 scroll-link'
@@ -1063,12 +1063,12 @@
                     </div>
                     <div class="column is-full">
                       <div
-                        ref="crew"
                         class="columns is-mobile is-vcentered scroll-block"
+                        ref="crew"
                       >
                         <div
                           v-for="(people, index) in videoData.credits.crew"
-                          :key="index"
+                          v-bind:key="index"
                           :class="
                             ismobile
                               ? 'column is-6 mx-0 px-0 scroll-link'
@@ -1161,13 +1161,13 @@
                     </div>
                     <div class="column is-full">
                       <div
-                        ref="production"
                         class="columns is-mobile is-vcentered scroll-block"
+                        ref="production"
                       >
                         <div
                           v-for="(company,
                           index) in videoData.production_companies"
-                          :key="index"
+                          v-bind:key="index"
                           :class="
                             ismobile
                               ? 'column is-6 mx-0 px-0 scroll-link'
@@ -1247,12 +1247,12 @@
                     </div>
                     <div class="column is-full">
                       <div
-                        ref="network"
                         class="columns is-mobile is-vcentered scroll-block"
+                        ref="network"
                       >
                         <div
                           v-for="(network, index) in videoData.networks"
-                          :key="index"
+                          v-bind:key="index"
                           :class="
                             ismobile
                               ? 'column is-6 mx-0 px-0 scroll-link'
@@ -1331,12 +1331,12 @@
                     </div>
                     <div class="column is-full">
                       <div
-                        ref="related"
                         class="columns is-mobile is-vcentered scroll-block"
+                        ref="related"
                       >
                         <div
                           v-for="(video, index) in videoData.videos.results"
-                          :key="index"
+                          v-bind:key="index"
                           :class="
                             ismobile
                               ? 'column is-full mx-0 px-0 scroll-link'
@@ -1381,15 +1381,15 @@
             <p class="modal-card-title has-text-centered">External Players</p>
             <button
               class="delete"
-              aria-label="close"
               @click="modal = false"
+              aria-label="close"
             ></button>
           </header>
           <section class="modal-card-body">
             <div
-              v-for="(item, index) in players"
-              :key="index"
               class="columns is-centered is-mobile"
+              v-for="(item, index) in players"
+              v-bind:key="index"
             >
               <div class="column is-3">
                 <figure class="image is-48x48" style="margin: 0 auto">
@@ -1424,8 +1424,8 @@
             <p class="modal-card-title">Load Subtitle File</p>
             <button
               class="delete"
-              aria-label="close"
               @click="subModal = false"
+              aria-label="close"
             ></button>
           </header>
           <section class="modal-card-body">
@@ -1439,8 +1439,8 @@
               <div class="message-body">
                 <button
                   class="delete"
-                  aria-label="delete"
                   @click="successMessage = false"
+                  aria-label="delete"
                 ></button>
                 {{ resultmessage }}
               </div>
@@ -1448,12 +1448,12 @@
             <div class="field">
               <div class="control">
                 <input
-                  v-model="subripurl"
                   :class="
                     subButLoad
                       ? 'input is-rounded is-success is-loading'
                       : 'input is-rounded is-success'
                   "
+                  v-model="subripurl"
                   type="text"
                   :placeholder="'Enter Any Url or Give Path from Drive'"
                 />
@@ -1462,15 +1462,15 @@
             <div class="field">
               <p class="control">
                 <input
-                  id="sublabel"
-                  v-model="custsublabel"
                   :class="
                     subButLoad
                       ? 'input is-rounded is-success is-loading'
                       : 'input is-rounded is-success'
                   "
                   placeholder="Label for Subtitle File"
+                  id="sublabel"
                   type="text"
+                  v-model="custsublabel"
                   required
                 />
               </p>
@@ -1501,12 +1501,12 @@
         </div>
       </div>
       <div
-        v-loading="loading"
         :class="
           ismobile
             ? 'column is-centered is-vcentered is-one-third is-desktop golist'
             : 'column is-desktop is-centered is-vcentered is-one-third golist mt-4'
         "
+        v-loading="loading"
       >
         <div class="column is-full">
           <div class="columns is-mobile is-multiline is-centered is-vcentered">
@@ -1520,10 +1520,10 @@
               <div class="field has-addons is-grouped">
                 <div class="control is-expanded has-icons-right is-dark">
                   <input
-                    v-model="searchBarTerm"
-                    v-tooltip.bottom-start="'Filter Videos'"
                     class="input is-rounded searchbar-input"
                     type="search"
+                    v-tooltip.bottom-start="'Filter Videos'"
+                    v-model="searchBarTerm"
                     placeholder="Continue Your Binge / Search Videos Here.."
                   />
                   <span
@@ -1550,9 +1550,9 @@
         </div>
         <div class="column is-full">
           <div
-            v-for="(file, index) in files"
-            :key="index"
             class="columns has-background-dark is-multiline is-mobile is-centered is-vcentered suggestList my-2"
+            v-for="(file, index) in files"
+            v-bind:key="index"
             @click="action(file, 'view')"
           >
             <div class="column is-2">
@@ -1623,11 +1623,11 @@
       </div>
       <button
         class="modal-close is-large"
-        aria-label="close"
         @click="
           videomodal = false;
           modalVideo = '';
         "
+        aria-label="close"
       ></button>
     </div>
   </div>
@@ -1642,13 +1642,11 @@ import {
   formatFileSize,
   checkoutPath,
   checkView,
-  decode64,
 } from '@utils/AcrouUtil';
 import Loading from 'vue-loading-overlay';
-
+import { decode64 } from '@utils/AcrouUtil';
 import { srt2vtt, players } from '@utils/playUtils';
 import notify from '@/components/notification';
-
 export default {
   components: {
     Loading,
@@ -1661,12 +1659,13 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
-  data() {
+  data: function () {
     return {
       metatitle: '',
       apiurl: '',
@@ -1728,98 +1727,6 @@ export default {
       },
     };
   },
-  computed: {
-    siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
-    },
-    url() {
-      if (this.$route.params.path) {
-        return decode64(this.$route.params.path);
-      }
-      return '';
-    },
-    players() {
-      return players().map((player) => ({
-        name: player.name,
-        icon: player.icon,
-      }));
-    },
-  },
-  watch: {
-    searchBarTerm() {
-      if (this.searchBarTerm.length > 0) {
-        const searchRegex = new RegExp(this.searchBarTerm.toLowerCase());
-        this.files = this.getFilteredFiles(
-          this.originalFiles.filter((file) => {
-            const fileName = file.name.toLowerCase();
-            return searchRegex.test(fileName);
-          }),
-        );
-      } else {
-        this.files = this.getFilteredFiles(this.originalFiles);
-      }
-    },
-    screenWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
-      }
-    },
-    windowWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
-      }
-    },
-    player() {
-      this.player.on('ready', () => {
-        this.playicon = 'fas fa-glasses';
-        this.playtext = "Let's Party";
-      });
-      this.player.on('playing', () => {
-        this.playicon = 'fas fa-spin fa-compact-disc';
-        const title = this.url
-          .split('/')
-          .pop()
-          .split('.')
-          .slice(0, -1)
-          .join('.');
-        this.metatitle = `Playing - ${decodeURIComponent(title)}`;
-        this.playtext = 'Playing';
-      });
-      this.player.on('pause', () => {
-        this.playicon = 'fas fa-pause';
-        const title = this.url
-          .split('/')
-          .pop()
-          .split('.')
-          .slice(0, -1)
-          .join('.');
-        this.metatitle = `Paused -${decodeURIComponent(title)}`;
-        this.playtext = 'Paused';
-      });
-    },
-  },
-  mounted() {
-    if (this.$audio.player() !== undefined) this.$audio.destroy();
-    if (window.themeOptions.loading_image) {
-      this.loadImage = window.themeOptions.loading_image;
-    } else {
-      this.loadImage = 'https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif';
-    }
-    this.render();
-  },
-  created() {
-    const gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
   methods: {
     infiniteHandler($state) {
       // The first time you enter the page does not execute the scroll event
@@ -1830,9 +1737,9 @@ export default {
       this.render($state);
     },
     initializeUser() {
-      const userData = initializeUser();
+      var userData = initializeUser();
       if (userData.isThere) {
-        if (userData.type === 'normal') {
+        if (userData.type == 'normal') {
           this.user = userData.data.user;
           this.token = userData.data.token;
           this.session = userData.data.session;
@@ -1858,9 +1765,9 @@ export default {
     },
     getFiles($state) {
       this.metatitle = 'Loading...';
-      const path = this.url.split(this.url.split('/').pop())[0];
-      const password = localStorage.getItem(`password${path}`);
-      const p = {
+      var path = this.url.split(this.url.split('/').pop())[0];
+      var password = localStorage.getItem('password' + path);
+      var p = {
         q: '',
         password: password || null,
         ...this.page,
@@ -1868,13 +1775,14 @@ export default {
       this.axios
         .post(path, p)
         .then((res) => {
-          const body = res.data;
+          var body = res.data;
           if (body) {
-            if (body.error && body.error.code === '401') {
+            // Determine the response status
+            if (body.error && body.error.code == '401') {
               this.checkPassword(path);
               return;
             }
-            const { data } = body;
+            var data = body.data;
             if (!data) return;
             this.page = {
               page_token: body.nextPageToken,
@@ -1885,18 +1793,18 @@ export default {
               this.files.push(
                 this.getFilteredFiles(...this.buildFiles(data.files)),
               );
-              [this.currVdInfo] = this.getCurrVdInfo(
+              this.currVdInfo = this.getCurrVdInfo(
                 ...this.buildFiles(data.files),
-              );
+              )[0];
               this.checkSuburl();
               this.getPoster();
             } else {
               this.originalFiles = this.buildFiles(data.files);
               this.files = this.getFilteredFiles(this.buildFiles(data.files));
               this.checkSuburl();
-              [this.currVdInfo] = this.getCurrVdInfo(
+              this.currVdInfo = this.getCurrVdInfo(
                 this.buildFiles(data.files),
-              );
+              )[0];
               this.getPoster();
             }
           }
@@ -1909,41 +1817,41 @@ export default {
         })
         .catch((e) => {
           this.loading = false;
+          console.log(e);
         });
     },
     buildFiles(files) {
       this.metatitle = decodeURIComponent(
         this.url.split('/').pop().split('.').slice(0, -1).join('.'),
       );
-      const path = this.url.split(this.url.split('/').pop())[0];
+      var path = this.url.split(this.url.split('/').pop())[0];
       return !files
         ? []
         : files.map((item) => {
-            const p = path + checkoutPath(item.name, item);
-            const isFolder =
+            var p = path + checkoutPath(item.name, item);
+            let isFolder =
               item.mimeType === 'application/vnd.google-apps.folder';
-            const size = isFolder ? '-' : formatFileSize(item.size);
+            let size = isFolder ? '-' : formatFileSize(item.size);
             return {
               path: p,
               ...item,
               modifiedTime: formatDate(item.modifiedTime),
-              size,
-              isFolder,
+              size: size,
+              isFolder: isFolder,
             };
           });
     },
     checkPassword(path) {
-      // eslint-disable-next-line no-alert
-      const pass = prompt('Directory encryption, please enter password', '');
-      localStorage.setItem(`password${path}`, pass);
-      if (pass != null && pass !== '') {
+      var pass = prompt('Directory encryption, please enter password', '');
+      localStorage.setItem('password' + path, pass);
+      if (pass != null && pass != '') {
         this.render(path);
       } else {
         this.$router.go(-1);
       }
     },
     checkMobile() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if (width > 966) {
         this.ismobile = false;
       } else {
@@ -1959,13 +1867,17 @@ export default {
       );
       return this.originalFiles.forEach(async (item) => {
         if (
-          item.name === `${pathSansExt}.srt` ||
-          item.name === `${pathSansExt}.vtt`
+          item.name == pathSansExt + '.srt' ||
+          item.name == pathSansExt + '.vtt'
         ) {
-          const url =
-            `${item.path}?player=internal` +
-            `&token=${this.token.token}&email=${this.user.email}`;
-          const blob = await this.getSrtFile(url);
+          let url =
+            item.path +
+            '?player=internal' +
+            '&token=' +
+            this.token.token +
+            '&email=' +
+            this.user.email;
+          let blob = await this.getSrtFile(url);
           if (blob.success) {
             this.sub = true;
             this.$notify({
@@ -1976,17 +1888,21 @@ export default {
             this.suburl = this.suburl.concat([
               { url: blob.blobData, label: 'Default' },
             ]);
-            this.videokey += 1;
+            this.videokey = this.videokey + 1;
           } else {
             this.sub = false;
             this.suburl = [];
           }
         } else if (regext.test(item.name)) {
-          const { groups } = regext.exec(item.name);
-          const url =
-            `${item.path}?player=internal` +
-            `&token=${this.token.token}&email=${this.user.email}`;
-          const blob = await this.getSrtFile(url);
+          let groups = regext.exec(item.name).groups;
+          let url =
+            item.path +
+            '?player=internal' +
+            '&token=' +
+            this.token.token +
+            '&email=' +
+            this.user.email;
+          let blob = await this.getSrtFile(url);
           if (blob.success) {
             this.sub = true;
             this.$notify({
@@ -1997,7 +1913,7 @@ export default {
             this.suburl = this.suburl.concat([
               { url: blob.blobData, label: groups.label },
             ]);
-            this.videokey += 1;
+            this.videokey = this.videokey + 1;
           } else {
             this.sub = false;
             this.suburl = [];
@@ -2009,7 +1925,7 @@ export default {
       });
     },
     getVideoData(title) {
-      if (this.prevRoute === 'video') {
+      if (this.prevRoute == 'video') {
         this.dataPresent = false;
         this.infoPanel = false;
       }
@@ -2018,7 +1934,7 @@ export default {
           apiRoutes.getMediaData,
           {
             email: this.user.email,
-            title,
+            title: title,
           },
           backendHeaders(this.token.token),
         )
@@ -2043,7 +1959,7 @@ export default {
       try {
         const srt = await this.$backend.get(url);
         const blob = new Blob([srt2vtt(srt.data)], { type: 'text/vtt' });
-        const srtBlob = URL.createObjectURL(blob);
+        var srtBlob = URL.createObjectURL(blob);
         return {
           blobData: srtBlob,
           success: true,
@@ -2059,15 +1975,17 @@ export default {
       this.subButLoad = true;
       const urlRegex = /(http:\/\/|https:\/\/[\s\S]+)/;
       if (urlRegex.test(url)) {
-        const blob = await this.getSrtFile(url);
+        let blob = await this.getSrtFile(url);
         if (blob.success) {
-          this.suburl = this.suburl.concat([{ url: blob.blobData, label }]);
+          this.suburl = this.suburl.concat([
+            { url: blob.blobData, label: label },
+          ]);
           this.$notify({
             title: 'Subtitle Loaded',
             message: 'Done',
             type: 'info',
           });
-          this.videokey += 1;
+          this.videokey = this.videokey + 1;
           this.successMessage = true;
           this.resultmessage = 'Subtitle Loaded Successfully !';
           this.subButLoad = false;
@@ -2081,13 +1999,22 @@ export default {
           this.subButLoad = false;
         }
       } else {
-        const getUrl =
-          `/${this.currgd.id}:/${url}?player=internal` +
-          `&token=${this.token.token}&email=${this.user.email}`;
-        const blob = await this.getSrtFile(getUrl);
+        let getUrl =
+          '/' +
+          this.currgd.id +
+          ':/' +
+          url +
+          '?player=internal' +
+          '&token=' +
+          this.token.token +
+          '&email=' +
+          this.user.email;
+        let blob = await this.getSrtFile(getUrl);
         if (blob.success) {
-          this.suburl = this.suburl.concat([{ url: blob.blobData, label }]);
-          this.videokey += 1;
+          this.suburl = this.suburl.concat([
+            { url: blob.blobData, label: label },
+          ]);
+          this.videokey = this.videokey + 1;
           this.$notify({
             title: 'Subtitle Loaded',
             message: 'Done',
@@ -2106,6 +2033,12 @@ export default {
           this.subButLoad = false;
         }
       }
+    },
+    loadFlv(options) {
+      import('@/plugin/video-plugins/flv').then((res) => {
+        var Flv = res.default;
+        Flv(options);
+      });
     },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : '';
@@ -2132,32 +2065,42 @@ export default {
             response.data.registered &&
             response.data.token
           ) {
-            const link =
-              `${this.videourl}?player=external` +
-              `&email=${this.user.email}&token=${response.data.token}&sessionid=${this.session.sessionid}`;
+            let link =
+              this.videourl +
+              '?player=external' +
+              '&email=' +
+              this.user.email +
+              '&token=' +
+              response.data.token +
+              '&sessionid=' +
+              this.session.sessionid;
             this.mainLoad = false;
             navigator.clipboard.writeText(link).then(
-              () => {
+              function () {
                 notify({
                   title: 'Copied !!',
                   message: 'Successfully Copied.',
                   type: 'success',
                 });
               },
-              (err) => {
+              function (err) {
                 notify({
                   title: 'Failed',
-                  message: `Failed to Copied - ${err}`,
+                  message: 'Failed to Copied - ' + err,
                   type: 'error',
                 });
               },
             );
+            return;
           } else {
             this.mainLoad = false;
+            return;
           }
         })
         .catch((e) => {
+          console.log(e);
           this.mainLoad = false;
+          return;
         });
     },
     handleExternalPlay(name) {
@@ -2182,20 +2125,30 @@ export default {
             response.data.registered &&
             response.data.token
           ) {
-            const link =
-              `${this.videourl}?player=external` +
-              `&email=${this.user.email}&token=${response.data.token}&sessionid=${this.session.sessionid}`;
-            const curplay = players(link, this.videoname).filter(
-              (player) => player.name === name,
-            )[0];
+            let link =
+              this.videourl +
+              '?player=external' +
+              '&email=' +
+              this.user.email +
+              '&token=' +
+              response.data.token +
+              '&sessionid=' +
+              this.session.sessionid;
+            var curplay = players(link, this.videoname).filter((player) => {
+              return player.name == name;
+            })[0];
             this.mainLoad = false;
             location.href = curplay.scheme;
+            return;
           } else {
             this.mainLoad = false;
+            return;
           }
         })
         .catch((e) => {
+          console.log(e);
           this.mainLoad = false;
+          return;
         });
     },
     downloadButton() {
@@ -2220,31 +2173,47 @@ export default {
             response.data.registered &&
             response.data.token
           ) {
-            const link =
-              `${
-                window.location.origin +
-                encodeURI(this.url.replace(/^\/(\d+:)\//, '/$1down/'))
-              }?player=download` +
-              `&email=${this.user.email}&token=${response.data.token}&sessionid=${this.session.sessionid}`;
+            let link =
+              window.location.origin +
+              encodeURI(this.url.replace(/^\/(\d+:)\//, '/$1down/')) +
+              '?player=download' +
+              '&email=' +
+              this.user.email +
+              '&token=' +
+              response.data.token +
+              '&sessionid=' +
+              this.session.sessionid;
             this.mainLoad = false;
             location.href = link;
+            return;
           } else {
             this.mainLoad = false;
+            return;
           }
         })
         .catch((e) => {
+          console.log(e);
           this.mainLoad = false;
+          return;
         });
     },
     getCurrVdInfo(rawFiles) {
-      return rawFiles.filter((file) => file.name === this.url.split('/').pop());
+      return rawFiles.filter((file) => {
+        return file.name == this.url.split('/').pop();
+      });
     },
     getVideourl() {
       this.videoname = this.url.split('/').pop();
       this.videourl = window.location.origin + encodeURI(this.url);
       this.apiurl =
-        `${this.videourl}?player=internal` +
-        `&email=${this.user.email}&token=${this.token.token}&sessionid=${this.session.sessionid}`;
+        this.videourl +
+        '?player=internal' +
+        '&email=' +
+        this.user.email +
+        '&token=' +
+        this.token.token +
+        '&sessionid=' +
+        this.session.sessionid;
     },
     tapPlay() {
       this.infoPanel = false;
@@ -2255,37 +2224,131 @@ export default {
       this.videomodal = true;
     },
     getIcon(type) {
-      return `#${this.icon[type] ? this.icon[type] : 'icon-weizhi'}`;
+      return '#' + (this.icon[type] ? this.icon[type] : 'icon-weizhi');
     },
     getPoster() {
-      const data = this.originalFiles.filter(
-        (file) => file.name === this.videoname,
-      )[0].thumbnailLink;
+      var data = this.originalFiles.filter((file) => {
+        return file.name == this.videoname;
+      })[0].thumbnailLink;
       this.poster = data;
     },
     swipeLeft(func) {
-      const content = `this.$refs.${func}`;
-      // eslint-disable-next-line no-eval
+      const content = 'this.$refs.' + func;
       scrollTo(eval(content), -300, 400);
     },
     swipeRight(func) {
-      const content = `this.$refs.${func}`;
-      // eslint-disable-next-line no-eval
+      const content = 'this.$refs.' + func;
       scrollTo(eval(content), 300, 400);
     },
     action(file, target) {
-      const { path } = file;
+      let path = file.path;
       if (target === 'view') {
         this.$router.push({
           path: checkView(path),
         });
+        return;
       }
     },
     getFilteredFiles(rawFiles) {
       const videoRegex = /(video)\/(.+)/;
       return rawFiles
-        .filter((file) => file.name !== this.url.split('/').pop())
-        .filter((file) => videoRegex.test(file.mimeType));
+        .filter((file) => {
+          return file.name != this.url.split('/').pop();
+        })
+        .filter((file) => {
+          return videoRegex.test(file.mimeType);
+        });
+    },
+  },
+  computed: {
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
+    url() {
+      if (this.$route.params.path) {
+        return decode64(this.$route.params.path);
+      }
+      return '';
+    },
+    players() {
+      return players().map((player) => {
+        return {
+          name: player.name,
+          icon: player.icon,
+        };
+      });
+    },
+  },
+  mounted() {
+    if (this.$audio.player() != undefined) this.$audio.destroy();
+    if (window.themeOptions.loading_image) {
+      this.loadImage = window.themeOptions.loading_image;
+    } else {
+      this.loadImage = 'https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif';
+    }
+    this.render();
+  },
+  created() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
+  watch: {
+    searchBarTerm: function () {
+      if (this.searchBarTerm.length > 0) {
+        const searchRegex = new RegExp(this.searchBarTerm.toLowerCase());
+        this.files = this.getFilteredFiles(
+          this.originalFiles.filter((file) => {
+            return searchRegex.test(file.name.toLowerCase());
+          }),
+        );
+      } else {
+        this.files = this.getFilteredFiles(this.originalFiles);
+      }
+    },
+    screenWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
+      }
+    },
+    windowWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
+      }
+    },
+    player: function () {
+      this.player.on('ready', () => {
+        this.playicon = 'fas fa-glasses';
+        this.playtext = "Let's Party";
+      });
+      this.player.on('playing', () => {
+        this.playicon = 'fas fa-spin fa-compact-disc';
+        this.metatitle =
+          'Playing' +
+          '-' +
+          decodeURIComponent(
+            this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+          );
+        this.playtext = 'Playing';
+      });
+      this.player.on('pause', () => {
+        this.playicon = 'fas fa-pause';
+        this.metatitle =
+          'Paused' +
+          '-' +
+          decodeURIComponent(
+            this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+          );
+        this.playtext = 'Paused';
+      });
     },
   },
 };

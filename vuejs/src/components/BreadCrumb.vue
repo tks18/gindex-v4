@@ -9,63 +9,66 @@
           <ul>
             <li>
               <a
-                v-show="navs && navs.length > 0"
                 class="accent"
-                @click="go('/' + root + ':/')"
-                >Index
-              </a>
+                v-show="navs && navs.length > 0"
+                @click="go('/' + index + ':/')"
+                >Index</a
+              >
             </li>
             <li
               v-for="(item, index) in navs"
-              :key="index"
               :class="index + 1 == navs.length ? 'is-active accent' : 'accent'"
+              v-bind:key="index"
             >
               <a
-                v-if="index + 1 == navs.length"
                 class="accent"
                 style="color: white"
+                v-if="index + 1 == navs.length"
                 aria-current="page"
                 href="#"
-                >{{ item.title }}
-              </a>
-              <a v-else class="accent" @click="go(item.path)">{{
+                >{{ item.title }}</a
+              >
+              <a class="accent" v-else @click="go(item.path)">{{
                 item.title
               }}</a>
             </li>
           </ul>
         </div>
       </div>
+      <!-- <div class="level-right">
+        <div class="level-item">
+          <view-mode />
+        </div>
+      </div> -->
     </nav>
   </div>
 </template>
 
 <script>
-/* eslint-disable no-continue */
-
 import { decode64 } from '@utils/AcrouUtil';
-
 export default {
-  data() {
+  props: ['name'],
+  data: function () {
     return {
       navs: [],
-      root: '/',
+      index: '/',
     };
-  },
-  watch: {
-    $route: 'render',
   },
   mounted() {
     this.render();
   },
+  watch: {
+    $route: 'render',
+  },
   methods: {
     go(path) {
       this.$router.push({
-        path,
+        path: path,
       });
     },
     render() {
-      this.root = this.$route.params.id;
-      const { cmd } = this.$route.params;
+      this.index = this.$route.params.id;
+      let cmd = this.$route.params.cmd;
       // Do not render if searching
       if (
         cmd === 'search' ||
@@ -82,21 +85,21 @@ export default {
         this.navs = [];
         return;
       }
-      let { path } = this.$route;
+      let path = this.$route.path;
       if (cmd) {
         path = decode64(this.$route.params.path);
       }
-      const arr = path.trim('/').split('/');
-      let p = '/';
+      var arr = path.trim('/').split('/');
+      var p = '/';
       if (arr.length > 0) {
-        const navs = [];
-        for (const i in arr) {
-          let n = arr[i];
-          if (n === '') {
+        var navs = [];
+        for (var i in arr) {
+          var n = arr[i];
+          if (n == '') {
             continue;
           }
           n = decodeURIComponent(n);
-          p += `${arr[i]}/`;
+          p += arr[i] + '/';
           if (n.match('[0-9]+:')) {
             continue;
           }

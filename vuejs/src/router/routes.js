@@ -1,4 +1,4 @@
-const dynamicImport = require(`@/libs/util.import.${process.env.NODE_ENV}`);
+const _import = require('@/libs/util.import.' + process.env.NODE_ENV);
 
 const meta = {
   disableCache: false,
@@ -8,7 +8,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(text)/:path',
     name: 'text',
-    component: dynamicImport('GoText'),
+    component: _import('GoText'),
     meta: {
       ...meta,
       view: 'text',
@@ -18,7 +18,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(pdf)/:path',
     name: 'pdf',
-    component: dynamicImport('GoPdf'),
+    component: _import('GoPdf'),
     meta: {
       ...meta,
       view: 'pdf',
@@ -28,7 +28,7 @@ const frameIn = [
   {
     path: '/',
     name: 'base',
-    component: dynamicImport('GoList'),
+    component: _import('GoList'),
     meta: {
       ...meta,
       redirect: true,
@@ -37,7 +37,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(video)/:path',
     name: 'video',
-    component: dynamicImport('GoVideo'),
+    component: _import('GoVideo'),
     meta: {
       ...meta,
       view: 'video',
@@ -47,7 +47,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(audio)/:path',
     name: 'audio',
-    component: dynamicImport('GoAudio'),
+    component: _import('GoAudio'),
     meta: {
       ...meta,
       view: 'audio',
@@ -57,7 +57,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(image)/:path',
     name: 'image',
-    component: dynamicImport('GoImg'),
+    component: _import('GoImg'),
     meta: {
       ...meta,
       view: 'image',
@@ -67,7 +67,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(search)(/?q=)*',
     name: 'search',
-    component: dynamicImport('GoList'),
+    component: _import('GoList'),
     meta: {
       ...meta,
       view: 'list',
@@ -77,7 +77,7 @@ const frameIn = [
   {
     path: '/:id(\\d+):/:path*',
     name: 'files',
-    component: dynamicImport('GoList'),
+    component: _import('GoList'),
     meta: {
       ...meta,
       view: 'list',
@@ -87,7 +87,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(others)/:path',
     name: 'otherFiles',
-    component: dynamicImport('GoOthers'),
+    component: _import('GoOthers'),
     meta: {
       ...meta,
       view: 'list',
@@ -97,7 +97,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(login)/',
     name: 'login',
-    component: dynamicImport('static/Users/Login'),
+    component: _import('static/Users/Login'),
     meta: {
       ...meta,
       guest: true,
@@ -106,7 +106,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(register)/',
     name: 'register',
-    component: dynamicImport('static/Admin/Register'),
+    component: _import('static/Admin/Register'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -116,7 +116,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(invite)/',
     name: 'invite',
-    component: dynamicImport('static/Admin/Invite'),
+    component: _import('static/Admin/Invite'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -126,7 +126,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(register)/otp',
     name: 'otp',
-    component: dynamicImport('static/OtpRegister'),
+    component: _import('static/OtpRegister'),
     meta: {
       ...meta,
       guest: true,
@@ -135,7 +135,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(home)/',
     name: 'home',
-    component: dynamicImport('static/Home'),
+    component: _import('static/Home'),
     meta: {
       ...meta,
       guest: true,
@@ -145,7 +145,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(result)/',
     name: 'results',
-    component: dynamicImport('static/ResultPage'),
+    component: _import('static/ResultPage'),
     meta: {
       ...meta,
       guest: true,
@@ -155,7 +155,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(register)/request/user',
     name: 'request',
-    component: dynamicImport('static/Request'),
+    component: _import('static/Request'),
     meta: {
       ...meta,
       guest: true,
@@ -164,7 +164,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(settings)/request/',
     name: 'requestadmin',
-    component: dynamicImport('static/Users/RequestPrivs'),
+    component: _import('static/Users/RequestPrivs'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -173,7 +173,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(settings)/changepassword',
     name: 'changepassword',
-    component: dynamicImport('static/Users/ChangePassword'),
+    component: _import('static/Users/ChangePassword'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -182,7 +182,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(admin)/',
     name: 'admin',
-    component: dynamicImport('static/Admin/AdminArea'),
+    component: _import('static/Admin/AdminArea'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -192,7 +192,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(admin)/manage',
     name: 'manageUsers',
-    component: dynamicImport('static/Admin/ManageUsers'),
+    component: _import('static/Admin/ManageUsers'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -202,7 +202,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(admin)/posteriors',
     name: 'manageposteriors',
-    component: dynamicImport('static/Admin/MainManagePostPage'),
+    component: _import('static/Admin/MainManagePostPage'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -212,7 +212,7 @@ const frameIn = [
       {
         path: '/:id(\\d+)::cmd(admin)/posteriors/quicklinks',
         name: 'manageposteriors_quicklinks',
-        component: dynamicImport('static/Admin/ManagePosts/ManageQuickLinks'),
+        component: _import('static/Admin/ManagePosts/ManageQuickLinks'),
         meta: {
           ...meta,
           requiresAuth: true,
@@ -222,7 +222,7 @@ const frameIn = [
       {
         path: '/:id(\\d+)::cmd(admin)/posteriors/categories',
         name: 'manageposteriors_categories',
-        component: dynamicImport('static/Admin/ManagePosts/ManageCategories'),
+        component: _import('static/Admin/ManagePosts/ManageCategories'),
         meta: {
           ...meta,
           requiresAuth: true,
@@ -232,7 +232,7 @@ const frameIn = [
       {
         path: '/:id(\\d+)::cmd(admin)/posteriors/heros',
         name: 'manageposteriors_heros',
-        component: dynamicImport('static/Admin/ManagePosts/ManageHeros'),
+        component: _import('static/Admin/ManagePosts/ManageHeros'),
         meta: {
           ...meta,
           requiresAuth: true,
@@ -242,9 +242,7 @@ const frameIn = [
       {
         path: '/:id(\\d+)::cmd(admin)/posteriors/trending',
         name: 'manageposteriors_trending',
-        component: dynamicImport(
-          'static/Admin/ManagePosts/ManageTrendingPosts',
-        ),
+        component: _import('static/Admin/ManagePosts/ManageTrendingPosts'),
         meta: {
           ...meta,
           requiresAuth: true,
@@ -256,7 +254,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(admin)/settings',
     name: 'sitesettings',
-    component: dynamicImport('static/Admin/SiteSettings'),
+    component: _import('static/Admin/SiteSettings'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -266,7 +264,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(admin)/spam',
     name: 'managespam',
-    component: dynamicImport('static/Admin/ManageSpamUsers'),
+    component: _import('static/Admin/ManageSpamUsers'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -276,7 +274,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(settings)/',
     name: 'settings',
-    component: dynamicImport('static/Users/Settings'),
+    component: _import('static/Users/Settings'),
     meta: {
       ...meta,
       requiresAuth: true,
@@ -285,7 +283,7 @@ const frameIn = [
   {
     path: '/:id(\\d+)::cmd(delete)/me',
     name: 'deleteme',
-    component: dynamicImport('static/Users/DeleteMe'),
+    component: _import('static/Users/DeleteMe'),
     meta: {
       ...meta,
       requiresAuth: true,

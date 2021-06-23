@@ -1,6 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable class-methods-use-this */
-
 const cdnDependencies = require('./dependencies-cdn');
 
 const cdn = {
@@ -14,13 +11,13 @@ class BuildAppJSPlugin {
       'BuildAppJSPlugin',
       (compilation, callback) => {
         let cssarr = [];
-        const jsarr = [];
+        let jsarr = [];
         for (let filename in compilation.assets) {
           if (filename.match('.*\\.js$')) {
             if (process.env.NODE_ENV === 'production') {
               filename = (process.env.VUE_APP_CDN_PATH || '/') + filename;
             } else {
-              filename = `/${filename}`;
+              filename = '/' + filename;
             }
             jsarr.push(filename);
           }
@@ -28,8 +25,10 @@ class BuildAppJSPlugin {
             cssarr.push(filename);
           }
         }
-        cssarr = cssarr.sort((a) => a.indexOf('app.'));
-        let cdnjs = '';
+        cssarr = cssarr.sort(function (a) {
+          return a.indexOf('app.');
+        });
+        var cdnjs = '';
         if (process.env.NODE_ENV === 'production') {
           cssarr = cdn.css.concat(cssarr);
           cdnjs = `var cdnjs = ${JSON.stringify(cdn.js)};
@@ -41,7 +40,7 @@ class BuildAppJSPlugin {
             cdnDependencies.filter((e) => e.name === '').map((e) => e.css),
           );
         }
-        const content = `
+        let content = `
           var scripts = ${JSON.stringify(jsarr)};
           ${cdnjs}
           scripts.forEach((item) => {
@@ -53,19 +52,19 @@ class BuildAppJSPlugin {
           cssContent += `@import url(${item});\n`;
         });
         compilation.assets['app.js'] = {
-          source() {
+          source: function () {
             return content;
           },
-          size() {
+          size: function () {
             return jsarr.length;
           },
         };
 
         compilation.assets['style.css'] = {
-          source() {
+          source: function () {
             return cssContent;
           },
-          size() {
+          size: function () {
             return cssarr.length;
           },
         };

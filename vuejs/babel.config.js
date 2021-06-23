@@ -1,19 +1,6 @@
 module.exports = {
   presets: [
-    '@vue/cli-plugin-babel/preset',
-    [
-      '@babel/preset-env',
-      {
-        bugfixes: true,
-        modules: false,
-        targets: 'last 2 versions',
-      },
-    ],
+    '@vue/cli-plugin-babel/preset'
   ],
-  env: {
-    test: {
-      plugins: ['@babel/plugin-transform-modules-commonjs'],
-    },
-  },
-  plugins: ['@babel/plugin-syntax-dynamic-import'],
-};
+  "plugins": ["@babel/plugin-syntax-dynamic-import"]
+}

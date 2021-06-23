@@ -1,16 +1,15 @@
 <template>
-  <!-- eslint-disable vue/no-v-html -->
   <table class="table is-hoverable">
     <thead>
       <tr style="border-bottom: 1px solid white">
         <th
           v-for="(column, index) in columns"
-          :key="index"
+          v-bind:key="index"
           :class="column.class"
           :style="column.style"
         >
           {{ column.name }}
-          <span class="caret-wrapper" @click="sortIt(column.orig_name)">
+          <span @click="sortIt(column.orig_name)" class="caret-wrapper">
             <i class="sort-caret ascending"></i>
             <i class="sort-caret descending"></i>
           </span>
@@ -22,19 +21,18 @@
         <div class="field has-addons is-grouped">
           <div class="control is-expanded is-dark">
             <input
-              v-model="searchBarTerm"
-              v-tooltip.bottom-start="'Filter the List'"
               class="input is-expanded fillsearch"
               type="search"
+              v-tooltip.bottom-start="'Filter the List'"
+              v-model="searchBarTerm"
               placeholder="Filter the Files.."
             />
           </div>
         </div>
       </td>
-      <tr v-for="(file, index) in files" :key="index" class="tr-item">
+      <tr class="tr-item" v-for="(file, index) in files" v-bind:key="index">
         <td
           class="td-item"
-          :title="file.name"
           @click.self="
             action(
               file,
@@ -43,15 +41,15 @@
                 : '',
             )
           "
+          :title="file.name"
         >
           <svg class="iconfont" aria-hidden="true">
             <use :xlink:href="icons(file.mimeType)" />
           </svg>
           {{ file.name }}
           <span
-            v-if="isShowDesc"
             class="g2-file-desc"
-            style="color: #bbf1c8"
+            v-if="isShowDesc"
             @click.self="
               action(
                 file,
@@ -61,6 +59,7 @@
               )
             "
             v-html="file.description"
+            style="color: #bbf1c8"
           ></span>
         </td>
         <td class="td-item is-hidden-mobile is-hidden-touch">
@@ -71,10 +70,10 @@
         </td>
         <td class="is-hidden-mobile is-hidden-touch">
           <button
-            v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
             class="button icon td-hover is-rounded is-netflix-red has-text-white"
             icon
             small
+            v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
             @click.stop="action(file, 'copy')"
           >
             <i class="fa fa-copy" title="Copy" aria-hidden="true"></i>
@@ -92,11 +91,11 @@
             ></i>
           </button>
           <button
-            v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
             class="button icon td-hover is-rounded is-netflix-red has-text-white"
             icon
             small
             @click.stop="action(file, 'down')"
+            v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
           >
             <i class="fa fa-download" aria-hidden="true" title="Download"></i>
           </button>
@@ -118,18 +117,15 @@ export default {
     },
     icons: {
       type: Function,
-      default: () => [],
     },
     action: {
       type: Function,
-      default: () => [],
     },
     sortIt: {
       type: Function,
-      default: () => [],
     },
   },
-  data() {
+  data: function () {
     return {
       searchBarTerm: '',
     };
@@ -138,13 +134,12 @@ export default {
     files() {
       if (this.searchBarTerm.length > 0) {
         const searchRegex = new RegExp(this.searchBarTerm.toLowerCase());
-        const returnVal = this.originalData.filter((file) => {
-          const regexTest = file.name.toLowerCase();
-          return searchRegex.test(regexTest);
+        return this.originalData.filter((file) => {
+          return searchRegex.test(file.name.toLowerCase());
         });
-        return returnVal;
+      } else {
+        return this.data;
       }
-      return this.data;
     },
     columns() {
       return [

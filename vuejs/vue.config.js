@@ -1,10 +1,8 @@
 const { chainWebpack, devServer, cssOptions } = require('./webpack');
 const webpackConfig = require('./webpack.config');
 
-const localBuild = process.env.VUE_APP_LOCAL
 module.exports = {
-  publicPath: localBuild ? '/' : process.env.VUE_APP_CDN_PATH || '/',
-  runtimeCompiler: true,
+  publicPath: process.env.VUE_APP_CDN_PATH || '/',
   lintOnSave: true,
   css: cssOptions,
   chainWebpack,

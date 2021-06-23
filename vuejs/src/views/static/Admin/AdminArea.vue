@@ -140,7 +140,6 @@
 import { initializeUser, getgds } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-
 export default {
   components: {
     Loading,
@@ -153,8 +152,9 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
@@ -172,25 +172,35 @@ export default {
       fullpage: true,
     };
   },
+  methods: {
+    gotoPage: function (url, cmd) {
+      if (cmd) {
+        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
+      } else {
+        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
+      }
+    },
+  },
   computed: {
     ismobile() {
-      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
       if (width > 966) {
         return false;
+      } else {
+        return true;
       }
-      return true;
     },
     siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
     },
   },
   beforeMount() {
     this.loading = true;
-    const userData = initializeUser();
+    var userData = initializeUser();
     if (userData.isThere) {
-      if (userData.type === 'normal') {
+      if (userData.type == 'normal') {
         this.user = userData.data.user;
         this.token = userData.data.token;
         this.logged = userData.data.logged;
@@ -204,18 +214,9 @@ export default {
     }
   },
   created() {
-    const gddata = getgds(this.$route.params.id);
+    let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
-  },
-  methods: {
-    gotoPage(url, cmd) {
-      if (cmd) {
-        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
-      } else {
-        this.$router.push({ path: `/${this.currgd.id}:${url}` });
-      }
-    },
   },
 };
 </script>

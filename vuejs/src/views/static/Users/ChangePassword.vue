@@ -32,8 +32,8 @@
             <p>Error Proccessing</p>
             <button
               class="delete"
-              aria-label="delete"
               @click="errorMessage = false"
+              aria-label="delete"
             ></button>
           </div>
           <div class="message-body">
@@ -44,11 +44,11 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                id="oldpassword"
-                v-model="oldpassword"
                 class="input is-rounded"
+                id="oldpassword"
                 type="password"
                 placeholder="Your Old Password"
+                v-model="oldpassword"
                 required
               />
               <span class="icon is-small is-left">
@@ -59,11 +59,11 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                id="newpassword"
-                v-model="newpassword"
                 class="input is-rounded"
+                id="newpassword"
                 type="password"
                 placeholder="New Password"
+                v-model="newpassword"
                 required
               />
               <span class="icon is-small is-left">
@@ -74,11 +74,11 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                id="confirm-password"
-                v-model="confirmpassword"
                 class="input is-rounded"
+                id="confirm-password"
                 type="password"
                 placeholder="Confirm Password"
+                v-model="confirmpassword"
                 required
               />
               <span class="icon is-small is-left">
@@ -110,7 +110,6 @@ import { initializeUser, getgds } from '@utils/localUtils';
 import { removeItem } from '@utils/encryptUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-
 export default {
   components: {
     Loading,
@@ -123,8 +122,9 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
@@ -143,43 +143,6 @@ export default {
       loading: false,
       fullpage: true,
     };
-  },
-  computed: {
-    ismobile() {
-      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      }
-      return true;
-    },
-    siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
-    },
-  },
-  watch: {
-    oldpassword: 'validateData',
-    newpassword: 'validateData',
-    confirmpassword: 'validateData',
-  },
-  beforeMount() {
-    if (this.$audio.player() !== undefined) this.$audio.destroy();
-    this.loading = true;
-    const userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type === 'normal') {
-        this.user = userData.data.user;
-        this.loading = userData.data.loading;
-      }
-    } else {
-      this.loading = userData.data.loading;
-    }
-  },
-  created() {
-    const gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
   },
   methods: {
     handleSubmit(e) {
@@ -248,6 +211,44 @@ export default {
         this.disabled = true;
       }
     },
+  },
+  computed: {
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
+  },
+  beforeMount() {
+    if (this.$audio.player() != undefined) this.$audio.destroy();
+    this.loading = true;
+    var userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type == 'normal') {
+        this.user = userData.data.user;
+        this.loading = userData.data.loading;
+      }
+    } else {
+      this.loading = userData.data.loading;
+    }
+  },
+  created() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
+  watch: {
+    oldpassword: 'validateData',
+    newpassword: 'validateData',
+    confirmpassword: 'validateData',
   },
 };
 </script>

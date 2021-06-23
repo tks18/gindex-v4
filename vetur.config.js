@@ -6,7 +6,7 @@ module.exports = {
   projects: [
     {
       root: './vuejs',
-      package: './package.json',
+      package: './vuejs/package.json',
       snippetFolder: './vuejs/.vscode/vetur/snippets',
       globalComponents: ['./vuejs/src/components/**/*.vue'],
     },

@@ -1,7 +1,7 @@
 <template>
   <span
-    v-show="$route.meta.view === 'list'"
     class="icon accent"
+    v-show="$route.meta.view === 'list'"
     :title="mode === 'list' ? 'Grid' : 'List'"
     @click="toggleMode"
   >

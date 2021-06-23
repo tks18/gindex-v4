@@ -29,7 +29,6 @@ import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import { initializeUser, getgds } from '@utils/localUtils';
 import { decode64 } from '@utils/AcrouUtil';
 import Loading from 'vue-loading-overlay';
-
 export default {
   metaInfo() {
     return {
@@ -39,15 +38,13 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
-  components: {
-    Loading,
-  },
-  data() {
+  data: function () {
     return {
       imgurl: '',
       metatitle: '',
@@ -65,6 +62,9 @@ export default {
       display: false,
     };
   },
+  components: {
+    Loading,
+  },
   computed: {
     url() {
       if (this.$route.params.path) {
@@ -73,38 +73,53 @@ export default {
       return '';
     },
     siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
     },
   },
-  watch: {
-    screenWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+  methods: {
+    render() {
+      let path =
+        window.location.origin +
+        encodeURI(this.url) +
+        '?player=internal' +
+        '&token=' +
+        this.token.token +
+        '&email=' +
+        this.user.email +
+        '&sessionid=' +
+        this.session.sessionid;
+      // Easy to debug in development environment
+      // path = process.env.NODE_ENV === "development"? "/api" + path: "";
+      this.metatitle = decodeURIComponent(
+        this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+      );
+      this.imgurl = path;
+    },
+    checkMobile() {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if (width > 966) {
         this.ismobile = false;
       } else {
         this.ismobile = true;
       }
     },
-    windowWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
+    loading(event) {
+      if (event.target.complete == true) {
+        this.display = true;
       }
     },
   },
   async beforeMount() {
     this.checkMobile();
     this.mainload = true;
-    const gddata = getgds(this.$route.params.id);
+    let gddata = getgds(this.$route.params.id);
     this.gds = gddata.gds;
     this.currgd = gddata.current;
-    const userData = await initializeUser();
+    var userData = await initializeUser();
     if (userData.isThere) {
-      if (userData.type === 'normal') {
+      if (userData.type == 'normal') {
         this.user = userData.data.user;
         this.session = userData.data.session;
         this.token = userData.data.token;
@@ -137,31 +152,26 @@ export default {
         }
       })
       .catch((e) => {
+        console.log(e);
         this.mainLoad = false;
         this.mediaToken = '';
       });
   },
-  methods: {
-    render() {
-      const path =
-        `${window.location.origin + encodeURI(this.url)}?player=internal` +
-        `&token=${this.token.token}&email=${this.user.email}&sessionid=${this.session.sessionid}`;
-      // eslint-disable-next-line newline-per-chained-call
-      const title = this.url.split('/').pop().split('.').slice(0, -1).join('.');
-      this.metatitle = decodeURIComponent(title);
-      this.imgurl = path;
-    },
-    checkMobile() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+  watch: {
+    screenWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if (width > 966) {
         this.ismobile = false;
       } else {
         this.ismobile = true;
       }
     },
-    loading(event) {
-      if (event.target.complete === true) {
-        this.display = true;
+    windowWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
       }
     },
   },

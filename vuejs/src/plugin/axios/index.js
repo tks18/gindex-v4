@@ -8,27 +8,37 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => config,
-  (error) => Promise.reject(error),
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  },
 );
 
 service.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   (error) => {
     if (error && error.response) {
-      if (error.response.status === 500) {
-        router.go();
-      } else if (error.response.status === 401) {
-        const errorResp = error;
-        errorResp.message = "You Don't Deserve this Glory!! 😝";
-        notify({
-          title: 'Error While Making Request',
-          message: error.message,
-          type: 'error',
-          duration: 5 * 1000,
-        });
+      switch (error.response.status) {
+        case 401:
+          error.message = "You Don't Deserve this Glory!! 😝";
+          notify({
+            title: 'Error While Making Request',
+            message: error.message,
+            type: 'error',
+            duration: 5 * 1000,
+          });
+          break;
+        case 500:
+          router.go();
+          break;
+        default:
+          console.log(error);
+          break;
       }
     }
-    return Promise.reject(errorResp);
+    return Promise.reject(error);
   },
 );
 

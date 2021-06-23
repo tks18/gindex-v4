@@ -31,15 +31,15 @@
                 </p>
                 <button
                   class="delete"
-                  aria-label="close"
                   @click="modal = false"
+                  aria-label="close"
                 ></button>
               </header>
               <section class="modal-card-body">
                 <div
-                  v-for="(item, index) in players"
-                  :key="index"
                   class="columns is-centered is-mobile"
+                  v-for="(item, index) in players"
+                  v-bind:key="index"
                 >
                   <div class="column is-3">
                     <figure class="image is-48x48" style="margin: 0 auto">
@@ -52,8 +52,8 @@
                   <div class="column is-4">
                     <a
                       class="button is-danger is-rounded"
-                      :href="item.scheme"
                       @click="modal = false"
+                      :href="item.scheme"
                     >
                       <span class="icon is-small">
                         <i class="fas fa-play"></i>
@@ -84,9 +84,9 @@
                   "
                 >
                   <button
-                    v-tooltip.bottom-start="'Toggle MiniPlayer'"
                     class="button is-rounded is-netflix-red has-text-white"
                     @click="toggleModes"
+                    v-tooltip.bottom-start="'Toggle MiniPlayer'"
                   >
                     <span class="icon">
                       <i class="fas fa-compact-disc"></i>
@@ -102,11 +102,11 @@
                   "
                 >
                   <button
+                    class="button is-rounded is-netflix-red has-text-white"
+                    @click="addtoCurrlist"
                     v-tooltip.bottom-start="
                       'Add Songs to Current Playlist. Only for Miniplayer'
                     "
-                    class="button is-rounded is-netflix-red has-text-white"
-                    @click="addtoCurrlist"
                   >
                     <span class="icon">
                       <i class="fas fa-clipboard-list"></i>
@@ -139,9 +139,9 @@
                   "
                 >
                   <button
-                    v-tooltip.bottom-start="'Play Externally.'"
                     class="button is-rounded is-netflix-red has-text-white"
                     @click="modal = true"
+                    v-tooltip.bottom-start="'Play Externally.'"
                   >
                     <span class="icon">
                       <i class="fas fa-external-link-square-alt fontonly"></i>
@@ -156,9 +156,9 @@
                   "
                 >
                   <button
+                    class="button is-rounded is-netflix-red has-text-white"
                     v-clipboard:copy="externalUrl"
                     v-tooltip.bottom-start="'Copy Link'"
-                    class="button is-rounded is-netflix-red has-text-white"
                   >
                     <span class="icon">
                       <i class="fa fa-copy fontonly"></i>
@@ -173,9 +173,9 @@
                   "
                 >
                   <button
-                    v-tooltip.bottom-start="'Download Now.'"
                     class="button is-rounded is-netflix-red has-text-white"
                     @click="downloadButton"
+                    v-tooltip.bottom-start="'Download Now.'"
                   >
                     <span class="icon">
                       <i class="fas fa-download fontonly"></i>
@@ -190,10 +190,7 @@
     </div>
   </div>
 </template>
-
 <script>
-/* eslint-disable no-alert */
-
 import {
   formatDate,
   formatFileSize,
@@ -202,10 +199,9 @@ import {
 } from '@utils/AcrouUtil';
 import 'aplayer/dist/APlayer.min.css';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
-import Aplayer from 'aplayer';
+import aplayer from 'aplayer';
 import { initializeUser, getgds } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
-
 export default {
   metaInfo() {
     return {
@@ -215,15 +211,13 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
-  components: {
-    Loading,
-  },
-  data() {
+  data: function () {
     return {
       apiurl: '',
       externalUrl: '',
@@ -260,124 +254,14 @@ export default {
       viewer: false,
     };
   },
-  computed: {
-    siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
-    },
-    url() {
-      if (this.$route.params.path) {
-        return decode64(this.$route.params.path);
-      }
-      return '';
-    },
-    players() {
-      return [
-        {
-          name: 'IINA',
-          icon: this.$cdnpath('images/player/iina.png'),
-          scheme: `iina://weblink?url=${this.externalUrl}`,
-        },
-        {
-          name: 'PotPlayer',
-          icon: this.$cdnpath('images/player/potplayer.png'),
-          scheme: `potplayer://${this.externalUrl}`,
-        },
-        {
-          name: 'VLC',
-          icon: this.$cdnpath('images/player/vlc.png'),
-          scheme: `vlc://${this.externalUrl}`,
-        },
-        {
-          name: 'Cast2Tv',
-          icon:
-            'https://assets.materialup.com/uploads/b8e5d402-cd36-4774-bf10-0985e993a33e/preview',
-          scheme: `intent:${this.externalUrl}#Intent;package=com.instantbits.cast.webvideo;S.title=${this.audioname};end`,
-        },
-        {
-          name: 'Thunder',
-          icon: this.$cdnpath('images/player/thunder.png'),
-          scheme: `thunder://${this.getThunder}`,
-        },
-        {
-          name: 'nPlayer',
-          icon: this.$cdnpath('images/player/nplayer.png'),
-          scheme: `nplayer-${this.externalUrl}`,
-        },
-        {
-          name: 'MXPlayer(Free)',
-          icon: this.$cdnpath('images/player/mxplayer.png'),
-          scheme: `intent:${this.externalUrl}#Intent;package=com.mxtech.videoplayer.ad;S.title=${this.title};end`,
-        },
-        {
-          name: 'MXPlayer(Pro)',
-          icon: this.$cdnpath('images/player/mxplayer.png'),
-          scheme: `intent:${this.externalUrl}#Intent;package=com.mxtech.videoplayer.pro;S.title=${this.title};end`,
-        },
-      ];
-    },
-    getThunder() {
-      return Buffer.from(`AA${this.externalUrl}ZZ`).toString('base64');
-    },
-  },
-  watch: {
-    screenWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
-      }
-    },
-    windowWidth() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
-      if (width > 966) {
-        this.ismobile = false;
-      } else {
-        this.ismobile = true;
-      }
-    },
-    player() {
-      this.player.on('ready', () => {
-        this.playicon = 'fas fa-spinner fa-pulse';
-        this.playtext = 'Loading Awesomeness..';
-      });
-      this.player.on('playing', () => {
-        const title = this.url
-          .split('/')
-          .pop()
-          .split('.')
-          .slice(0, -1)
-          .join('.');
-        this.metatitle = `Playing -${decodeURIComponent(title)}`;
-        this.playicon = 'fas fa-spin fa-compact-disc';
-        this.playtext = 'Playing';
-      });
-      this.player.on('pause', () => {
-        const title = this.url
-          .split('/')
-          .pop()
-          .split('.')
-          .slice(0, -1)
-          .join('.');
-        this.metatitle = `Paused-${decodeURIComponent(title)}`;
-        this.playicon = 'fas fa-pause';
-        this.playtext = 'Paused';
-      });
-    },
-  },
-  mounted() {
-    const gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-    this.initializePage();
+  components: {
+    Loading,
   },
   methods: {
     async initializeUser() {
-      const userData = await initializeUser();
+      var userData = await initializeUser();
       if (userData.isThere) {
-        if (userData.type === 'normal') {
+        if (userData.type == 'normal') {
           this.user = userData.data.user;
           this.session = userData.data.session;
           this.token = userData.data.token;
@@ -407,11 +291,12 @@ export default {
           }
         })
         .catch((e) => {
+          console.log(e);
           this.mediaToken = '';
         });
     },
     createPlayer() {
-      this.player = new Aplayer({
+      this.player = new aplayer({
         container: document.getElementById('static-aplayer'),
         mini: false,
         autoplay: false,
@@ -433,17 +318,35 @@ export default {
       this.audioname = this.url.split('/').pop();
       this.audiourl = window.location.origin + encodeURI(this.url);
       this.apiurl =
-        `${this.audiourl}?player=internal` +
-        `&email=${this.user.email}&token=${this.token.token}&sessionid=${this.session.sessionid}`;
+        this.audiourl +
+        '?player=internal' +
+        '&email=' +
+        this.user.email +
+        '&token=' +
+        this.token.token +
+        '&sessionid=' +
+        this.session.sessionid;
       this.externalUrl =
-        `${this.audiourl}?player=external` +
-        `&email=${this.user.email}&token=${this.mediaToken}&sessionid=${this.session.sessionid}`;
+        this.audiourl +
+        '?player=external' +
+        '&email=' +
+        this.user.email +
+        '&token=' +
+        this.mediaToken +
+        '&sessionid=' +
+        this.session.sessionid;
       this.downloadUrl =
-        `${this.audiourl}?player=download` +
-        `&email=${this.user.email}&token=${this.mediaToken}&sessionid=${this.session.sessionid}`;
+        this.audiourl +
+        '?player=download' +
+        '&email=' +
+        this.user.email +
+        '&token=' +
+        this.mediaToken +
+        '&sessionid=' +
+        this.session.sessionid;
     },
     checkMobile() {
-      const width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
       if (width > 966) {
         this.ismobile = false;
       } else {
@@ -452,9 +355,9 @@ export default {
     },
     getFiles($state) {
       this.metatitle = 'Loading...';
-      const path = this.url.split(this.url.split('/').pop())[0];
-      const password = localStorage.getItem(`password${path}`);
-      const p = {
+      var path = this.url.split(this.url.split('/').pop())[0];
+      var password = localStorage.getItem('password' + path);
+      var p = {
         q: '',
         password: password || null,
         ...this.page,
@@ -462,13 +365,14 @@ export default {
       this.axios
         .post(path, p)
         .then((res) => {
-          const body = res.data;
+          var body = res.data;
           if (body) {
-            if (body.error && body.error.code === '401') {
+            // Determine the response status
+            if (body.error && body.error.code == '401') {
               this.checkPassword(path);
               return;
             }
-            const { data } = body;
+            var data = body.data;
             if (!data) return;
             this.page = {
               page_token: body.nextPageToken,
@@ -496,6 +400,7 @@ export default {
           this.loading = false;
         })
         .catch((e) => {
+          console.log(e);
           this.loading = false;
         });
     },
@@ -506,10 +411,13 @@ export default {
             name: item.name.split('.').slice(0, -1).join('.'),
             cover: this.poster,
             url:
-              `${
-                window.location.origin + encodeURI(item.path)
-              }?player=internal` +
-              `&email=${this.user.email}&token=${this.token.token}`,
+              window.location.origin +
+              encodeURI(item.path) +
+              '?player=internal' +
+              '&email=' +
+              this.user.email +
+              '&token=' +
+              this.token.token,
           });
         });
       }
@@ -519,39 +427,42 @@ export default {
             name: item.name.split('.').slice(0, -1).join('.'),
             cover: this.poster,
             url:
-              `${
-                window.location.origin + encodeURI(item.path)
-              }?player=internal` +
-              `&email=${this.user.email}&token=${this.token.token}`,
+              window.location.origin +
+              encodeURI(item.path) +
+              '?player=internal' +
+              '&email=' +
+              this.user.email +
+              '&token=' +
+              this.token.token,
           });
         });
       }
     },
     buildFiles(files) {
-      // eslint-disable-next-line newline-per-chained-call
-      const title = this.url.split('/').pop().split('.').slice(0, -1).join('.');
-      this.metatitle = decodeURIComponent(title);
-      const path = this.url.split(this.url.split('/').pop())[0];
+      this.metatitle = decodeURIComponent(
+        this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+      );
+      var path = this.url.split(this.url.split('/').pop())[0];
       return !files
         ? []
         : files.map((item) => {
-            const p = path + checkoutPath(item.name, item);
-            const isFolder =
+            var p = path + checkoutPath(item.name, item);
+            let isFolder =
               item.mimeType === 'application/vnd.google-apps.folder';
-            const size = isFolder ? '-' : formatFileSize(item.size);
+            let size = isFolder ? '-' : formatFileSize(item.size);
             return {
               path: p,
               ...item,
               modifiedTime: formatDate(item.modifiedTime),
-              size,
-              isFolder,
+              size: size,
+              isFolder: isFolder,
             };
           });
     },
     checkPassword(path) {
-      const pass = prompt('Directory encryption, please enter password', '');
-      localStorage.setItem(`password${path}`, pass);
-      if (pass != null && pass !== '') {
+      var pass = prompt('Directory encryption, please enter password', '');
+      localStorage.setItem('password' + path, pass);
+      if (pass != null && pass != '') {
         this.render(path);
       } else {
         this.$router.go(-1);
@@ -574,21 +485,28 @@ export default {
     getFilteredFiles(rawFiles, nofill) {
       const audioRegex = /(audio)\/(.+)/;
       if (nofill) {
-        return rawFiles.filter((file) => audioRegex.test(file.mimeType));
+        return rawFiles.filter((file) => {
+          return audioRegex.test(file.mimeType);
+        });
+      } else {
+        return rawFiles
+          .filter((file) => {
+            return file.name != this.url.split('/').pop();
+          })
+          .filter((file) => {
+            return audioRegex.test(file.mimeType);
+          });
       }
-      return rawFiles
-        .filter((file) => file.name !== this.url.split('/').pop())
-        .filter((file) => audioRegex.test(file.mimeType));
     },
     addtoCurrlist() {
-      if (this.$audio.player() === undefined) this.$audio.createPlayer();
+      if (this.$audio.player() == undefined) this.$audio.createPlayer();
       this.$audio.player().list.add(this.playlist);
       this.miniplayer = true;
       this.$audio.player().play();
       this.$bus.$emit('music-toggled', 'Music Toggled');
     },
     toggleModes() {
-      if (this.$audio.player() === undefined) {
+      if (this.$audio.player() == undefined) {
         this.$audio.createPlayer();
         this.$audio.player().list.add(this.playlist);
         this.$audio.player().play();
@@ -598,6 +516,136 @@ export default {
         this.$audio.destroy();
       }
       this.$bus.$emit('music-toggled', 'Music Toggled');
+    },
+  },
+  computed: {
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
+    url() {
+      if (this.$route.params.path) {
+        return decode64(this.$route.params.path);
+      }
+      return '';
+    },
+    players() {
+      return [
+        {
+          name: 'IINA',
+          icon: this.$cdnpath('images/player/iina.png'),
+          scheme: 'iina://weblink?url=' + this.externalUrl,
+        },
+        {
+          name: 'PotPlayer',
+          icon: this.$cdnpath('images/player/potplayer.png'),
+          scheme: 'potplayer://' + this.externalUrl,
+        },
+        {
+          name: 'VLC',
+          icon: this.$cdnpath('images/player/vlc.png'),
+          scheme: 'vlc://' + this.externalUrl,
+        },
+        {
+          name: 'Cast2Tv',
+          icon:
+            'https://assets.materialup.com/uploads/b8e5d402-cd36-4774-bf10-0985e993a33e/preview',
+          scheme:
+            'intent:' +
+            this.externalUrl +
+            '#Intent;package=com.instantbits.cast.webvideo;S.title=' +
+            this.audioname +
+            ';end',
+        },
+        {
+          name: 'Thunder',
+          icon: this.$cdnpath('images/player/thunder.png'),
+          scheme: 'thunder://' + this.getThunder,
+        },
+        {
+          name: 'Aria2',
+          icon: this.$cdnpath('images/player/aria2.png'),
+          scheme: 'javascript:alert("Not Yet Supported")',
+        },
+        {
+          name: 'nPlayer',
+          icon: this.$cdnpath('images/player/nplayer.png'),
+          scheme: 'nplayer-' + this.externalUrl,
+        },
+        {
+          name: 'MXPlayer(Free)',
+          icon: this.$cdnpath('images/player/mxplayer.png'),
+          scheme:
+            'intent:' +
+            this.externalUrl +
+            '#Intent;package=com.mxtech.videoplayer.ad;S.title=' +
+            this.title +
+            ';end',
+        },
+        {
+          name: 'MXPlayer(Pro)',
+          icon: this.$cdnpath('images/player/mxplayer.png'),
+          scheme:
+            'intent:' +
+            this.externalUrl +
+            '#Intent;package=com.mxtech.videoplayer.pro;S.title=' +
+            this.title +
+            ';end',
+        },
+      ];
+    },
+    getThunder() {
+      return Buffer.from('AA' + this.externalUrl + 'ZZ').toString('base64');
+    },
+  },
+  mounted() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+    this.initializePage();
+  },
+  watch: {
+    screenWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
+      }
+    },
+    windowWidth: function () {
+      var width = this.windowWidth > 0 ? this.windowWidth : this.screenWidth;
+      if (width > 966) {
+        this.ismobile = false;
+      } else {
+        this.ismobile = true;
+      }
+    },
+    player: function () {
+      this.player.on('ready', () => {
+        this.playicon = 'fas fa-spinner fa-pulse';
+        this.playtext = 'Loading Awesomeness..';
+      });
+      this.player.on('playing', () => {
+        this.metatitle =
+          'Playing' +
+          '-' +
+          decodeURIComponent(
+            this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+          );
+        this.playicon = 'fas fa-spin fa-compact-disc';
+        this.playtext = 'Playing';
+      });
+      this.player.on('pause', () => {
+        this.metatitle =
+          'Paused' +
+          '-' +
+          decodeURIComponent(
+            this.url.split('/').pop().split('.').slice(0, -1).join('.'),
+          );
+        (this.playicon = 'fas fa-pause'), (this.playtext = 'Paused');
+      });
     },
   },
 };

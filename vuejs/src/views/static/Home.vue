@@ -1,6 +1,14 @@
 <template>
   <section
-    class="section mx-0 px-0"
+    :class="
+      ismobile
+        ? logged
+          ? 'section mx-0 px-0'
+          : 'section mx-0 px-0'
+        : logged
+        ? 'section mx-0 px-0'
+        : 'section mx-0 px-0'
+    "
     :style="
       logged
         ? ''
@@ -22,9 +30,9 @@
       </div>
       <div v-if="!ismobile" class="navbar-end">
         <a
-          v-if="!logged"
           class="navbar-item button"
           title="Login"
+          v-if="!logged"
           @click="gotoPage('/', 'login')"
         >
           <span>Login</span>
@@ -56,7 +64,7 @@
           <transition name="slide-fade" mode="out-in">
             <div
               v-if="mainhero"
-              :key="mainKey"
+              v-bind:key="mainKey"
               class="column is-full mx-0 px-0 mt-0 pt-0"
             >
               <section
@@ -141,17 +149,17 @@
                 </span>
               </div>
             </div>
-            <div ref="cat" class="category-block">
+            <div class="category-block" ref="cat">
               <div
                 v-for="(cat, index) in category"
-                :key="index"
                 class="cat-link"
+                v-bind:key="index"
+                @click="gotoPage('/' + cat.link + '/')"
                 :style="
                   'background: url(' +
                   cat.poster +
                   ');background-size:cover;cursor: pointer;'
                 "
-                @click="gotoPage('/' + cat.link + '/')"
               >
                 <h1
                   class="title is-4 cat-link-text has-text-centered has-text-white has-text-weight-bold"
@@ -177,18 +185,18 @@
                 </h2>
               </div>
             </div>
-            <div ref="trend" class="trending-block">
+            <div class="trending-block" ref="trend">
               <div
-                v-for="(trend, index) in trending"
-                :key="index"
                 dark
+                v-for="(trend, index) in trending"
+                v-bind:key="index"
                 class="trend-link"
+                @click="gotoPage('/' + trend.link + '/')"
                 :style="
                   'background: url(' +
                   trend.poster +
                   ');background-size:cover;cursor: pointer;'
                 "
-                @click="gotoPage('/' + trend.link + '/')"
               ></div>
             </div>
           </div>
@@ -264,8 +272,6 @@
                         <div class="field has-addons">
                           <div class="control is-expanded">
                             <input
-                              id="email"
-                              v-model="email"
                               :class="
                                 ismobile
                                   ? 'input is-rounded'
@@ -273,7 +279,9 @@
                               "
                               autofocus
                               placeholder="Enter Your Email"
+                              id="email"
                               type="email"
+                              v-model="email"
                               required
                             />
                           </div>
@@ -329,7 +337,6 @@
 import { initializeUser, getgds, scrollTo, shuffle } from '@utils/localUtils';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import Loading from 'vue-loading-overlay';
-
 export default {
   components: {
     Loading,
@@ -342,8 +349,9 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
+        } else {
+          return 'Loading...';
         }
-        return 'Loading...';
       },
     };
   },
@@ -374,71 +382,29 @@ export default {
       fullpage: true,
     };
   },
-  computed: {
-    ismobile() {
-      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      }
-      return true;
-    },
-    siteName() {
-      return window.gds.filter(
-        (item, index) => index === this.$route.params.id,
-      )[0];
-    },
-  },
-  watch: {
-    email: 'validateData',
-  },
-  beforeMount() {
-    const gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-    this.assignUserInfo();
-    this.getallPosts(gddata.current.id);
-  },
-  mounted() {
-    if (!this.logged && this.$audio.player() !== undefined) {
-      this.$audio.destroy();
-    }
-    if (window.themeOptions.home_background_image) {
-      this.backurl = window.themeOptions.home_background_image;
-    } else {
-      this.backurl = 'https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif';
-    }
-  },
-  created() {
-    setInterval(() => {
-      this.mainhero = this.mainHeroArray[this.mainKey];
-      if (this.mainKey === this.mainHeroArray.length - 1) {
-        this.mainKey = 0;
-      } else {
-        this.mainKey++;
-      }
-    }, 5000);
-  },
   methods: {
     gotoPage(url, cmd) {
       if (cmd) {
-        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
+        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
       } else {
-        this.$router.push({ path: `/${this.currgd.id}:${url}` });
+        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
       }
     },
     assignUserInfo() {
       this.loading = true;
-      const userData = initializeUser();
+      var userData = initializeUser();
       if (userData.isThere) {
-        if (userData.type === 'normal') {
+        if (userData.type == 'normal') {
           this.user = userData.data.user;
           this.token = userData.data.token;
           this.logged = userData.data.logged;
           this.loading = userData.data.loading;
           this.admin = userData.data.admin;
+          this.$meta().refresh;
           this.superadmin = userData.data.superadmin;
         }
       } else {
+        this.$meta().refresh;
         this.logged = userData.data.logged;
         this.loading = userData.data.loading;
       }
@@ -457,7 +423,7 @@ export default {
         )
         .then((response) => {
           if (response.data.auth && response.data.registered) {
-            const resp = response.data;
+            let resp = response.data;
             this.links = true;
             this.load = false;
             this.mainhero = this.filterArrSlice(resp.hero);
@@ -488,7 +454,7 @@ export default {
             if (
               response.data.auth &&
               response.data.user &&
-              response.data.status === 'User Present & Verified'
+              response.data.status == 'User Present & Verified'
             ) {
               this.loading = false;
               this.$bus.$emit('verified', 'User Verified');
@@ -499,7 +465,7 @@ export default {
             } else if (
               !response.data.auth &&
               response.data.user &&
-              response.data.status === 'User Present & Not Verified'
+              response.data.status == 'User Present & Not Verified'
             ) {
               this.loading = false;
               this.$bus.$emit('verified', 'User Verified');
@@ -510,7 +476,7 @@ export default {
             } else if (
               !response.data.auth &&
               !response.data.user &&
-              response.data.status === 'User Not Present'
+              response.data.status == 'User Not Present'
             ) {
               this.loading = false;
               this.$bus.$emit('verified', 'User Verified');
@@ -521,7 +487,7 @@ export default {
             } else if (
               !response.data.auth &&
               !response.data.user &&
-              response.data.status === 'Pending Confirmation from Admins.'
+              response.data.status == 'Pending Confirmation from Admins.'
             ) {
               this.loading = false;
               this.$bus.$emit('verified', 'User Verified');
@@ -539,7 +505,7 @@ export default {
             } else if (
               !response.data.auth &&
               !response.data.user &&
-              response.data.status === 'Spammed User'
+              response.data.status == 'Spammed User'
             ) {
               this.loading = false;
               this.$bus.$emit('verified', 'User Verified');
@@ -573,21 +539,20 @@ export default {
           .catch((error) => {
             this.loading = false;
             this.$bus.$emit('verified', 'User Verified');
+            console.log(error);
             this.$router.push({
               name: 'login',
-              params: { cmd: 'login', id: 0, email: this.email, error },
+              params: { cmd: 'login', id: 0, email: this.email },
             });
           });
       }
     },
     swipeLeft(func) {
-      const content = `this.$refs.${func}`;
-      // eslint-disable-next-line no-eval
+      const content = 'this.$refs.' + func;
       scrollTo(eval(content), -300, 400);
     },
     swipeRight(func) {
-      const content = `this.$refs.${func}`;
-      // eslint-disable-next-line no-eval
+      const content = 'this.$refs.' + func;
       scrollTo(eval(content), 300, 400);
     },
     validateData() {
@@ -604,6 +569,50 @@ export default {
     filterArr(array) {
       return shuffle(array);
     },
+  },
+  beforeMount() {
+    let gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+    this.assignUserInfo();
+    this.getallPosts(gddata.current.id);
+  },
+  mounted() {
+    if (!this.logged && this.$audio.player() != undefined)
+      this.$audio.destroy();
+    if (window.themeOptions.home_background_image) {
+      this.backurl = window.themeOptions.home_background_image;
+    } else {
+      this.backurl = 'https://i.ibb.co/bsqHW2w/Lamplight-Mobile.gif';
+    }
+  },
+  created() {
+    setInterval(() => {
+      this.mainhero = this.mainHeroArray[this.mainKey];
+      if (this.mainKey == this.mainHeroArray.length - 1) {
+        this.mainKey = 0;
+      } else {
+        this.mainKey++;
+      }
+    }, 5000);
+  },
+  computed: {
+    ismobile() {
+      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    siteName() {
+      return window.gds.filter((item, index) => {
+        return index == this.$route.params.id;
+      })[0];
+    },
+  },
+  watch: {
+    email: 'validateData',
   },
 };
 </script>
