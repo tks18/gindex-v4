@@ -19,8 +19,8 @@
             <p class="modal-card-title has-text-centered">Forgot Password</p>
             <button
               class="delete"
-              @click="modal = false"
               aria-label="close"
+              @click="modal = false"
             ></button>
           </header>
           <section class="modal-card-body">
@@ -35,8 +35,8 @@
                 <p>Error Processing !</p>
                 <button
                   class="delete"
-                  @click="forgotErrorMessage = false"
                   aria-label="delete"
+                  @click="forgotErrorMessage = false"
                 ></button>
               </div>
               <div class="message-body">
@@ -54,18 +54,18 @@
                 <p>Success !</p>
                 <button
                   class="delete"
-                  @click="forgotSuccessMessage = false"
                   aria-label="delete"
+                  @click="forgotSuccessMessage = false"
                 ></button>
               </div>
               <div class="message-body">
                 {{ forgotMessage }}<br />
                 <span
                   class="forgot-pass is-medium has-text-weight-bold"
-                  @click="gotoPage('/otp/', 'register')"
                   style="cursor: pointer"
-                  >Click Here to Enter OTP</span
-                >
+                  @click="gotoPage('/otp/', 'register')"
+                  >Click Here to Enter OTP
+                </span>
               </div>
             </article>
             <form @submit.prevent="handleForgotPass">
@@ -76,11 +76,11 @@
                   <div class="field">
                     <p class="control has-icons-left has-icons-right">
                       <input
+                        id="foremail"
+                        v-model="forgotEmail"
                         class="input is-rounded"
                         placeholder="Enter Your Account Email"
-                        id="foremail"
                         type="email"
-                        v-model="forgotEmail"
                         required
                         autofocus
                       />
@@ -124,8 +124,8 @@
             <p>Error Logging in!!</p>
             <button
               class="delete"
-              @click="errormessageVisibility = false"
               aria-label="delete"
+              @click="errormessageVisibility = false"
             ></button>
           </div>
           <div class="message-body">
@@ -143,8 +143,8 @@
             <p>Success !</p>
             <button
               class="delete"
-              @click="successmessageVisibility = false"
               aria-label="delete"
+              @click="successmessageVisibility = false"
             ></button>
           </div>
           <div class="message-body">
@@ -156,12 +156,12 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
+                id="logemail"
+                v-model="email"
                 class="input is-rounded"
                 placeholder="Email"
                 autocomplete="username"
-                id="logemail"
                 type="email"
-                v-model="email"
                 required
                 autofocus
               />
@@ -176,12 +176,12 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                class="input is-rounded"
                 id="logpassword"
+                v-model="password"
+                class="input is-rounded"
                 autocomplete="current-password"
                 type="password"
                 placeholder="Password"
-                v-model="password"
                 required
               />
               <span class="icon is-small is-left">
@@ -225,6 +225,7 @@ import { apiRoutes } from '@/utils/backendUtils';
 import { getgds } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
@@ -237,9 +238,8 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
@@ -267,6 +267,35 @@ export default {
       errormessageVisibility: false,
       successmessageVisibility: false,
     };
+  },
+  computed: {
+    ismobile() {
+      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      }
+      return true;
+    },
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    email: 'validateData',
+    password: 'validateData',
+  },
+  mounted() {
+    if (this.$audio.player() !== undefined) {
+      this.$audio.destroy();
+    }
+    this.checkParams();
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
   },
   methods: {
     handleSubmit(e) {
@@ -300,12 +329,12 @@ export default {
                 'sessiondata',
                 encodeSecret(JSON.stringify(response.data.sessiondata)),
               );
-              var token = getItem('tokendata');
-              var user = getItem('userdata');
-              var session = getItem('sessiondata');
+              const token = getItem('tokendata');
+              const user = getItem('userdata');
+              const session = getItem('sessiondata');
               if (token != null && user != null && session != null) {
-                var tokenData = JSON.parse(decodeSecret(token));
-                var userData = JSON.parse(decodeSecret(user));
+                const tokenData = JSON.parse(decodeSecret(token));
+                const userData = JSON.parse(decodeSecret(user));
                 this.loading = false;
                 this.errormessageVisibility = false;
                 this.successmessageVisibility = true;
@@ -376,9 +405,9 @@ export default {
     },
     gotoPage(url, cmd) {
       if (cmd) {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
+        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
       } else {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
+        this.$router.push({ path: `/${this.currgd.id}:${url}` });
       }
     },
     validateData() {
@@ -434,34 +463,6 @@ export default {
         this.forgotMessage = 'Please Type in Your Email First.';
       }
     },
-  },
-  computed: {
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  mounted() {
-    if (this.$audio.player() != undefined) this.$audio.destroy();
-    this.checkParams();
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    email: 'validateData',
-    password: 'validateData',
   },
 };
 </script>

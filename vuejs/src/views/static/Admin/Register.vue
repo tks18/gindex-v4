@@ -23,14 +23,14 @@
                 <p class="modal-card-title has-text-centered">{{ listname }}</p>
                 <button
                   class="delete"
+                  aria-label="close"
                   @click="
                     modal = false;
                     pendingUserList = [];
                   "
-                  aria-label="close"
                 ></button>
               </header>
-              <section v-bind:key="actionKey" class="modal-card-body">
+              <section :key="actionKey" class="modal-card-body">
                 <div
                   v-if="pendingUserList.length == 0"
                   class="columns is-centered is-mobile"
@@ -42,24 +42,26 @@
                   </div>
                 </div>
                 <div
+                  v-for="(pedingUser, index) in pendingUserList"
                   v-else
+                  :key="index"
                   class="columns is-centered is-multiline is-mobile"
-                  v-for="(user, index) in pendingUserList"
-                  v-bind:key="index"
                 >
                   <div class="column is-6">
-                    <p class="subtitle has-text-black">{{ user.email }}</p>
+                    <p class="subtitle has-text-black">
+                      {{ pedingUser.email }}
+                    </p>
                   </div>
                   <div class="column is-6 has-text-right">
                     <button
                       class="button is-netflix-red is-rounded"
-                      @click="handleUserActions(user.email)"
+                      @click="handleUserActions(pedingUser.email)"
                     >
-                      {{ action[user.email] ? 'Close' : 'Actions' }}
+                      {{ action[pedingUser.email] ? 'Close' : 'Actions' }}
                     </button>
                   </div>
                   <div
-                    v-show="action[user.email]"
+                    v-show="action[pedingUser.email]"
                     class="column has-text-centered is-full"
                   >
                     <div class="box has-background-light">
@@ -71,7 +73,7 @@
                         >
                           <button
                             class="button is-rounded is-netflix-red has-text-white"
-                            @click="handleTransport(user, setrole)"
+                            @click="handleTransport(pedingUser, setrole)"
                           >
                             Accept
                           </button>
@@ -83,7 +85,7 @@
                         >
                           <button
                             class="button is-rounded is-netflix-red has-text-white"
-                            @click="handleDelete(deleteApi, user)"
+                            @click="handleDelete(deleteApi, pedingUser)"
                           >
                             Reject
                           </button>
@@ -95,7 +97,7 @@
                         >
                           <button
                             class="button is-rounded is-netflix-red has-text-white"
-                            @click="handleSpam(deleteApi, user)"
+                            @click="handleSpam(deleteApi, pedingUser)"
                           >
                             Mark as Spam
                           </button>
@@ -220,8 +222,8 @@
             <p>Error Proccessing</p>
             <button
               class="delete"
-              @click="errorMessage = false"
               aria-label="delete"
+              @click="errorMessage = false"
             ></button>
           </div>
           <div class="message-body">
@@ -239,8 +241,8 @@
             <p>Success !</p>
             <button
               class="delete"
-              @click="successMessage = false"
               aria-label="delete"
+              @click="successMessage = false"
             ></button>
           </div>
           <div class="message-body">
@@ -257,12 +259,12 @@
           <div class="field">
             <div class="control has-icons-left has-icons-right">
               <input
+                id="name"
+                v-model="name"
                 class="input is-rounded"
                 disabled
                 placeholder=" Recipient's Name (AutoFilled) "
-                id="name"
                 type="text"
-                v-model="name"
                 required
                 autofocus
               />
@@ -280,12 +282,12 @@
           <div class="field">
             <div class="control has-icons-left has-icons-right">
               <input
+                id="email"
+                v-model="email"
                 class="input is-rounded is-focused"
                 disabled
                 placeholder="Recipient's Email (AutoFilled)"
-                id="email"
                 type="email"
-                v-model="email"
                 required
               />
               <span class="icon is-small is-left">
@@ -302,12 +304,12 @@
           <div class="field">
             <div class="control">
               <textarea
+                id="message"
+                v-model="message"
                 class="textarea is-rounded"
                 disabled
                 placeholder="Message From Recipient"
-                id="message"
                 rows="3"
-                v-model="message"
                 required
               ></textarea>
               <p class="help has-text-netflix-only">
@@ -316,38 +318,38 @@
             </div>
           </div>
           <label class="subtitle has-text-white">
-            User's Role(Auto Filled)</label
-          >
+            User's Role(Auto Filled)
+          </label>
           <div class="control mb-3 my-1">
             <input
-              class="is-checkradio is-small is-warning mx-1"
               id="userradio"
+              v-model="role"
+              class="is-checkradio is-small is-warning mx-1"
               type="radio"
               name="role"
               checked
               value="user"
               disabled
-              v-model="role"
             />
             <label for="userradio" class="mx-1">User</label>
             <input
-              class="is-checkradio is-small is-warning mx-1"
               id="adminradio"
+              v-model="role"
+              class="is-checkradio is-small is-warning mx-1"
               type="radio"
               name="role"
               value="admin"
               disabled
-              v-model="role"
             />
             <label for="adminradio" class="mx-1"> Admin</label>
             <input
-              class="is-checkradio is-small is-warning mx-1"
               id="superadminradio"
+              v-model="role"
+              class="is-checkradio is-small is-warning mx-1"
               type="radio"
               name="role"
               value="superadmin"
               disabled
-              v-model="role"
             />
             <label for="superadminradio" class="mx-1">Superadmin</label>
           </div>
@@ -394,6 +396,7 @@ import { initializeUser, getgds } from '@utils/localUtils';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
@@ -406,13 +409,17 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
-  props: ['nextUrl'],
+  props: {
+    nextUrl: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       metatitle: 'Add / Upgrade Users',
@@ -448,6 +455,62 @@ export default {
       pendingUserList: [],
       listname: '',
     };
+  },
+  computed: {
+    ismobile() {
+      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      }
+      return true;
+    },
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    role() {
+      if (this.role === 'admin') {
+        this.namedisabled = true;
+        this.validateData();
+        this.apiurl = apiRoutes.upgradeAdmin;
+      } else if (this.role === 'superadmin') {
+        this.namedisabled = true;
+        this.validateData();
+        this.apiurl = apiRoutes.upgradeSuperAdmin;
+      } else {
+        this.namedisabled = false;
+        this.validateData();
+        this.apiurl = apiRoutes.registerRoute;
+      }
+    },
+    name: 'validateData',
+    email: 'validateData',
+    message: 'validateData',
+  },
+  beforeMount() {
+    this.loading = true;
+    const userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type === 'normal') {
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
+    } else {
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
+    }
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
   },
   methods: {
     handleSubmit(e) {
@@ -487,7 +550,11 @@ export default {
             }
           })
           .catch((error) => {
-            console.error(error);
+            this.loading = false;
+            this.successMessage = false;
+            this.errorMessage = true;
+            this.metatitle = 'Failed...';
+            this.resultmessage = error.data.message;
           });
       } else {
         this.loading = false;
@@ -522,9 +589,9 @@ export default {
               this.columnVisibility = true;
               this.metatitle = 'Got the List';
               this.pendingUserList = response.data.users;
-              response.data.users.forEach((user) => {
-                return (this.action[user.email] = false);
-              });
+              response.data.users.forEach(
+                (user) => (this.action[user.email] = false),
+              );
             } else {
               this.loading = false;
               this.columnVisibility = false;
@@ -536,9 +603,9 @@ export default {
     },
     gotoPage(url, cmd) {
       if (cmd) {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
+        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
       } else {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
+        this.$router.push({ path: `/${this.currgd.id}:${url}` });
       }
     },
     validateData() {
@@ -554,10 +621,10 @@ export default {
     },
     handleUserActions(email) {
       if (!this.action[email]) {
-        this.actionKey = this.actionKey + 1;
+        this.actionKey += 1;
         this.action[email] = true;
       } else {
-        this.actionKey = this.actionKey + 1;
+        this.actionKey += 1;
         this.action[email] = false;
       }
     },
@@ -590,13 +657,13 @@ export default {
       this.loading = true;
       let route = '';
       let reloadRoute = '';
-      if (post == 'user') {
+      if (post === 'user') {
         route = apiRoutes.deletePendingUsers;
         reloadRoute = this.pendingusers;
-      } else if (post == 'admin') {
+      } else if (post === 'admin') {
         route = apiRoutes.deletePendingAdmins;
         reloadRoute = this.pendingadmin;
-      } else if (post == 'superadmin') {
+      } else if (post === 'superadmin') {
         reloadRoute = this.pendingsuperadmin;
         route = apiRoutes.deletePendingSuperAdmins;
       }
@@ -626,63 +693,6 @@ export default {
           }
         });
     },
-  },
-  computed: {
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  beforeMount() {
-    this.loading = true;
-    var userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type == 'normal') {
-        this.user = userData.data.user;
-        this.token = userData.data.token;
-        this.logged = userData.data.logged;
-        this.loading = userData.data.loading;
-        this.admin = userData.data.admin;
-        this.superadmin = userData.data.superadmin;
-      }
-    } else {
-      this.logged = userData.data.logged;
-      this.loading = userData.data.loading;
-    }
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    role: function () {
-      if (this.role == 'admin') {
-        this.namedisabled = true;
-        this.validateData();
-        this.apiurl = apiRoutes.upgradeAdmin;
-      } else if (this.role == 'superadmin') {
-        this.namedisabled = true;
-        this.validateData();
-        this.apiurl = apiRoutes.upgradeSuperAdmin;
-      } else {
-        this.namedisabled = false;
-        this.validateData();
-        this.apiurl = apiRoutes.registerRoute;
-      }
-    },
-    name: 'validateData',
-    email: 'validateData',
-    message: 'validateData',
   },
 };
 </script>

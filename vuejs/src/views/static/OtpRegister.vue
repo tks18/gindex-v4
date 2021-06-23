@@ -22,8 +22,8 @@
             <p>Error verifying in!!</p>
             <button
               class="delete"
-              @click="errormessageVisibility = false"
               aria-label="delete"
+              @click="errormessageVisibility = false"
             ></button>
           </div>
           <div class="message-body">
@@ -41,8 +41,8 @@
             <p>Success !</p>
             <button
               class="delete"
-              @click="successmessageVisibility = false"
               aria-label="delete"
+              @click="successmessageVisibility = false"
             ></button>
           </div>
           <div class="message-body">
@@ -56,11 +56,11 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
+                id="email"
+                v-model="email"
                 class="input is-rounded"
                 placeholder="Email"
-                id="email"
                 type="email"
-                v-model="email"
                 required
                 autofocus
               />
@@ -75,11 +75,11 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
+                id="otp"
+                v-model="otp"
                 class="input is-rounded"
                 placeholder="Enter Your OTP"
-                id="otp"
                 type="text"
-                v-model="otp"
                 autofocus
               />
               <span class="icon is-small is-left">
@@ -94,11 +94,11 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                class="input is-rounded"
                 id="password"
+                v-model="password"
+                class="input is-rounded"
                 type="password"
                 placeholder="Password"
-                v-model="password"
                 required
               />
               <span class="icon is-small is-left">
@@ -109,11 +109,11 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                class="input is-rounded"
                 id="confirm-password"
+                v-model="confirmpassword"
+                class="input is-rounded"
                 type="password"
                 placeholder="Confirm Password"
-                v-model="confirmpassword"
                 required
               />
               <span class="icon is-small is-left">
@@ -144,6 +144,7 @@ import { apiRoutes } from '@/utils/backendUtils';
 import { getgds } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
@@ -156,9 +157,8 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
@@ -182,6 +182,30 @@ export default {
       successmessageVisibility: false,
     };
   },
+  computed: {
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    otp: 'validateData',
+    email: 'validateData',
+    password: 'validateData',
+    confirmpassword: 'validateData',
+  },
+  mounted() {
+    if (this.$audio.player() !== undefined) {
+      this.$audio.destroy();
+    }
+    this.checkParams();
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
   methods: {
     handleSubmit(e) {
       this.metatitle = 'Verifying...';
@@ -204,9 +228,7 @@ export default {
               this.successmessageVisibility = true;
               this.loading = false;
               this.metatitle = 'Success Verifying';
-              this.resultmessage =
-                response.data.message +
-                'Now You can Login with Your Email and Password';
+              this.resultmessage = `${response.data.message}Now You can Login with Your Email and Password`;
             } else {
               this.errormessageVisibility = true;
               this.successmessageVisibility = false;
@@ -226,9 +248,9 @@ export default {
     },
     gotoPage(url, cmd) {
       if (cmd) {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
+        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
       } else {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
+        this.$router.push({ path: `/${this.currgd.id}:${url}` });
       }
     },
     checkParams() {
@@ -248,35 +270,13 @@ export default {
         emailRegex.test(this.email) &&
         this.otp.length > 0 &&
         this.password.length > 0 &&
-        this.password == this.confirmpassword
+        this.password === this.confirmpassword
       ) {
         this.disabled = false;
       } else {
         this.disabled = true;
       }
     },
-  },
-  computed: {
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  mounted() {
-    if (this.$audio.player() != undefined) this.$audio.destroy();
-    this.checkParams();
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    otp: 'validateData',
-    email: 'validateData',
-    password: 'validateData',
-    confirmpassword: 'validateData',
   },
 };
 </script>
