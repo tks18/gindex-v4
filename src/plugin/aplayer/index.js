@@ -1,29 +1,30 @@
 import 'aplayer/dist/APlayer.min.css';
-import aplayer from 'aplayer';
-var dynplayer;
-var domElement;
+import Aplayer from 'aplayer';
+
+let dynplayer;
+let domElement;
 export function createPlayer() {
-  domElement = document.createElement("div");
+  domElement = document.createElement('div');
   document.body.appendChild(domElement);
-  dynplayer = new aplayer({
+  dynplayer = new Aplayer({
     container: domElement,
     fixed: true,
     loop: 'all',
     theme: '#e50914',
     preload: 'auto',
     volume: 0.7,
-  })
+  });
 }
-export function globalPlayer(){
-  if(dynplayer == undefined || dynplayer == "") return undefined
+export function globalPlayer() {
+  if (dynplayer === undefined || dynplayer === '') return undefined;
   return dynplayer;
 }
 
-export function destroyPlayer(){
-  if(dynplayer){
+export function destroyPlayer() {
+  if (dynplayer) {
     dynplayer.destroy();
-    dynplayer = "";
+    dynplayer = '';
     domElement.remove();
-    domElement = "";
+    domElement = '';
   }
 }

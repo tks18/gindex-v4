@@ -22,8 +22,8 @@
               <p class="modal-card-title has-text-centered">Admin Features</p>
               <button
                 class="delete"
-                @click="adminmodal = false"
                 aria-label="close"
+                @click="adminmodal = false"
               ></button>
             </header>
             <section class="modal-card-body">
@@ -70,8 +70,8 @@
             <p>Error Logging in!!</p>
             <button
               class="delete"
-              @click="errorMessage = false"
               aria-label="delete"
+              @click="errorMessage = false"
             ></button>
           </div>
           <div class="message-body">
@@ -89,8 +89,8 @@
             <p>Success !</p>
             <button
               class="delete"
-              @click="successMessage = false"
               aria-label="delete"
+              @click="successMessage = false"
             ></button>
           </div>
           <div class="message-body">
@@ -103,34 +103,34 @@
         <form @submit.prevent="handleSubmit">
           <div class="control mb-3">
             <input
-              class="is-checkradio is-small is-warning"
               id="adminradio"
+              v-model="role"
+              class="is-checkradio is-small is-warning"
               type="radio"
               name="role"
               value="admin"
               disabled
-              v-model="role"
             />
             <label for="adminradio"> Admin</label>
             <input
-              class="is-checkradio is-small is-warning"
               id="superadminradio"
+              v-model="role"
+              class="is-checkradio is-small is-warning"
               type="radio"
               name="role"
               value="superadmin"
               disabled
-              v-model="role"
             />
             <label for="superadminradio">Superadmin</label>
           </div>
           <div class="field">
             <div class="control">
               <textarea
+                id="message"
+                v-model="message"
                 class="textarea is-success is-rounded"
                 placeholder="Why You Need More Previleges ?"
-                id="message"
                 rows="3"
-                v-model="message"
                 required
               ></textarea>
             </div>
@@ -139,11 +139,11 @@
             <div class="control">
               <div class="b-checkbox is-success is-circular is-inline">
                 <input
+                  id="terms"
+                  v-model="checked"
                   class="styled has-text-success"
                   type="checkbox"
-                  id="terms"
                   name="terms"
-                  v-model="checked"
                 />
                 <label for="terms">
                   <span class="content has-text-white">
@@ -152,9 +152,10 @@
                       class="has-text-success"
                       href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md"
                       target="_blank"
-                      >Community Guidelines</a
-                    ></span
-                  >
+                    >
+                      Community Guidelines
+                    </a>
+                  </span>
                 </label>
               </div>
             </div>
@@ -163,11 +164,11 @@
             <div class="control">
               <div class="b-checkbox is-success is-circular is-inline">
                 <input
+                  id="code"
+                  v-model="codechecked"
                   class="styled has-text-success"
                   type="checkbox"
-                  id="code"
                   name="terms"
-                  v-model="codechecked"
                 />
                 <label for="code">
                   <span class="content has-text-white">
@@ -176,9 +177,10 @@
                       class="has-text-success"
                       href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md"
                       target="_blank"
-                      >Code of Conduct</a
-                    ></span
-                  >
+                    >
+                      Code of Conduct
+                    </a>
+                  </span>
                 </label>
               </div>
             </div>
@@ -209,9 +211,9 @@
                 Request More Previleges
               </h2>
               <div class="content">
-                <span class="subtitle has-text-weight-bold has-text-centered"
-                  >Ahh ! Why You need to Have More Access to this Website.</span
-                >
+                <span class="subtitle has-text-weight-bold has-text-centered">
+                  Ahh ! Why You need to Have More Access to this Website.
+                </span>
               </div>
             </div>
             <div :class="superadminmodal ? 'modal is-active' : 'modal'">
@@ -223,8 +225,8 @@
                   </p>
                   <button
                     class="delete"
-                    @click="superadminmodal = false"
                     aria-label="close"
+                    @click="superadminmodal = false"
                   ></button>
                 </header>
                 <section class="modal-card-body">
@@ -342,6 +344,7 @@ import { initializeUser, getgds } from '@utils/localUtils';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
@@ -354,13 +357,17 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
-  props: ['nextUrl'],
+  props: {
+    nextUrl: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       metatitle: 'Previlege Request',
@@ -383,6 +390,96 @@ export default {
       fullpage: true,
       message: '',
     };
+  },
+  computed: {
+    ismobile() {
+      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      }
+      return true;
+    },
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    role: 'validateData',
+    message: 'validateData',
+    checked: 'validateData',
+    codechecked: 'validateData',
+  },
+  beforeMount() {
+    this.loading = true;
+    this.$backend.post(apiRoutes.getSiteSettings).then((response) => {
+      if (response.data.auth && response.data.registered) {
+        if (response.data.data.adminRequests) {
+          this.loading = false;
+        } else {
+          this.loading = false;
+          this.$router.push({
+            name: 'results',
+            params: {
+              id: this.currgd.id,
+              cmd: 'result',
+              success: false,
+              data:
+                'User Requests are Closed by the Admin. Please Try Afterwards or Contact Admins.',
+              noredirect: true,
+            },
+          });
+        }
+      } else {
+        this.loading = false;
+      }
+    });
+    this.loading = true;
+    const userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type === 'normal') {
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
+    } else {
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
+    }
+  },
+  mounted() {
+    this.loading = true;
+    if (!this.admin && !this.superadmin) {
+      this.apiurl = apiRoutes.requestadminroute;
+      this.role = 'admin';
+      this.loading = false;
+    } else if (this.admin && !this.superadmin) {
+      this.apiurl = apiRoutes.requestsuperadminroute;
+      this.role = 'superadmin';
+      this.loading = false;
+    } else {
+      this.loading = false;
+      this.$router.push({
+        name: 'results',
+        params: {
+          id: this.currgd.id,
+          cmd: 'result',
+          success: false,
+          data: 'You are Already a Admin or SuperAdmin',
+          redirectUrl: '/',
+          tocmd: 'home',
+        },
+      });
+    }
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
   },
   methods: {
     handleSubmit(e) {
@@ -418,7 +515,11 @@ export default {
             }
           })
           .catch((error) => {
-            console.error(error);
+            this.successMessage = false;
+            this.errorMessage = true;
+            this.metatitle = 'Request Failed...';
+            this.loading = false;
+            this.resultmessage = error.data.message;
           });
       } else {
         this.successMessage = false;
@@ -440,95 +541,6 @@ export default {
         this.disabled = true;
       }
     },
-  },
-  computed: {
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  beforeMount() {
-    this.loading = true;
-    this.$backend.post(apiRoutes.getSiteSettings).then((response) => {
-      if (response.data.auth && response.data.registered) {
-        if (response.data.data.adminRequests) {
-          this.loading = false;
-        } else {
-          this.loading = false;
-          this.$router.push({
-            name: 'results',
-            params: {
-              id: this.currgd.id,
-              cmd: 'result',
-              success: false,
-              data:
-                'User Requests are Closed by the Admin. Please Try Afterwards or Contact Admins.',
-              noredirect: true,
-            },
-          });
-        }
-      } else {
-        this.loading = false;
-      }
-    });
-    this.loading = true;
-    var userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type == 'normal') {
-        this.user = userData.data.user;
-        this.token = userData.data.token;
-        this.logged = userData.data.logged;
-        this.loading = userData.data.loading;
-        this.admin = userData.data.admin;
-        this.superadmin = userData.data.superadmin;
-      }
-    } else {
-      this.logged = userData.data.logged;
-      this.loading = userData.data.loading;
-    }
-  },
-  mounted() {
-    this.loading = true;
-    if (!this.admin && !this.superadmin) {
-      this.apiurl = apiRoutes.requestadminroute;
-      (this.role = 'admin'), (this.loading = false);
-    } else if (this.admin && !this.superadmin) {
-      this.apiurl = apiRoutes.requestsuperadminroute;
-      (this.role = 'superadmin'), (this.loading = false);
-    } else {
-      this.loading = false;
-      this.$router.push({
-        name: 'results',
-        params: {
-          id: this.currgd.id,
-          cmd: 'result',
-          success: false,
-          data: 'You are Already a Admin or SuperAdmin',
-          redirectUrl: '/',
-          tocmd: 'home',
-        },
-      });
-    }
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    role: 'validateData',
-    message: 'validateData',
-    checked: 'validateData',
-    codechecked: 'validateData',
   },
 };
 </script>

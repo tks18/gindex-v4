@@ -34,8 +34,8 @@
             <p>Error Proccessing</p>
             <button
               class="delete"
-              @click="errorMessage = false"
               aria-label="delete"
+              @click="errorMessage = false"
             ></button>
           </div>
           <div class="message-body">
@@ -46,11 +46,11 @@
           <div class="field">
             <p class="control has-icons-left">
               <input
-                class="input is-rounded"
                 id="password"
+                v-model="password"
+                class="input is-rounded"
                 type="password"
                 placeholder="Your Password"
-                v-model="password"
                 required
               />
               <span class="icon is-small is-left">
@@ -83,6 +83,7 @@ import { initializeUser, getgds } from '@utils/localUtils';
 import { removeItem } from '@utils/encryptUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
@@ -95,13 +96,17 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
-  props: ['nextUrl'],
+  props: {
+    nextUrl: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       user: {},
@@ -116,13 +121,56 @@ export default {
       fullpage: true,
     };
   },
+  computed: {
+    ismobile() {
+      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      }
+      return true;
+    },
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    password() {
+      if (this.password.length > 0) {
+        this.disabled = false;
+      } else {
+        this.disabled = true;
+      }
+    },
+  },
+  beforeMount() {
+    if (this.$audio.player() !== undefined) {
+      this.$audio.destroy();
+    }
+    this.loading = true;
+    const userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type === 'normal') {
+        this.user = userData.data.user;
+        this.loading = userData.data.loading;
+      }
+    } else {
+      this.loading = userData.data.loading;
+    }
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
   methods: {
     handleSubmit(e) {
       this.metatitle = 'Deleting in Progress..';
       this.loading = true;
       e.preventDefault();
       if (this.password && this.password.length > 0) {
-        let url = apiRoutes.deleteMe;
+        const url = apiRoutes.deleteMe;
         this.$backend
           .post(
             url,
@@ -167,55 +215,16 @@ export default {
             }
           })
           .catch((error) => {
-            console.error(error);
+            this.metatitle = 'Deletion Failed';
+            this.errorMessage = true;
+            this.loading = false;
+            this.resultmessage = error.data.message;
           });
       } else {
         this.errorMessage = true;
         this.loading = false;
         this.resultmessage = 'Fill in Your Password';
         this.password = '';
-      }
-    },
-  },
-  computed: {
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  beforeMount() {
-    if (this.$audio.player() != undefined) this.$audio.destroy();
-    this.loading = true;
-    var userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type == 'normal') {
-        this.user = userData.data.user;
-        this.loading = userData.data.loading;
-      }
-    } else {
-      this.loading = userData.data.loading;
-    }
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    password: function () {
-      if (this.password.length > 0) {
-        this.disabled = false;
-      } else {
-        this.disabled = true;
       }
     },
   },
