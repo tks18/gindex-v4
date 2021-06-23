@@ -17,12 +17,12 @@
             <div class="column has-text-centered is-3">
               <p class="control has-icons-right">
                 <input
+                  id="email"
+                  v-model="searchEmail"
                   class="input is-rounded"
                   placeholder="Enter User's Email"
                   autofocus
-                  id="email"
                   type="email"
-                  v-model="searchEmail"
                 />
                 <span class="icon is-small is-right">
                   <i class="fas fa-search"></i>
@@ -31,12 +31,12 @@
             </div>
             <div class="column has-text-centered is-3">
               <button
-                @click="handleRefresh"
                 :class="
                   loading
                     ? 'button is-rounded is-loading is-netflix-red'
                     : 'button is-rounded is-netflix-red'
                 "
+                @click="handleRefresh"
               >
                 <span class="icon">
                   <i class="fas fa-sync"></i>
@@ -104,8 +104,8 @@
                     <div class="message-body">
                       <button
                         class="delete"
-                        @click="errorMessage = false"
                         aria-label="delete"
+                        @click="errorMessage = false"
                       ></button>
                       {{ resultmessage }}
                     </div>
@@ -122,8 +122,8 @@
                     <div class="message-body">
                       <button
                         class="delete"
-                        @click="successMessage = false"
                         aria-label="delete"
+                        @click="successMessage = false"
                       ></button>
                       {{ resultmessage }}
                     </div>
@@ -226,11 +226,11 @@
                       <div class="field">
                         <div class="control">
                           <textarea
+                            id="message"
+                            v-model="inviteMessage"
                             class="textarea is-success is-rounded"
                             placeholder="Message to Him"
-                            id="message"
                             rows="3"
-                            v-model="inviteMessage"
                             required
                           ></textarea>
                         </div>
@@ -284,18 +284,18 @@
               </tr>
             </tfoot>
             <tbody>
-              <tr v-for="(user, index) in searchedUsers" v-bind:key="index">
-                <th class="has-text-white">{{ user.name }}</th>
+              <tr v-for="(searchUser, index) in searchedUsers" :key="index">
+                <th class="has-text-white">{{ searchUser.name }}</th>
                 <th class="has-text-white is-hidden-mobile is-hidden-touch">
-                  {{ user.email.slice(0, 30) }}
+                  {{ searchUser.email.slice(0, 30) }}
                 </th>
                 <th class="has-text-white is-hidden-mobile is-hidden-touch">
-                  {{ user.role }}
+                  {{ searchUser.role }}
                 </th>
                 <th class="has-text-white">
                   <button
                     class="button is-rounded is-netflix-red has-text-white"
-                    @click="userModal(user)"
+                    @click="userModal(searchUser)"
                   >
                     View
                   </button>
@@ -317,6 +317,7 @@
 import { initializeUser, getgds } from '@utils/localUtils';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import Loading from 'vue-loading-overlay';
+
 export default {
   components: {
     Loading,
@@ -329,9 +330,8 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
@@ -364,6 +364,67 @@ export default {
       fullpage: true,
     };
   },
+  computed: {
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    searchEmail() {
+      if (this.users.length) {
+        const escapedSearch = this.searchEmail;
+        const searchRegex = new RegExp(escapedSearch, 'g');
+        this.searchedUsers = this.users.filter((user) => {
+          const fileName = user.email;
+          return searchRegex.test(fileName);
+        });
+      }
+    },
+  },
+  beforeMount() {
+    this.loading = true;
+    const userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type === 'normal') {
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
+    } else {
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
+    }
+  },
+  mounted() {
+    if (this.admin && this.superadmin) {
+      this.loading = false;
+      this.apiurl = apiRoutes.getAll;
+    } else if (this.admin && !this.superadmin) {
+      this.loading = false;
+      this.apiurl = apiRoutes.getUsers;
+    } else {
+      this.$router.push({
+        name: 'results',
+        params: {
+          id: this.currgd.id,
+          cmd: 'result',
+          data: 'UnAuthorized Route.',
+          redirectUrl: '/',
+          tocmd: 'home',
+        },
+      });
+    }
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
   methods: {
     handleRefresh() {
       this.metatitle = 'Refreshing...';
@@ -385,24 +446,23 @@ export default {
               this.searchedUsers = response.data.users;
             } else {
               this.metatitle = 'Failed...';
-              console.log(response);
             }
           });
       }
     },
     gotoPage(url, cmd) {
       if (cmd) {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
+        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
       } else {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
+        this.$router.push({ path: `/${this.currgd.id}:${url}` });
       }
     },
     handleUpgradeDelete(user, action) {
       this.metatitle = 'Handling the Changes...';
       this.loading = true;
       let route = '';
-      if (action == 'delete') {
-        if (user.role == 'User') {
+      if (action === 'delete') {
+        if (user.role === 'User') {
           route = this.deleteUser;
         } else {
           route = this.deleteAdmin;
@@ -418,7 +478,7 @@ export default {
           backendHeaders(this.token.token),
         )
         .then((response) => {
-          if (action == 'delete') {
+          if (action === 'delete') {
             if (
               response.data.auth &&
               response.data.registered &&
@@ -446,14 +506,14 @@ export default {
       this.metatitle = 'Inviting...';
       this.loading = true;
       let route = '';
-      if (user.role == 'User') {
+      if (user.role === 'User') {
         route = this.inviteAdmin;
       } else {
         route = this.inviteSuperAdmin;
       }
       if (
-        user.role == 'Admin' ||
-        (user.role == 'User' && this.inviteMessage.length > 0)
+        user.role === 'Admin' ||
+        (user.role === 'User' && this.inviteMessage.length > 0)
       ) {
         this.$backend
           .post(
@@ -481,7 +541,11 @@ export default {
             }
           });
       } else {
-        console.log(this.inviteMessage);
+        this.successMessage = false;
+        this.errorMessage = true;
+        this.metatitle = 'Invite Failed...';
+        this.resultmessage = response.data.message;
+        this.loading = false;
       }
     },
     userModal(user) {
@@ -491,12 +555,12 @@ export default {
       this.currentUser = user;
       this.metatitle = 'Handling the Changes...';
       let route = '';
-      if (user.role == 'User') {
+      if (user.role === 'User') {
         route = apiRoutes.getPendingAdmins;
-      } else if (user.role == 'Admin') {
+      } else if (user.role === 'Admin') {
         route = apiRoutes.getPendingSuperAdmins;
       }
-      if (user.role == 'User' || user.role == 'Admin') {
+      if (user.role === 'User' || user.role === 'Admin') {
         this.loading = true;
         this.$backend
           .post(
@@ -508,10 +572,9 @@ export default {
           )
           .then((response) => {
             if (response) {
-              console.log(response);
               if (response.data.auth && response.data.registered) {
                 response.data.users.forEach((pendingUser) => {
-                  if (pendingUser.email == user.email) {
+                  if (pendingUser.email === user.email) {
                     this.loading = false;
                     this.metatitle = 'Done...';
                     this.currentUser.pending = true;
@@ -545,66 +608,6 @@ export default {
       this.errorMessage = false;
       this.successMessage = false;
       this.inviteInput = false;
-    },
-  },
-  beforeMount() {
-    this.loading = true;
-    var userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type == 'normal') {
-        this.user = userData.data.user;
-        this.token = userData.data.token;
-        this.logged = userData.data.logged;
-        this.loading = userData.data.loading;
-        this.admin = userData.data.admin;
-        this.superadmin = userData.data.superadmin;
-      }
-    } else {
-      this.logged = userData.data.logged;
-      this.loading = userData.data.loading;
-    }
-  },
-  computed: {
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  mounted() {
-    if (this.admin && this.superadmin) {
-      this.loading = false;
-      this.apiurl = apiRoutes.getAll;
-    } else if (this.admin && !this.superadmin) {
-      this.loading = false;
-      this.apiurl = apiRoutes.getUsers;
-    } else {
-      this.$router.push({
-        name: 'results',
-        params: {
-          id: this.currgd.id,
-          cmd: 'result',
-          data: 'UnAuthorized Route.',
-          redirectUrl: '/',
-          tocmd: 'home',
-        },
-      });
-    }
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    searchEmail: function () {
-      if (this.users.length) {
-        var escapedSearch = this.searchEmail;
-        var searchRegex = new RegExp(escapedSearch, 'g');
-        this.searchedUsers = this.users.filter((user) => {
-          return searchRegex.test(user.email);
-        });
-      }
     },
   },
 };

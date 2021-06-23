@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 const BuildAppJSPlugin = require('./custom-plugins/buildAppJSPlugin');
 const cdnDependencies = require('./custom-plugins/dependencies-cdn');
 
@@ -8,6 +10,23 @@ const cdn = {
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = (config) => {
+  config.plugin('html').tap((args) => {
+    args[0].minify = {
+      ...args[0].minify,
+      caseSensitive: true,
+      collapseWhitespace: false,
+      conservativeCollapse: true,
+      keepClosingSlash: true,
+      minifyCSS: true,
+      minifyJS: true,
+      removeComments: true,
+      removeAttributeQuotes: false,
+      removeRedundantAttributes: true,
+      removeScriptTypeAttributes: false,
+      removeStyleLinkTypeAttributes: false,
+    };
+    return args;
+  });
   config.plugin('BuildAppJSPlugin').use(BuildAppJSPlugin);
   config.plugin('html').tap((args) => {
     if (isProd) {

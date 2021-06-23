@@ -23,8 +23,8 @@
             <p>Error Proccessing</p>
             <button
               class="delete"
-              @click="errorMessage = false"
               aria-label="delete"
+              @click="errorMessage = false"
             ></button>
           </div>
           <div class="message-body">
@@ -42,8 +42,8 @@
             <p>Success !</p>
             <button
               class="delete"
-              @click="successMessage = false"
               aria-label="delete"
+              @click="successMessage = false"
             ></button>
           </div>
           <div class="message-body">
@@ -54,11 +54,11 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
+                id="invitename"
+                v-model="name"
                 class="input is-rounded"
                 placeholder="Your Name"
-                id="invitename"
                 type="text"
-                v-model="name"
                 required
                 autofocus
               />
@@ -73,11 +73,11 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
+                id="email"
+                v-model="email"
                 class="input is-rounded"
                 placeholder="Email"
-                id="email"
                 type="email"
-                v-model="email"
                 required
               />
               <span class="icon is-small is-left">
@@ -91,58 +91,59 @@
           <label class="subtitle has-text-white"> Invite for Role</label>
           <div class="control mb-3 my-1">
             <input
-              class="is-checkradio is-small is-success mx-1"
               id="userradio"
+              v-model="role"
+              class="is-checkradio is-small is-success mx-1"
               type="radio"
               name="role"
               checked
               value="user"
               :disabled="disabled"
-              v-model="role"
             />
             <label
               for="userradio"
               class="subtitle has-text-weight-bold has-text-white mx-1"
-              >User</label
             >
+              User
+            </label>
             <input
-              class="is-checkradio is-small is-success mx-1"
               id="adminradio"
+              v-model="role"
+              class="is-checkradio is-small is-success mx-1"
               type="radio"
               name="role"
               value="admin"
               :disabled="disabled"
-              v-model="role"
             />
             <label
               for="adminradio"
               class="subtitle has-text-weight-bold has-text-white mx-1"
             >
-              Admin</label
-            >
+              Admin
+            </label>
             <input
-              class="is-checkradio is-small is-success mx-1"
               id="superadminradio"
+              v-model="role"
+              class="is-checkradio is-small is-success mx-1"
               type="radio"
               name="role"
               value="superadmin"
               :disabled="disabled"
-              v-model="role"
             />
             <label
               for="superadminradio"
               class="subtitle has-text-weight-bold has-text-white mx-1"
-              >Superadmin</label
-            >
+              >Superadmin
+            </label>
           </div>
           <div class="field">
             <div class="control">
               <textarea
+                id="message"
+                v-model="message"
                 class="textarea is-rounded"
                 placeholder="Message to that Person"
-                id="message"
                 rows="3"
-                v-model="message"
                 required
               ></textarea>
             </div>
@@ -151,11 +152,11 @@
             <div class="control">
               <div class="b-checkbox is-success is-circular is-inline">
                 <input
+                  id="terms"
+                  v-model="checked"
                   class="styled has-text-success"
                   type="checkbox"
-                  id="terms"
                   name="terms"
-                  v-model="checked"
                 />
                 <label for="terms">
                   <span class="content has-text-white">
@@ -164,9 +165,9 @@
                       class="has-text-success"
                       href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md"
                       target="_blank"
-                      >Community Guidelines</a
-                    ></span
-                  >
+                      >Community Guidelines
+                    </a>
+                  </span>
                 </label>
               </div>
             </div>
@@ -175,11 +176,11 @@
             <div class="control">
               <div class="b-checkbox is-success is-circular is-inline">
                 <input
+                  id="code"
+                  v-model="codechecked"
                   class="styled has-text-success"
                   type="checkbox"
-                  id="code"
                   name="terms"
-                  v-model="codechecked"
                 />
                 <label for="code">
                   <span class="content has-text-white">
@@ -188,9 +189,10 @@
                       class="has-text-success"
                       href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md"
                       target="_blank"
-                      >Code of Conduct</a
-                    ></span
-                  >
+                    >
+                      Code of Conduct
+                    </a>
+                  </span>
                 </label>
               </div>
             </div>
@@ -219,6 +221,7 @@ import { initializeUser, getgds } from '@utils/localUtils';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
@@ -231,13 +234,17 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
-  props: ['nextUrl'],
+  props: {
+    nextUrl: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       metatitle: 'Invite Users',
@@ -261,6 +268,91 @@ export default {
       loading: false,
       fullpage: true,
     };
+  },
+  computed: {
+    ismobile() {
+      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      }
+      return true;
+    },
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    role() {
+      if (this.role === 'user') {
+        this.apiurl = apiRoutes.inviteUser;
+        this.validateData();
+      } else if (this.role === 'admin') {
+        this.apiurl = apiRoutes.inviteAdmin;
+        this.validateData();
+      } else if (this.role === 'superadmin') {
+        this.validateData();
+        this.apiurl = apiRoutes.inviteSuperAdmin;
+      }
+    },
+    name: 'validateData',
+    email: 'validateData',
+    message: 'validateData',
+    checked: 'validateData',
+    codechecked: 'validateData',
+  },
+  beforeMount() {
+    this.loading = true;
+    const userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type === 'normal') {
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
+    } else {
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
+    }
+  },
+  mounted() {
+    this.loading = true;
+    if (this.user.admin && this.user.superadmin) {
+      this.apiurl = apiRoutes.inviteUser;
+      this.admin = true;
+      this.superadmin = true;
+      this.role = 'user';
+      this.disabled = false;
+      this.loading = false;
+    } else if (this.user.admin && !this.user.superadmin) {
+      this.apiurl = apiRoutes.inviteUser;
+      this.admin = true;
+      this.superadmin = false;
+      this.role = 'user';
+      this.disabled = true;
+      this.loading = false;
+    } else {
+      this.loading = false;
+      this.$router.push({
+        name: 'results',
+        params: {
+          id: 0,
+          cmd: 'result',
+          success: false,
+          data: 'UnAuthorized Route. Not Allowed.',
+          redirectUrl: '/0:home/',
+        },
+      });
+    }
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
   },
   methods: {
     handleSubmit(e) {
@@ -332,92 +424,6 @@ export default {
         this.buttondisabled = true;
       }
     },
-  },
-  computed: {
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  beforeMount() {
-    this.loading = true;
-    var userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type == 'normal') {
-        this.user = userData.data.user;
-        this.token = userData.data.token;
-        this.logged = userData.data.logged;
-        this.loading = userData.data.loading;
-        this.admin = userData.data.admin;
-        this.superadmin = userData.data.superadmin;
-      }
-    } else {
-      this.logged = userData.data.logged;
-      this.loading = userData.data.loading;
-    }
-  },
-  mounted() {
-    this.loading = true;
-    if (this.user.admin && this.user.superadmin) {
-      this.apiurl = apiRoutes.inviteUser;
-      (this.admin = true),
-        (this.superadmin = true),
-        (this.role = 'user'),
-        (this.disabled = false),
-        (this.loading = false);
-    } else if (this.user.admin && !this.user.superadmin) {
-      this.apiurl = apiRoutes.inviteUser;
-      (this.admin = true),
-        (this.superadmin = false),
-        (this.role = 'user'),
-        (this.disabled = true),
-        (this.loading = false);
-    } else {
-      this.loading = false;
-      this.$router.push({
-        name: 'results',
-        params: {
-          id: 0,
-          cmd: 'result',
-          success: false,
-          data: 'UnAuthorized Route. Not Allowed.',
-          redirectUrl: '/0:home/',
-        },
-      });
-    }
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    role: function () {
-      if (this.role == 'user') {
-        this.apiurl = apiRoutes.inviteUser;
-        this.validateData();
-      } else if (this.role == 'admin') {
-        this.apiurl = apiRoutes.inviteAdmin;
-        this.validateData();
-      } else if (this.role == 'superadmin') {
-        this.validateData();
-        this.apiurl = apiRoutes.inviteSuperAdmin;
-      }
-    },
-    name: 'validateData',
-    email: 'validateData',
-    message: 'validateData',
-    checked: 'validateData',
-    codechecked: 'validateData',
   },
 };
 </script>

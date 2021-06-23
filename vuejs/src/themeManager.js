@@ -1,13 +1,11 @@
 import themeConfigs from './themeConfigs';
 
 const identifyTheme = (THEME) => {
-  const defaultTheme = themeConfigs.filter((theme) => {
-    return theme.name === 'netflix-red';
-  })[0];
+  const defaultTheme = themeConfigs.filter(
+    (theme) => theme.name === 'netflix-red',
+  )[0];
   if (THEME) {
-    let currentTheme = themeConfigs.filter((theme) => {
-      return theme.name === THEME;
-    });
+    const currentTheme = themeConfigs.filter((theme) => theme.name === THEME);
     if (currentTheme.length > 0) {
       return currentTheme[0];
     }
@@ -15,7 +13,7 @@ const identifyTheme = (THEME) => {
   return defaultTheme;
 };
 
-export default function () {
+export default function returnTheme() {
   const themes = [
     'carnation',
     'curious-blue',

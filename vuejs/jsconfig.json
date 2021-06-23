@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "baseUrl": "."
+  },
+  "typeAcquisition": {
+    "exclude": [
+      "agent-base",
+      "dotenv",
+      "https-proxy-agent",
+      "html-entities",
+      "socks-proxy-agent",
+      "source-map",
+      "tsconfig-paths"
+    ]
+  },
+  "exclude": ["node_modules", "dist"],
+  "include": ["src/**/*"]
+}

@@ -22,8 +22,8 @@
             <p>Error Requesting !!</p>
             <button
               class="delete"
-              @click="errormessageVisibility = false"
               aria-label="delete"
+              @click="errormessageVisibility = false"
             ></button>
           </div>
           <div class="message-body">
@@ -41,8 +41,8 @@
             <p>Success !</p>
             <button
               class="delete"
-              @click="successmessageVisibility = false"
               aria-label="delete"
+              @click="successmessageVisibility = false"
             ></button>
           </div>
           <div class="message-body">
@@ -56,11 +56,11 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
+                id="email"
+                v-model="email"
                 class="input is-rounded is-focused"
                 placeholder="Email"
-                id="email"
                 type="email"
-                v-model="email"
                 required
                 autofocus
               />
@@ -75,11 +75,11 @@
           <div class="field">
             <p class="control has-icons-left has-icons-right">
               <input
+                id="name"
+                v-model="name"
                 class="input is-rounded"
                 placeholder="Your Name"
-                id="name"
                 type="text"
-                v-model="name"
                 required
                 autofocus
               />
@@ -92,16 +92,16 @@
             </p>
           </div>
           <div class="field">
-            <label class="label has-text-white"
-              >Select the Space for Which Access is Required ?</label
-            >
+            <label class="label has-text-white">
+              Select the Space for Which Access is Required ?
+            </label>
             <div class="control">
               <div class="select is-fullwidth">
-                <select v-model="drive" id="drive">
+                <select id="drive" v-model="drive">
                   <option
                     v-for="(disk, index) in gds"
+                    :key="index"
                     :value="index"
-                    v-bind:key="index"
                   >
                     {{ disk.name }}
                   </option>
@@ -112,11 +112,11 @@
           <div class="field">
             <div class="control">
               <textarea
+                id="message"
+                v-model="message"
                 class="textarea is-rounded"
                 placeholder="Why You Need Access ?"
-                id="message"
                 rows="3"
-                v-model="message"
                 required
               ></textarea>
               <p class="help has-text-netflix-only">
@@ -128,11 +128,11 @@
             <div class="control">
               <div class="b-checkbox is-success is-circular is-inline">
                 <input
+                  id="terms"
+                  v-model="checked"
                   class="styled has-text-netflix-only"
                   type="checkbox"
-                  id="terms"
                   name="terms"
-                  v-model="checked"
                 />
                 <label for="terms">
                   <span class="content has-text-white">
@@ -141,9 +141,10 @@
                       class="has-text-netflix-only"
                       href="https://raw.githubusercontent.com/tks18/gindex-v4/dark-mode-0-1/CONTRIBUTING.md"
                       target="_blank"
-                      >Community Guidelines</a
-                    ></span
-                  >
+                    >
+                      Community Guidelines
+                    </a>
+                  </span>
                 </label>
               </div>
             </div>
@@ -152,11 +153,11 @@
             <div class="control">
               <div class="b-checkbox is-success is-circular is-inline">
                 <input
+                  id="code"
+                  v-model="codechecked"
                   class="styled has-text-netflix-only"
                   type="checkbox"
-                  id="code"
                   name="terms"
-                  v-model="codechecked"
                 />
                 <label for="code">
                   <span class="content has-text-white">
@@ -165,9 +166,9 @@
                       class="has-text-netflix-only"
                       href="https://github.com/tks18/gindex-v4/blob/dark-mode-0-1/CODE_OF_CONDUCT.md"
                       target="_blank"
-                      >Code of Conduct</a
-                    ></span
-                  >
+                      >Code of Conduct
+                    </a>
+                  </span>
                 </label>
               </div>
             </div>
@@ -196,6 +197,7 @@ import { apiRoutes } from '@/utils/backendUtils';
 import { getgds } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
   components: {
     Loading,
@@ -208,13 +210,17 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
-  props: ['nextUrl'],
+  props: {
+    nextUrl: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       name: '',
@@ -237,6 +243,56 @@ export default {
       errormessageVisibility: false,
     };
   },
+  computed: {
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+  },
+  watch: {
+    name: 'validateData',
+    email: 'validateData',
+    message: 'validateData',
+    checked: 'validateData',
+    codechecked: 'validateData',
+  },
+  beforeMount() {
+    this.loading = true;
+    this.$backend.post(apiRoutes.getSiteSettings).then((response) => {
+      if (response.data.auth && response.data.registered) {
+        if (response.data.data.requests) {
+          this.loading = false;
+        } else {
+          this.loading = false;
+          this.$router.push({
+            name: 'results',
+            params: {
+              id: this.currgd.id,
+              cmd: 'result',
+              success: false,
+              data:
+                'User Requests are Closed by the Admin. Please Try Afterwards or Contact Admins.',
+              noredirect: true,
+            },
+          });
+        }
+      } else {
+        this.loading = false;
+      }
+    });
+  },
+  mounted() {
+    if (this.$audio.player() !== undefined) {
+      this.$audio.destroy();
+    }
+    this.checkParams();
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
+  },
   methods: {
     handleSubmit(e) {
       this.metatitle = 'Requesting Access...';
@@ -244,7 +300,7 @@ export default {
       e.preventDefault();
       if (this.checked) {
         if (this.codechecked) {
-          let url = apiRoutes.requestRoute;
+          const url = apiRoutes.requestRoute;
           this.$backend
             .post(url, {
               name: this.name,
@@ -270,7 +326,11 @@ export default {
               }
             })
             .catch((error) => {
-              console.error(error);
+              this.successmessageVisibility = false;
+              this.errormessageVisibility = true;
+              this.loading = false;
+              this.metatitle = 'Request Failed...';
+              this.resultmessage = error.data.message;
             });
         } else {
           this.successmessageVisibility = false;
@@ -313,57 +373,6 @@ export default {
       } else {
         this.disabled = true;
       }
-    },
-  },
-  computed: {
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-  },
-  beforeMount() {
-    this.loading = true;
-    this.$backend.post(apiRoutes.getSiteSettings).then((response) => {
-      if (response.data.auth && response.data.registered) {
-        if (response.data.data.requests) {
-          this.loading = false;
-        } else {
-          this.loading = false;
-          this.$router.push({
-            name: 'results',
-            params: {
-              id: this.currgd.id,
-              cmd: 'result',
-              success: false,
-              data:
-                'User Requests are Closed by the Admin. Please Try Afterwards or Contact Admins.',
-              noredirect: true,
-            },
-          });
-        }
-      } else {
-        this.loading = false;
-      }
-    });
-  },
-  mounted() {
-    if (this.$audio.player() != undefined) this.$audio.destroy();
-    this.checkParams();
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
-  },
-  watch: {
-    name: 'validateData',
-    email: 'validateData',
-    message: 'validateData',
-    checked: 'validateData',
-    codechecked: 'validateData',
-    drive: function () {
-      console.log(this.drive);
     },
   },
 };

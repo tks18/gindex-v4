@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import { decodeSecret, getItem } from '@utils/encryptUtils';
 
 export function scrollTo(element, scrollPixels, duration) {
@@ -18,8 +20,6 @@ export function scrollTo(element, scrollPixels, duration) {
       element.scrollLeft = scrollPos + scrollPixels * progress;
       if (timeElapsed < duration) {
         window.requestAnimationFrame(scroll);
-      } else {
-        return;
       }
     };
     window.requestAnimationFrame(scroll);
@@ -27,27 +27,28 @@ export function scrollTo(element, scrollPixels, duration) {
 }
 
 export function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-  while (0 !== currentIndex) {
+  const currentArray = array;
+  let currentIndex = currentArray.length;
+  let temporaryValue;
+  let randomIndex;
+  while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+    temporaryValue = currentArray[currentIndex];
+    currentArray[currentIndex] = currentArray[randomIndex];
+    currentArray[randomIndex] = temporaryValue;
   }
-  return array;
+  return currentArray;
 }
 
 export function initializeUser() {
-  var token = getItem('tokendata');
-  var user = getItem('userdata');
-  var session = getItem('sessiondata');
+  const token = getItem('tokendata');
+  const user = getItem('userdata');
+  const session = getItem('sessiondata');
   if (user != null && token != null && session != null) {
-    var tokenData = JSON.parse(decodeSecret(token));
-    var userData = JSON.parse(decodeSecret(user));
-    var sessionData = JSON.parse(decodeSecret(session));
+    const tokenData = JSON.parse(decodeSecret(token));
+    const userData = JSON.parse(decodeSecret(user));
+    const sessionData = JSON.parse(decodeSecret(session));
     if (userData.admin && userData.superadmin) {
       return {
         isThere: true,
@@ -62,7 +63,8 @@ export function initializeUser() {
           superadmin: true,
         },
       };
-    } else if (userData.admin && !userData.superadmin) {
+    }
+    if (userData.admin && !userData.superadmin) {
       return {
         isThere: true,
         type: 'normal',
@@ -76,52 +78,52 @@ export function initializeUser() {
           superadmin: false,
         },
       };
-    } else {
-      return {
-        isThere: true,
-        type: 'normal',
-        data: {
-          user: userData,
-          token: tokenData,
-          session: sessionData,
-          logged: true,
-          loading: false,
-          admin: false,
-          superadmin: false,
-        },
-      };
     }
-  } else {
     return {
-      isThere: false,
+      isThere: true,
       type: 'normal',
       data: {
-        user: null,
-        token: null,
-        logged: false,
+        user: userData,
+        token: tokenData,
+        session: sessionData,
+        logged: true,
         loading: false,
         admin: false,
         superadmin: false,
       },
     };
   }
+  return {
+    isThere: false,
+    type: 'normal',
+    data: {
+      user: null,
+      token: null,
+      logged: false,
+      loading: false,
+      admin: false,
+      superadmin: false,
+    },
+  };
 }
 
 export function getgds(id) {
   if (window.gds) {
-    let gds = window.gds.map((item, index) => {
-      return {
-        name: item,
-        id: index,
-      };
-    });
+    const gds = window.gds.map((item, index) => ({
+      name: item,
+      id: index,
+    }));
     if (gds) {
       return {
-        gds: gds,
+        gds,
         current: gds[id],
       };
     }
   }
+  return {
+    gds: [],
+    current: null,
+  };
 }
 
 export const icon = {

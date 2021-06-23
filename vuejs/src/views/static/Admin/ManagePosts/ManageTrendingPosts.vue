@@ -12,7 +12,7 @@
         :active.sync="loading"
         :can-cancel="false"
         :is-full-page="fullpage"
-      ></loading>
+      />
     </div>
     <div class="columns is-desktop is-multiline is-centered is-vcentered">
       <div class="column is-two-thirds">
@@ -21,11 +21,11 @@
             <div class="field">
               <div class="control px-2">
                 <div class="select is-fullwidth">
-                  <select v-model="drive" id="drive">
+                  <select id="drive" v-model="drive">
                     <option
                       v-for="(disk, index) in gds"
+                      :key="index"
                       :value="index"
-                      v-bind:key="index"
                     >
                       {{ disk.name }}
                     </option>
@@ -63,15 +63,15 @@
         </div>
       </div>
       <div :class="addModal ? 'modal is-active' : 'modal'">
-        <div class="modal-background"></div>
+        <div class="modal-background" />
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">Add Posts</p>
             <button
               class="delete"
-              @click="addModal = false"
               aria-label="close"
-            ></button>
+              @click="addModal = false"
+            />
           </header>
           <section class="modal-card-body">
             <div class="columns is-multiline is-centered is-vcentered">
@@ -81,11 +81,11 @@
               <div class="column is-two-thirds">
                 <div class="control">
                   <input
-                    class="input is-rounded"
                     id="add-trend-poster"
+                    v-model="addData.poster"
+                    class="input is-rounded"
                     placeholder="Poster Link Here"
                     type="text"
-                    v-model="addData.poster"
                   />
                 </div>
               </div>
@@ -95,11 +95,11 @@
               <div class="column is-two-thirds">
                 <div class="control">
                   <input
-                    class="input is-rounded"
                     id="add-trend-title"
+                    v-model="addData.title"
+                    class="input is-rounded"
                     placeholder="Display Title Here"
                     type="text"
-                    v-model="addData.title"
                   />
                 </div>
               </div>
@@ -109,11 +109,11 @@
               <div class="column is-two-thirds">
                 <div class="control">
                   <input
-                    class="input is-rounded"
                     id="add-trend-link"
+                    v-model="addData.link"
+                    class="input is-rounded"
                     placeholder="Folder Link Here"
                     type="text"
-                    v-model="addData.link"
                   />
                 </div>
               </div>
@@ -136,9 +136,9 @@
             <p>Error Proccessing</p>
             <button
               class="delete"
-              @click="errorMessage = false"
               aria-label="delete"
-            ></button>
+              @click="errorMessage = false"
+            />
           </div>
           <div class="message-body">
             {{ resultmessage }}
@@ -155,9 +155,9 @@
             <p>Success !</p>
             <button
               class="delete"
-              @click="successMessage = false"
               aria-label="delete"
-            ></button>
+              @click="successMessage = false"
+            />
           </div>
           <div class="message-body">
             {{ resultmessage }}
@@ -180,46 +180,42 @@
           <div class="column is-quarter">Actions</div>
         </div>
       </div>
-      <div
-        v-bind:key="editKey"
-        v-if="posts.length > 0"
-        class="column is-four-fifths"
-      >
+      <div v-if="posts.length > 0" :key="editKey" class="column is-four-fifths">
         <div
           v-for="(post, index) in posts"
-          v-bind:key="index"
+          :key="index"
           class="columns is-multiline is-centered is-vcentered"
         >
           <div class="column is-quarter">
             <div class="control">
               <input
-                class="input is-rounded"
-                :disabled="editAction[post._id]"
                 :id="'post' + Math.random() + index"
-                type="text"
                 v-model="postData[post._id].poster"
+                class="input is-rounded"
+                :disabled="editAction[post._id]"
+                type="text"
               />
             </div>
           </div>
           <div class="column is-quarter">
             <div class="control">
               <input
-                class="input is-rounded"
-                :disabled="editAction[post._id]"
                 :id="'post' + Math.random() + index"
-                type="text"
                 v-model="postData[post._id].title"
+                class="input is-rounded"
+                :disabled="editAction[post._id]"
+                type="text"
               />
             </div>
           </div>
           <div class="column is-quarter">
             <div class="control">
               <input
+                :id="'post' + Math.random() + index"
+                v-model="postData[post._id].link"
                 class="input is-rounded"
                 :disabled="editAction[post._id]"
-                :id="'post' + Math.random() + index"
                 type="text"
-                v-model="postData[post._id].link"
               />
             </div>
           </div>
@@ -229,7 +225,7 @@
               class="icon has-text-netflix pr-5"
               @click="editPosts(post._id, postData[post._id])"
             >
-              <i class="fas fa-check-double"></i>
+              <i class="fas fa-check-double" />
             </span>
             <span
               class="icon has-text-netflix pr-5 pl-5"
@@ -237,13 +233,13 @@
             >
               <i
                 :class="editAction[post._id] ? 'fas fa-edit' : 'fas fa-times'"
-              ></i>
+              />
             </span>
             <span
               class="icon has-text-netflix pl-5"
               @click="deletePost(post._id)"
             >
-              <i class="far fa-trash-alt"></i>
+              <i class="far fa-trash-alt" />
             </span>
           </div>
         </div>
@@ -256,6 +252,7 @@ import { initializeUser, getgds } from '@utils/localUtils';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import { apiRoutes, backendHeaders } from '@/utils/backendUtils';
+
 export default {
   metaInfo() {
     return {
@@ -265,13 +262,15 @@ export default {
           return titleChunk
             ? `${titleChunk} | ${this.siteName}`
             : `${this.siteName}`;
-        } else {
-          return 'Loading...';
         }
+        return 'Loading...';
       },
     };
   },
-  data: function () {
+  components: {
+    Loading,
+  },
+  data() {
     return {
       metatitle: 'Manage Categories',
       logged: false,
@@ -300,15 +299,48 @@ export default {
       currgd: {},
     };
   },
-  components: {
-    Loading,
+  computed: {
+    siteName() {
+      return window.gds.filter(
+        (item, index) => index === this.$route.params.id,
+      )[0];
+    },
+    ismobile() {
+      const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+      if (width > 966) {
+        return false;
+      }
+      return true;
+    },
+  },
+  beforeMount() {
+    this.loading = true;
+    const userData = initializeUser();
+    if (userData.isThere) {
+      if (userData.type === 'normal') {
+        this.user = userData.data.user;
+        this.token = userData.data.token;
+        this.logged = userData.data.logged;
+        this.loading = userData.data.loading;
+        this.admin = userData.data.admin;
+        this.superadmin = userData.data.superadmin;
+      }
+    } else {
+      this.logged = userData.data.logged;
+      this.loading = userData.data.loading;
+    }
+  },
+  created() {
+    const gddata = getgds(this.$route.params.id);
+    this.gds = gddata.gds;
+    this.currgd = gddata.current;
   },
   methods: {
     gotoPage(url, cmd) {
       if (cmd) {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + cmd + url });
+        this.$router.push({ path: `/${this.currgd.id}:${cmd}${url}` });
       } else {
-        this.$router.push({ path: '/' + this.currgd.id + ':' + url });
+        this.$router.push({ path: `/${this.currgd.id}:${url}` });
       }
     },
     getPosts() {
@@ -324,14 +356,15 @@ export default {
             backendHeaders(this.token.token),
           )
           .then((response) => {
+            /* eslint-disable no-underscore-dangle */
             if (response.data.auth && response.data.registered) {
               this.posts = response.data.posts;
-              response.data.posts.forEach((post) => {
-                return (this.editAction[post._id] = true);
-              });
-              response.data.posts.forEach((post) => {
-                return (this.postData[post._id] = post);
-              });
+              response.data.posts.forEach(
+                (post) => (this.editAction[post._id] = true),
+              );
+              response.data.posts.forEach(
+                (post) => (this.postData[post._id] = post),
+              );
               this.editKey++;
               this.loading = false;
             } else {
@@ -358,8 +391,8 @@ export default {
           {
             email: this.user.email,
             root: this.drive,
-            postId: postId,
-            post: post,
+            postId,
+            post,
           },
           backendHeaders(this.token.token),
         )
@@ -387,6 +420,7 @@ export default {
       this.addModal = false;
       this.loading = true;
       if (Number.isInteger(this.drive)) {
+        // eslint-disable-next-line no-param-reassign
         post.root = this.drive;
         this.$backend
           .post(
@@ -394,7 +428,7 @@ export default {
             {
               email: this.user.email,
               root: this.drive,
-              post: post,
+              post,
             },
             backendHeaders(this.token.token),
           )
@@ -433,7 +467,7 @@ export default {
           {
             root: this.drive,
             email: this.user.email,
-            postId: postId,
+            postId,
           },
           backendHeaders(this.token.token),
         )
@@ -461,43 +495,6 @@ export default {
       }
       this.editKey++;
     },
-  },
-  computed: {
-    siteName() {
-      return window.gds.filter((item, index) => {
-        return index == this.$route.params.id;
-      })[0];
-    },
-    ismobile() {
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      if (width > 966) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-  },
-  beforeMount() {
-    this.loading = true;
-    var userData = initializeUser();
-    if (userData.isThere) {
-      if (userData.type == 'normal') {
-        this.user = userData.data.user;
-        this.token = userData.data.token;
-        this.logged = userData.data.logged;
-        this.loading = userData.data.loading;
-        this.admin = userData.data.admin;
-        this.superadmin = userData.data.superadmin;
-      }
-    } else {
-      this.logged = userData.data.logged;
-      this.loading = userData.data.loading;
-    }
-  },
-  created() {
-    let gddata = getgds(this.$route.params.id);
-    this.gds = gddata.gds;
-    this.currgd = gddata.current;
   },
 };
 </script>
