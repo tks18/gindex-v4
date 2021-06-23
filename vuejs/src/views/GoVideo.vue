@@ -1790,7 +1790,7 @@ export default {
           .split('.')
           .slice(0, -1)
           .join('.');
-        this.metatitle = `Playing -${decodeURIComponent(title)}`;
+        this.metatitle = `Playing - ${decodeURIComponent(title)}`;
         this.playtext = 'Playing';
       });
       this.player.on('pause', () => {

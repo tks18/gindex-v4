@@ -12,7 +12,7 @@
         :active.sync="loading"
         :can-cancel="false"
         :is-full-page="fullpage"
-      ></loading>
+      />
     </div>
     <div class="columns is-desktop is-multiline is-centered is-vcentered">
       <div class="column is-two-thirds">
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div :class="addModal ? 'modal is-active' : 'modal'">
-        <div class="modal-background"></div>
+        <div class="modal-background" />
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">Add Posts</p>
@@ -71,7 +71,7 @@
               class="delete"
               aria-label="close"
               @click="addModal = false"
-            ></button>
+            />
           </header>
           <section class="modal-card-body">
             <div class="columns is-multiline is-centered is-vcentered">
@@ -138,7 +138,7 @@
               class="delete"
               aria-label="delete"
               @click="errorMessage = false"
-            ></button>
+            />
           </div>
           <div class="message-body">
             {{ resultmessage }}
@@ -157,7 +157,7 @@
               class="delete"
               aria-label="delete"
               @click="successMessage = false"
-            ></button>
+            />
           </div>
           <div class="message-body">
             {{ resultmessage }}
@@ -225,7 +225,7 @@
               class="icon has-text-netflix pr-5"
               @click="editPosts(post._id, postData[post._id])"
             >
-              <i class="fas fa-check-double"></i>
+              <i class="fas fa-check-double" />
             </span>
             <span
               class="icon has-text-netflix pr-5 pl-5"
@@ -233,13 +233,13 @@
             >
               <i
                 :class="editAction[post._id] ? 'fas fa-edit' : 'fas fa-times'"
-              ></i>
+              />
             </span>
             <span
               class="icon has-text-netflix pl-5"
               @click="deletePost(post._id)"
             >
-              <i class="far fa-trash-alt"></i>
+              <i class="far fa-trash-alt" />
             </span>
           </div>
         </div>
