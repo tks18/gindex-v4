@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 cd vuejs
-printf ".\n.\n.\n.\n.\n"
 printf "Setting Default Environment Variables"
 export VUE_APP_SECRET_PASS=${SECRET_PASS}
 export VUE_APP_BUILD=prod
