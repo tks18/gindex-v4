@@ -20,8 +20,8 @@ cache:
 install: bash ./scripts/install.sh
 
 script:
-  - if [ ${TRAVIS_BRANCH} == "master" && ${TRAVIS_PULL_REQUEST} == "false" ]; then bash ./scripts/prod-build.sh
-  - if [ ${TRAVIS_BRANCH} == "dev" && ${TRAVIS_PULL_REQUEST} == "false" ]; then bash ./scripts/dev-build.sh;
+  - if [[ ${TRAVIS_BRANCH} == "master" && ${TRAVIS_PULL_REQUEST} == "false" ]]; then bash ./scripts/prod-build.sh
+  - if [[ ${TRAVIS_BRANCH} == "dev" && ${TRAVIS_PULL_REQUEST} == "false" ]]; then bash ./scripts/dev-build.sh;
 
 deploy:
   - provider: script
