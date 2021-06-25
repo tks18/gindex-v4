@@ -1,6 +1,6 @@
 {
   "name": "gindex-version-manager",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Version Manager and Git Manager for all the repos Available in Gindex Repo",
   "main": "app.js",
   "scripts": {
