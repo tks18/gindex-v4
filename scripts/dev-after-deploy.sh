@@ -54,7 +54,7 @@ printf "\nPublishing Version Manager Tool\n"
 git clone --single-branch --depth 3 --quiet -b version-manager-dev https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${VM_DEPLOY_DIR}
 cd ${VM_DEPLOY_DIR}
 rm -rf *
-cp -r ../cli-tool/. .
+cp -r ../version-manager/. .
 git add .
 git commit -m "Deploying Version Manager for ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
 git push --quiet -u --no-progress origin version-manager-dev
