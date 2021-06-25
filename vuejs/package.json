@@ -91,6 +91,6 @@
   },
   "releases": {
     "production": "frontend-8.4.6",
-    "development": "frontend-8.4.6.100-dev"
+    "development": "frontend-8.4.6.100"
   }
 }

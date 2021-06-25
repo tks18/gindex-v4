@@ -18,12 +18,11 @@ cache:
 
 install: bash ./scripts/install.sh
 
-script: bash ./scripts/build.sh
-
 deploy:
   - provider: script
     skip_cleanup: true
     script:
+      - bash ./scripts/prod-build.sh
       - bash ./scripts/prod-deploy.sh
       - bash ./scripts/prod-after-deploy.sh
       - bash ./scripts/prod-release.sh
@@ -33,8 +32,9 @@ deploy:
   - provider: script
     skip_cleanup: true
     script:
-      - bash ./scripts/prod-deploy.sh
-      - bash ./scripts/prod-after-deploy.sh
-      - bash ./scripts/prod-release.sh
+      - bash ./scripts/dev-build.sh
+      - bash ./scripts/dev-deploy.sh
+      - bash ./scripts/dev-after-deploy.sh
+      - bash ./scripts/dev-release.sh
     on:
       branch: dev

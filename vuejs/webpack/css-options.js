@@ -1,7 +1,7 @@
 const package_data = require('../package.json');
 
 const { production, development } = package_data.releases;
-const buildType = process.env.VUE_APP_THEME;
+const buildType = process.env.VUE_APP_BUILD;
 
 let buildVersion = '';
 if (buildType) {
