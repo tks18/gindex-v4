@@ -23,8 +23,18 @@ script: bash ./scripts/build.sh
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash ./scripts/deploy.sh
+    script:
+      - bash ./scripts/prod-deploy.sh
+      - bash ./scripts/prod-after-deploy.sh
+      - bash ./scripts/prod-release.sh
     on:
       branch: master
 
-after_deploy: bash ./scripts/after-deploy.sh
+  - provider: script
+    skip_cleanup: true
+    script:
+      - bash ./scripts/prod-deploy.sh
+      - bash ./scripts/prod-after-deploy.sh
+      - bash ./scripts/prod-release.sh
+    on:
+      branch: dev
