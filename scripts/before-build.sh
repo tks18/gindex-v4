@@ -4,3 +4,4 @@ if [ ${TRAVIS_BRANCH} == "master" ] && [ ${TRAVIS_PULL_REQUEST} == "false" ]; th
     bash ./scripts/prod-build.sh
 else
     bash ./scripts/dev-build.sh
+fi
