@@ -21,10 +21,10 @@ install: bash ./scripts/install.sh
 
 script:
   - |
-    if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then
-      bash ./scripts/build.sh prod;
+    if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
+      bash ./scripts/prod-build.sh;
     else
-      bash ./scripts/build.sh dev;
+      bash ./scripts/dev-build.sh;
     fi
 
 deploy:
