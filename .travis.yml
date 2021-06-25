@@ -19,25 +19,17 @@ cache:
 
 install: bash ./scripts/install.sh
 
-script:
-  - if [ ${TRAVIS_BRANCH} == "master" ] && [ ${TRAVIS_PULL_REQUEST} == "false" ]; then bash ./scripts/prod-build.sh
-  - if [ ${TRAVIS_BRANCH} == "dev" ]; then bash ./scripts/dev-build.sh
+script: bash ./scripts/before-build.sh
 
 deploy:
   - provider: script
     skip_cleanup: true
-    script:
-      - bash ./scripts/prod-deploy.sh
-      - bash ./scripts/prod-after-deploy.sh
-      - bash ./scripts/prod-release.sh
+    script: bash ./scripts/prod-deploy.sh
     on:
       branch: master
 
   - provider: script
     skip_cleanup: true
-    script:
-      - bash ./scripts/dev-deploy.sh
-      - bash ./scripts/dev-after-deploy.sh
-      - bash ./scripts/dev-release.sh
+    script: bash ./scripts/dev-deploy.sh
     on:
       branch: dev

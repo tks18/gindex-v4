@@ -15,3 +15,8 @@ cp ../worker/. worker/.
 git add .
 git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
 git push origin dev-build
+
+cd ..
+
+bash ./scripts/dev-after-deploy.sh
+bash ./scripts/dev-release.sh
