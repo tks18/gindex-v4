@@ -31,7 +31,7 @@
       }
     }
   },
-  "cliTool": {
+  "clitool": {
     "location": "./cli-tool",
     "folder": "cli-tool",
     "name": "Cli Tool",
@@ -47,7 +47,7 @@
       }
     }
   },
-  "versionManager": {
+  "versionmanager": {
     "location": "./version-manager",
     "folder": "version-manager",
     "name": "Version Manager",

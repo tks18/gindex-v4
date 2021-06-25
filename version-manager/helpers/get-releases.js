@@ -17,7 +17,7 @@ module.exports = async (user, repo, versionToRelease) => {
     .then((response) => {
       if (response.status == 200 && response.data) {
         const release_tags = response.data.map((release) => {
-          return release.tag_name;
+          return release.tag_name.toLowerCase();
         });
         if (release_tags.includes(versionToRelease.tag.toLowerCase())) {
           result['success'] = false;
