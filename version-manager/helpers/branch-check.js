@@ -1,7 +1,9 @@
 const axios = require('axios');
 
+const token = process.env.GITHUB_TOKEN;
+
 const api = (user, repo) =>
-  `https://api.github.com/repos/${user}/${repo}/branches`;
+  `https://tks18:${token}@api.github.com/repos/${user}/${repo}/branches`;
 
 module.exports = async (user, repo, branch) => {
   const url = api(user, repo);

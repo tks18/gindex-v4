@@ -1,0 +1,48 @@
+{
+  "frontend": {
+    "location": "./vuejs",
+    "folder": "vuejs",
+    "name": "Frontend",
+    "url": "https://github.com/tks18/gindex-v4/tree/master/vuejs",
+    "releases": {
+      "production": {
+        "tag": "frontend-8.4.6",
+        "version": "v8.4.6"
+      },
+      "development": {
+        "tag": "frontend-8.4.6",
+        "version": "v8.4.6"
+      }
+    }
+  },
+  "backend": {
+    "location": "./backend",
+    "folder": "backend",
+    "name": "Backend",
+    "url": "https://github.com/tks18/gindex-v4/tree/master/backend",
+    "releases": {
+      "production": "",
+      "development": ""
+    }
+  },
+  "cliTool": {
+    "location": "./cli-tool",
+    "folder": "cli-tool",
+    "name": "Cli Tool",
+    "url": "https://github.com/tks18/gindex-v4/tree/master/cli-tool",
+    "releases": {
+      "production": "",
+      "development": ""
+    }
+  },
+  "versionManager": {
+    "location": "./version-manager",
+    "folder": "version-manager",
+    "name": "Version Manager",
+    "url": "https://github.com/tks18/gindex-v4/tree/master/version-manager",
+    "releases": {
+      "production": "",
+      "development": ""
+    }
+  }
+}
