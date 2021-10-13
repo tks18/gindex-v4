@@ -4,7 +4,7 @@ const siteSettingsSchema = {
   cId: {
     type: String,
     required: true,
-    default: process.env.FRONTENDSITENAME
+    default: process.env.FRONTENDSITENAME,
   },
   requests: {
     type: Boolean,
@@ -20,9 +20,19 @@ const siteSettingsSchema = {
     type: Boolean,
     required: true,
     default: false,
-  }
-}
+  },
+  otpVerify: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  useMailing: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+};
 
-const Settings = mongoose.model("Settings", siteSettingsSchema);
+const Settings = mongoose.model('Settings', siteSettingsSchema);
 
 module.exports = Settings;

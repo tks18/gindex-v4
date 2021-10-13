@@ -17,6 +17,10 @@
       "path": "../cli-tool"
     },
     {
+      "name": "Version Manager",
+      "path": "../version-manager"
+    },
+    {
       "name": "Worker",
       "path": "../worker"
     }
@@ -28,7 +32,8 @@
       "vuejs/": true,
       "backend/": true,
       "cli-tool/": true,
-      "worker/": true
+      "worker/": true,
+      "version-manager/": true
     }
   }
 }

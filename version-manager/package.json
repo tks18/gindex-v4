@@ -1,0 +1,30 @@
+{
+  "name": "gindex-version-manager",
+  "version": "0.1.0",
+  "description": "A Version Manager and Git Manager for all the repos Available in Gindex Repo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tks18/gindex-v4/tree/master/version-manager"
+  },
+  "bin": {
+    "gd-control": "./app.js"
+  },
+  "keywords": [
+    "Version",
+    "Control",
+    "Gindex-v4"
+  ],
+  "author": "tks18",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "dotenv": "^10.0.0",
+    "yargs": "^17.0.1"
+  }
+}

@@ -6,7 +6,7 @@ DEPLOY_DIR="deploy-tmp"
 git config --global user.name "tks18"
 git config --global user.email "tksudharshan@gmail.com"
 
-git clone --single-branch --depth 3 --quiet -b build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
+git clone --single-branch --depth 3 --quiet -b dev-build https://tks18:${GITHUB_TOKEN}@${GIT_URL} ${DEPLOY_DIR}
 cd ${DEPLOY_DIR}
 rm -rf *
 cp -r ../vuejs/outputs/. .
@@ -14,4 +14,9 @@ mkdir worker
 cp ../worker/. worker/.
 git add .
 git commit -m "Deploying ${TRAVIS_BUILD_ID}-${TRAVIS_BUILD_NUMBER}: ${TRAVIS_COMMIT}-${TRAVIS_COMMIT_MESSAGE}"
-git push origin build
+git push origin dev-build
+
+cd ..
+
+bash ./scripts/dev-after-deploy.sh
+bash ./scripts/dev-release.sh
